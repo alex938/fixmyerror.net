@@ -522,6 +522,37 @@
             color: var(--text-primary);
             text-decoration: underline;
         }
+        
+        .donate-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #635bff, #1f6feb);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 91, 255, 0.3);
+        }
+        
+        .donate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 91, 255, 0.4);
+            background: linear-gradient(135deg, #7a73ff, #3884ff);
+        }
+        
+        .donate-button:active {
+            transform: translateY(0);
+        }
+        
+        .donate-icon {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 <body>
@@ -539,6 +570,10 @@
                 <div class="title">
                     <h1>🚀 FixMyError.net</h1>
                     <p>Get instant solutions for HTTP, TLS, network, ICMP, Docker, Kubernetes, and system errors - No more endless searching!</p>
+                    <a href="https://donate.stripe.com/fZu8wP1gI3AP5Xa6SmcZa01" target="_blank" rel="noopener noreferrer" class="donate-button">
+                        <span class="donate-icon">💖</span>
+                        Support This Project
+                    </a>
                 </div>
                 
                 <div class="search-section">
