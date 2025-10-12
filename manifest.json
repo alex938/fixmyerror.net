@@ -1,7 +1,7 @@
 {
-  "name": "Error Cheatsheet",
-  "short_name": "Error Cheatsheet",
-  "description": "Comprehensive searchable reference for HTTP, TLS, network, Docker, Kubernetes, Terraform, Ansible, CI/CD, cloud, database, and system errors with fixes. No more Googling common developer errors.",
+  "name": "FixMyError.net - Instant Error Solutions",
+  "short_name": "FixMyError.net",
+  "description": "Find instant fixes for HTTP, TLS, network, Docker, Kubernetes, Terraform, Ansible, CI/CD, cloud, database, and system errors. Stop wasting time searching - get solutions now.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0d1117",
@@ -12,13 +12,13 @@
   "scope": "/",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230d1117'/><text x='96' y='120' text-anchor='middle' font-size='120' fill='%2358a6ff'>🔧</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230d1117'/><text x='96' y='120' text-anchor='middle' font-size='120' fill='%2358a6ff'>🚀</text></svg>",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%230d1117'/><text x='256' y='320' text-anchor='middle' font-size='320' fill='%2358a6ff'>🔧</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%230d1117'/><text x='256' y='320' text-anchor='middle' font-size='320' fill='%2358a6ff'>🚀</text></svg>",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"

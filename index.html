@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error Cheatsheet - Quick Developer Reference</title>
-    <meta name="description" content="Instant searchable reference for HTTP, TLS, network, ICMP, and system errors with fixes. No more Googling common developer errors.">
+    <title>FixMyError.net - Instant Error Solutions</title>
+    <meta name="description" content="Find instant fixes for HTTP, TLS, network, ICMP, Docker, Kubernetes, and system errors. Stop wasting time searching - get solutions now.">
     
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     
     
     <link rel="manifest" href="manifest.json">
@@ -496,6 +496,32 @@
                 font-size: 0.85rem;
             }
         }
+        
+        /* Footer styles */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-default);
+            padding: 30px 0;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .footer-content a {
+            color: var(--accent-primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-content a:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -511,8 +537,8 @@
         <div class="container">
             <div class="header-content">
                 <div class="title">
-                    <h1>🔧 Error Cheatsheet</h1>
-                    <p>Instant fixes for HTTP, TLS, network, ICMP, and system errors - No more Googling!</p>
+                    <h1>🚀 FixMyError.net</h1>
+                    <p>Get instant solutions for HTTP, TLS, network, ICMP, Docker, Kubernetes, and system errors - No more endless searching!</p>
                 </div>
                 
                 <div class="search-section">
@@ -588,6 +614,14 @@
             <div class="error-grid" id="errorGrid"></div>
         </div>
     </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> for any comments or suggested adjustments or additions.</p>
+            </div>
+        </div>
+    </footer>
 
     
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>

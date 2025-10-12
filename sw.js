@@ -1,4 +1,4 @@
-const CACHE_NAME = 'error-cheatsheet-v3.0.0-comprehensive';
+const CACHE_NAME = 'fixmyerror-net-v1.0.0';
 const CACHE_URLS = [
   '/',
   '/index.html',
