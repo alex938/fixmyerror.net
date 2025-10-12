@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Cheatsheet - Quick Developer Reference</title>
+    <meta name="description" content="Instant searchable reference for HTTP, TLS, network, ICMP, and system errors with fixes. No more Googling common developer errors.">
+    
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    
+    
+    <link rel="preload" href="errors.json" as="fetch" type="application/json" crossorigin>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" as="script">
+    
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #656d76;
+            --border-default: #30363d;
+            --border-muted: #21262d;
+            --accent-primary: #58a6ff;
+            --accent-secondary: #1f6feb;
+            --success: #238636;
+            --warning: #d29922;
+            --error: #da3633;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        
+        .safety-warning {
+            background: linear-gradient(135deg, #da3633, #f85149);
+            color: white;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            z-index: 101;
+            box-shadow: 0 2px 8px rgba(218, 54, 51, 0.3);
+        }
+        
+        .safety-warning a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        .safety-warning .warning-icon {
+            margin-right: 6px;
+        }
+
+        
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-default);
+            padding: 20px 0;
+            position: sticky;
+            top: 37px; 
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+        
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .title {
+            text-align: center;
+        }
+        
+        .title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .title p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        
+        
+        .search-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            font-size: 1.1rem;
+            border: 2px solid var(--border-default);
+            border-radius: 12px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .category-filter {
+            padding: 8px 16px;
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+        
+        .category-filter:hover {
+            border-color: var(--accent-secondary);
+            background: var(--accent-secondary);
+        }
+        
+        .category-filter.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #000;
+            font-weight: 600;
+        }
+        
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-muted);
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        
+        .results-container {
+            padding: 30px 0;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-count {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .clear-search {
+            background: none;
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .clear-search:hover {
+            border-color: var(--accent-secondary);
+            color: var(--accent-primary);
+        }
+        
+        .error-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        }
+        
+        .error-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .error-card:hover {
+            border-color: var(--accent-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+        
+        .error-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-muted);
+        }
+        
+        .error-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .error-category {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .category-http { background: #1f6feb; color: white; }
+        .category-tls { background: #d29922; color: white; }
+        .category-network { background: #238636; color: white; }
+        .category-dns { background: #8957e5; color: white; }
+        .category-proxy { background: #da3633; color: white; }
+        .category-client { background: #fb8500; color: white; }
+        .category-ingress { background: #0969da; color: white; }
+        .category-icmp { background: #e85d04; color: white; }
+        .category-docker { background: #2496ed; color: white; }
+        .category-kubernetes { background: #326ce5; color: white; }
+        .category-terraform { background: #844fba; color: white; }
+        .category-ansible { background: #ee0000; color: white; }
+        .category-ci/cd { background: #22863a; color: white; }
+        .category-cloud { background: #ff9900; color: white; }
+        .category-database { background: #4db33d; color: white; }
+        .category-monitoring { background: #ff6b6b; color: white; }
+        .category-git { background: #f05032; color: white; }
+        
+        .error-body {
+            padding: 20px;
+            display: none;
+        }
+        
+        .error-body.expanded {
+            display: block;
+            animation: slideDown 0.2s ease;
+        }
+        
+        .error-explanation {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        
+        .fix-snippet {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            position: relative;
+        }
+        
+        .fix-snippet-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .fix-snippet-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-button:hover {
+            background: var(--accent-secondary);
+            color: white;
+        }
+        
+        .copy-button.copied {
+            background: var(--success);
+            color: white;
+        }
+        
+        .code-block {
+            font-family: 'Courier New', Consolas, Monaco, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .sources {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-muted);
+        }
+        
+        .sources-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .source-link {
+            display: inline-block;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-right: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .source-link:hover {
+            text-decoration: underline;
+        }
+        
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--border-default);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state h3 {
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .title h1 {
+                font-size: 2rem;
+            }
+            
+            .error-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+            
+            .stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header-content {
+                gap: 16px;
+            }
+            
+            .title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-input {
+                font-size: 1rem;
+                padding: 14px 18px 14px 45px;
+            }
+            
+            .filters {
+                gap: 8px;
+            }
+            
+            .category-filter {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="safety-warning">
+        <div class="container">
+            <span class="warning-icon">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+    
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="title">
+                    <h1>🔧 Error Cheatsheet</h1>
+                    <p>Instant fixes for HTTP, TLS, network, ICMP, and system errors - No more Googling!</p>
+                </div>
+                
+                <div class="search-section">
+                    <div class="search-container">
+                        <span class="search-icon">🔍</span>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            placeholder="Search errors... (e.g., 'ssl certificate', 'connection refused', '502')"
+                            id="searchInput"
+                            autocomplete="off"
+                        >
+                    </div>
+                    
+                    <div class="filters">
+                        <span class="filter-label">Filter by:</span>
+                        <button class="category-filter active" data-category="all">All</button>
+                        <button class="category-filter" data-category="HTTP">HTTP</button>
+                        <button class="category-filter" data-category="TLS">TLS</button>
+                        <button class="category-filter" data-category="Network">Network</button>
+                        <button class="category-filter" data-category="DNS">DNS</button>
+                        <button class="category-filter" data-category="Proxy">Proxy</button>
+                        <button class="category-filter" data-category="Client">Client</button>
+                        <button class="category-filter" data-category="Docker">Docker</button>
+                        <button class="category-filter" data-category="Kubernetes">Kubernetes</button>
+                        <button class="category-filter" data-category="Terraform">Terraform</button>
+                        <button class="category-filter" data-category="Ansible">Ansible</button>
+                        <button class="category-filter" data-category="CI/CD">CI/CD</button>
+                        <button class="category-filter" data-category="Cloud">Cloud</button>
+                        <button class="category-filter" data-category="Database">Database</button>
+                        <button class="category-filter" data-category="Monitoring">Monitoring</button>
+                        <button class="category-filter" data-category="Git">Git</button>
+                        <button class="category-filter" data-category="Ingress">Ingress</button>
+                        <button class="category-filter" data-category="ICMP">ICMP</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-number" id="totalErrors">0</span>
+                <span class="stat-label">Total Errors</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="visibleErrors">0</span>
+                <span class="stat-label">Showing</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number" id="totalCategories">0</span>
+                <span class="stat-label">Categories</span>
+            </div>
+        </div>
+
+        <div class="results-container">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">Loading errors...</div>
+                <button class="clear-search" id="clearSearch" style="display: none;">Clear Search</button>
+            </div>
+            
+            <div id="loadingState" class="loading">
+                <div class="spinner"></div>
+                <p>Loading error database...</p>
+            </div>
+            
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <h3>No errors found</h3>
+                <p>Try adjusting your search terms or category filter</p>
+            </div>
+            
+            <div class="error-grid" id="errorGrid"></div>
+        </div>
+    </main>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+    
+    
+    <script src="embedded-data.js"></script>
+    
+    <script>
+        class ErrorCheatsheet {
+            constructor() {
+                this.errors = [];
+                this.fuse = null;
+                this.currentCategory = 'all';
+                this.currentResults = [];
+                
+                this.initializeElements();
+                this.loadErrors();
+                this.setupEventListeners();
+                this.registerServiceWorker();
+            }
+            
+            initializeElements() {
+                this.searchInput = document.getElementById('searchInput');
+                this.clearButton = document.getElementById('clearSearch');
+                this.errorGrid = document.getElementById('errorGrid');
+                this.loadingState = document.getElementById('loadingState');
+                this.emptyState = document.getElementById('emptyState');
+                this.resultsCount = document.getElementById('resultsCount');
+                this.totalErrors = document.getElementById('totalErrors');
+                this.visibleErrors = document.getElementById('visibleErrors');
+                this.totalCategories = document.getElementById('totalCategories');
+                this.categoryFilters = document.querySelectorAll('.category-filter');
+            }
+            
+            async loadErrors() {
+                try {
+                    // Use embedded data if available, otherwise fetch
+                    if (typeof ERRORS_DATA !== 'undefined') {
+                        this.errors = ERRORS_DATA;
+                    } else {
+                        const response = await fetch('errors.json');
+                        this.errors = await response.json();
+                    }
+                    
+                    // Initialize Fuse.js for fuzzy search
+                    this.fuse = new Fuse(this.errors, {
+                        keys: ['title', 'explanation', 'category', 'fix_snippet'],
+                        threshold: 0.4,
+                        includeScore: true
+                    });
+                    
+                    this.updateStats();
+                    this.displayResults(this.errors);
+                    this.loadingState.style.display = 'none';
+                    
+                } catch (error) {
+                    console.error('Error loading errors:', error);
+                    this.loadingState.innerHTML = `
+                        <p>❌ Error loading error database</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Please check your connection and try again</p>
+                    `;
+                }
+            }
+            
+            setupEventListeners() {
+                // Search input
+                this.searchInput.addEventListener('input', this.debounce(() => {
+                    this.performSearch();
+                }, 300));
+                
+                this.searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.clearSearch();
+                    }
+                });
+                
+                // Clear search button
+                this.clearButton.addEventListener('click', () => {
+                    this.clearSearch();
+                });
+                
+                // Category filters
+                this.categoryFilters.forEach(filter => {
+                    filter.addEventListener('click', () => {
+                        this.setActiveCategory(filter.dataset.category);
+                    });
+                });
+                
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'k') {
+                        e.preventDefault();
+                        this.searchInput.focus();
+                    }
+                });
+            }
+            
+            performSearch() {
+                const query = this.searchInput.value.trim();
+                const showClear = query.length > 0;
+                
+                this.clearButton.style.display = showClear ? 'block' : 'none';
+                
+                let results;
+                if (query.length === 0) {
+                    results = this.errors;
+                } else {
+                    const fuseResults = this.fuse.search(query);
+                    results = fuseResults.map(result => result.item);
+                }
+                
+                // Apply category filter
+                if (this.currentCategory !== 'all') {
+                    results = results.filter(error => error.category === this.currentCategory);
+                }
+                
+                this.currentResults = results;
+                this.displayResults(results);
+                this.updateResultsCount(results, query);
+            }
+            
+            setActiveCategory(category) {
+                this.currentCategory = category;
+                
+                // Update active button
+                this.categoryFilters.forEach(filter => {
+                    filter.classList.toggle('active', filter.dataset.category === category);
+                });
+                
+                this.performSearch();
+            }
+            
+            displayResults(errors) {
+                if (errors.length === 0) {
+                    this.errorGrid.style.display = 'none';
+                    this.emptyState.style.display = 'block';
+                    return;
+                }
+                
+                this.errorGrid.style.display = 'grid';
+                this.emptyState.style.display = 'none';
+                
+                this.errorGrid.innerHTML = errors.map(error => `
+                    <div class="error-card" data-id="${error.id}">
+                        <div class="error-header">
+                            <div class="error-title">${this.escapeHtml(error.title)}</div>
+                            <span class="error-category category-${error.category.toLowerCase()}">${error.category}</span>
+                        </div>
+                        <div class="error-body">
+                            <div class="error-explanation">${this.escapeHtml(error.explanation)}</div>
+                            
+                            <div class="fix-snippet">
+                                <div class="fix-snippet-header">
+                                    <span class="fix-snippet-title">Quick Fix</span>
+                                </div>
+                                <button class="copy-button" data-code="${this.escapeHtml(error.fix_snippet)}">Copy</button>
+                                <code class="code-block">${this.escapeHtml(error.fix_snippet)}</code>
+                            </div>
+                            
+                            ${error.sources && error.sources.length > 0 ? `
+                                <div class="sources">
+                                    <div class="sources-title">Learn More:</div>
+                                    ${error.sources.map(source => `
+                                        <a href="${source}" target="_blank" rel="noopener noreferrer" class="source-link">
+                                            📖 Reference
+                                        </a>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Add click handlers for expansion and copy buttons
+                this.setupCardInteractions();
+                this.updateVisibleCount(errors.length);
+            }
+            
+            setupCardInteractions() {
+                // Card click to expand/collapse
+                document.querySelectorAll('.error-card').forEach(card => {
+                    const header = card.querySelector('.error-header');
+                    const body = card.querySelector('.error-body');
+                    
+                    header.addEventListener('click', () => {
+                        const isExpanded = body.classList.contains('expanded');
+                        
+                        // Close all cards first
+                        document.querySelectorAll('.error-body').forEach(b => {
+                            b.classList.remove('expanded');
+                        });
+                        
+                        // If this card wasn't expanded, expand it
+                        if (!isExpanded) {
+                            body.classList.add('expanded');
+                            // Scroll to card with offset for the sticky header and warning
+                            setTimeout(() => {
+                                const headerHeight = document.querySelector('.header').offsetHeight;
+                                const warningHeight = document.querySelector('.safety-warning').offsetHeight;
+                                const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
+                                window.scrollTo({
+                                    top: cardTop - headerHeight - warningHeight - 20,
+                                    behaviour: 'smooth'
+                                });
+                            }, 100);
+                        }
+                    });
+                });
+                
+                // Copy button functionality
+                document.querySelectorAll('.copy-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.copyToClipboard(button.dataset.code, button);
+                    });
+                });
+            }
+            
+            async copyToClipboard(text, button) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const originalText = button.textContent;
+                    button.textContent = 'Copied!';
+                    button.classList.add('copied');
+                    
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                    button.textContent = 'Failed';
+                    setTimeout(() => {
+                        button.textContent = 'Copy';
+                    }, 2000);
+                }
+            }
+            
+            clearSearch() {
+                this.searchInput.value = '';
+                this.clearButton.style.display = 'none';
+                this.performSearch();
+                this.searchInput.focus();
+            }
+            
+            updateStats() {
+                const categories = [...new Set(this.errors.map(e => e.category))].length;
+                this.totalErrors.textContent = this.errors.length;
+                this.totalCategories.textContent = categories;
+                this.visibleErrors.textContent = this.errors.length;
+            }
+            
+            updateVisibleCount(count) {
+                this.visibleErrors.textContent = count;
+            }
+            
+            updateResultsCount(results, query) {
+                const count = results.length;
+                const total = this.errors.length;
+                
+                if (query.length === 0 && this.currentCategory === 'all') {
+                    this.resultsCount.textContent = `Showing all ${count} errors`;
+                } else if (query.length === 0) {
+                    this.resultsCount.textContent = `Showing ${count} ${this.currentCategory} errors`;
+                } else {
+                    this.resultsCount.textContent = `Found ${count} results for "${query}"`;
+                }
+            }
+            
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+            
+            escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+            
+            async registerServiceWorker() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        await navigator.serviceWorker.register('sw.js');
+                        console.log('Service Worker registered successfully');
+                    } catch (error) {
+                        console.log('Service Worker registration failed:', error);
+                    }
+                }
+            }
+        }
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ErrorCheatsheet();
+        });
+    </script>
+</body>
+</html>
