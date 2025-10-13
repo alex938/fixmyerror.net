@@ -35,6 +35,23 @@
             --shadow: rgba(0, 0, 0, 0.5);
         }
         
+        :root[data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f6f8fa;
+            --bg-tertiary: #eaeef2;
+            --text-primary: #1f2328;
+            --text-secondary: #656d76;
+            --text-muted: #8b949e;
+            --border-default: #d1d9e0;
+            --border-muted: #eaeef2;
+            --accent-primary: #0969da;
+            --accent-secondary: #0550ae;
+            --success: #1a7f37;
+            --warning: #c69026;
+            --error: #cf222e;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -77,16 +94,219 @@
         .safety-warning .warning-icon {
             margin-right: 6px;
         }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-primary);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+        
+        .toolbar-wrapper {
+            position: sticky;
+            top: 37px;
+            background: var(--bg-primary);
+            z-index: 99;
+            border-bottom: 1px solid var(--border-default);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            padding: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .toolbar-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .toolbar-btn:hover {
+            background: var(--accent-secondary);
+            border-color: var(--accent-secondary);
+        }
+        
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        
+        .favorite-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        
+        .favorite-btn.favorited {
+            opacity: 1;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px var(--shadow);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        
+        .shortcut-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+        
+        .shortcut-key {
+            background: var(--bg-primary);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-default);
+        }
+        
+        .search-history {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        .search-history.show {
+            display: block;
+        }
+        
+        .history-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            color: var(--text-primary);
+        }
+        
+        .history-item:hover {
+            background: var(--bg-tertiary);
+        }
+        
+        .history-clear {
+            padding: 8px 16px;
+            text-align: center;
+            border-top: 1px solid var(--border-default);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        
+        .history-clear:hover {
+            color: var(--accent-primary);
+        }
 
         
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-default);
             padding: 20px 0;
-            position: sticky;
-            top: 37px; 
-            z-index: 100;
-            backdrop-filter: blur(8px);
         }
         
         .header-content {
@@ -253,6 +473,7 @@
             overflow: hidden;
             transition: all 0.2s ease;
             cursor: pointer;
+            position: relative;
         }
         
         .error-card:hover {
@@ -301,6 +522,14 @@
         .category-database { background: #4db33d; color: white; }
         .category-monitoring { background: #ff6b6b; color: white; }
         .category-git { background: #f05032; color: white; }
+        .category-python { background: #3776ab; color: white; }
+        .category-javascript { background: #f7df1e; color: #000; }
+        .category-system { background: #5e5e5e; color: white; }
+        .category-security { background: #d93636; color: white; }
+        .category-api { background: #61affe; color: white; }
+        .category-storage { background: #ff9900; color: white; }
+        .category-messagequeue { background: #ff6b6b; color: white; }
+        .category-serverless { background: #fd9843; color: white; }
         
         .error-body {
             padding: 20px;
@@ -497,7 +726,6 @@
             }
         }
         
-        /* Footer styles */
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-default);
@@ -586,6 +814,7 @@
                             id="searchInput"
                             autocomplete="off"
                         >
+                        <div class="search-history" id="searchHistory"></div>
                     </div>
                     
                     <div class="filters">
@@ -608,11 +837,37 @@
                         <button class="category-filter" data-category="Git">Git</button>
                         <button class="category-filter" data-category="Ingress">Ingress</button>
                         <button class="category-filter" data-category="ICMP">ICMP</button>
+                        <button class="category-filter" data-category="Python">Python</button>
+                        <button class="category-filter" data-category="JavaScript">JavaScript</button>
+                        <button class="category-filter" data-category="System">System</button>
+                        <button class="category-filter" data-category="Security">Security</button>
+                        <button class="category-filter" data-category="API">API</button>
+                        <button class="category-filter" data-category="Storage">Storage</button>
+                        <button class="category-filter" data-category="MessageQueue">Message Queues</button>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
+    <div class="toolbar-wrapper">
+        <div class="container">
+            <div class="toolbar">
+                <button class="toolbar-btn" id="showFavoritesBtn">
+                    ⭐ Favorites (<span id="favoritesCount">0</span>)
+                </button>
+                <button class="toolbar-btn" id="exportBtn">
+                    📥 Export
+                </button>
+                <button class="toolbar-btn" id="shareBtn">
+                    🔗 Share
+                </button>
+                <button class="toolbar-btn" id="keyboardShortcutsBtn">
+                    ⌨️ Shortcuts
+                </button>
+            </div>
+        </div>
+    </div>
 
     <main class="container">
         <div class="stats">
@@ -658,11 +913,46 @@
         </div>
     </footer>
 
+    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        🌙
+    </button>
+    
+    <div class="modal" id="shortcutsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">⌨️ Keyboard Shortcuts</h2>
+                <button class="modal-close" id="closeShortcutsModal">×</button>
+            </div>
+            <div class="shortcut-list">
+                <div class="shortcut-item">
+                    <span>Focus search</span>
+                    <span class="shortcut-key">/</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Clear search</span>
+                    <span class="shortcut-key">Esc</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Toggle favorites</span>
+                    <span class="shortcut-key">F</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Toggle theme</span>
+                    <span class="shortcut-key">T</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Show shortcuts</span>
+                    <span class="shortcut-key">?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     
     
-    <script src="embedded-data.js"></script>
+    <script src="embedded-data.js?v=6"></script>
     
     <script>
         class ErrorCheatsheet {
@@ -671,11 +961,21 @@
                 this.fuse = null;
                 this.currentCategory = 'all';
                 this.currentResults = [];
+                this.favorites = this.loadFavorites();
+                this.searchHistory = this.loadSearchHistory();
+                this.showingFavorites = false;
                 
+                this.initializeTheme();
                 this.initializeElements();
                 this.loadErrors();
                 this.setupEventListeners();
+                this.handleURLParameters();
                 this.registerServiceWorker();
+            }
+            
+            initializeTheme() {
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', savedTheme);
             }
             
             initializeElements() {
@@ -689,11 +989,21 @@
                 this.visibleErrors = document.getElementById('visibleErrors');
                 this.totalCategories = document.getElementById('totalCategories');
                 this.categoryFilters = document.querySelectorAll('.category-filter');
+                this.themeToggle = document.getElementById('themeToggle');
+                this.searchHistoryDiv = document.getElementById('searchHistory');
+                this.favoritesCount = document.getElementById('favoritesCount');
+                this.showFavoritesBtn = document.getElementById('showFavoritesBtn');
+                this.exportBtn = document.getElementById('exportBtn');
+                this.shareBtn = document.getElementById('shareBtn');
+                this.keyboardShortcutsBtn = document.getElementById('keyboardShortcutsBtn');
+                this.shortcutsModal = document.getElementById('shortcutsModal');
+                this.closeShortcutsModal = document.getElementById('closeShortcutsModal');
+                
+                this.updateFavoritesCount();
             }
             
             async loadErrors() {
                 try {
-                    // Use embedded data if available, otherwise fetch
                     if (typeof ERRORS_DATA !== 'undefined') {
                         this.errors = ERRORS_DATA;
                     } else {
@@ -701,7 +1011,6 @@
                         this.errors = await response.json();
                     }
                     
-                    // Initialize Fuse.js for fuzzy search
                     this.fuse = new Fuse(this.errors, {
                         keys: ['title', 'explanation', 'category', 'fix_snippet'],
                         threshold: 0.4,
@@ -722,7 +1031,6 @@
             }
             
             setupEventListeners() {
-                // Search input
                 this.searchInput.addEventListener('input', this.debounce(() => {
                     this.performSearch();
                 }, 300));
@@ -730,26 +1038,76 @@
                 this.searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.clearSearch();
+                        this.hideSearchHistory();
+                    } else if (e.key === 'Enter' && this.searchInput.value.trim()) {
+                        this.addToSearchHistory(this.searchInput.value.trim());
                     }
                 });
                 
-                // Clear search button
+                this.searchInput.addEventListener('focus', () => {
+                    if (this.searchHistory.length > 0) {
+                        this.showSearchHistory();
+                    }
+                });
+                
+                this.searchInput.addEventListener('blur', () => {
+                    setTimeout(() => this.hideSearchHistory(), 200);
+                });
+                
                 this.clearButton.addEventListener('click', () => {
                     this.clearSearch();
                 });
                 
-                // Category filters
                 this.categoryFilters.forEach(filter => {
                     filter.addEventListener('click', () => {
                         this.setActiveCategory(filter.dataset.category);
                     });
                 });
                 
-                // Keyboard shortcuts
+                this.themeToggle.addEventListener('click', () => {
+                    this.toggleTheme();
+                });
+                
+                this.showFavoritesBtn.addEventListener('click', () => {
+                    this.toggleFavoritesView();
+                });
+                
+                this.exportBtn.addEventListener('click', () => {
+                    this.exportFavorites();
+                });
+                
+                this.shareBtn.addEventListener('click', () => {
+                    this.shareResults();
+                });
+                
+                this.keyboardShortcutsBtn.addEventListener('click', () => {
+                    this.showShortcutsModal();
+                });
+                
+                this.closeShortcutsModal.addEventListener('click', () => {
+                    this.hideShortcutsModal();
+                });
+                
+                this.shortcutsModal.addEventListener('click', (e) => {
+                    if (e.target === this.shortcutsModal) {
+                        this.hideShortcutsModal();
+                    }
+                });
+                
                 document.addEventListener('keydown', (e) => {
-                    if (e.ctrlKey && e.key === 'k') {
+                    if (e.target.tagName === 'INPUT') return;
+                    
+                    if (e.key === '/') {
                         e.preventDefault();
                         this.searchInput.focus();
+                    } else if (e.key.toLowerCase() === 't') {
+                        this.toggleTheme();
+                    } else if (e.key.toLowerCase() === 'f') {
+                        this.toggleFavoritesView();
+                    } else if (e.key === '?') {
+                        this.showShortcutsModal();
+                    } else if (e.key === 'Escape') {
+                        this.hideShortcutsModal();
                     }
                 });
             }
@@ -768,7 +1126,6 @@
                     results = fuseResults.map(result => result.item);
                 }
                 
-                // Apply category filter
                 if (this.currentCategory !== 'all') {
                     results = results.filter(error => error.category === this.currentCategory);
                 }
@@ -781,7 +1138,6 @@
             setActiveCategory(category) {
                 this.currentCategory = category;
                 
-                // Update active button
                 this.categoryFilters.forEach(filter => {
                     filter.classList.toggle('active', filter.dataset.category === category);
                 });
@@ -801,6 +1157,9 @@
                 
                 this.errorGrid.innerHTML = errors.map(error => `
                     <div class="error-card" data-id="${error.id}">
+                        <button class="favorite-btn ${this.isFavorite(error.id) ? 'favorited' : ''}" data-id="${error.id}">
+                            ${this.isFavorite(error.id) ? '⭐' : '☆'}
+                        </button>
                         <div class="error-header">
                             <div class="error-title">${this.escapeHtml(error.title)}</div>
                             <span class="error-category category-${error.category.toLowerCase()}">${error.category}</span>
@@ -830,13 +1189,22 @@
                     </div>
                 `).join('');
                 
-                // Add click handlers for expansion and copy buttons
                 this.setupCardInteractions();
                 this.updateVisibleCount(errors.length);
             }
             
             setupCardInteractions() {
-                // Card click to expand/collapse
+                document.querySelectorAll('.favorite-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const errorId = button.dataset.id;
+                        this.toggleFavorite(errorId);
+                        button.textContent = this.isFavorite(errorId) ? '⭐' : '☆';
+                        button.classList.toggle('favorited');
+                        this.updateFavoritesCount();
+                    });
+                });
+                
                 document.querySelectorAll('.error-card').forEach(card => {
                     const header = card.querySelector('.error-header');
                     const body = card.querySelector('.error-body');
@@ -844,15 +1212,12 @@
                     header.addEventListener('click', () => {
                         const isExpanded = body.classList.contains('expanded');
                         
-                        // Close all cards first
                         document.querySelectorAll('.error-body').forEach(b => {
                             b.classList.remove('expanded');
                         });
                         
-                        // If this card wasn't expanded, expand it
                         if (!isExpanded) {
                             body.classList.add('expanded');
-                            // Scroll to card with offset for the sticky header and warning
                             setTimeout(() => {
                                 const headerHeight = document.querySelector('.header').offsetHeight;
                                 const warningHeight = document.querySelector('.safety-warning').offsetHeight;
@@ -866,7 +1231,6 @@
                     });
                 });
                 
-                // Copy button functionality
                 document.querySelectorAll('.copy-button').forEach(button => {
                     button.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -945,6 +1309,207 @@
                     .replace(/>/g, "&gt;")
                     .replace(/"/g, "&quot;")
                     .replace(/'/g, "&#039;");
+            }
+            
+            loadFavorites() {
+                const saved = localStorage.getItem('favorites');
+                return saved ? JSON.parse(saved) : [];
+            }
+            
+            saveFavorites() {
+                localStorage.setItem('favorites', JSON.stringify(this.favorites));
+            }
+            
+            isFavorite(errorId) {
+                return this.favorites.includes(errorId);
+            }
+            
+            toggleFavorite(errorId) {
+                if (this.isFavorite(errorId)) {
+                    this.favorites = this.favorites.filter(id => id !== errorId);
+                } else {
+                    this.favorites.push(errorId);
+                }
+                this.saveFavorites();
+            }
+            
+            updateFavoritesCount() {
+                this.favoritesCount.textContent = this.favorites.length;
+            }
+            
+            toggleFavoritesView() {
+                this.showingFavorites = !this.showingFavorites;
+                
+                if (this.showingFavorites) {
+                    const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
+                    this.displayResults(favoriteErrors);
+                    this.resultsCount.textContent = `Showing ${favoriteErrors.length} favorite errors`;
+                    this.showFavoritesBtn.style.background = 'var(--accent-primary)';
+                    this.showFavoritesBtn.style.color = '#000';
+                } else {
+                    this.performSearch();
+                    this.showFavoritesBtn.style.background = '';
+                    this.showFavoritesBtn.style.color = '';
+                }
+            }
+            
+            toggleTheme() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                this.themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+            }
+            
+            loadSearchHistory() {
+                const saved = localStorage.getItem('searchHistory');
+                return saved ? JSON.parse(saved) : [];
+            }
+            
+            saveSearchHistory() {
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+            }
+            
+            addToSearchHistory(query) {
+                this.searchHistory = this.searchHistory.filter(q => q !== query);
+                this.searchHistory.unshift(query);
+                
+                if (this.searchHistory.length > 10) {
+                    this.searchHistory = this.searchHistory.slice(0, 10);
+                }
+                
+                this.saveSearchHistory();
+            }
+            
+            showSearchHistory() {
+                if (this.searchHistory.length === 0) return;
+                
+                this.searchHistoryDiv.innerHTML = `
+                    ${this.searchHistory.map(query => `
+                        <div class="history-item" data-query="${this.escapeHtml(query)}">
+                            ${this.escapeHtml(query)}
+                        </div>
+                    `).join('')}
+                    <div class="history-clear">Clear History</div>
+                `;
+                
+                this.searchHistoryDiv.classList.add('show');
+                
+                this.searchHistoryDiv.querySelectorAll('.history-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        this.searchInput.value = item.dataset.query;
+                        this.performSearch();
+                        this.hideSearchHistory();
+                    });
+                });
+                
+                this.searchHistoryDiv.querySelector('.history-clear').addEventListener('click', () => {
+                    this.searchHistory = [];
+                    this.saveSearchHistory();
+                    this.hideSearchHistory();
+                });
+            }
+            
+            hideSearchHistory() {
+                this.searchHistoryDiv.classList.remove('show');
+            }
+            
+            exportFavorites() {
+                const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
+                
+                if (favoriteErrors.length === 0) {
+                    alert('No favorites to export. Star some errors first!');
+                    return;
+                }
+                
+                const exportData = {
+                    exportDate: new Date().toISOString(),
+                    totalFavorites: favoriteErrors.length,
+                    errors: favoriteErrors
+                };
+                
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `fixmyerror-favorites-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                URL.revokeObjectURL(url);
+            }
+            
+            async shareResults() {
+                let url = window.location.origin + window.location.pathname;
+                const params = new URLSearchParams();
+                
+                if (this.searchInput.value.trim()) {
+                    params.set('search', this.searchInput.value.trim());
+                }
+                if (this.currentCategory !== 'all') {
+                    params.set('category', this.currentCategory);
+                }
+                
+                if (params.toString()) {
+                    url += '?' + params.toString();
+                }
+                
+                const text = 'Check out FixMyError.net - instant solutions for HTTP, TLS, network, and system errors!';
+                
+                if (navigator.share) {
+                    try {
+                        await navigator.share({ title: 'FixMyError.net', text, url });
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            this.copyToClipboardFallback(url);
+                        }
+                    }
+                } else {
+                    this.copyToClipboardFallback(url);
+                }
+            }
+            
+            async copyToClipboardFallback(text) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    alert('Link copied to clipboard!');
+                } catch (err) {
+                    prompt('Copy this link:', text);
+                }
+            }
+            
+            showShortcutsModal() {
+                this.shortcutsModal.classList.add('show');
+            }
+            
+            hideShortcutsModal() {
+                this.shortcutsModal.classList.remove('show');
+            }
+            
+            handleURLParameters() {
+                const params = new URLSearchParams(window.location.search);
+                const hash = window.location.hash.substring(1);
+                
+                if (params.has('search')) {
+                    this.searchInput.value = params.get('search');
+                    this.performSearch();
+                }
+                
+                if (params.has('category')) {
+                    const category = params.get('category');
+                    this.setActiveCategory(category);
+                }
+                
+                if (hash) {
+                    setTimeout(() => {
+                        const errorCard = document.querySelector(`[data-id="${hash}"]`);
+                        if (errorCard) {
+                            errorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            errorCard.querySelector('.error-header').click();
+                        }
+                    }, 500);
+                }
             }
             
             async registerServiceWorker() {
