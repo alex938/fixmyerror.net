@@ -492,6 +492,7 @@
             transition: all 0.2s ease;
             cursor: pointer;
             position: relative;
+            scroll-margin-top: 140px; /* Account for sticky header + warning */
         }
         
         .error-card:hover {
@@ -970,7 +971,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     
     
-    <script src="embedded-data.js?v=6"></script>
+    <script src="embedded-data.js?v=8"></script>
     
     <script>
         class ErrorCheatsheet {
@@ -987,7 +988,6 @@
                 this.initializeElements();
                 this.loadErrors();
                 this.setupEventListeners();
-                this.handleURLParameters();
                 this.registerServiceWorker();
             }
             
@@ -1037,7 +1037,11 @@
                     
                     this.updateStats();
                     this.displayResults(this.errors);
+                    this.updateResultsCount(this.errors, '');
                     this.loadingState.style.display = 'none';
+
+                    // Handle URL parameters after errors are loaded
+                    this.handleURLParameters();
                     
                 } catch (error) {
                     console.error('Error loading errors:', error);
@@ -1112,6 +1116,13 @@
                     }
                 });
                 
+                window.addEventListener('hashchange', () => {
+                    const hash = window.location.hash.substring(1);
+                    if (hash) {
+                        this.scrollToError(decodeURIComponent(hash));
+                    }
+                });
+
                 document.addEventListener('keydown', (e) => {
                     if (e.target.tagName === 'INPUT') return;
                     
@@ -1174,7 +1185,7 @@
                 this.emptyState.style.display = 'none';
                 
                 this.errorGrid.innerHTML = errors.map(error => `
-                    <div class="error-card" data-id="${error.id}">
+                    <div id="${error.id}" class="error-card" data-id="${error.id}">
                         <button class="link-btn" data-id="${error.id}" title="Copy Link">
                             🔗
                         </button>
@@ -1248,15 +1259,6 @@
                         
                         if (!isExpanded) {
                             body.classList.add('expanded');
-                            setTimeout(() => {
-                                const headerHeight = document.querySelector('.header').offsetHeight;
-                                const warningHeight = document.querySelector('.safety-warning').offsetHeight;
-                                const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
-                                window.scrollTo({
-                                    top: cardTop - headerHeight - warningHeight - 20,
-                                    behaviour: 'smooth'
-                                });
-                            }, 100);
                         }
                     });
                 });
@@ -1532,13 +1534,43 @@
                 }
                 
                 if (hash) {
+                    this.scrollToError(decodeURIComponent(hash));
+                }
+            }
+
+            scrollToError(id, retryCount = 0) {
+                // Try finding by ID (native) or data-id (fallback)
+                const element = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
+                
+                if (element) {
+                    // Scroll to element with offset handled by CSS scroll-margin-top
+                    element.scrollIntoView({ behavior: 'auto' });
+                    
+                    const header = element.querySelector('.error-header');
+                    const body = element.querySelector('.error-body');
+                    
+                    // Expand if not already expanded
+                    if (header && body && !body.classList.contains('expanded')) {
+                        // Manually expand to ensure it works reliably
+                        document.querySelectorAll('.error-body').forEach(b => {
+                            b.classList.remove('expanded');
+                        });
+                        body.classList.add('expanded');
+                    }
+                    
+                    // Highlight effect
+                    const originalBorder = element.style.borderColor;
+                    element.style.borderColor = 'var(--accent-primary)';
+                    element.style.boxShadow = '0 0 0 2px var(--accent-primary)';
+                    
                     setTimeout(() => {
-                        const errorCard = document.querySelector(`[data-id="${hash}"]`);
-                        if (errorCard) {
-                            errorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            errorCard.querySelector('.error-header').click();
-                        }
-                    }, 500);
+                        element.style.borderColor = originalBorder;
+                        element.style.boxShadow = '';
+                    }, 2000);
+                    
+                } else if (retryCount < 50) {
+                    // Retry for up to 5 seconds (50 * 100ms) to be safe for slow loads
+                    setTimeout(() => this.scrollToError(id, retryCount + 1), 100);
                 }
             }
             
