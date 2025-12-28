@@ -177,6 +177,24 @@
             opacity: 1;
         }
         
+        .link-btn {
+            position: absolute;
+            top: 12px;
+            right: 48px;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        
+        .link-btn:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -1157,6 +1175,9 @@
                 
                 this.errorGrid.innerHTML = errors.map(error => `
                     <div class="error-card" data-id="${error.id}">
+                        <button class="link-btn" data-id="${error.id}" title="Copy Link">
+                            🔗
+                        </button>
                         <button class="favorite-btn ${this.isFavorite(error.id) ? 'favorited' : ''}" data-id="${error.id}">
                             ${this.isFavorite(error.id) ? '⭐' : '☆'}
                         </button>
@@ -1194,6 +1215,15 @@
             }
             
             setupCardInteractions() {
+                document.querySelectorAll('.link-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const errorId = button.dataset.id;
+                        const url = window.location.origin + window.location.pathname + '#' + errorId;
+                        this.copyToClipboardFallback(url);
+                    });
+                });
+
                 document.querySelectorAll('.favorite-btn').forEach(button => {
                     button.addEventListener('click', (e) => {
                         e.stopPropagation();

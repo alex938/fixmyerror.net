@@ -2409,5 +2409,105 @@ const ERRORS_DATA = [
     "sources": [
       "https://json-schema.org/"
     ]
+  },
+  {
+    "id": "go-nil-pointer",
+    "title": "Go: panic: runtime error: invalid memory address or nil pointer dereference",
+    "category": "System",
+    "explanation": "Attempting to dereference a nil pointer. Often happens when initializing a pointer but not assigning a value, or accessing a field of a nil struct.",
+    "fix_snippet": "# Check for nil before access\nif ptr != nil {\n    fmt.Println(*ptr)\n}\n# Initialize pointer\nptr = new(Type)\n# Or use address of variable\nval := Type{}\nptr = &val",
+    "sources": [
+      "https://go.dev/tour/moretypes/1"
+    ]
+  },
+  {
+    "id": "go-import-cycle",
+    "title": "Go: import cycle not allowed",
+    "category": "System",
+    "explanation": "Circular dependency between packages. Package A imports Package B, and Package B imports Package A.",
+    "fix_snippet": "# Refactor to third package\n# Move common code to 'common' or 'types' package\n# Use interfaces to break dependency\n# Pass dependencies as arguments",
+    "sources": [
+      "https://go.dev/doc/faq#import_cycles"
+    ]
+  },
+  {
+    "id": "rust-borrow-moved",
+    "title": "Rust: borrow of moved value",
+    "category": "System",
+    "explanation": "Attempting to use a value after it has been moved (ownership transferred). Rust ownership rules prevent using a variable after move.",
+    "fix_snippet": "# Clone if type implements Clone\nlet y = x.clone();\n# Use reference if ownership not needed\nfunc(&x);\n# Implement Copy trait for small types\n#[derive(Copy, Clone)]",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html"
+    ]
+  },
+  {
+    "id": "rust-lifetime-mismatch",
+    "title": "Rust: lifetime mismatch",
+    "category": "System",
+    "explanation": "References in function have different lifetimes but are required to be related. Rust borrow checker cannot guarantee validity.",
+    "fix_snippet": "# Add lifetime annotations\nfn longest<'a>(x: &'a str, y: &'a str) -> &'a str {\n# Ensure referenced data lives long enough\n# Use owned types (String instead of &str) if feasible",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html"
+    ]
+  },
+  {
+    "id": "java-null-pointer",
+    "title": "Java: java.lang.NullPointerException",
+    "category": "Client",
+    "explanation": "Attempting to use an object reference that has not been initialized (is null).",
+    "fix_snippet": "# Check for null\nif (obj != null) {\n    obj.method();\n}\n# Use Optional\nOptional.ofNullable(obj).ifPresent(o -> o.method());\n# Initialize variable\nString str = \"\";",
+    "sources": [
+      "https://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html"
+    ]
+  },
+  {
+    "id": "java-class-not-found",
+    "title": "Java: java.lang.ClassNotFoundException",
+    "category": "Client",
+    "explanation": "Application tries to load a class through its string name but no definition for the class with the specified name could be found.",
+    "fix_snippet": "# Check classpath\njava -cp .:lib/* MyClass\n# Check Maven dependencies\nmvn dependency:tree\n# Verify JAR contains class\njar tf library.jar | grep ClassName",
+    "sources": [
+      "https://docs.oracle.com/javase/8/docs/api/java/lang/ClassNotFoundException.html"
+    ]
+  },
+  {
+    "id": "git-detached-head",
+    "title": "Git: You are in 'detached HEAD' state",
+    "category": "Git",
+    "explanation": "Checked out a specific commit directly instead of a branch. New commits will not be associated with any branch and may be lost.",
+    "fix_snippet": "# Create branch from current commit\ngit switch -c new-branch-name\n# Or go back to existing branch\ngit switch main\n# If you made commits, cherry-pick them\ngit cherry-pick <commit-hash>",
+    "sources": [
+      "https://git-scm.com/docs/git-checkout#_detached_head"
+    ]
+  },
+  {
+    "id": "docker-exec-format-error",
+    "title": "Docker: exec user process caused \"exec format error\"",
+    "category": "Docker",
+    "explanation": "Container binary architecture doesn't match host (e.g., trying to run ARM binary on x86). Or missing shebang in script.",
+    "fix_snippet": "# Build for correct platform\ndocker buildx build --platform linux/amd64 -t image .\n# Check binary architecture\nfile /path/to/binary\n# Add shebang to script\n#!/bin/sh",
+    "sources": [
+      "https://docs.docker.com/build/building/multi-platform/"
+    ]
+  },
+  {
+    "id": "system-segfault",
+    "title": "System: Segmentation fault (core dumped)",
+    "category": "System",
+    "explanation": "Program attempted to access memory it wasn't allowed to. Invalid memory access, buffer overflow, or stack overflow.",
+    "fix_snippet": "# Debug with GDB\ngdb ./program core\n# Check for null pointers\n# Check array bounds\n# Run with Valgrind\nvalgrind ./program",
+    "sources": [
+      "https://en.wikipedia.org/wiki/Segmentation_fault"
+    ]
+  },
+  {
+    "id": "k8s-context-deadline-exceeded",
+    "title": "Kubernetes: context deadline exceeded",
+    "category": "Kubernetes",
+    "explanation": "Operation took longer than allowed timeout. API server too slow, etcd issues, or network latency.",
+    "fix_snippet": "# Check API server health\nkubectl get --raw /healthz\n# Increase timeout flags\nkubectl get pods --request-timeout=30s\n# Check etcd performance\n# Monitor control plane resources",
+    "sources": [
+      "https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands"
+    ]
   }
 ];
