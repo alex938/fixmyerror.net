@@ -2509,5 +2509,165 @@ const ERRORS_DATA = [
     "sources": [
       "https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands"
     ]
+  },
+  {
+    "id": "cloudflare-522-origin-connection",
+    "title": "Cloudflare 522: Connection timed out",
+    "category": "Proxy",
+    "explanation": "Cloudflare edge could not establish TCP handshake to your origin. Origin offline, blocked by firewall, or wrong DNS/port.",
+    "fix_snippet": "# Test origin directly\ncurl -v http://origin-ip:80\n# Check firewall/WAF allow Cloudflare IPs\n# Verify DNS A/AAAA records point to correct origin\n# Temporarily pause Cloudflare to isolate issue",
+    "sources": [
+      "https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-5xx-errors/#error-522"
+    ]
+  },
+  {
+    "id": "cloudflare-worker-1101-runtime-error",
+    "title": "Cloudflare Worker 1101 runtime error",
+    "category": "Proxy",
+    "explanation": "Worker script threw an exception during execution. Common causes: undefined variables, failed fetch, exceeded CPU/time limits.",
+    "fix_snippet": "# Check Worker logs\nwrangler tail worker-name\n# Add try/catch around fetch/JSON parse\n# Reduce heavy CPU work; move to origin or queue\n# Ensure environment variables are set",
+    "sources": [
+      "https://developers.cloudflare.com/workers/platform/errors/#1101-runtime-error"
+    ]
+  },
+  {
+    "id": "openai-api-429-rate-limit",
+    "title": "OpenAI API: 429 rate limit exceeded",
+    "category": "AI",
+    "explanation": "Requests exceed your organization or model rate limits. Returns 429 with retry headers.",
+    "fix_snippet": "# Respect Retry-After header\nsleep ${RETRY_AFTER}\n# Implement exponential backoff\n# Reduce request frequency or batch prompts\n# Use smaller models or request quota increase",
+    "sources": [
+      "https://platform.openai.com/docs/guides/rate-limits"
+    ]
+  },
+  {
+    "id": "openai-context-length-exceeded",
+    "title": "OpenAI API: context_length_exceeded",
+    "category": "AI",
+    "explanation": "Prompt + response tokens exceed model's context window. Model refuses to generate.",
+    "fix_snippet": "# Trim prompt history or system message\n# Use shorter model (e.g., gpt-3.5-turbo vs 4o-mini)\n# Summarize conversation before sending\n# Switch to model with larger context window if available",
+    "sources": [
+      "https://platform.openai.com/docs/guides/text-generation"
+    ]
+  },
+  {
+    "id": "nextjs-hydration-mismatch",
+    "title": "Next.js: Hydration failed because the initial UI does not match",
+    "category": "JavaScript",
+    "explanation": "Server-rendered HTML differs from client render. Causes include non-deterministic renders, browser-only APIs on server, or locale/time differences.",
+    "fix_snippet": "# Avoid random/Date in render; move to useEffect\n# Guard browser APIs\nif (typeof window !== 'undefined') { ... }\n# Ensure data fetched at build/server matches client\n# Use suppressHydrationWarning for intentional differences",
+    "sources": [
+      "https://nextjs.org/docs/messages/react-hydration-error"
+    ]
+  },
+  {
+    "id": "vercel-framework-detection-failed",
+    "title": "Vercel build: framework detection failed",
+    "category": "CI/CD",
+    "explanation": "Vercel could not detect framework/output directory. Missing dependencies or build config.",
+    "fix_snippet": "# Install deps during build\nnpm ci\n# Add vercel.json\n{\\\"framework\\\":\\\"nextjs\\\",\\\"outputDirectory\\\":\\\".next\\\"}\n# Set correct build command\n\\\"buildCommand\\\": \\\"npm run build\\\"\n# Ensure package.json has scripts",
+    "sources": [
+      "https://vercel.com/docs/deployments/frameworks"
+    ]
+  },
+  {
+    "id": "apigw-413-payload-too-large",
+    "title": "API Gateway 413: Payload too large",
+    "category": "API",
+    "explanation": "Request body exceeds API Gateway/Lambda payload limits (10MB REST, 6MB HTTP API by default).",
+    "fix_snippet": "# Upload large files to S3 first and pass presigned URL\n# Enable binary media types if needed\n# Compress payload (gzip)\n# Split request into chunks",
+    "sources": [
+      "https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html"
+    ]
+  },
+  {
+    "id": "oauth-invalid-grant-refresh-expired",
+    "title": "OAuth2: invalid_grant (refresh token expired)",
+    "category": "Security",
+    "explanation": "Refresh token is expired/revoked or used with wrong client/redirect URI, returning invalid_grant.",
+    "fix_snippet": "# Re-authenticate user to issue new refresh token\n# Ensure redirect_uri matches exactly\n# Do not reuse refresh token across clients\n# Check provider token expiry/rotation policy",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2"
+    ]
+  },
+  {
+    "id": "jwt-invalid-audience",
+    "title": "JWT: Invalid audience claim",
+    "category": "Security",
+    "explanation": "aud claim in JWT does not match expected audience for the API or resource server.",
+    "fix_snippet": "# Configure resource server expected aud\n# Issue tokens with correct aud from IdP\n# Validate aud before processing request\n# Rotate client IDs consistently across environments",
+    "sources": [
+      "https://www.rfc-editor.org/rfc/rfc7519#section-4.1.3"
+    ]
+  },
+  {
+    "id": "postgres-too-many-connections",
+    "title": "PostgreSQL: too many connections",
+    "category": "Database",
+    "explanation": "All available Postgres connections are in use. Connection pool exhaustion or insufficient max_connections.",
+    "fix_snippet": "# Check current connections\nSELECT count(*) FROM pg_stat_activity;\n# Increase max_connections (postgresql.conf)\n# Tune pooler (PgBouncer) with max_client_conn\n# Fix connection leaks and use pooling",
+    "sources": [
+      "https://www.postgresql.org/docs/current/runtime-config-connection.html"
+    ]
+  },
+  {
+    "id": "redis-readonly-replica",
+    "title": "Redis: READONLY You can't write against a read only replica",
+    "category": "Database",
+    "explanation": "Client connected to Redis replica with read-only mode. Writes are rejected.",
+    "fix_snippet": "# Connect to primary endpoint instead of replica\n# For cluster, follow MOVED/ASK redirections\n# Disable readonly on replica only for testing: CONFIG SET slave-read-only no\n# Update client connection string/endpoint",
+    "sources": [
+      "https://redis.io/docs/latest/operate/oss_and_stack/management/replication/"
+    ]
+  },
+  {
+    "id": "kafka-leader-not-available",
+    "title": "Kafka: LEADER_NOT_AVAILABLE",
+    "category": "MessageQueue",
+    "explanation": "Partition has no elected leader. Broker down, ISR empty, or topic just created and metadata not propagated.",
+    "fix_snippet": "# Wait a few seconds after topic creation\n# Check broker health and controller logs\n# Ensure replicas in-sync; increase min.insync.replicas\n# Restart affected broker or reassign partitions",
+    "sources": [
+      "https://kafka.apache.org/documentation/#replication"
+    ]
+  },
+  {
+    "id": "gha-resource-not-accessible",
+    "title": "GitHub Actions: Resource not accessible by integration",
+    "category": "CI/CD",
+    "explanation": "Workflow on fork PR lacks permission to access secrets or write operations.",
+    "fix_snippet": "# Enable 'Allow GitHub Actions to create and approve pull requests' or set permissions\npermissions:\n  contents: read\n  pull-requests: write\n# Use pull_request_target for trusted workflows\n# Avoid using secrets on forked PRs",
+    "sources": [
+      "https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request"
+    ]
+  },
+  {
+    "id": "docker-registry-rate-limit",
+    "title": "Docker registry: 429 too many requests",
+    "category": "Docker",
+    "explanation": "Registry (e.g., Docker Hub) rate limits unauthenticated or high-volume pulls.",
+    "fix_snippet": "# docker login to use authenticated limits\ndocker login\n# Pull through registry mirror or cache\n# Reduce parallel pulls / add backoff\n# For CI, use private registry or image cache",
+    "sources": [
+      "https://docs.docker.com/docker-hub/download-rate-limit/"
+    ]
+  },
+  {
+    "id": "otel-exporter-queue-full",
+    "title": "OpenTelemetry Collector: exporter queue is full",
+    "category": "Monitoring",
+    "explanation": "Exporter queue/batch processor dropped spans/metrics because downstream endpoint too slow or queue too small.",
+    "fix_snippet": "# Increase queue_size in batch/exporter config\nprocessors:\n  batch:\n    send_batch_size: 512\n    queue_size: 2048\n# Throttle export rate or scale collector\n# Fix latency/availability of backend (Tempo/Jaeger/OTLP)",
+    "sources": [
+      "https://opentelemetry.io/docs/collector/configuration/"
+    ]
+  },
+  {
+    "id": "csp-refused-to-connect",
+    "title": "CSP: Refused to connect to URL",
+    "category": "Security",
+    "explanation": "Content Security Policy blocks outbound fetch/WebSocket/XHR to the target origin because connect-src is restrictive.",
+    "fix_snippet": "# Add origin to connect-src\nContent-Security-Policy: connect-src 'self' https://api.example.com;\n# For WebSockets include wss:// endpoint\n# Keep least-privilege and avoid wildcard * where possible",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src"
+    ]
   }
 ];
