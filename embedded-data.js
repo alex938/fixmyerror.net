@@ -2669,5 +2669,205 @@ const ERRORS_DATA = [
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src"
     ]
+  },
+  {
+    "id": "react-hydration-mismatch",
+    "title": "React: Hydration failed because the initial UI does not match",
+    "category": "JavaScript",
+    "explanation": "The HTML rendered on the server (SSR) doesn't match what React rendered on the client. Common causes: invalid HTML nesting (p inside p), random values (Math.random), or timestamps.",
+    "fix_snippet": "# Fix invalid nesting\n<p><div>Don't do this</div></p> -> <div><div>Do this</div></div>\n# Handle dynamic content\nconst [isMounted, setIsMounted] = useState(false);\nuseEffect(() => setIsMounted(true), []);\nif (!isMounted) return null;",
+    "sources": [
+      "https://react.dev/reference/react-dom/client/hydrateRoot#handling-different-client-and-server-content"
+    ]
+  },
+  {
+    "id": "docker-exec-format-error",
+    "title": "Docker: exec format error",
+    "category": "Docker",
+    "explanation": "Container binary architecture doesn't match the host (e.g., trying to run amd64 container on Apple Silicon M1/M2/M3 without emulation).",
+    "fix_snippet": "# Build for specific platform\ndocker build --platform linux/amd64 -t my-image .\n# Or use buildx for multi-arch\ndocker buildx build --platform linux/amd64,linux/arm64 -t my-image .\n# Check image architecture\ndocker inspect my-image | grep Architecture",
+    "sources": [
+      "https://docs.docker.com/build/building/multi-platform/"
+    ]
+  },
+  {
+    "id": "python-externally-managed-env",
+    "title": "Python: error: externally-managed-environment",
+    "category": "Python",
+    "explanation": "Newer Linux distros (Debian 12+, Ubuntu 23.04+) block global pip installs to protect system packages (PEP 668).",
+    "fix_snippet": "# Use a virtual environment (Recommended)\npython3 -m venv .venv\nsource .venv/bin/activate\npip install package-name\n# Or use pipx for tools\npipx install package-name\n# Last resort (risky): --break-system-packages",
+    "sources": [
+      "https://peps.python.org/pep-0668/"
+    ]
+  },
+  {
+    "id": "git-push-rejected-non-fast-forward",
+    "title": "Git: failed to push some refs to ... (non-fast-forward)",
+    "category": "Git",
+    "explanation": "Remote branch has commits that you don't have locally. Someone else pushed changes.",
+    "fix_snippet": "# Pull remote changes first\ngit pull origin main\n# Rebase on top of remote\ngit pull --rebase origin main\n# Force push (Destructive! Only if you know what you're doing)\ngit push --force-with-lease origin main",
+    "sources": [
+      "https://git-scm.com/docs/git-push#_note_about_fast_forwards"
+    ]
+  },
+  {
+    "id": "ssh-host-key-verification-failed",
+    "title": "SSH: Host key verification failed",
+    "category": "Security",
+    "explanation": "The remote server's SSH host key has changed, or you're connecting to a new server with the same IP (Man-in-the-Middle warning).",
+    "fix_snippet": "# Remove old key for IP/Hostname\nssh-keygen -R 192.168.1.10\n# View the keys\ncat ~/.ssh/known_hosts\n# Manually edit known_hosts to remove the offending line",
+    "sources": [
+      "https://man.openbsd.org/ssh-keygen#R"
+    ]
+  },
+  {
+    "id": "aws-missing-authentication-token",
+    "title": "AWS: MissingAuthenticationTokenException",
+    "category": "Cloud",
+    "explanation": "Request is missing valid credentials, or the specific API endpoint/region combination is incorrect.",
+    "fix_snippet": "# Check configured region\naws configure get region\n# Export credentials explicitly\nexport AWS_PROFILE=my-profile\n# Verify endpoint URL\n# Check if service is available in that region",
+    "sources": [
+      "https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html"
+    ]
+  },
+  {
+    "id": "node-err-code-elifecycle",
+    "title": "npm ERR! code ELIFECYCLE",
+    "category": "JavaScript",
+    "explanation": "A script referenced in package.json failed to execute (exit code != 0). The error is in the script itself, not npm.",
+    "fix_snippet": "# Clear npm cache\nnpm cache clean --force\n# Delete node_modules and lock file\nrm -rf node_modules package-lock.json\n# Reinstall dependencies\nnpm install\n# Check the script debug logs",
+    "sources": [
+      "https://docs.npmjs.com/cli/v8/using-npm/scripts"
+    ]
+  },
+  {
+    "id": "postgres-authentication-failed",
+    "title": "PostgreSQL: FATAL: password authentication failed for user",
+    "category": "Database",
+    "explanation": "Authentication failed for the Postgres user. Password mismatch or pg_hba.conf configuration issue.",
+    "fix_snippet": "# Check pg_hba.conf\n# Allow md5/scram-sha-256 instead of ident/peer\nhost all all 127.0.0.1/32 scram-sha-256\n# Reset password\nALTER USER postgres WITH PASSWORD 'newpassword';",
+    "sources": [
+      "https://www.postgresql.org/docs/current/auth-pg-hba-conf.html"
+    ]
+  },
+  {
+    "id": "pytorch-cuda-oom",
+    "title": "PyTorch: CUDA out of memory",
+    "category": "AI",
+    "explanation": "GPU memory exhausted when trying to allocate tensors. Common when model batch size is too large or previous tensors weren't freed.",
+    "fix_snippet": "# Clear CUDA cache (Python)\nimport torch\ntorch.cuda.empty_cache()\n# Reduce batch size in training loop\n# Use gradient accumulation\n# Use mixed precision (fp16) training",
+    "sources": [
+      "https://pytorch.org/docs/stable/notes/cuda.html#memory-management"
+    ]
+  },
+  {
+    "id": "rust-borrow-checker-mutable",
+    "title": "Rust: cannot borrow `x` as mutable more than once at a time",
+    "category": "Rust",
+    "explanation": "Rust's ownership rules prevent multiple mutable references to the same data simultaneously to avoid data races.",
+    "fix_snippet": "# Scope the first borrow to end early\n{ let y = &mut x; y.do_something(); }\nlet z = &mut x; // Now allowed\n# Or clone data if ownership isn't needed\n# Or use RefCell for interior mutability (runtime check)",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html"
+    ]
+  },
+  {
+    "id": "go-panic-nil-map",
+    "title": "Go: panic: assignment to entry in nil map",
+    "category": "Go",
+    "explanation": "Attempting to write to a map that hasn't been initialized. In Go, zero-value maps are nil and read-only.",
+    "fix_snippet": "# Initialize map before use\nm := make(map[string]int)\nm[\"key\"] = 1\n# Incorrect: var m map[string]int; m[\"key\"] = 1 (Panics)",
+    "sources": [
+      "https://go.dev/blog/maps"
+    ]
+  },
+  {
+    "id": "gradle-build-failed",
+    "title": "Gradle: Execution failed for task ':app:...'",
+    "category": "Mobile",
+    "explanation": "Generic Android build failure. Often due to cached dependencies, JDK version mismatch, or XML layout errors.",
+    "fix_snippet": "# Clean project\n./gradlew clean\n# Run with stacktrace for details\n./gradlew assembleDebug --stacktrace\n# Check JDK version matches Gradle requirements",
+    "sources": [
+      "https://developer.android.com/studio/build"
+    ]
+  },
+  {
+    "id": "cocoapods-sandbox-sync",
+    "title": "CocoaPods: The sandbox is not in sync with the Podfile.lock",
+    "category": "Mobile",
+    "explanation": "Installed pods don't match the manifest lockfile. Common after switching git branches.",
+    "fix_snippet": "# Re-install pods\npod install\n# If that fails, update repo\npod repo update && pod install\n# Delete Pods folder (nuclear option)\nrm -rf Pods && pod install",
+    "sources": [
+      "https://guides.cocoapods.org/using/using-cocoapods.html"
+    ]
+  },
+  {
+    "id": "prisma-unique-constraint-failed",
+    "title": "Prisma: Unique constraint failed on the fields: (`x`)",
+    "category": "Database",
+    "explanation": "Attempted to create a record with a value that already exists in a unique column (P2002).",
+    "fix_snippet": "# Handle error in try/catch\nif (e.code === 'P2002') {\n  console.log('User already exists')\n}\n# Use upsert (update if exists, create if not)\nawait prisma.user.upsert({ ... })",
+    "sources": [
+      "https://www.prisma.io/docs/reference/api-reference/error-reference#p2002"
+    ]
+  },
+  {
+    "id": "typescript-null-not-assignable",
+    "title": "TypeScript: Type 'null' is not assignable to type 'string'",
+    "category": "JavaScript",
+    "explanation": "Strict null checks are enabled. You are trying to pass null/undefined to a variable expected to be a string.",
+    "fix_snippet": "# Allow null in type definition\nlet name: string | null;\n# Or use optional chaining/nullish coalescing\nconst val = data?.name ?? 'default';\n# Or ensure value exists (narrowing)\nif (name) { ... }",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#strictnullchecks"
+    ]
+  },
+  {
+    "id": "spring-bean-override-exception",
+    "title": "Spring Boot: BeanDefinitionOverrideException",
+    "category": "Java",
+    "explanation": "Two beans have the same name, and Spring Boot's default configuration prevents silent overriding (since 2.1).",
+    "fix_snippet": "# Allow bean overriding (application.properties)\nspring.main.allow-bean-definition-overriding=true\n# Or rename one of the beans\n@Bean(\"myCustomBean\")\n# Or use @Primary to prioritize one",
+    "sources": [
+      "https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html"
+    ]
+  },
+  {
+    "id": "cpp-segmentation-fault",
+    "title": "C++: Segmentation fault (core dumped)",
+    "category": "C++",
+    "explanation": "Program attempted to access memory it doesn't own (e.g., dereferencing null pointer, buffer overflow, or stack overflow).",
+    "fix_snippet": "# Compile with debug symbols\ng++ -g main.cpp\n# Run with GDB\ngdb ./a.out\n(gdb) run\n(gdb) backtrace\n# Check for null pointers and array bounds",
+    "sources": [
+      "https://www.gnu.org/software/gdb/documentation/"
+    ]
+  },
+  {
+    "id": "laravel-target-class-not-exist",
+    "title": "Laravel: Target class [X] does not exist",
+    "category": "PHP",
+    "explanation": "Laravel container cannot resolve the class. Usually due to missing 'use' statement, typo, or outdated Composer autoloader.",
+    "fix_snippet": "# Refresh autoloader\ncomposer dump-autoload\n# Check namespace and imports\nuse App\\Services\\MyService;\n# Clear cache\nphp artisan config:clear\nphp artisan cache:clear",
+    "sources": [
+      "https://laravel.com/docs/container"
+    ]
+  },
+  {
+    "id": "elasticsearch-flood-stage-watermark",
+    "title": "Elasticsearch: flood stage disk watermark exceeded",
+    "category": "Database",
+    "explanation": "Disk usage >95%. Node effectively read-only to prevent data corruption. Requires manual reset even after freeing space.",
+    "fix_snippet": "# 1. Free up disk space first!\n# 2. Reset read-only block\ncurl -X PUT \"localhost:9200/_all/_settings\" -H 'Content-Type: application/json' -d'{\n  \"index.blocks.read_only_allow_delete\": null\n}'",
+    "sources": [
+      "https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-cluster.html#disk-based-shard-allocation"
+    ]
+  },
+  {
+    "id": "powershell-execution-policy",
+    "title": "PowerShell: .ps1 cannot be loaded because running scripts is disabled",
+    "category": "System",
+    "explanation": "Windows default security policy blocks script execution to prevent malware.",
+    "fix_snippet": "# Allow local scripts (requires Admin)\nSet-ExecutionPolicy RemoteSigned\n# Or bypass for current process only (no Admin needed)\nSet-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass",
+    "sources": [
+      "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy"
+    ]
   }
 ];
