@@ -556,6 +556,11 @@
         .category-java { background: #b07219; color: white; }
         .category-c\+\+ { background: #00599c; color: white; }
         .category-php { background: #4f5d95; color: white; }
+        .category-ruby { background: #cc342d; color: white; }
+        .category-c\# { background: #178600; color: white; }
+        .category-bigdata { background: #008080; color: white; }
+        .category-webserver { background: #e34c26; color: white; }
+        .category-graphql { background: #e10098; color: white; }
         
         .error-body {
             padding: 20px;
@@ -779,13 +784,13 @@
         
         .donate-button {
             display: inline-block;
-            margin-top: 20px;
-            padding: 12px 32px;
+            margin-top: 16px;
+            padding: 10px 24px;
             background: linear-gradient(135deg, #635bff, #1f6feb);
             color: white;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             border-radius: 8px;
             border: none;
             cursor: pointer;
@@ -823,7 +828,17 @@
             <div class="header-content">
                 <div class="title">
                     <h1>🚀 FixMyError.net</h1>
-                    <p>Get instant solutions for HTTP, TLS, network, ICMP, Docker, Kubernetes, and system errors - No more endless searching!</p>
+                    <section class="intro-section" style="text-align: center; padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border-muted);">
+                        <h2 style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.8rem;">The Developer's Error Encyclopedia</h2>
+                        <p style="max-width: 800px; margin: 0 auto; line-height: 1.6; color: var(--text-secondary); font-size: 1.1rem;">
+                            FixMyError.net is your instant reference for troubleshooting common development and infrastructure issues. 
+                            Whether you need to <strong>fix HTTP errors quickly</strong>, find <strong>common Docker error solutions</strong>, 
+                            or need help with <strong>Kubernetes troubleshooting</strong>, we have the answers. 
+                            Our searchable database includes detailed explanations and copy-paste fixes for <strong>network error messages</strong>, 
+                            TLS handshake failures, database connection timeouts, and system configuration issues.
+                        </p>
+                    </section>
+
                     <a href="https://donate.stripe.com/fZu8wP1gI3AP5Xa6SmcZa01" target="_blank" rel="noopener noreferrer" class="donate-button">
                         <span class="donate-icon">💖</span>
                         Support This Project
@@ -877,6 +892,11 @@
                         <button class="category-filter" data-category="Java">Java</button>
                         <button class="category-filter" data-category="C++">C++</button>
                         <button class="category-filter" data-category="PHP">PHP</button>
+                        <button class="category-filter" data-category="Ruby">Ruby</button>
+                        <button class="category-filter" data-category="C#">C#</button>
+                        <button class="category-filter" data-category="BigData">Big Data</button>
+                        <button class="category-filter" data-category="WebServer">Web Server</button>
+                        <button class="category-filter" data-category="GraphQL">GraphQL</button>
                     </div>
                 </div>
             </div>
@@ -903,17 +923,6 @@
     </div>
 
     <main class="container">
-        <section class="intro-section" style="text-align: center; padding: 40px 0; border-bottom: 1px solid var(--border-muted); margin-bottom: 20px;">
-            <h2 style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.8rem;">The Developer's Error Encyclopedia</h2>
-            <p style="max-width: 800px; margin: 0 auto; line-height: 1.6; color: var(--text-secondary); font-size: 1.1rem;">
-                FixMyError.net is your instant reference for troubleshooting common development and infrastructure issues. 
-                Whether you need to <strong>fix HTTP errors quickly</strong>, find <strong>common Docker error solutions</strong>, 
-                or need help with <strong>Kubernetes troubleshooting</strong>, we have the answers. 
-                Our searchable database includes detailed explanations and copy-paste fixes for <strong>network error messages</strong>, 
-                TLS handshake failures, database connection timeouts, and system configuration issues.
-            </p>
-        </section>
-
         <div class="stats">
             <div class="stat">
                 <span class="stat-number" id="totalErrors">0</span>

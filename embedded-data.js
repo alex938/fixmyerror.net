@@ -2869,5 +2869,165 @@ const ERRORS_DATA = [
     "sources": [
       "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy"
     ]
+  },
+  {
+    "id": "bundler-gem-not-found",
+    "title": "Bundler: Could not find gem",
+    "category": "Ruby",
+    "explanation": "Bundler cannot locate the specified gem in any of the configured sources (e.g., RubyGems).",
+    "fix_snippet": "# Install missing gems\nbundle install\n# Update sources\nbundle update\n# Check Gemfile for typos",
+    "sources": [
+      "https://bundler.io/docs.html"
+    ]
+  },
+  {
+    "id": "rails-pending-migrations",
+    "title": "Rails: PendingMigrationError",
+    "category": "Ruby",
+    "explanation": "Database schema migrations have not been applied to the database.",
+    "fix_snippet": "# Run pending migrations\nrails db:migrate\n# For test environment\nrails db:migrate RAILS_ENV=test",
+    "sources": [
+      "https://guides.rubyonrails.org/active_record_migrations.html"
+    ]
+  },
+  {
+    "id": "ruby-syntax-error",
+    "title": "Ruby: syntax error, unexpected end-of-input",
+    "category": "Ruby",
+    "explanation": "Ruby parser reached end of file but expected more code. Often missing 'end' keyword for a block.",
+    "fix_snippet": "# Check for missing 'end' keywords\n# Ensure all do/def/if blocks are closed\n# Check for unclosed strings or parentheses\nruby -c file.rb",
+    "sources": [
+      "https://www.ruby-lang.org/en/documentation/"
+    ]
+  },
+  {
+    "id": "dotnet-nuget-restore-failed",
+    "title": ".NET: NuGet restore failed",
+    "category": "C#",
+    "explanation": "NuGet package restore failed. Network issues, invalid package source, or missing credentials.",
+    "fix_snippet": "# Restore packages\ndotnet restore\n# Clear local cache\ndotnet nuget locals all --clear\n# Check nuget.config sources",
+    "sources": [
+      "https://docs.microsoft.com/en-us/nuget/consume-packages/package-restore"
+    ]
+  },
+  {
+    "id": "csharp-null-reference",
+    "title": "C#: NullReferenceException",
+    "category": "C#",
+    "explanation": "Attempting to access a member on a type that is null.",
+    "fix_snippet": "# Check for null\nif (obj != null) { obj.Method(); }\n# Use null-conditional operator\nobj?.Method();\n# Enable nullable reference types in .csproj\n<Nullable>enable</Nullable>",
+    "sources": [
+      "https://docs.microsoft.com/en-us/dotnet/api/system.nullreferenceexception"
+    ]
+  },
+  {
+    "id": "entity-framework-update-database",
+    "title": "EF Core: Update-Database not recognized",
+    "category": "C#",
+    "explanation": "EF Core tools not installed or path issue. PowerShell command not found.",
+    "fix_snippet": "# Install EF Core tools\ndotnet tool install --global dotnet-ef\n# Use dotnet CLI equivalent\ndotnet ef database update\n# Add tools to project\ndotnet add package Microsoft.EntityFrameworkCore.Tools",
+    "sources": [
+      "https://docs.microsoft.com/en-us/ef/core/cli/"
+    ]
+  },
+  {
+    "id": "flutter-doctor-issues",
+    "title": "Flutter: Android toolchain - develop for Android devices",
+    "category": "Mobile",
+    "explanation": "Flutter cannot find Android SDK or licenses not accepted.",
+    "fix_snippet": "# Accept licenses\nflutter doctor --android-licenses\n# Set SDK path\nflutter config --android-sdk /path/to/android/sdk\n# Run diagnosis\nflutter doctor",
+    "sources": [
+      "https://docs.flutter.dev/get-started/install"
+    ]
+  },
+  {
+    "id": "ios-signing-certificate",
+    "title": "iOS: Code signing is required",
+    "category": "Mobile",
+    "explanation": "Xcode build failed because no valid signing certificate or provisioning profile was found.",
+    "fix_snippet": "# Check signing in Xcode\n# Project -> Targets -> Signing & Capabilities\n# Enable 'Automatically manage signing'\n# Select valid Team",
+    "sources": [
+      "https://developer.apple.com/support/code-signing/"
+    ]
+  },
+  {
+    "id": "react-native-metro-bundler",
+    "title": "React Native: Metro Bundler error",
+    "category": "Mobile",
+    "explanation": "Metro bundler failed to start or connection refused. Cache issues or port 8081 in use.",
+    "fix_snippet": "# Start bundler with reset cache\nnpm start -- --reset-cache\n# Clear watchman\nwatchman watch-del-all\n# Check port 8081\nlsof -i :8081",
+    "sources": [
+      "https://reactnative.dev/docs/troubleshooting"
+    ]
+  },
+  {
+    "id": "spark-executor-oom",
+    "title": "Spark: Executor Lost (OutOfMemoryError)",
+    "category": "BigData",
+    "explanation": "Spark executor ran out of heap memory processing a partition.",
+    "fix_snippet": "# Increase executor memory\n--executor-memory 4g\n# Increase overhead memory\n--conf spark.executor.memoryOverhead=1g\n# Reduce partition size\ndf.repartition(100)",
+    "sources": [
+      "https://spark.apache.org/docs/latest/configuration.html"
+    ]
+  },
+  {
+    "id": "airflow-scheduler-not-running",
+    "title": "Airflow: Scheduler not running",
+    "category": "BigData",
+    "explanation": "Airflow scheduler process is down or tasks are stuck in queued state.",
+    "fix_snippet": "# Restart scheduler\nairflow scheduler\n# Check scheduler logs\n# Verify database connection\nairflow db check",
+    "sources": [
+      "https://airflow.apache.org/docs/apache-airflow/stable/troubleshooting.html"
+    ]
+  },
+  {
+    "id": "snowflake-warehouse-suspended",
+    "title": "Snowflake: Warehouse suspended",
+    "category": "BigData",
+    "explanation": "Attempting to run query on a suspended warehouse that didn't auto-resume.",
+    "fix_snippet": "# Resume warehouse\nALTER WAREHOUSE my_wh RESUME;\n# Enable auto-resume\nALTER WAREHOUSE my_wh SET AUTO_RESUME = TRUE;",
+    "sources": [
+      "https://docs.snowflake.com/en/user-guide/warehouses-tasks.html"
+    ]
+  },
+  {
+    "id": "nginx-emerg-bind-failed",
+    "title": "Nginx: bind() to 0.0.0.0:80 failed",
+    "category": "WebServer",
+    "explanation": "Nginx cannot bind to port 80 because it is already in use by another process (Apache, another Nginx, etc.).",
+    "fix_snippet": "# Find process using port 80\nsudo lsof -i :80\n# Stop conflicting process\nsudo systemctl stop apache2\n# Restart Nginx\nsudo systemctl start nginx",
+    "sources": [
+      "https://nginx.org/en/docs/beginners_guide.html"
+    ]
+  },
+  {
+    "id": "apache-htaccess-not-allowed",
+    "title": "Apache: .htaccess: Option Indexes not allowed",
+    "category": "WebServer",
+    "explanation": "Directory listing (Options Indexes) is disabled in main config but requested in .htaccess.",
+    "fix_snippet": "# Allow override in apache2.conf\n<Directory /var/www/html>\n    AllowOverride All\n</Directory>\n# Or remove 'Options Indexes' from .htaccess",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/howto/htaccess.html"
+    ]
+  },
+  {
+    "id": "graphql-validation-error",
+    "title": "GraphQL: Validation error",
+    "category": "GraphQL",
+    "explanation": "Query failed validation against the schema. Field undefined or argument mismatch.",
+    "fix_snippet": "# Check schema for field existence\n# Validate query structure\n# Use GraphiQL/Playground to test query\n# Check types",
+    "sources": [
+      "https://graphql.org/learn/validation/"
+    ]
+  },
+  {
+    "id": "graphql-syntax-error",
+    "title": "GraphQL: Syntax Error",
+    "category": "GraphQL",
+    "explanation": "Malformed GraphQL query syntax. Missing braces, invalid characters, or bad formatting.",
+    "fix_snippet": "# Validate JSON/Query syntax\n# Check for matching braces\n# Ensure variables are defined\nquery GetUser($id: ID!) { ... }",
+    "sources": [
+      "https://graphql.org/learn/queries/"
+    ]
   }
 ];
