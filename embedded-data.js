@@ -2681,8 +2681,8 @@ const ERRORS_DATA = [
     ]
   },
   {
-    "id": "docker-exec-format-error",
-    "title": "Docker: exec format error",
+    "id": "docker-exec-format-error-multiarch",
+    "title": "Docker: exec format error (multi-arch)",
     "category": "Docker",
     "explanation": "Container binary architecture doesn't match the host (e.g., trying to run amd64 container on Apple Silicon M1/M2/M3 without emulation).",
     "fix_snippet": "# Build for specific platform\ndocker build --platform linux/amd64 -t my-image .\n# Or use buildx for multi-arch\ndocker buildx build --platform linux/amd64,linux/arm64 -t my-image .\n# Check image architecture\ndocker inspect my-image | grep Architecture",
@@ -3028,6 +3028,1626 @@ const ERRORS_DATA = [
     "fix_snippet": "# Validate JSON/Query syntax\n# Check for matching braces\n# Ensure variables are defined\nquery GetUser($id: ID!) { ... }",
     "sources": [
       "https://graphql.org/learn/queries/"
+    ]
+  },
+  {
+    "id": "go-race-condition",
+    "title": "fatal error: concurrent map writes",
+    "category": "Go",
+    "explanation": "Multiple goroutines are reading and writing to a map concurrently without synchronization. Go maps are not safe for concurrent use.",
+    "fix_snippet": "# Use sync.Mutex to protect map access\nvar mu sync.Mutex\nmu.Lock()\nm[key] = value\nmu.Unlock()\n# Or use sync.Map for concurrent access\nvar m sync.Map\nm.Store(key, value)\n# Detect with race detector\ngo run -race main.go",
+    "sources": [
+      "https://go.dev/doc/articles/race_detector"
+    ]
+  },
+  {
+    "id": "go-context-canceled",
+    "title": "context canceled",
+    "category": "Go",
+    "explanation": "A context was canceled before the operation completed. Typically because a parent context was canceled, a timeout expired, or the caller canceled the request.",
+    "fix_snippet": "# Check context error type\nif ctx.Err() == context.Canceled {\n    log.Println(\"request was canceled\")\n}\n# Set appropriate timeout\nctx, cancel := context.WithTimeout(ctx, 30*time.Second)\ndefer cancel()",
+    "sources": [
+      "https://pkg.go.dev/context"
+    ]
+  },
+  {
+    "id": "go-goroutine-leak",
+    "title": "goroutine leak detected",
+    "category": "Go",
+    "explanation": "Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation.",
+    "fix_snippet": "# Use context for cancellation\nctx, cancel := context.WithCancel(context.Background())\ndefer cancel()\ngo func(ctx context.Context) {\n    select {\n    case <-ctx.Done():\n        return\n    case msg := <-ch:\n        process(msg)\n    }\n}(ctx)\n# Monitor goroutine count\nruntime.NumGoroutine()",
+    "sources": [
+      "https://go.dev/blog/pipelines"
+    ]
+  },
+  {
+    "id": "go-module-not-found",
+    "title": "cannot find module providing package",
+    "category": "Go",
+    "explanation": "Go cannot resolve a package import. The module may not be downloaded, the import path may be wrong, or go.mod may be missing the dependency.",
+    "fix_snippet": "# Download missing modules\ngo mod tidy\n# Add specific dependency\ngo get github.com/pkg/errors\n# Verify modules\ngo mod verify\n# Clear module cache\ngo clean -modcache",
+    "sources": [
+      "https://go.dev/ref/mod"
+    ]
+  },
+  {
+    "id": "go-interface-assertion-panic",
+    "title": "interface conversion: interface is nil, not X",
+    "category": "Go",
+    "explanation": "A type assertion on an interface failed because the value is nil or holds a different concrete type than expected.",
+    "fix_snippet": "# Use comma-ok pattern (safe assertion)\nval, ok := i.(MyType)\nif !ok {\n    log.Println(\"type assertion failed\")\n}\n# Check for nil first\nif i != nil {\n    val := i.(MyType)\n}",
+    "sources": [
+      "https://go.dev/doc/effective_go#interface_conversions"
+    ]
+  },
+  {
+    "id": "go-deadlock",
+    "title": "fatal error: all goroutines are asleep - deadlock!",
+    "category": "Go",
+    "explanation": "All goroutines are blocked waiting on channels or locks with no goroutine able to make progress. Detected by the Go runtime.",
+    "fix_snippet": "# Ensure channels are buffered or have receivers\nch := make(chan int, 1)\n# Close channels when done sending\nclose(ch)\n# Use select with default for non-blocking ops\nselect {\ncase msg := <-ch:\n    process(msg)\ndefault:\n    // non-blocking\n}",
+    "sources": [
+      "https://go.dev/ref/spec#Program_execution"
+    ]
+  },
+  {
+    "id": "rust-cannot-move-borrowed",
+    "title": "cannot move out of borrowed content",
+    "category": "Rust",
+    "explanation": "Attempting to move a value out of a reference, which would invalidate the borrow. Rust's ownership system prevents this to ensure memory safety.",
+    "fix_snippet": "# Clone the value instead of moving\nlet val = borrowed_ref.clone();\n# Or use .to_owned() for strings\nlet s = borrowed_str.to_owned();\n# Or restructure to avoid the move\nif let Some(ref val) = option { ... }",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html"
+    ]
+  },
+  {
+    "id": "rust-trait-not-implemented",
+    "title": "the trait X is not implemented for Y",
+    "category": "Rust",
+    "explanation": "A type does not implement a required trait. This happens when a trait bound is specified but the type doesn't satisfy it.",
+    "fix_snippet": "# Derive common traits\n#[derive(Debug, Clone, PartialEq)]\nstruct MyType { ... }\n# Implement trait manually\nimpl Display for MyType {\n    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {\n        write!(f, \"...\")\n    }\n}",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch10-02-traits.html"
+    ]
+  },
+  {
+    "id": "rust-mismatched-types",
+    "title": "mismatched types: expected X, found Y",
+    "category": "Rust",
+    "explanation": "The compiler expected one type but found another. Common with integer types, string types (&str vs String), or return types.",
+    "fix_snippet": "# Convert between string types\nlet s: String = \"hello\".to_string();\nlet s: &str = &my_string;\n# Convert between numeric types\nlet x: i64 = my_i32 as i64;\n# Use .into() for From implementations\nlet val: TargetType = source.into();",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch03-02-data-types.html"
+    ]
+  },
+  {
+    "id": "rust-unused-must-use",
+    "title": "unused Result that must be used",
+    "category": "Rust",
+    "explanation": "A function returning Result was called but the return value was not handled. Ignoring errors can lead to silent failures.",
+    "fix_snippet": "# Handle error with match\nmatch do_something() {\n    Ok(val) => println!(\"Success: {}\", val),\n    Err(e) => eprintln!(\"Error: {}\", e),\n}\n# Or use ? operator\nlet val = do_something()?;\n# Or explicitly ignore\nlet _ = do_something();",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html"
+    ]
+  },
+  {
+    "id": "rust-cannot-borrow-immutable",
+    "title": "cannot borrow as mutable, as it is behind a & reference",
+    "category": "Rust",
+    "explanation": "Attempting to mutate data through a shared (immutable) reference. Rust enforces either one mutable reference or any number of immutable references.",
+    "fix_snippet": "# Use &mut reference\nfn modify(data: &mut Vec<i32>) {\n    data.push(42);\n}\n# Use interior mutability\nuse std::cell::RefCell;\nlet data = RefCell::new(vec![1, 2, 3]);\ndata.borrow_mut().push(4);",
+    "sources": [
+      "https://doc.rust-lang.org/book/ch15-05-interior-mutability.html"
+    ]
+  },
+  {
+    "id": "rust-cargo-dependency-conflict",
+    "title": "failed to select a version for X",
+    "category": "Rust",
+    "explanation": "Cargo cannot resolve a compatible set of dependency versions. Two or more crates require incompatible versions of the same dependency.",
+    "fix_snippet": "# Update all dependencies\ncargo update\n# Check dependency tree for conflicts\ncargo tree -d\n# Force specific version in Cargo.toml\n[dependencies]\nproblematic-crate = \"=1.2.3\"\n# Audit for issues\ncargo audit",
+    "sources": [
+      "https://doc.rust-lang.org/cargo/reference/resolver.html"
+    ]
+  },
+  {
+    "id": "java-stackoverflow",
+    "title": "StackOverflowError",
+    "category": "Java",
+    "explanation": "The call stack has exceeded its maximum size, usually caused by infinite recursion or extremely deep recursive calls.",
+    "fix_snippet": "# Increase stack size\njava -Xss4m MyApp\n# Convert recursion to iteration\nStack<Frame> stack = new Stack<>();\nwhile (!stack.isEmpty()) { ... }\n# Add base case to recursive method\nif (depth > MAX_DEPTH) return;",
+    "sources": [
+      "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/StackOverflowError.html"
+    ]
+  },
+  {
+    "id": "java-classcastexception",
+    "title": "ClassCastException",
+    "category": "Java",
+    "explanation": "An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting.",
+    "fix_snippet": "# Check type before casting\nif (obj instanceof MyClass) {\n    MyClass mc = (MyClass) obj;\n}\n# Use generics to avoid raw types\nList<String> list = new ArrayList<>();\n# Use pattern matching (Java 16+)\nif (obj instanceof MyClass mc) { ... }",
+    "sources": [
+      "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassCastException.html"
+    ]
+  },
+  {
+    "id": "java-concurrentmodification",
+    "title": "ConcurrentModificationException",
+    "category": "Java",
+    "explanation": "A collection was modified while being iterated over. This can happen in single-threaded code when modifying a list during a for-each loop.",
+    "fix_snippet": "# Use Iterator.remove()\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    if (condition) it.remove();\n}\n# Or use ConcurrentHashMap\nMap<K,V> map = new ConcurrentHashMap<>();\n# Or collect and remove after\nlist.removeIf(item -> condition);",
+    "sources": [
+      "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ConcurrentModificationException.html"
+    ]
+  },
+  {
+    "id": "java-unsupported-class-version",
+    "title": "UnsupportedClassVersionError",
+    "category": "Java",
+    "explanation": "A class was compiled with a newer version of the JDK than the JRE running it. For example, compiled with Java 17 but running on Java 11.",
+    "fix_snippet": "# Check Java version\njava -version\njavac -version\n# Set target compatibility in Maven\n<maven.compiler.target>11</maven.compiler.target>\n# Or in Gradle\nsourceCompatibility = '11'\ntargetCompatibility = '11'",
+    "sources": [
+      "https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/UnsupportedClassVersionError.html"
+    ]
+  },
+  {
+    "id": "java-maven-dependency-resolution",
+    "title": "Could not resolve dependencies",
+    "category": "Java",
+    "explanation": "Maven or Gradle cannot download or resolve project dependencies. May be caused by missing repositories, network issues, or version conflicts.",
+    "fix_snippet": "# Force update dependencies\nmvn clean install -U\n# Check dependency tree\nmvn dependency:tree\n# Clear local cache\nrm -rf ~/.m2/repository/com/problem/package\n# For Gradle\ngradle build --refresh-dependencies",
+    "sources": [
+      "https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html"
+    ]
+  },
+  {
+    "id": "java-connection-pool-exhausted",
+    "title": "Cannot get a connection, pool error",
+    "category": "Java",
+    "explanation": "The database connection pool (HikariCP, DBCP, etc.) has no available connections. All connections are in use and the wait timeout was exceeded.",
+    "fix_snippet": "# Increase pool size in application.properties\nspring.datasource.hikari.maximum-pool-size=20\n# Set connection timeout\nspring.datasource.hikari.connection-timeout=30000\n# Ensure connections are closed\ntry (Connection conn = dataSource.getConnection()) {\n    // use connection\n}",
+    "sources": [
+      "https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby"
+    ]
+  },
+  {
+    "id": "php-allowed-memory-size",
+    "title": "Allowed memory size exhausted",
+    "category": "PHP",
+    "explanation": "The PHP script exceeded the configured memory_limit. Usually caused by loading large datasets, infinite loops, or memory leaks.",
+    "fix_snippet": "# Increase memory limit in php.ini\nmemory_limit = 256M\n# Or at runtime\nini_set('memory_limit', '256M');\n# Process data in chunks\nforeach (array_chunk($data, 1000) as $chunk) {\n    process($chunk);\n}",
+    "sources": [
+      "https://www.php.net/manual/en/ini.core.php#ini.memory-limit"
+    ]
+  },
+  {
+    "id": "php-max-execution-time",
+    "title": "Maximum execution time exceeded",
+    "category": "PHP",
+    "explanation": "The PHP script ran longer than the max_execution_time setting allows. Default is usually 30 seconds.",
+    "fix_snippet": "# Increase in php.ini\nmax_execution_time = 120\n# Or at runtime\nset_time_limit(120);\n# For CLI scripts (unlimited)\nset_time_limit(0);\n# Move long tasks to background jobs",
+    "sources": [
+      "https://www.php.net/manual/en/info.configuration.php#ini.max-execution-time"
+    ]
+  },
+  {
+    "id": "php-class-not-found",
+    "title": "Class 'X' not found",
+    "category": "PHP",
+    "explanation": "PHP cannot find the specified class. Usually caused by a missing use statement, incorrect namespace, or autoloader not configured.",
+    "fix_snippet": "# Add use statement\nuse App\\Models\\User;\n# Regenerate autoloader\ncomposer dump-autoload\n# Check namespace matches directory structure\n# PSR-4: src/Models/User.php -> App\\Models\\User",
+    "sources": [
+      "https://www.php.net/manual/en/language.oop5.autoload.php"
+    ]
+  },
+  {
+    "id": "php-composer-dependency-conflict",
+    "title": "Your requirements could not be resolved to an installable set of packages",
+    "category": "PHP",
+    "explanation": "Composer cannot find compatible versions for all dependencies. Two or more packages require conflicting versions of a shared dependency.",
+    "fix_snippet": "# Update with dependency resolution\ncomposer update --with-dependencies\n# Check why a package can't be installed\ncomposer why-not package/name 2.0\n# Allow more flexibility\ncomposer require package/name:^2.0\n# Clear cache\ncomposer clear-cache",
+    "sources": [
+      "https://getcomposer.org/doc/articles/troubleshooting.md"
+    ]
+  },
+  {
+    "id": "php-undefined-index",
+    "title": "Undefined index / Undefined array key",
+    "category": "PHP",
+    "explanation": "Accessing an array key that does not exist. In PHP 8+ this is a warning; in older versions it was a notice.",
+    "fix_snippet": "# Check key exists before access\nif (isset($array['key'])) {\n    $val = $array['key'];\n}\n# Use null coalescing operator\n$val = $array['key'] ?? 'default';\n# Use array_key_exists()\nif (array_key_exists('key', $array)) { ... }",
+    "sources": [
+      "https://www.php.net/manual/en/language.types.array.php"
+    ]
+  },
+  {
+    "id": "php-pdo-connection-failed",
+    "title": "SQLSTATE[HY000]: Connection refused",
+    "category": "PHP",
+    "explanation": "PDO cannot connect to the database server. The database may be down, credentials wrong, or the host/port incorrect.",
+    "fix_snippet": "# Verify database is running\nsudo systemctl status mysql\n# Test connection manually\nmysql -u user -p -h localhost\n# Check PDO DSN\n$dsn = 'mysql:host=127.0.0.1;port=3306;dbname=mydb';\n# Check socket path\nmysql -u user -p --socket=/var/run/mysqld/mysqld.sock",
+    "sources": [
+      "https://www.php.net/manual/en/pdo.connections.php"
+    ]
+  },
+  {
+    "id": "cpp-undefined-reference",
+    "title": "undefined reference to 'function'",
+    "category": "C++",
+    "explanation": "The linker cannot find the definition of a function or variable that was declared. The source file may not be compiled or linked.",
+    "fix_snippet": "# Include source file in compilation\ng++ main.cpp utils.cpp -o program\n# Check for missing library linkage\ng++ main.cpp -lmylib -L/path/to/lib\n# In CMake, add source files\nadd_executable(app main.cpp utils.cpp)\ntarget_link_libraries(app mylib)",
+    "sources": [
+      "https://gcc.gnu.org/onlinedocs/gcc/Link-Options.html"
+    ]
+  },
+  {
+    "id": "cpp-double-free",
+    "title": "double free or corruption",
+    "category": "C++",
+    "explanation": "Heap memory was freed twice, corrupting the memory allocator. Often caused by manual delete on already-freed memory or missing copy constructors.",
+    "fix_snippet": "# Use smart pointers instead of raw pointers\nstd::unique_ptr<MyClass> ptr = std::make_unique<MyClass>();\n# Follow Rule of Five\n// Define copy/move constructors and assignment operators\n# Detect with AddressSanitizer\ng++ -fsanitize=address -g main.cpp",
+    "sources": [
+      "https://github.com/google/sanitizers/wiki/AddressSanitizer"
+    ]
+  },
+  {
+    "id": "cpp-stack-buffer-overflow",
+    "title": "stack-buffer-overflow",
+    "category": "C++",
+    "explanation": "A write exceeded the bounds of a stack-allocated buffer. Detected by AddressSanitizer or causing a crash/segfault.",
+    "fix_snippet": "# Use std::array or std::vector instead of C arrays\nstd::vector<int> vec(100);\n# Enable bounds checking\nvec.at(index); // throws on out-of-bounds\n# Compile with sanitizer\ng++ -fsanitize=address -fstack-protector-strong -g main.cpp",
+    "sources": [
+      "https://github.com/google/sanitizers/wiki/AddressSanitizer"
+    ]
+  },
+  {
+    "id": "cpp-template-deduction-failed",
+    "title": "template argument deduction/substitution failed",
+    "category": "C++",
+    "explanation": "The compiler could not deduce template arguments from the function call or the substituted types are invalid (SFINAE).",
+    "fix_snippet": "# Explicitly specify template arguments\nfoo<int, double>(42, 3.14);\n# Ensure argument types match template expectations\n# Use static_assert for clearer errors\nstatic_assert(std::is_integral_v<T>, \"T must be integral\");\n# Check for missing includes of type traits",
+    "sources": [
+      "https://en.cppreference.com/w/cpp/language/template_argument_deduction"
+    ]
+  },
+  {
+    "id": "cpp-linker-multiple-definition",
+    "title": "multiple definition of 'symbol'",
+    "category": "C++",
+    "explanation": "The same symbol is defined in multiple translation units. Usually caused by defining functions/variables in headers without inline or static.",
+    "fix_snippet": "# Use inline for functions defined in headers\ninline void myFunc() { ... }\n# Use header guards\n#pragma once\n# For global variables, use inline (C++17)\ninline int globalVar = 42;\n# Or declare extern in header, define in one .cpp",
+    "sources": [
+      "https://en.cppreference.com/w/cpp/language/inline"
+    ]
+  },
+  {
+    "id": "cpp-use-after-free",
+    "title": "heap-use-after-free",
+    "category": "C++",
+    "explanation": "Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behavior and potential security vulnerabilities.",
+    "fix_snippet": "# Use smart pointers\nstd::shared_ptr<MyClass> ptr = std::make_shared<MyClass>();\n# Set raw pointers to nullptr after delete\ndelete ptr;\nptr = nullptr;\n# Detect with ASan\ng++ -fsanitize=address -g main.cpp\n./a.out",
+    "sources": [
+      "https://github.com/google/sanitizers/wiki/AddressSanitizer"
+    ]
+  },
+  {
+    "id": "ingress-default-backend-404",
+    "title": "Ingress: default backend - 404",
+    "category": "Ingress",
+    "explanation": "No Ingress rule matched the request, so it was routed to the default backend which returned 404. The host or path may not match any Ingress resource.",
+    "fix_snippet": "# Check ingress rules\nkubectl get ingress -A\n# Verify host matches\nkubectl describe ingress my-ingress\n# Check the request host header\ncurl -H 'Host: myapp.example.com' http://<ingress-ip>\n# Ensure DNS points to ingress controller",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/"
+    ]
+  },
+  {
+    "id": "ingress-tls-secret-not-found",
+    "title": "Ingress: TLS secret not found",
+    "category": "Ingress",
+    "explanation": "The TLS secret referenced in the Ingress spec does not exist in the same namespace. HTTPS termination will fail.",
+    "fix_snippet": "# Check if secret exists in the right namespace\nkubectl get secrets -n my-namespace\n# Create TLS secret\nkubectl create secret tls my-tls --cert=cert.pem --key=key.pem -n my-namespace\n# Verify secret is referenced correctly in Ingress spec\nkubectl describe ingress my-ingress",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/#tls"
+    ]
+  },
+  {
+    "id": "ingress-class-not-found",
+    "title": "IngressClass not found",
+    "category": "Ingress",
+    "explanation": "The specified IngressClass does not exist or no ingress controller is installed that handles that class.",
+    "fix_snippet": "# List available IngressClasses\nkubectl get ingressclass\n# Set the correct class in your Ingress\nspec:\n  ingressClassName: nginx\n# Install an ingress controller if missing\nhelm install ingress-nginx ingress-nginx/ingress-nginx",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class"
+    ]
+  },
+  {
+    "id": "ingress-path-not-matching",
+    "title": "Ingress: path not matching any backend",
+    "category": "Ingress",
+    "explanation": "The request path does not match any rule defined in the Ingress resource. May be a pathType (Prefix vs Exact) or regex mismatch.",
+    "fix_snippet": "# Check path configuration\nspec:\n  rules:\n  - http:\n      paths:\n      - path: /api\n        pathType: Prefix\n        backend:\n          service:\n            name: api-svc\n            port:\n              number: 80\n# Use Prefix for wildcard matching",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types"
+    ]
+  },
+  {
+    "id": "ingress-too-many-redirects",
+    "title": "Ingress: too many redirects (redirect loop)",
+    "category": "Ingress",
+    "explanation": "An infinite redirect loop between the ingress controller and backend, usually caused by SSL redirect annotations conflicting with a load balancer that already terminates TLS.",
+    "fix_snippet": "# Disable SSL redirect if LB handles TLS\nmetadata:\n  annotations:\n    nginx.ingress.kubernetes.io/ssl-redirect: \"false\"\n# Or use X-Forwarded-Proto\nnginx.ingress.kubernetes.io/use-forwarded-headers: \"true\"",
+    "sources": [
+      "https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/"
+    ]
+  },
+  {
+    "id": "graphql-max-depth-exceeded",
+    "title": "GraphQL: Max query depth exceeded",
+    "category": "GraphQL",
+    "explanation": "The query exceeds the server's maximum allowed nesting depth. This is a security measure to prevent deeply nested queries from overloading the server.",
+    "fix_snippet": "# Reduce query nesting depth\n# Instead of deeply nested queries, fetch in separate requests\n# Adjust server config if needed\nconst server = new ApolloServer({\n  validationRules: [depthLimit(10)]\n});",
+    "sources": [
+      "https://www.apollographql.com/blog/securing-your-graphql-api-from-malicious-queries"
+    ]
+  },
+  {
+    "id": "graphql-authentication-error",
+    "title": "GraphQL: Not authenticated",
+    "category": "GraphQL",
+    "explanation": "The resolver requires authentication but no valid token or session was provided in the request context.",
+    "fix_snippet": "# Include auth header in request\nfetch('/graphql', {\n  headers: {\n    'Authorization': 'Bearer <token>',\n    'Content-Type': 'application/json'\n  }\n})\n# Check token expiration\n# Verify context setup in server",
+    "sources": [
+      "https://graphql.org/learn/authorization/"
+    ]
+  },
+  {
+    "id": "graphql-field-type-mismatch",
+    "title": "GraphQL: Expected type X, found Y",
+    "category": "GraphQL",
+    "explanation": "A variable or argument type does not match the schema definition. For example, passing a String where an Int is expected.",
+    "fix_snippet": "# Check schema for expected types\ntype Query {\n  user(id: ID!): User\n}\n# Ensure variables match declared types\nquery GetUser($id: ID!) {\n  user(id: $id) { name }\n}\n# Variables: { \"id\": \"123\" }",
+    "sources": [
+      "https://graphql.org/learn/schema/"
+    ]
+  },
+  {
+    "id": "graphql-n-plus-one",
+    "title": "GraphQL: N+1 query problem",
+    "category": "GraphQL",
+    "explanation": "Each item in a list triggers a separate database query for related data, causing performance degradation. Resolvers fetch data individually instead of batching.",
+    "fix_snippet": "# Use DataLoader for batching\nconst userLoader = new DataLoader(ids => batchGetUsers(ids));\n# In resolver\nresolve(parent) {\n  return userLoader.load(parent.userId);\n}\n# Install: npm install dataloader",
+    "sources": [
+      "https://github.com/graphql/dataloader"
+    ]
+  },
+  {
+    "id": "graphql-circular-fragment",
+    "title": "GraphQL: Cannot spread fragment within itself",
+    "category": "GraphQL",
+    "explanation": "A fragment references itself directly or indirectly, creating a circular reference. GraphQL does not allow recursive fragments.",
+    "fix_snippet": "# Remove circular fragment reference\n# Instead of recursive fragments, inline nested fields\nquery {\n  category {\n    name\n    children {\n      name\n      children {\n        name\n      }\n    }\n  }\n}\n# Or limit depth server-side",
+    "sources": [
+      "https://graphql.org/learn/queries/#fragments"
+    ]
+  },
+  {
+    "id": "nginx-413-request-entity-too-large",
+    "title": "Nginx: 413 Request Entity Too Large",
+    "category": "WebServer",
+    "explanation": "The request body exceeds Nginx's client_max_body_size directive. Default is 1MB.",
+    "fix_snippet": "# Increase in nginx.conf (http, server, or location block)\nclient_max_body_size 50M;\n# Test configuration\nnginx -t\n# Reload\nsudo systemctl reload nginx",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size"
+    ]
+  },
+  {
+    "id": "nginx-permission-denied-log",
+    "title": "Nginx: open() failed (13: Permission denied)",
+    "category": "WebServer",
+    "explanation": "Nginx worker process cannot read the requested file or write to log files due to filesystem permissions.",
+    "fix_snippet": "# Check Nginx worker user\ngrep 'user' /etc/nginx/nginx.conf\n# Fix file permissions\nsudo chown -R www-data:www-data /var/www/html\nsudo chmod -R 755 /var/www/html\n# Fix log permissions\nsudo chown www-data:adm /var/log/nginx/*.log",
+    "sources": [
+      "https://nginx.org/en/docs/beginners_guide.html"
+    ]
+  },
+  {
+    "id": "apache-mod-rewrite-not-working",
+    "title": "Apache: mod_rewrite not enabled",
+    "category": "WebServer",
+    "explanation": "URL rewriting rules in .htaccess are not working because the mod_rewrite module is not loaded in Apache.",
+    "fix_snippet": "# Enable mod_rewrite\nsudo a2enmod rewrite\n# Ensure AllowOverride is set\n<Directory /var/www/html>\n    AllowOverride All\n</Directory>\n# Restart Apache\nsudo systemctl restart apache2",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html"
+    ]
+  },
+  {
+    "id": "iis-500-19-config-error",
+    "title": "IIS: HTTP Error 500.19 - Internal Server Error",
+    "category": "WebServer",
+    "explanation": "IIS cannot read the web.config file due to syntax errors, missing modules, or insufficient permissions.",
+    "fix_snippet": "# Check web.config for XML syntax errors\n# Install missing IIS modules\nInstall-WindowsFeature Web-Asp-Net45\n# Fix permissions on web.config\nicacls web.config /grant \"IIS_IUSRS:(R)\"\n# Check applicationHost.config for locked sections",
+    "sources": [
+      "https://learn.microsoft.com/en-us/iis/troubleshoot/diagnosing-http-errors"
+    ]
+  },
+  {
+    "id": "caddy-reverse-proxy-502",
+    "title": "Caddy: 502 Bad Gateway (reverse proxy)",
+    "category": "WebServer",
+    "explanation": "Caddy's reverse proxy cannot reach the upstream backend. The backend service may be down or listening on a different address.",
+    "fix_snippet": "# Verify backend is running\ncurl http://localhost:3000/health\n# Check Caddyfile config\nreverse_proxy localhost:3000 {\n    transport http {\n        dial_timeout 10s\n    }\n}\n# Reload Caddy\ncaddy reload",
+    "sources": [
+      "https://caddyserver.com/docs/caddyfile/directives/reverse_proxy"
+    ]
+  },
+  {
+    "id": "nginx-ssl-no-shared-cipher",
+    "title": "Nginx: no shared cipher (SSL)",
+    "category": "WebServer",
+    "explanation": "The client and Nginx have no common SSL/TLS cipher suite. Usually caused by overly restrictive ssl_ciphers configuration.",
+    "fix_snippet": "# Update cipher configuration in nginx.conf\nssl_ciphers 'ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384';\nssl_protocols TLSv1.2 TLSv1.3;\n# Test cipher compatibility\nopenssl s_client -connect example.com:443 -cipher ECDHE",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ciphers"
+    ]
+  },
+  {
+    "id": "datadog-agent-no-data",
+    "title": "Datadog: Agent not reporting data",
+    "category": "Monitoring",
+    "explanation": "The Datadog Agent is installed but not sending metrics to the Datadog platform. May be caused by API key issues, network blocks, or agent misconfiguration.",
+    "fix_snippet": "# Check agent status\nsudo datadog-agent status\n# Verify API key\nsudo datadog-agent configcheck\n# Check connectivity\nsudo datadog-agent diagnose\n# Restart agent\nsudo systemctl restart datadog-agent",
+    "sources": [
+      "https://docs.datadoghq.com/agent/troubleshooting/"
+    ]
+  },
+  {
+    "id": "cloudwatch-insufficient-data",
+    "title": "CloudWatch Alarm: INSUFFICIENT_DATA",
+    "category": "Monitoring",
+    "explanation": "A CloudWatch alarm has no data to evaluate against. The metric may not be emitting data, the namespace may be wrong, or the evaluation period is too short.",
+    "fix_snippet": "# Check if metric exists\naws cloudwatch list-metrics --namespace AWS/EC2\n# Verify dimensions match\naws cloudwatch get-metric-statistics --namespace AWS/EC2 --metric-name CPUUtilization --dimensions Name=InstanceId,Value=i-xxx --period 300 --statistics Average --start-time ... --end-time ...\n# Check alarm configuration\naws cloudwatch describe-alarms --alarm-names my-alarm",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html"
+    ]
+  },
+  {
+    "id": "prometheus-scrape-timeout",
+    "title": "Prometheus: context deadline exceeded (scrape)",
+    "category": "Monitoring",
+    "explanation": "Prometheus timed out while scraping a target. The target is too slow to respond within the configured scrape_timeout.",
+    "fix_snippet": "# Increase scrape timeout in prometheus.yml\nscrape_configs:\n  - job_name: 'slow-target'\n    scrape_timeout: 30s\n    scrape_interval: 60s\n# Check target health\ncurl http://target:9090/metrics\n# Verify target status in Prometheus UI\n# Status -> Targets",
+    "sources": [
+      "https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config"
+    ]
+  },
+  {
+    "id": "jaeger-span-dropped",
+    "title": "Jaeger: spans dropped",
+    "category": "Monitoring",
+    "explanation": "The Jaeger collector is dropping spans because its internal queue is full. The collector cannot process spans fast enough.",
+    "fix_snippet": "# Increase collector queue size\n--collector.queue-size=10000\n# Scale collectors horizontally\n# Check storage backend performance\n# Reduce sampling rate on client side\nsampler:\n  type: probabilistic\n  param: 0.1",
+    "sources": [
+      "https://www.jaegertracing.io/docs/latest/troubleshooting/"
+    ]
+  },
+  {
+    "id": "sentry-rate-limit-exceeded",
+    "title": "Sentry: Rate limit exceeded",
+    "category": "Monitoring",
+    "explanation": "The project has exceeded its Sentry event quota. New error events are being dropped.",
+    "fix_snippet": "# Configure sample rate in SDK\nSentry.init({\n  tracesSampleRate: 0.2,\n  sampleRate: 0.5\n});\n# Set up inbound filters in Sentry UI\n# Project Settings -> Inbound Filters\n# Upgrade plan or increase quota",
+    "sources": [
+      "https://docs.sentry.io/product/accounts/quotas/"
+    ]
+  },
+  {
+    "id": "openai-api-key-invalid",
+    "title": "OpenAI: Incorrect API key provided",
+    "category": "AI",
+    "explanation": "The API key used in the request is invalid, expired, or revoked. May also occur if the key is from a different organization.",
+    "fix_snippet": "# Verify API key is set correctly\nexport OPENAI_API_KEY=sk-...\n# Test with curl\ncurl https://api.openai.com/v1/models -H \"Authorization: Bearer $OPENAI_API_KEY\"\n# Generate new key at platform.openai.com/api-keys\n# Check organization ID if using multiple orgs",
+    "sources": [
+      "https://platform.openai.com/docs/api-reference/authentication"
+    ]
+  },
+  {
+    "id": "huggingface-cuda-mismatch",
+    "title": "HuggingFace/PyTorch: CUDA version mismatch",
+    "category": "AI",
+    "explanation": "The installed PyTorch version was compiled for a different CUDA version than what's available on the system.",
+    "fix_snippet": "# Check CUDA version\nnvcc --version\nnvidia-smi\n# Install matching PyTorch version\npip install torch --index-url https://download.pytorch.org/whl/cu121\n# Verify\npython -c \"import torch; print(torch.cuda.is_available())\"",
+    "sources": [
+      "https://pytorch.org/get-started/locally/"
+    ]
+  },
+  {
+    "id": "tensorflow-gpu-not-found",
+    "title": "TensorFlow: Could not find GPU",
+    "category": "AI",
+    "explanation": "TensorFlow cannot detect any GPU devices. CUDA, cuDNN, or GPU drivers may not be installed or are incompatible.",
+    "fix_snippet": "# Check GPU detection\npython -c \"import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))\"\n# Verify NVIDIA driver\nnvidia-smi\n# Install compatible versions\npip install tensorflow[and-cuda]\n# Check CUDA/cuDNN compatibility matrix",
+    "sources": [
+      "https://www.tensorflow.org/install/pip"
+    ]
+  },
+  {
+    "id": "langchain-token-limit",
+    "title": "LangChain: Token limit exceeded for chain",
+    "category": "AI",
+    "explanation": "The combined input (prompt + context + history) exceeds the model's context window size.",
+    "fix_snippet": "# Use a model with larger context\nllm = ChatOpenAI(model=\"gpt-4-turbo\")\n# Truncate context\nfrom langchain.text_splitter import TokenTextSplitter\nsplitter = TokenTextSplitter(chunk_size=2000)\n# Use ConversationSummaryMemory instead of buffer\nmemory = ConversationSummaryMemory(llm=llm)",
+    "sources": [
+      "https://python.langchain.com/docs/concepts/tokens/"
+    ]
+  },
+  {
+    "id": "ollama-model-not-found",
+    "title": "Ollama: model not found",
+    "category": "AI",
+    "explanation": "The requested model has not been pulled/downloaded locally. Ollama requires models to be downloaded before use.",
+    "fix_snippet": "# Pull the model first\nollama pull llama3\n# List available models\nollama list\n# Run model\nollama run llama3\n# Check model library\n# https://ollama.com/library",
+    "sources": [
+      "https://github.com/ollama/ollama/blob/main/docs/README.md"
+    ]
+  },
+  {
+    "id": "anthropic-api-overloaded",
+    "title": "Anthropic API: Overloaded (529)",
+    "category": "AI",
+    "explanation": "The Anthropic API is temporarily overloaded and cannot process your request. This is a transient server-side issue.",
+    "fix_snippet": "# Implement exponential backoff\nimport time\nfor attempt in range(5):\n    try:\n        response = client.messages.create(...)\n        break\n    except anthropic.APIStatusError as e:\n        if e.status_code == 529:\n            time.sleep(2 ** attempt)\n        else:\n            raise",
+    "sources": [
+      "https://docs.anthropic.com/en/api/errors"
+    ]
+  },
+  {
+    "id": "vllm-kv-cache-oom",
+    "title": "vLLM: KV cache out of memory",
+    "category": "AI",
+    "explanation": "The vLLM inference server ran out of GPU memory for the key-value cache, which stores attention states for concurrent requests.",
+    "fix_snippet": "# Reduce GPU memory utilization\npython -m vllm.entrypoints.openai.api_server --gpu-memory-utilization 0.85\n# Limit max concurrent sequences\n--max-num-seqs 128\n# Use quantization\n--quantization awq\n# Reduce max model length\n--max-model-len 4096",
+    "sources": [
+      "https://docs.vllm.ai/en/latest/serving/engine_args.html"
+    ]
+  },
+  {
+    "id": "hadoop-namenode-safe-mode",
+    "title": "Hadoop: NameNode is in safe mode",
+    "category": "BigData",
+    "explanation": "HDFS NameNode is in safe mode, making the filesystem read-only. This happens at startup until enough DataNodes report their blocks.",
+    "fix_snippet": "# Check safe mode status\nhdfs dfsadmin -safemode get\n# Wait for automatic exit or force leave\nhdfs dfsadmin -safemode leave\n# Check for under-replicated blocks\nhdfs dfsadmin -report\n# Fix corrupt blocks\nhdfs fsck / -delete",
+    "sources": [
+      "https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsUserGuide.html"
+    ]
+  },
+  {
+    "id": "hive-metastore-connection-failed",
+    "title": "Hive: MetaStore connection failed",
+    "category": "BigData",
+    "explanation": "Hive cannot connect to its MetaStore service, which stores table schemas and partition info. The MetaStore process may be down or misconfigured.",
+    "fix_snippet": "# Check MetaStore status\nsudo systemctl status hive-metastore\n# Start MetaStore\nhive --service metastore &\n# Check connection config in hive-site.xml\n# hive.metastore.uris = thrift://localhost:9083\n# Verify database backend\nmysql -u hive -p -e 'SELECT 1'",
+    "sources": [
+      "https://cwiki.apache.org/confluence/display/Hive/AdminManual+Metastore+Administration"
+    ]
+  },
+  {
+    "id": "kafka-consumer-group-rebalance",
+    "title": "Kafka: Consumer group rebalancing",
+    "category": "BigData",
+    "explanation": "Kafka consumer group is stuck in a rebalance loop. Consumers are frequently joining and leaving, causing partition reassignment storms.",
+    "fix_snippet": "# Increase session timeout\nsession.timeout.ms=45000\nheartbeat.interval.ms=15000\n# Increase max poll interval\nmax.poll.interval.ms=600000\n# Reduce max.poll.records\nmax.poll.records=100\n# Check consumer group status\nkafka-consumer-groups.sh --describe --group my-group",
+    "sources": [
+      "https://kafka.apache.org/documentation/#consumerconfigs"
+    ]
+  },
+  {
+    "id": "flink-checkpoint-failed",
+    "title": "Flink: Checkpoint failed",
+    "category": "BigData",
+    "explanation": "Apache Flink failed to complete a checkpoint within the timeout. Usually caused by backpressure, slow state backend, or network issues.",
+    "fix_snippet": "# Increase checkpoint timeout\nexecution.checkpointing.timeout: 600000\n# Use incremental checkpoints for RocksDB\nstate.backend.incremental: true\n# Increase parallelism\n# Check backpressure in Flink UI\n# Tune RocksDB memory\nstate.backend.rocksdb.memory.managed: true",
+    "sources": [
+      "https://nightlies.apache.org/flink/flink-docs-stable/docs/ops/state/checkpoints/"
+    ]
+  },
+  {
+    "id": "databricks-cluster-terminated",
+    "title": "Databricks: Cluster terminated unexpectedly",
+    "category": "BigData",
+    "explanation": "A Databricks cluster was terminated due to spot instance reclamation, out of memory, or cloud provider issues.",
+    "fix_snippet": "# Check cluster event log in Databricks UI\n# Compute -> Cluster -> Event Log\n# Use on-demand instances for critical jobs\n# Increase driver/worker memory\n# Enable cluster auto-scaling\n# Configure spot fallback to on-demand",
+    "sources": [
+      "https://docs.databricks.com/clusters/troubleshooting.html"
+    ]
+  },
+  {
+    "id": "csharp-stackoverflow",
+    "title": "StackOverflowException",
+    "category": "C#",
+    "explanation": "Infinite recursion or very deep call stack exceeded the stack size. Unlike most exceptions, StackOverflowException cannot be caught in C#.",
+    "fix_snippet": "# Convert recursion to iteration\nvar stack = new Stack<Node>();\nstack.Push(root);\nwhile (stack.Count > 0) {\n    var node = stack.Pop();\n    // process node\n}\n# Check for accidental property recursion\n// BAD: public int X { get { return X; } }\n# Increase stack size for thread\nnew Thread(Method, 4 * 1024 * 1024);",
+    "sources": [
+      "https://learn.microsoft.com/en-us/dotnet/api/system.stackoverflowexception"
+    ]
+  },
+  {
+    "id": "csharp-task-canceled",
+    "title": "TaskCanceledException",
+    "category": "C#",
+    "explanation": "An async operation was canceled via a CancellationToken or the HttpClient request timed out.",
+    "fix_snippet": "# Increase HttpClient timeout\nvar client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };\n# Handle cancellation gracefully\ntry {\n    await DoWorkAsync(cancellationToken);\n} catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested) {\n    // expected cancellation\n}",
+    "sources": [
+      "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcanceledexception"
+    ]
+  },
+  {
+    "id": "csharp-deadlock-async",
+    "title": "C#: Deadlock in async/await",
+    "category": "C#",
+    "explanation": "Calling .Result or .Wait() on an async method from a synchronization context (UI thread, ASP.NET) causes a deadlock. The awaited task needs the same context that is blocked.",
+    "fix_snippet": "# Use async all the way\nawait DoWorkAsync(); // not DoWorkAsync().Result\n# Use ConfigureAwait(false) in libraries\nawait httpClient.GetAsync(url).ConfigureAwait(false);\n# If you must call sync, use Task.Run\nvar result = Task.Run(() => DoWorkAsync()).Result;",
+    "sources": [
+      "https://learn.microsoft.com/en-us/archive/msdn-magazine/2015/july/async-programming-brownfield-async-development"
+    ]
+  },
+  {
+    "id": "aspnet-connection-string-error",
+    "title": "ASP.NET: Connection string not found in configuration",
+    "category": "C#",
+    "explanation": "The application cannot find the database connection string in appsettings.json or environment variables.",
+    "fix_snippet": "# Add to appsettings.json\n{\n  \"ConnectionStrings\": {\n    \"DefaultConnection\": \"Server=localhost;Database=mydb;User=sa;Password=...;\"\n  }\n}\n# Access in code\nbuilder.Services.AddDbContext<AppDbContext>(options =>\n    options.UseSqlServer(builder.Configuration.GetConnectionString(\"DefaultConnection\")));",
+    "sources": [
+      "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/"
+    ]
+  },
+  {
+    "id": "blazor-js-interop-failed",
+    "title": "Blazor: JavaScript interop call failed",
+    "category": "C#",
+    "explanation": "A Blazor JS interop call threw an error because the JavaScript function was not found, threw an exception, or was called before the JS runtime was available.",
+    "fix_snippet": "# Ensure JS function exists in wwwroot/js/site.js\nwindow.myFunction = (arg) => { return arg; };\n# Wait for first render before calling JS\nprotected override async Task OnAfterRenderAsync(bool firstRender) {\n    if (firstRender) {\n        await JS.InvokeVoidAsync(\"myFunction\", arg);\n    }\n}",
+    "sources": [
+      "https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/"
+    ]
+  },
+  {
+    "id": "ruby-gem-native-extension-error",
+    "title": "Ruby: Failed to build gem native extension",
+    "category": "Ruby",
+    "explanation": "A gem with C extensions failed to compile because system libraries or development headers are missing.",
+    "fix_snippet": "# Install build tools (Ubuntu/Debian)\nsudo apt-get install build-essential libssl-dev libffi-dev\n# For nokogiri\nsudo apt-get install libxml2-dev libxslt-dev\n# For pg gem\nsudo apt-get install libpq-dev\n# macOS\nbrew install openssl libffi",
+    "sources": [
+      "https://guides.rubygems.org/faqs/"
+    ]
+  },
+  {
+    "id": "ruby-load-error",
+    "title": "LoadError: cannot load such file",
+    "category": "Ruby",
+    "explanation": "Ruby cannot find the required file or gem. The gem may not be installed, or the require path is incorrect.",
+    "fix_snippet": "# Install missing gem\ngem install missing_gem\n# Or add to Gemfile and run\nbundle install\n# Check load path\nputs $LOAD_PATH\n# Use require_relative for local files\nrequire_relative 'lib/my_module'",
+    "sources": [
+      "https://ruby-doc.org/core/Kernel.html#method-i-require"
+    ]
+  },
+  {
+    "id": "ruby-encoding-error",
+    "title": "Encoding::InvalidByteSequenceError",
+    "category": "Ruby",
+    "explanation": "A string contains bytes that are invalid for the expected encoding (e.g., invalid UTF-8 bytes).",
+    "fix_snippet": "# Force encoding\nstr = str.force_encoding('UTF-8')\n# Encode with replacement\nstr = str.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')\n# Read file with encoding\nFile.read('file.txt', encoding: 'UTF-8')\n# Add magic comment\n# encoding: utf-8",
+    "sources": [
+      "https://ruby-doc.org/core/Encoding.html"
+    ]
+  },
+  {
+    "id": "rails-asset-not-precompiled",
+    "title": "Rails: Asset not precompiled",
+    "category": "Ruby",
+    "explanation": "A referenced asset (CSS, JS, image) was not included in the precompiled asset list for production.",
+    "fix_snippet": "# Precompile assets\nRAILS_ENV=production bundle exec rails assets:precompile\n# Add custom assets to precompile list in config/initializers/assets.rb\nRails.application.config.assets.precompile += %w( admin.js admin.css )\n# Clear old assets\nbundle exec rails assets:clobber",
+    "sources": [
+      "https://guides.rubyonrails.org/asset_pipeline.html"
+    ]
+  },
+  {
+    "id": "rails-routing-error",
+    "title": "Rails: No route matches",
+    "category": "Ruby",
+    "explanation": "The requested URL does not match any route defined in config/routes.rb.",
+    "fix_snippet": "# List all routes\nbundle exec rails routes\n# Add missing route in config/routes.rb\nRails.application.routes.draw do\n  resources :users\n  get '/about', to: 'pages#about'\nend\n# Check for typos in path helpers\n# users_path vs user_path(@user)",
+    "sources": [
+      "https://guides.rubyonrails.org/routing.html"
+    ]
+  },
+  {
+    "id": "git-rebase-conflict",
+    "title": "Git: CONFLICT during rebase",
+    "category": "Git",
+    "explanation": "A merge conflict occurred while replaying commits during a rebase. The same lines were modified in both branches.",
+    "fix_snippet": "# Fix conflicts in marked files\n# Look for <<<<<<< HEAD markers\n# After fixing, stage the files\ngit add resolved-file.txt\n# Continue rebase\ngit rebase --continue\n# Or abort to go back\ngit rebase --abort",
+    "sources": [
+      "https://git-scm.com/docs/git-rebase"
+    ]
+  },
+  {
+    "id": "git-submodule-not-initialized",
+    "title": "Git: Submodule path not initialized",
+    "category": "Git",
+    "explanation": "A git submodule was not initialized or updated after cloning. The submodule directory is empty.",
+    "fix_snippet": "# Initialize and update submodules\ngit submodule update --init --recursive\n# Clone with submodules\ngit clone --recurse-submodules https://repo.git\n# Update existing submodules\ngit submodule update --remote",
+    "sources": [
+      "https://git-scm.com/docs/git-submodule"
+    ]
+  },
+  {
+    "id": "git-lfs-missing-objects",
+    "title": "Git LFS: missing objects",
+    "category": "Git",
+    "explanation": "Git LFS pointer files exist but the actual large file content was not downloaded. The LFS server may be unreachable or the files were not fetched.",
+    "fix_snippet": "# Fetch LFS objects\ngit lfs fetch --all\n# Pull LFS content\ngit lfs pull\n# Check LFS status\ngit lfs status\n# Re-install LFS hooks\ngit lfs install",
+    "sources": [
+      "https://git-lfs.com/"
+    ]
+  },
+  {
+    "id": "git-remote-rejected-protected",
+    "title": "Git: remote rejected (protected branch)",
+    "category": "Git",
+    "explanation": "Direct push to a protected branch was rejected. The branch requires pull requests or specific permissions.",
+    "fix_snippet": "# Push to a feature branch instead\ngit checkout -b feature/my-change\ngit push origin feature/my-change\n# Create PR via CLI\ngh pr create --base main --head feature/my-change\n# If you need to force push (admin only)\ngit push --force-with-lease origin main",
+    "sources": [
+      "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches"
+    ]
+  },
+  {
+    "id": "git-stash-apply-conflict",
+    "title": "Git: Could not apply stash",
+    "category": "Git",
+    "explanation": "Applying a stash caused conflicts because the working tree has diverged from when the stash was created.",
+    "fix_snippet": "# Apply stash and resolve conflicts\ngit stash apply\n# Fix conflict markers then stage\ngit add .\n# If stash conflicts badly, try on a new branch\ngit stash branch new-branch\n# List stashes\ngit stash list\n# Drop stash after resolving\ngit stash drop stash@{0}",
+    "sources": [
+      "https://git-scm.com/docs/git-stash"
+    ]
+  },
+  {
+    "id": "ansible-vault-password-missing",
+    "title": "Ansible: Vault password not provided",
+    "category": "Ansible",
+    "explanation": "A playbook uses encrypted vault variables but no vault password was supplied at runtime.",
+    "fix_snippet": "# Provide vault password interactively\nansible-playbook playbook.yml --ask-vault-pass\n# Use a password file\nansible-playbook playbook.yml --vault-password-file=.vault_pass\n# Set in ansible.cfg\n[defaults]\nvault_password_file = .vault_pass",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/vault_guide/vault_encrypting_content.html"
+    ]
+  },
+  {
+    "id": "ansible-jinja2-template-error",
+    "title": "Ansible: Jinja2 template error",
+    "category": "Ansible",
+    "explanation": "A Jinja2 template in a playbook or template file has a syntax error such as unclosed braces, undefined filters, or bad expressions.",
+    "fix_snippet": "# Check for unclosed braces\n{{ variable }}  # correct\n{ variable }}   # wrong\n# Escape literal braces\n{% raw %}{{ not_a_variable }}{% endraw %}\n# Test template rendering\nansible all -m debug -a \"msg={{ my_var }}\"",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_templating.html"
+    ]
+  },
+  {
+    "id": "ansible-variable-undefined",
+    "title": "Ansible: 'variable' is undefined",
+    "category": "Ansible",
+    "explanation": "A variable used in a playbook or template was not defined in inventory, group_vars, host_vars, or the playbook itself.",
+    "fix_snippet": "# Define in playbook vars\nvars:\n  my_var: value\n# Or in group_vars/all.yml\n# Or provide at runtime\nansible-playbook playbook.yml -e \"my_var=value\"\n# Use default filter\n{{ my_var | default('fallback') }}",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html"
+    ]
+  },
+  {
+    "id": "ansible-ssh-timeout",
+    "title": "Ansible: SSH connection timeout",
+    "category": "Ansible",
+    "explanation": "Ansible timed out trying to establish an SSH connection to the target host. The host may be unreachable, the SSH service down, or a firewall is blocking.",
+    "fix_snippet": "# Test SSH manually\nssh user@host\n# Increase timeout in ansible.cfg\n[defaults]\ntimeout = 30\n# Check inventory host/IP\nansible-inventory --list\n# Use verbose mode to debug\nansible-playbook playbook.yml -vvvv",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/inventory_guide/connection_details.html"
+    ]
+  },
+  {
+    "id": "android-gradle-sync-failed",
+    "title": "Android Studio: Gradle sync failed",
+    "category": "Mobile",
+    "explanation": "Android Studio cannot sync the project with Gradle files. Usually caused by SDK version mismatch, missing dependencies, or corrupted cache.",
+    "fix_snippet": "# Invalidate caches\nFile -> Invalidate Caches / Restart\n# Clean and rebuild\n./gradlew clean\n# Update Gradle wrapper\n./gradlew wrapper --gradle-version=8.4\n# Check SDK installation\nsdkmanager --list",
+    "sources": [
+      "https://developer.android.com/build/troubleshoot-build"
+    ]
+  },
+  {
+    "id": "android-dex-method-limit",
+    "title": "Android: DEX method limit exceeded (64k)",
+    "category": "Mobile",
+    "explanation": "The app has more than 65,536 methods across all DEX files. Android's Dalvik bytecode format has a 64k method reference limit per DEX file.",
+    "fix_snippet": "# Enable multidex in build.gradle\nandroid {\n    defaultConfig {\n        multiDexEnabled true\n    }\n}\n# Add dependency\nimplementation 'androidx.multidex:multidex:2.0.1'\n# Remove unused dependencies\n./gradlew app:dependencies",
+    "sources": [
+      "https://developer.android.com/build/multidex"
+    ]
+  },
+  {
+    "id": "xcode-build-input-not-found",
+    "title": "Xcode: Build input file cannot be found",
+    "category": "Mobile",
+    "explanation": "Xcode references a file in the build phase that no longer exists on disk. The file was deleted or moved without updating the project.",
+    "fix_snippet": "# Remove stale reference in Xcode\n# Build Phases -> Compile Sources -> Remove missing file\n# Or fix via command line\n# Check for red (missing) files in project navigator\n# Clean build folder\nProduct -> Clean Build Folder (Shift+Cmd+K)",
+    "sources": [
+      "https://developer.apple.com/documentation/xcode/building-your-project"
+    ]
+  },
+  {
+    "id": "swift-cannot-convert-value",
+    "title": "Swift: Cannot convert value of type X to expected argument type Y",
+    "category": "Mobile",
+    "explanation": "A type mismatch in Swift. The value being passed does not match the expected parameter type.",
+    "fix_snippet": "# Explicit type conversion\nlet intVal = Int(stringVal) ?? 0\nlet doubleVal = Double(intVal)\n# Optional unwrapping\nif let unwrapped = optionalValue {\n    useValue(unwrapped)\n}\n# Use as? for safe casting\nif let str = value as? String { ... }",
+    "sources": [
+      "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/typecasting/"
+    ]
+  },
+  {
+    "id": "kotlin-unresolved-reference",
+    "title": "Kotlin: Unresolved reference: X",
+    "category": "Mobile",
+    "explanation": "Kotlin cannot resolve a symbol. The class, function, or property may not be imported, the dependency is missing, or there's a typo.",
+    "fix_snippet": "# Add missing import\nimport com.example.MyClass\n# Check build.gradle for dependency\nimplementation 'com.example:library:1.0'\n# Sync Gradle\n./gradlew --refresh-dependencies\n# Check for typos in symbol names",
+    "sources": [
+      "https://kotlinlang.org/docs/packages.html"
+    ]
+  },
+  {
+    "id": "rabbitmq-queue-length-exceeded",
+    "title": "RabbitMQ: Queue length limit exceeded",
+    "category": "MessageQueue",
+    "explanation": "A queue has reached its maximum length policy. New messages are being dropped or dead-lettered.",
+    "fix_snippet": "# Check queue status\nrabbitmqctl list_queues name messages consumers\n# Set/update queue policy\nrabbitmqctl set_policy max-length 'my-queue' '{\"max-length\": 100000}' --apply-to queues\n# Add more consumers to drain the queue\n# Configure dead letter exchange for overflow",
+    "sources": [
+      "https://www.rabbitmq.com/docs/maxlength"
+    ]
+  },
+  {
+    "id": "kafka-topic-authorization-failed",
+    "title": "Kafka: Topic authorization failed",
+    "category": "MessageQueue",
+    "explanation": "The Kafka client does not have the required ACL permissions to produce to or consume from the topic.",
+    "fix_snippet": "# List ACLs\nkafka-acls.sh --list --bootstrap-server localhost:9092\n# Grant produce permission\nkafka-acls.sh --add --allow-principal User:myapp --operation Write --topic my-topic --bootstrap-server localhost:9092\n# Grant consume permission\nkafka-acls.sh --add --allow-principal User:myapp --operation Read --topic my-topic --group my-group --bootstrap-server localhost:9092",
+    "sources": [
+      "https://kafka.apache.org/documentation/#security_authz"
+    ]
+  },
+  {
+    "id": "sqs-message-too-large",
+    "title": "AWS SQS: Message too large (256KB limit)",
+    "category": "MessageQueue",
+    "explanation": "The SQS message body exceeds the 256KB maximum size limit.",
+    "fix_snippet": "# Use SQS Extended Client Library (stores payload in S3)\n# pip install amazon-sqs-extended-client\n# Or compress the message\nimport gzip\ncompressed = gzip.compress(message.encode())\n# Or send a reference/pointer instead of the full payload\n{\"s3_key\": \"data/large-payload.json\"}",
+    "sources": [
+      "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/quotas-messages.html"
+    ]
+  },
+  {
+    "id": "celery-worker-lost",
+    "title": "Celery: WorkerLostError",
+    "category": "MessageQueue",
+    "explanation": "A Celery worker process died unexpectedly during task execution, often due to OOM kill, segfault, or os._exit() in the task.",
+    "fix_snippet": "# Increase worker memory limit\ncelery -A proj worker --max-memory-per-child=200000\n# Enable task soft time limit\n@app.task(soft_time_limit=300, time_limit=600)\ndef my_task(): ...\n# Check system OOM killer\ndmesg | grep -i oom\n# Use prefork pool with max tasks\n--max-tasks-per-child=100",
+    "sources": [
+      "https://docs.celeryq.dev/en/stable/userguide/workers.html"
+    ]
+  },
+  {
+    "id": "nats-slow-consumer",
+    "title": "NATS: Slow consumer detected",
+    "category": "MessageQueue",
+    "explanation": "A NATS subscriber cannot process messages fast enough and its pending message buffer is full. The server may disconnect the consumer.",
+    "fix_snippet": "# Increase pending message limits\nsub, err := nc.Subscribe(\"topic\", handler)\nsub.SetPendingLimits(1000000, 1024*1024*512)\n# Use queue groups for parallel processing\nnc.QueueSubscribe(\"topic\", \"workers\", handler)\n# Use JetStream for persistence and replay",
+    "sources": [
+      "https://docs.nats.io/using-nats/developer/connecting/pending"
+    ]
+  },
+  {
+    "id": "github-actions-secret-not-available",
+    "title": "GitHub Actions: Secret not available in fork PRs",
+    "category": "CI/CD",
+    "explanation": "Secrets are not passed to workflows triggered by pull requests from forks for security reasons.",
+    "fix_snippet": "# Use pull_request_target instead (runs in base repo context)\non:\n  pull_request_target:\n    types: [opened, synchronize]\n# Or skip secret-dependent steps in forks\n- if: github.event.pull_request.head.repo.full_name == github.repository\n  run: deploy.sh\n  env:\n    SECRET: ${{ secrets.MY_SECRET }}",
+    "sources": [
+      "https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions"
+    ]
+  },
+  {
+    "id": "gitlab-runner-not-found",
+    "title": "GitLab CI: No runner available",
+    "category": "CI/CD",
+    "explanation": "No registered GitLab runner matches the job's tags or the runner is offline.",
+    "fix_snippet": "# Check runner status\ngitlab-runner list\n# Register a new runner\ngitlab-runner register\n# Verify runner is online in GitLab UI\n# Settings -> CI/CD -> Runners\n# Check job tags match runner tags\ntags:\n  - docker\n  - linux",
+    "sources": [
+      "https://docs.gitlab.com/runner/"
+    ]
+  },
+  {
+    "id": "jenkins-agent-offline",
+    "title": "Jenkins: Agent is offline",
+    "category": "CI/CD",
+    "explanation": "A Jenkins build agent/node is disconnected. The agent process may have crashed, network issues, or the machine is down.",
+    "fix_snippet": "# Reconnect agent from Jenkins UI\n# Manage Jenkins -> Nodes -> Select Node -> Reconnect\n# Check agent logs\n# On agent machine, restart the agent\njava -jar agent.jar -url http://jenkins:8080 -secret @secret-file -name my-agent\n# Verify network connectivity to Jenkins master",
+    "sources": [
+      "https://www.jenkins.io/doc/book/managing/nodes/"
+    ]
+  },
+  {
+    "id": "bitbucket-pipelines-memory-limit",
+    "title": "Bitbucket Pipelines: Memory limit exceeded",
+    "category": "CI/CD",
+    "explanation": "The pipeline step exceeded the allocated memory (default 4GB). The build process or tests consumed too much RAM.",
+    "fix_snippet": "# Increase memory with size option\npipelines:\n  default:\n    - step:\n        size: 2x  # 8GB RAM\n        script:\n          - npm test\n# Reduce memory usage in tests\n# Split into parallel steps\n# Use --max-workers flag for test runners",
+    "sources": [
+      "https://support.atlassian.com/bitbucket-cloud/docs/databases-and-service-containers/"
+    ]
+  },
+  {
+    "id": "dns-servfail",
+    "title": "DNS: SERVFAIL",
+    "category": "DNS",
+    "explanation": "The DNS server failed to complete the query. The authoritative server may be down, DNSSEC validation failed, or there's a configuration error.",
+    "fix_snippet": "# Query with diagnostic info\ndig example.com +trace\n# Check DNSSEC validation\ndig example.com +dnssec\n# Try different DNS server\ndig @8.8.8.8 example.com\n# Check authoritative nameserver\ndig NS example.com",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc1035"
+    ]
+  },
+  {
+    "id": "dns-zone-transfer-refused",
+    "title": "DNS: Transfer refused (AXFR)",
+    "category": "DNS",
+    "explanation": "A DNS zone transfer (AXFR) request was denied. Zone transfers are typically restricted to authorized secondary nameservers.",
+    "fix_snippet": "# Check if zone transfers are allowed\ndig @ns1.example.com example.com AXFR\n# Allow specific IPs in BIND config\nzone \"example.com\" {\n    allow-transfer { 10.0.0.2; };\n};\n# Use TSIG keys for secure transfers",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc5936"
+    ]
+  },
+  {
+    "id": "dns-cname-loop",
+    "title": "DNS: CNAME loop detected",
+    "category": "DNS",
+    "explanation": "A CNAME record points to another CNAME that eventually points back, creating a circular reference that cannot be resolved.",
+    "fix_snippet": "# Trace the CNAME chain\ndig +trace example.com CNAME\n# Check for circular references\nhost -t CNAME a.example.com\nhost -t CNAME b.example.com\n# Fix by pointing CNAME to an A/AAAA record\na.example.com. CNAME target.example.com.\ntarget.example.com. A 1.2.3.4",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc1034#section-3.6.2"
+    ]
+  },
+  {
+    "id": "terraform-for-each-unknown",
+    "title": "Terraform: for_each value depends on resource attributes that cannot be determined",
+    "category": "Terraform",
+    "explanation": "A for_each or count expression depends on a value that is not known until apply time. Terraform needs to know the collection keys at plan time.",
+    "fix_snippet": "# Use -target to apply the dependency first\nterraform apply -target=aws_instance.example\n# Move dynamic values to variables\nvariable \"instance_names\" {\n  default = [\"web1\", \"web2\"]\n}\n# Or use data sources instead of resource outputs",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/language/meta-arguments/for_each"
+    ]
+  },
+  {
+    "id": "terraform-import-resource-not-found",
+    "title": "Terraform: Cannot import resource - not found",
+    "category": "Terraform",
+    "explanation": "The resource ID provided to terraform import does not match any existing resource in the cloud provider.",
+    "fix_snippet": "# Verify resource exists\naws ec2 describe-instances --instance-ids i-1234567890\n# Use correct resource ID format\nterraform import aws_instance.example i-1234567890\n# Check correct provider/region is configured\n# Some resources use ARN, others use name or ID",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/cli/import"
+    ]
+  },
+  {
+    "id": "terraform-plugin-crash",
+    "title": "Terraform: Plugin crashed",
+    "category": "Terraform",
+    "explanation": "A Terraform provider plugin crashed during execution. Usually a bug in the provider or a version incompatibility.",
+    "fix_snippet": "# Update provider to latest version\nterraform init -upgrade\n# Pin to known working version\nterraform {\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \"~> 5.0\"\n    }\n  }\n}\n# Clear plugin cache\nrm -rf .terraform/providers",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/cli/config/config-file#provider-installation"
+    ]
+  },
+  {
+    "id": "ebs-volume-not-available",
+    "title": "AWS: EBS volume not available in AZ",
+    "category": "Storage",
+    "explanation": "An EBS volume cannot be attached to an EC2 instance because they are in different Availability Zones. EBS volumes are AZ-specific.",
+    "fix_snippet": "# Check volume AZ\naws ec2 describe-volumes --volume-ids vol-xxx --query 'Volumes[].AvailabilityZone'\n# Create snapshot and restore in correct AZ\naws ec2 create-snapshot --volume-id vol-xxx\naws ec2 create-volume --snapshot-id snap-xxx --availability-zone us-east-1b",
+    "sources": [
+      "https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volumes.html"
+    ]
+  },
+  {
+    "id": "nfs-stale-file-handle",
+    "title": "NFS: Stale file handle",
+    "category": "Storage",
+    "explanation": "The NFS client holds a reference to a file or directory that no longer exists on the server, usually after the export was recreated or the server was rebuilt.",
+    "fix_snippet": "# Unmount and remount\nsudo umount -f /mnt/nfs\nsudo mount -t nfs server:/export /mnt/nfs\n# If umount hangs, use lazy unmount\nsudo umount -l /mnt/nfs\n# Clear NFS client cache\necho 3 > /proc/sys/vm/drop_caches",
+    "sources": [
+      "https://linux.die.net/man/5/nfs"
+    ]
+  },
+  {
+    "id": "ceph-osd-down",
+    "title": "Ceph: OSD down",
+    "category": "Storage",
+    "explanation": "A Ceph Object Storage Daemon is not running, reducing cluster redundancy and potentially causing degraded performance.",
+    "fix_snippet": "# Check cluster health\nceph health detail\n# Check OSD status\nceph osd tree\n# Start the OSD\nsudo systemctl start ceph-osd@0\n# Check OSD logs\njournalctl -u ceph-osd@0 --since '10 min ago'",
+    "sources": [
+      "https://docs.ceph.com/en/latest/rados/troubleshooting/troubleshooting-osd/"
+    ]
+  },
+  {
+    "id": "lambda-cold-start-timeout",
+    "title": "AWS Lambda: Task timed out after X seconds",
+    "category": "Serverless",
+    "explanation": "The Lambda function did not complete within the configured timeout. Cold starts, slow dependencies, or heavy processing can cause this.",
+    "fix_snippet": "# Increase timeout (max 900s)\naws lambda update-function-configuration --function-name my-func --timeout 30\n# Use provisioned concurrency to eliminate cold starts\naws lambda put-provisioned-concurrency-config --function-name my-func --qualifier prod --provisioned-concurrent-executions 5\n# Optimize initialization code",
+    "sources": [
+      "https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html"
+    ]
+  },
+  {
+    "id": "lambda-package-too-large",
+    "title": "AWS Lambda: Unzipped size exceeds 250MB limit",
+    "category": "Serverless",
+    "explanation": "The Lambda deployment package (unzipped) exceeds the 250MB limit. Too many dependencies or large assets.",
+    "fix_snippet": "# Use Lambda layers for shared dependencies\naws lambda publish-layer-version --layer-name my-deps --zip-file fileb://layer.zip\n# Use container image deployment (up to 10GB)\n# Prune unused dependencies\npip install --target ./package -r requirements.txt --no-deps\n# Use Lambda-optimized packages",
+    "sources": [
+      "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html"
+    ]
+  },
+  {
+    "id": "lambda-vpc-eni-limit",
+    "title": "AWS Lambda: ENI limit reached in VPC",
+    "category": "Serverless",
+    "explanation": "Lambda functions in a VPC create ENIs (Elastic Network Interfaces) and the account or subnet has hit its ENI limit.",
+    "fix_snippet": "# Check ENI usage\naws ec2 describe-network-interfaces --filters Name=description,Values='AWS Lambda VPC ENI*' | jq '.NetworkInterfaces | length'\n# Request limit increase\naws service-quotas request-service-quota-increase --service-code vpc --quota-code L-DF5E4CA3 --desired-value 500\n# Use fewer subnets in Lambda config",
+    "sources": [
+      "https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html"
+    ]
+  },
+  {
+    "id": "azure-functions-host-not-running",
+    "title": "Azure Functions: Host not running",
+    "category": "Serverless",
+    "explanation": "The Azure Functions host failed to start. Usually caused by invalid host.json, missing dependencies, or runtime version mismatch.",
+    "fix_snippet": "# Check host.json for errors\n# Verify runtime version\nfunc --version\n# Install extensions\nfunc extensions install\n# Run locally to debug\nfunc start --verbose\n# Check Application Insights for errors",
+    "sources": [
+      "https://learn.microsoft.com/en-us/azure/azure-functions/functions-host-json"
+    ]
+  },
+  {
+    "id": "gcp-cloud-function-deploy-failed",
+    "title": "GCP Cloud Functions: Deployment failed",
+    "category": "Serverless",
+    "explanation": "Cloud Function deployment failed during build or initialization. Could be a dependency issue, code error, or quota limit.",
+    "fix_snippet": "# Check build logs\ngcloud functions logs read my-function\n# Deploy with verbose logging\ngcloud functions deploy my-function --runtime python311 --trigger-http --verbosity=debug\n# Check quotas\ngcloud compute project-info describe\n# Test locally first\nfunctions-framework --target=my_function",
+    "sources": [
+      "https://cloud.google.com/functions/docs/troubleshooting"
+    ]
+  },
+  {
+    "id": "cloudflare-worker-size-limit",
+    "title": "Cloudflare Worker: Script size exceeds limit",
+    "category": "Serverless",
+    "explanation": "The Cloudflare Worker script exceeds the 1MB (free) or 10MB (paid) compressed size limit.",
+    "fix_snippet": "# Check bundle size\nnpx wrangler deploy --dry-run\n# Reduce dependencies\n# Use tree-shaking\n# Move large data to KV or R2 storage\nawait env.MY_KV.get('large-data')\n# Upgrade to paid plan for 10MB limit",
+    "sources": [
+      "https://developers.cloudflare.com/workers/platform/limits/"
+    ]
+  },
+  {
+    "id": "serverless-framework-stack-update-failed",
+    "title": "Serverless Framework: UPDATE_ROLLBACK_COMPLETE",
+    "category": "Serverless",
+    "explanation": "A CloudFormation stack update failed and rolled back. The deployment was rejected due to resource limits, permissions, or template errors.",
+    "fix_snippet": "# Check CloudFormation events for root cause\naws cloudformation describe-stack-events --stack-name my-stack\n# Retry deployment\nserverless deploy\n# If stuck in ROLLBACK state\naws cloudformation delete-stack --stack-name my-stack\n# Check for resource limits or IAM issues",
+    "sources": [
+      "https://www.serverless.com/framework/docs/troubleshooting"
+    ]
+  },
+  {
+    "id": "ts-type-not-assignable",
+    "title": "TypeScript: Type 'X' is not assignable to type 'Y'",
+    "category": "TypeScript",
+    "explanation": "A value's type is incompatible with the expected type. This is TypeScript's most common error, catching type mismatches at compile time.",
+    "fix_snippet": "# Widen the type\nlet value: string | number = getValue();\n# Use type assertion (if you're sure)\nconst val = unknownValue as MyType;\n# Add missing properties\ninterface User { name: string; age?: number; }\n# Check for null/undefined\nif (value !== null) { use(value); }",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+    ]
+  },
+  {
+    "id": "ts-property-does-not-exist",
+    "title": "TypeScript: Property 'X' does not exist on type 'Y'",
+    "category": "TypeScript",
+    "explanation": "Accessing a property that is not defined in the type. The object may need a wider type or the property name has a typo.",
+    "fix_snippet": "# Add property to interface\ninterface User {\n  name: string;\n  email: string; // add missing property\n}\n# Use optional chaining\nobj?.missingProp\n# Index signature for dynamic keys\ninterface Dict { [key: string]: unknown; }\n# Type guard\nif ('prop' in obj) { obj.prop }",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/objects.html"
+    ]
+  },
+  {
+    "id": "ts-cannot-find-module-declaration",
+    "title": "TypeScript: Could not find a declaration file for module",
+    "category": "TypeScript",
+    "explanation": "A JS library has no TypeScript type declarations. The library has no built-in types and no @types package exists.",
+    "fix_snippet": "# Install type declarations\nnpm install --save-dev @types/library-name\n# Or create a declaration file (src/types/library.d.ts)\ndeclare module 'library-name';\n# Or with more detail\ndeclare module 'library-name' {\n  export function doSomething(): void;\n}",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/type-declarations.html"
+    ]
+  },
+  {
+    "id": "ts-object-possibly-undefined",
+    "title": "TypeScript: Object is possibly 'undefined'",
+    "category": "TypeScript",
+    "explanation": "Accessing a property on a value that might be undefined. TypeScript's strict null checks flag this as unsafe.",
+    "fix_snippet": "# Optional chaining\nconst name = user?.profile?.name;\n# Nullish coalescing\nconst name = user?.name ?? 'default';\n# Type narrowing\nif (user !== undefined) {\n  console.log(user.name); // safe\n}\n# Non-null assertion (use sparingly)\nuser!.name",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+    ]
+  },
+  {
+    "id": "ts-argument-not-assignable",
+    "title": "TypeScript: Argument of type X is not assignable to parameter of type Y",
+    "category": "TypeScript",
+    "explanation": "A function argument's type doesn't match the parameter's declared type. Common when passing objects with extra or missing properties.",
+    "fix_snippet": "# Match the expected type\nfunction greet(user: { name: string }) { ... }\ngreet({ name: 'Alice' }); // correct\n# Use Partial for optional fields\nfunction update(user: Partial<User>) { ... }\n# Check for excess property checks\nconst obj: User = { name: 'Alice' }; // assign first",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/functions.html"
+    ]
+  },
+  {
+    "id": "ts-no-overload-matches",
+    "title": "TypeScript: No overload matches this call",
+    "category": "TypeScript",
+    "explanation": "None of the function's overload signatures match the provided arguments. The argument types or count don't match any declared overload.",
+    "fix_snippet": "# Check available overloads in type definition\n// Example overloads:\nfunction createElement(tag: 'div'): HTMLDivElement;\nfunction createElement(tag: 'span'): HTMLSpanElement;\n# Ensure argument types match one overload exactly\n# Hover over function in IDE to see overloads",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads"
+    ]
+  },
+  {
+    "id": "ts-generic-constraint-error",
+    "title": "TypeScript: Type X does not satisfy the constraint Y",
+    "category": "TypeScript",
+    "explanation": "A type argument does not meet the generic constraint. The type must extend or implement the constraint type.",
+    "fix_snippet": "# Satisfy the constraint\nfunction getProperty<T extends { id: number }>(obj: T) {\n  return obj.id;\n}\n// Must pass object with 'id'\ngetProperty({ id: 1, name: 'test' }); // OK\n# Use keyof constraint\nfunction get<T, K extends keyof T>(obj: T, key: K): T[K]",
+    "sources": [
+      "https://www.typescriptlang.org/docs/handbook/2/generics.html#generic-constraints"
+    ]
+  },
+  {
+    "id": "bash-command-not-found",
+    "title": "bash: command not found",
+    "category": "Shell",
+    "explanation": "The shell cannot find the specified command. The program is not installed, not in PATH, or there's a typo.",
+    "fix_snippet": "# Check if command exists\nwhich mycommand\ntype mycommand\n# Check PATH\necho $PATH\n# Add directory to PATH\nexport PATH=$PATH:/usr/local/bin\n# Install the package (Debian/Ubuntu)\nsudo apt-get install package-name",
+    "sources": [
+      "https://www.gnu.org/software/bash/manual/bash.html#Command-Search-and-Execution"
+    ]
+  },
+  {
+    "id": "bash-permission-denied",
+    "title": "bash: Permission denied",
+    "category": "Shell",
+    "explanation": "The script or binary does not have execute permission, or the user lacks permission to access the file.",
+    "fix_snippet": "# Make script executable\nchmod +x script.sh\n# Run with bash explicitly\nbash script.sh\n# Check file permissions\nls -la script.sh\n# Check ownership\nstat script.sh",
+    "sources": [
+      "https://www.gnu.org/software/bash/manual/bash.html"
+    ]
+  },
+  {
+    "id": "bash-syntax-error-unexpected-token",
+    "title": "bash: syntax error near unexpected token",
+    "category": "Shell",
+    "explanation": "The shell encountered a syntax error, often caused by incorrect quoting, missing escapes, Windows line endings (\\r\\n), or unmatched brackets.",
+    "fix_snippet": "# Fix Windows line endings\nsed -i 's/\\r$//' script.sh\n# Or use dos2unix\ndos2unix script.sh\n# Check for unmatched quotes/brackets\n# Use shellcheck for linting\nshellcheck script.sh",
+    "sources": [
+      "https://www.shellcheck.net/"
+    ]
+  },
+  {
+    "id": "bash-unbound-variable",
+    "title": "bash: unbound variable",
+    "category": "Shell",
+    "explanation": "A variable was referenced but not set, and the script uses 'set -u' (nounset) which treats unset variables as errors.",
+    "fix_snippet": "# Set default value\n${MY_VAR:-default_value}\n# Or assign default\n: ${MY_VAR:=default_value}\n# Check if variable is set\nif [ -n \"${MY_VAR+x}\" ]; then\n    echo \"MY_VAR is set\"\nfi",
+    "sources": [
+      "https://www.gnu.org/software/bash/manual/bash.html#The-Set-Builtin"
+    ]
+  },
+  {
+    "id": "bash-bad-substitution",
+    "title": "bash: bad substitution",
+    "category": "Shell",
+    "explanation": "Invalid parameter expansion syntax. May be caused by using bash-specific syntax in sh, or incorrect variable expansion.",
+    "fix_snippet": "# Ensure script uses bash, not sh\n#!/bin/bash  # not #!/bin/sh\n# Correct variable substitution\necho ${var}     # basic\necho ${var:-default}  # with default\necho ${var%%pattern}  # suffix removal\n# Run with bash explicitly\nbash script.sh",
+    "sources": [
+      "https://www.gnu.org/software/bash/manual/bash.html#Shell-Parameter-Expansion"
+    ]
+  },
+  {
+    "id": "powershell-not-digitally-signed",
+    "title": "PowerShell: File is not digitally signed",
+    "category": "Shell",
+    "explanation": "PowerShell's execution policy requires scripts to be digitally signed but the script has no valid signature.",
+    "fix_snippet": "# Change execution policy for current user\nSet-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser\n# Or bypass for a single script\npowershell -ExecutionPolicy Bypass -File script.ps1\n# Unblock downloaded script\nUnblock-File -Path script.ps1",
+    "sources": [
+      "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies"
+    ]
+  },
+  {
+    "id": "zsh-no-matches-found",
+    "title": "zsh: no matches found",
+    "category": "Shell",
+    "explanation": "Zsh's glob expansion found no files matching the pattern and errors by default (unlike bash which passes the literal pattern).",
+    "fix_snippet": "# Quote the pattern to prevent glob expansion\ncurl 'https://api.example.com/items?page=1'\n# Or escape special characters\ncurl https://api.example.com/items\\?page=1\n# Disable nomatch globally in .zshrc\nsetopt nonomatch\n# Or use noglob for a single command\nnoglob curl https://api.example.com/items?page=1",
+    "sources": [
+      "https://zsh.sourceforge.io/Doc/Release/Options.html"
+    ]
+  },
+  {
+    "id": "jest-cannot-find-module",
+    "title": "Jest: Cannot find module",
+    "category": "Testing",
+    "explanation": "Jest cannot resolve an import during test execution. Usually caused by missing moduleNameMapper config, untransformed file types, or path aliases.",
+    "fix_snippet": "# Add moduleNameMapper in jest.config.js\nmoduleNameMapper: {\n  '^@/(.*)$': '<rootDir>/src/$1',\n  '\\\\.(css|scss)$': 'identity-obj-proxy'\n}\n# Transform non-JS files\ntransform: {\n  '^.+\\\\.tsx?$': 'ts-jest'\n}\n# Clear cache\nnpx jest --clearCache",
+    "sources": [
+      "https://jestjs.io/docs/configuration#modulenamemapper-objectstring-string--arraystring"
+    ]
+  },
+  {
+    "id": "jest-snapshot-mismatch",
+    "title": "Jest: Snapshot does not match stored snapshot",
+    "category": "Testing",
+    "explanation": "The component output has changed since the snapshot was last recorded. This may be an intentional change or an unexpected regression.",
+    "fix_snippet": "# Update snapshot if change is intentional\nnpx jest --updateSnapshot\n# Or update specific test\nnpx jest --updateSnapshot --testPathPattern=MyComponent\n# Review snapshot diff carefully before updating\n# Use inline snapshots for small outputs\nexpect(value).toMatchInlineSnapshot();",
+    "sources": [
+      "https://jestjs.io/docs/snapshot-testing"
+    ]
+  },
+  {
+    "id": "pytest-fixture-not-found",
+    "title": "pytest: fixture 'X' not found",
+    "category": "Testing",
+    "explanation": "A test function requests a fixture that is not defined or not accessible. The fixture may be in a different conftest.py or misspelled.",
+    "fix_snippet": "# Define fixture in conftest.py\n@pytest.fixture\ndef my_fixture():\n    return {'key': 'value'}\n# Check fixture is in the right conftest.py scope\n# List available fixtures\npytest --fixtures\n# Check for typos in fixture name",
+    "sources": [
+      "https://docs.pytest.org/en/stable/how-to/fixtures.html"
+    ]
+  },
+  {
+    "id": "pytest-collection-error",
+    "title": "pytest: Collection error",
+    "category": "Testing",
+    "explanation": "pytest failed to collect tests, usually due to an import error in a test file or conftest.py. The module cannot be loaded.",
+    "fix_snippet": "# Run with verbose to see import errors\npytest --tb=long -v\n# Check for circular imports\n# Ensure __init__.py exists if needed\n# Check sys.path\npython -c \"import sys; print(sys.path)\"\n# Install package in dev mode\npip install -e .",
+    "sources": [
+      "https://docs.pytest.org/en/stable/goodpractices.html"
+    ]
+  },
+  {
+    "id": "junit-no-runnable-methods",
+    "title": "JUnit: No runnable methods",
+    "category": "Testing",
+    "explanation": "JUnit found no test methods in the class. Methods may be missing the @Test annotation or the wrong JUnit version annotation is used.",
+    "fix_snippet": "# JUnit 5 - use correct import\nimport org.junit.jupiter.api.Test;\n@Test\nvoid myTest() { ... }\n# JUnit 4 - different import\nimport org.junit.Test;\n@Test\npublic void myTest() { ... }\n# Ensure test methods are public (JUnit 4)",
+    "sources": [
+      "https://junit.org/junit5/docs/current/user-guide/"
+    ]
+  },
+  {
+    "id": "cypress-element-not-found",
+    "title": "Cypress: Timed out retrying - Expected to find element",
+    "category": "Testing",
+    "explanation": "Cypress could not find the specified element within the default timeout. The element may not exist, may have a different selector, or hasn't rendered yet.",
+    "fix_snippet": "# Increase timeout for slow elements\ncy.get('[data-testid=\"submit\"]', { timeout: 10000 })\n# Use data-testid instead of CSS classes\ncy.get('[data-testid=\"my-button\"]')\n# Wait for element to be visible\ncy.get('.element').should('be.visible')\n# Check if element is in iframe\ncy.iframe().find('.element')",
+    "sources": [
+      "https://docs.cypress.io/guides/references/error-messages"
+    ]
+  },
+  {
+    "id": "playwright-timeout",
+    "title": "Playwright: Timeout exceeded waiting for element",
+    "category": "Testing",
+    "explanation": "Playwright's auto-waiting timed out because the element did not become actionable (visible, enabled, stable) within the timeout period.",
+    "fix_snippet": "# Increase timeout\nawait page.click('button', { timeout: 30000 });\n# Wait for specific state\nawait page.waitForSelector('.loaded', { state: 'visible' });\n# Use locators with auto-waiting\nawait page.getByRole('button', { name: 'Submit' }).click();\n# Debug with trace\nnpx playwright test --trace on",
+    "sources": [
+      "https://playwright.dev/docs/actionability"
+    ]
+  },
+  {
+    "id": "smtp-550-mailbox-not-found",
+    "title": "SMTP: 550 Mailbox not found",
+    "category": "Email",
+    "explanation": "The recipient email address does not exist on the mail server. The mailbox may have been deleted or the address is misspelled.",
+    "fix_snippet": "# Verify email address is correct\n# Check for typos in domain and username\n# Test with SMTP commands\ntelnet mail.example.com 25\nHELO test\nMAIL FROM:<sender@test.com>\nRCPT TO:<recipient@example.com>\n# Check MX records\ndig MX example.com",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc5321#section-4.2.3"
+    ]
+  },
+  {
+    "id": "smtp-554-relay-denied",
+    "title": "SMTP: 554 Relay access denied",
+    "category": "Email",
+    "explanation": "The SMTP server refuses to relay mail for the sender. The server only accepts mail for its own domains and the sender is not authenticated.",
+    "fix_snippet": "# Authenticate before sending\n# Enable SMTP AUTH in your email client\n# Check Postfix config\nmynetworks = 127.0.0.0/8\nsmtpd_relay_restrictions = permit_mynetworks, permit_sasl_authenticated, reject_unauth_destination\n# Restart Postfix\nsudo systemctl restart postfix",
+    "sources": [
+      "https://www.postfix.org/SMTPD_ACCESS_README.html"
+    ]
+  },
+  {
+    "id": "smtp-421-too-many-connections",
+    "title": "SMTP: 421 Too many connections",
+    "category": "Email",
+    "explanation": "The mail server is rate limiting connections. Too many simultaneous connections from the same IP address.",
+    "fix_snippet": "# Reduce concurrent connections\n# Implement connection pooling\n# Add delays between sends\nimport time\nfor email in emails:\n    send(email)\n    time.sleep(1)\n# Use a proper email queue (e.g., Amazon SES, SendGrid)",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc5321#section-4.5.3.2"
+    ]
+  },
+  {
+    "id": "smtp-535-authentication-failed",
+    "title": "SMTP: 535 Authentication failed",
+    "category": "Email",
+    "explanation": "SMTP login credentials were rejected. The password may be wrong, or the account requires an app-specific password (e.g., Gmail with 2FA).",
+    "fix_snippet": "# For Gmail: generate app password\n# Google Account -> Security -> App Passwords\n# For Office 365: check if basic auth is disabled\n# Use OAuth2 instead\n# Test credentials\nopenssl s_client -connect smtp.gmail.com:465\nAUTH LOGIN",
+    "sources": [
+      "https://support.google.com/accounts/answer/185833"
+    ]
+  },
+  {
+    "id": "smtp-tls-handshake-failed",
+    "title": "SMTP: STARTTLS handshake failed",
+    "category": "Email",
+    "explanation": "The TLS negotiation during STARTTLS failed. The server certificate may be invalid, or there's a protocol version mismatch.",
+    "fix_snippet": "# Test STARTTLS manually\nopenssl s_client -starttls smtp -connect mail.example.com:587\n# Check certificate\nopenssl s_client -starttls smtp -connect mail.example.com:587 | openssl x509 -noout -text\n# Try implicit TLS on port 465\nopenssl s_client -connect mail.example.com:465",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc3207"
+    ]
+  },
+  {
+    "id": "dkim-signature-invalid",
+    "title": "DKIM: Signature verification failed",
+    "category": "Email",
+    "explanation": "The DKIM signature on the email does not match. The DNS public key record may be wrong, or the message was modified in transit.",
+    "fix_snippet": "# Check DKIM DNS record\ndig TXT selector._domainkey.example.com\n# Verify DKIM signature with opendkim\nopendkim-testkey -d example.com -s selector\n# Regenerate DKIM keys\nopendkim-genkey -s selector -d example.com\n# Update DNS TXT record with new public key",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6376"
+    ]
+  },
+  {
+    "id": "spf-fail-not-authorized",
+    "title": "SPF: Sender not authorized",
+    "category": "Email",
+    "explanation": "The sending mail server's IP is not listed in the domain's SPF record. The email may be rejected or marked as spam.",
+    "fix_snippet": "# Check current SPF record\ndig TXT example.com | grep spf\n# Add sending server IP to SPF\n# In DNS TXT record:\nv=spf1 ip4:1.2.3.4 include:_spf.google.com ~all\n# Test SPF\nnslookup -type=txt example.com\n# Use ~all (softfail) during testing, -all (fail) in production",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc7208"
+    ]
+  },
+  {
+    "id": "virtualbox-vt-x-not-available",
+    "title": "VirtualBox: VT-x is not available",
+    "category": "Virtualization",
+    "explanation": "Hardware virtualization (VT-x/AMD-V) is disabled in BIOS or being used by another hypervisor (e.g., Hyper-V, WSL2).",
+    "fix_snippet": "# Enable VT-x in BIOS/UEFI\n# Reboot -> Enter BIOS -> CPU settings -> Enable Virtualization\n# On Windows, disable Hyper-V if conflicting\nbcdedit /set hypervisorlaunchtype off\n# Check VT-x status (Linux)\negrep -c '(vmx|svm)' /proc/cpuinfo",
+    "sources": [
+      "https://www.virtualbox.org/manual/ch10.html#hwvirt"
+    ]
+  },
+  {
+    "id": "vmware-disk-consolidation-needed",
+    "title": "VMware: Disk consolidation needed",
+    "category": "Virtualization",
+    "explanation": "The VM has orphaned snapshot delta disks that need to be merged back. Usually happens after a failed snapshot deletion.",
+    "fix_snippet": "# Consolidate disks via vSphere client\n# Right-click VM -> Snapshots -> Consolidate\n# Or via PowerCLI\nGet-VM 'MyVM' | Get-Snapshot | Remove-Snapshot -Confirm:$false\n# Check consolidation needed status\n(Get-VM 'MyVM').ExtensionData.Runtime.ConsolidationNeeded",
+    "sources": [
+      "https://docs.vmware.com/en/VMware-vSphere/8.0/vsphere-vm-administration/GUID-2F4A6D8B-33FF-4C6B-9B02-C984D151F0D5.html"
+    ]
+  },
+  {
+    "id": "hyperv-switch-not-found",
+    "title": "Hyper-V: Virtual switch not found",
+    "category": "Virtualization",
+    "explanation": "The VM references a virtual switch that doesn't exist. The switch may have been deleted or the host was rebuilt.",
+    "fix_snippet": "# List existing switches\nGet-VMSwitch\n# Create a new virtual switch\nNew-VMSwitch -Name 'External' -NetAdapterName 'Ethernet' -AllowManagementOS $true\n# Connect VM to switch\nConnect-VMNetworkAdapter -VMName 'MyVM' -SwitchName 'External'",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows-server/virtualization/hyper-v/get-started/create-a-virtual-switch-for-hyper-v-virtual-machines"
+    ]
+  },
+  {
+    "id": "wsl-not-installed",
+    "title": "WSL: Windows Subsystem for Linux is not installed",
+    "category": "Virtualization",
+    "explanation": "WSL is not enabled on the Windows machine. The Windows feature needs to be installed and enabled.",
+    "fix_snippet": "# Install WSL (Windows 10/11)\nwsl --install\n# Or enable manually\ndism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart\ndism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart\n# Restart and set WSL 2 as default\nwsl --set-default-version 2",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/wsl/install"
+    ]
+  },
+  {
+    "id": "wsl-kernel-update-required",
+    "title": "WSL 2: Kernel update required",
+    "category": "Virtualization",
+    "explanation": "WSL 2 requires a Linux kernel component update that hasn't been installed yet.",
+    "fix_snippet": "# Update WSL kernel\nwsl --update\n# Or download manually from Microsoft\n# https://aka.ms/wsl2kernel\n# After update, restart WSL\nwsl --shutdown\nwsl",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package"
+    ]
+  },
+  {
+    "id": "vagrant-box-not-found",
+    "title": "Vagrant: Box not found",
+    "category": "Virtualization",
+    "explanation": "The Vagrant box specified in the Vagrantfile has not been downloaded or the name is incorrect.",
+    "fix_snippet": "# Add box manually\nvagrant box add ubuntu/jammy64\n# Search available boxes\n# https://app.vagrantup.com/boxes/search\n# Check installed boxes\nvagrant box list\n# Update boxes\nvagrant box update",
+    "sources": [
+      "https://developer.hashicorp.com/vagrant/docs/boxes"
+    ]
+  },
+  {
+    "id": "qemu-kvm-not-available",
+    "title": "QEMU/KVM: /dev/kvm not available",
+    "category": "Virtualization",
+    "explanation": "KVM kernel module is not loaded or the user doesn't have permission to access /dev/kvm. Hardware virtualization may be disabled.",
+    "fix_snippet": "# Check KVM support\nkvm-ok\n# Load KVM module\nsudo modprobe kvm_intel  # or kvm_amd\n# Fix permissions\nsudo usermod -aG kvm $USER\n# Check if nested virtualization is needed\ncat /sys/module/kvm_intel/parameters/nested",
+    "sources": [
+      "https://www.linux-kvm.org/page/FAQ"
+    ]
+  },
+  {
+    "id": "cache-stampede",
+    "title": "Cache stampede / thundering herd",
+    "category": "Caching",
+    "explanation": "Multiple processes simultaneously attempt to rebuild the same expired cache entry, overwhelming the backend database or API.",
+    "fix_snippet": "# Use lock-based cache rebuild\nif cache.get(key) is None:\n    if cache.add(key + ':lock', 1, timeout=60):\n        value = expensive_query()\n        cache.set(key, value, timeout=3600)\n        cache.delete(key + ':lock')\n# Or use stale-while-revalidate pattern\n# Or use probabilistic early expiration",
+    "sources": [
+      "https://redis.io/docs/manual/patterns/distributed-locks/"
+    ]
+  },
+  {
+    "id": "memcached-slab-oom",
+    "title": "Memcached: SERVER_ERROR out of memory",
+    "category": "Caching",
+    "explanation": "Memcached cannot allocate memory for new items. The memory limit has been reached and no items are eligible for eviction.",
+    "fix_snippet": "# Increase memory limit\nmemcached -m 1024  # 1GB\n# Check memory stats\necho 'stats' | nc localhost 11211 | grep bytes\n# Check slab allocation\necho 'stats slabs' | nc localhost 11211\n# Adjust slab growth factor\nmemcached -f 1.25",
+    "sources": [
+      "https://github.com/memcached/memcached/wiki/ConfiguringServer"
+    ]
+  },
+  {
+    "id": "varnish-503-backend-fetch-failed",
+    "title": "Varnish: 503 Backend fetch failed",
+    "category": "Caching",
+    "explanation": "Varnish cannot fetch content from the origin server. The backend may be down, too slow, or returning errors.",
+    "fix_snippet": "# Check backend health\nvarnishadm backend.list\n# Increase backend timeouts in VCL\nbackend default {\n    .host = \"127.0.0.1\";\n    .port = \"8080\";\n    .connect_timeout = 5s;\n    .first_byte_timeout = 60s;\n}\n# Check varnishlog for details\nvarnishlog -g request -q 'RespStatus == 503'",
+    "sources": [
+      "https://varnish-cache.org/docs/trunk/users-guide/troubleshooting.html"
+    ]
+  },
+  {
+    "id": "cdn-cache-miss-high",
+    "title": "CDN: High cache miss ratio",
+    "category": "Caching",
+    "explanation": "The CDN is not caching responses effectively. Most requests are hitting the origin server, defeating the purpose of the CDN.",
+    "fix_snippet": "# Set proper Cache-Control headers\nCache-Control: public, max-age=31536000, immutable\n# Remove Set-Cookie from cacheable responses\n# Normalize query strings and Vary headers\n# Check CDN caching rules\n# Use versioned URLs for cache busting\n<link href=\"/style.v2.css\" />",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+    ]
+  },
+  {
+    "id": "cloudfront-403-access-denied",
+    "title": "CloudFront: 403 Access Denied",
+    "category": "Caching",
+    "explanation": "CloudFront cannot access the S3 origin, usually because the bucket policy or Origin Access Control (OAC) is misconfigured.",
+    "fix_snippet": "# Update S3 bucket policy for OAC\n{\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Principal\": {\"Service\": \"cloudfront.amazonaws.com\"},\n    \"Action\": \"s3:GetObject\",\n    \"Resource\": \"arn:aws:s3:::my-bucket/*\",\n    \"Condition\": {\"StringEquals\": {\"AWS:SourceArn\": \"arn:aws:cloudfront::ACCOUNT:distribution/DIST_ID\"}}\n  }]\n}",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html"
+    ]
+  },
+  {
+    "id": "browser-cache-stale",
+    "title": "Browser serving stale cache after deployment",
+    "category": "Caching",
+    "explanation": "Users see old content after a deployment because their browsers cached the previous version. Cache-busting is not configured.",
+    "fix_snippet": "# Use content-hash in filenames (Webpack/Vite)\noutput: { filename: '[name].[contenthash].js' }\n# Set correct headers for HTML (don't cache)\nCache-Control: no-cache\n# Set long cache for hashed assets\nCache-Control: public, max-age=31536000, immutable\n# Force refresh: Ctrl+Shift+R",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching"
+    ]
+  },
+  {
+    "id": "regex-catastrophic-backtracking",
+    "title": "Regex: Catastrophic backtracking (ReDoS)",
+    "category": "Regex",
+    "explanation": "A regular expression takes exponential time on certain inputs due to nested quantifiers or overlapping alternations. Can freeze applications or be exploited as a denial-of-service.",
+    "fix_snippet": "# Avoid nested quantifiers\n# BAD:  (a+)+$\n# GOOD: a+$\n# Use atomic groups or possessive quantifiers\n# Use specific character classes instead of .\n# Test with regex debugger tools\n# Use RE2 or rust regex for linear-time matching",
+    "sources": [
+      "https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS"
+    ]
+  },
+  {
+    "id": "regex-invalid-group-reference",
+    "title": "Regex: Invalid back reference",
+    "category": "Regex",
+    "explanation": "The regex references a capture group that doesn't exist (e.g., \\3 when there are only 2 groups).",
+    "fix_snippet": "# Count capture groups (each '(' that isn't '(?')\n# Ensure backreference number matches\n(first)(second) -> \\1 and \\2 are valid, \\3 is not\n# Use named groups for clarity\n(?P<name>pattern) -> \\k<name>\n# In JavaScript\n(?<name>pattern) -> \\k<name>",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Groups_and_backreferences"
+    ]
+  },
+  {
+    "id": "regex-unescaped-special-char",
+    "title": "Regex: Invalid regular expression - unexpected character",
+    "category": "Regex",
+    "explanation": "A special regex metacharacter (. * + ? | ^ $ [ ] { } ( ) \\) was used without escaping, causing a syntax error.",
+    "fix_snippet": "# Escape special characters with backslash\n# Match literal dot: \\.\n# Match literal brackets: \\[ \\]\n# Match literal dollar sign: \\$\n# In code, use raw strings (Python)\nimport re\nre.search(r'price: \\$[0-9]+', text)\n# Or use re.escape() for literal strings\nre.escape('price ($)')",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions#escaping"
+    ]
+  },
+  {
+    "id": "regex-lookahead-not-supported",
+    "title": "Regex: Lookbehind not supported",
+    "category": "Regex",
+    "explanation": "The regex engine does not support lookbehind assertions (or only supports fixed-width lookbehinds). Varies by language and engine.",
+    "fix_snippet": "# Use capture groups as alternative\n# Instead of: (?<=@)\\w+\n# Use: @(\\w+) and access group 1\n# Python/Java support variable-width lookbehind\n# JavaScript supports lookbehind (ES2018+)\n# Go RE2 does NOT support lookbehind\n# Use a two-step match approach",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Lookbehind_assertion"
+    ]
+  },
+  {
+    "id": "log4j-appender-not-found",
+    "title": "Log4j: Appender not found",
+    "category": "Logging",
+    "explanation": "The logging configuration references an appender that is not defined. The log4j2.xml or log4j.properties file has an incorrect appender reference.",
+    "fix_snippet": "# Verify appender is defined in log4j2.xml\n<Configuration>\n  <Appenders>\n    <Console name=\"Console\" target=\"SYSTEM_OUT\">\n      <PatternLayout pattern=\"%d{HH:mm:ss} [%t] %-5level %logger - %msg%n\"/>\n    </Console>\n  </Appenders>\n  <Loggers>\n    <Root level=\"info\">\n      <AppenderRef ref=\"Console\"/>\n    </Root>\n  </Loggers>\n</Configuration>",
+    "sources": [
+      "https://logging.apache.org/log4j/2.x/manual/configuration.html"
+    ]
+  },
+  {
+    "id": "logback-file-permission-denied",
+    "title": "Logback: Failed to create log file",
+    "category": "Logging",
+    "explanation": "Logback cannot create or write to the log file due to filesystem permissions or the directory not existing.",
+    "fix_snippet": "# Create log directory with correct permissions\nsudo mkdir -p /var/log/myapp\nsudo chown appuser:appuser /var/log/myapp\n# Check logback.xml file path\n<appender name=\"FILE\" class=\"ch.qos.logback.core.FileAppender\">\n  <file>/var/log/myapp/app.log</file>\n</appender>\n# Use relative path as fallback\n<file>logs/app.log</file>",
+    "sources": [
+      "https://logback.qos.ch/manual/appenders.html"
+    ]
+  },
+  {
+    "id": "fluentd-buffer-overflow",
+    "title": "Fluentd: Buffer overflow",
+    "category": "Logging",
+    "explanation": "Fluentd's output buffer is full because the destination cannot accept data fast enough. Logs may be dropped.",
+    "fix_snippet": "# Increase buffer size in fluentd.conf\n<buffer>\n  @type file\n  path /var/log/fluentd/buffer\n  total_limit_size 5GB\n  chunk_limit_size 32MB\n  overflow_action throw_exception\n</buffer>\n# Scale destination or add retry\nretry_max_times 10\nretry_wait 5s",
+    "sources": [
+      "https://docs.fluentd.org/buffer"
+    ]
+  },
+  {
+    "id": "cloudwatch-logs-throttled",
+    "title": "CloudWatch Logs: Rate exceeded (ThrottlingException)",
+    "category": "Logging",
+    "explanation": "PutLogEvents API calls are being throttled by CloudWatch Logs. The account or log group is exceeding the API rate limit.",
+    "fix_snippet": "# Batch log events (max 10,000 per PutLogEvents)\n# Use CloudWatch Agent instead of direct API calls\n# Implement exponential backoff on retries\n# Request limit increase via AWS Support\n# Consider using Kinesis Data Firehose for high volume",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html"
+    ]
+  },
+  {
+    "id": "elk-logstash-pipeline-error",
+    "title": "Logstash: Pipeline error",
+    "category": "Logging",
+    "explanation": "A Logstash pipeline failed to start or process events, usually due to a bad grok pattern, filter configuration, or output connection issue.",
+    "fix_snippet": "# Test configuration\n/usr/share/logstash/bin/logstash --config.test_and_exit -f /etc/logstash/conf.d/\n# Debug grok patterns\n# Use Kibana Grok Debugger\n# Check pipeline logs\ntail -f /var/log/logstash/logstash-plain.log\n# Test with stdin input\ninput { stdin { } }\nfilter { grok { match => { \"message\" => \"%{COMBINEDAPACHELOG}\" } } }",
+    "sources": [
+      "https://www.elastic.co/guide/en/logstash/current/troubleshooting.html"
     ]
   }
 ];
