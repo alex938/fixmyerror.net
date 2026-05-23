@@ -4,19 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors</title>
-    <meta name="description" content="Find fast, searchable solutions for HTTP, TLS, Docker, Kubernetes and system errors. Save time with instant fixes & practical error explanations.">
-    
-    
+    <meta name="description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors. Copy-paste solutions with explanations.">
+    <link rel="canonical" href="https://fixmyerror.net/">
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fixmyerror.net/">
+    <meta property="og:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
+    <meta property="og:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://fixmyerror.net/">
+    <meta name="twitter:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
+    <meta name="twitter:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
-    
-    
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1a1a1a">
-    
-    
-    <link rel="preload" href="errors.json" as="fetch" type="application/json" crossorigin>
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" as="script">
-    
+
+    <!-- Structured data: SoftwareApplication. Per-error FAQPage entries are injected at runtime. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FixMyError.net",
+      "url": "https://fixmyerror.net/",
+      "description": "Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
     <style>
         :root {
             --bg-primary: #0d1117;
@@ -34,30 +60,30 @@
             --error: #da3633;
             --shadow: rgba(0, 0, 0, 0.5);
         }
-        
+
         :root[data-theme="light"] {
             --bg-primary: #ffffff;
             --bg-secondary: #f6f8fa;
             --bg-tertiary: #eaeef2;
             --text-primary: #1f2328;
-            --text-secondary: #656d76;
-            --text-muted: #8b949e;
+            --text-secondary: #4b5563;
+            --text-muted: #6e7681;
             --border-default: #d1d9e0;
             --border-muted: #eaeef2;
             --accent-primary: #0969da;
             --accent-secondary: #0550ae;
             --success: #1a7f37;
-            --warning: #c69026;
+            --warning: #9a6700;
             --error: #cf222e;
             --shadow: rgba(0, 0, 0, 0.1);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg-primary);
@@ -65,14 +91,36 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
-        
+
+        /* Keyboard focus outline */
+        :focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        /* Skip link for keyboard users */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--accent-primary);
+            color: #000;
+            padding: 8px 16px;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 0 0 8px 0;
+            z-index: 9999;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        
+
         .safety-warning {
             background: linear-gradient(135deg, #da3633, #f85149);
             color: white;
@@ -85,16 +133,16 @@
             z-index: 101;
             box-shadow: 0 2px 8px rgba(218, 54, 51, 0.3);
         }
-        
+
         .safety-warning a {
             color: #fff;
             text-decoration: underline;
         }
-        
+
         .safety-warning .warning-icon {
             margin-right: 6px;
         }
-        
+
         .theme-toggle {
             position: fixed;
             bottom: 20px;
@@ -103,6 +151,7 @@
             height: 50px;
             border-radius: 50%;
             background: var(--accent-primary);
+            color: #000;
             border: none;
             cursor: pointer;
             display: flex;
@@ -113,12 +162,12 @@
             transition: all 0.3s ease;
             z-index: 1000;
         }
-        
+
         .theme-toggle:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 16px var(--shadow);
         }
-        
+
         .toolbar-wrapper {
             position: sticky;
             top: 37px;
@@ -127,7 +176,7 @@
             border-bottom: 1px solid var(--border-default);
             box-shadow: 0 2px 8px var(--shadow);
         }
-        
+
         .toolbar {
             display: flex;
             gap: 10px;
@@ -135,7 +184,7 @@
             padding: 15px 0;
             flex-wrap: wrap;
         }
-        
+
         .toolbar-btn {
             padding: 8px 16px;
             border: 1px solid var(--border-default);
@@ -149,52 +198,55 @@
             align-items: center;
             gap: 6px;
         }
-        
+
         .toolbar-btn:hover {
             background: var(--accent-secondary);
             border-color: var(--accent-secondary);
+            color: #fff;
         }
-        
+
         .favorite-btn {
             position: absolute;
             top: 12px;
             right: 12px;
             background: none;
             border: none;
+            color: inherit;
             font-size: 1.3rem;
             cursor: pointer;
             opacity: 0.5;
             transition: all 0.2s ease;
             z-index: 10;
         }
-        
+
         .favorite-btn:hover {
             opacity: 1;
             transform: scale(1.2);
         }
-        
+
         .favorite-btn.favorited {
             opacity: 1;
         }
-        
+
         .link-btn {
             position: absolute;
             top: 12px;
             right: 48px;
             background: none;
             border: none;
+            color: inherit;
             font-size: 1.3rem;
             cursor: pointer;
             opacity: 0.5;
             transition: all 0.2s ease;
             z-index: 10;
         }
-        
+
         .link-btn:hover {
             opacity: 1;
             transform: scale(1.2);
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -207,11 +259,11 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .modal.show {
             display: flex;
         }
-        
+
         .modal-content {
             background: var(--bg-secondary);
             border-radius: 12px;
@@ -222,20 +274,20 @@
             overflow-y: auto;
             box-shadow: 0 8px 32px var(--shadow);
         }
-        
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .modal-title {
             font-size: 1.5rem;
             font-weight: 600;
             color: var(--text-primary);
         }
-        
+
         .modal-close {
             background: none;
             border: none;
@@ -247,17 +299,17 @@
             width: 30px;
             height: 30px;
         }
-        
+
         .modal-close:hover {
             color: var(--text-primary);
         }
-        
+
         .shortcut-list {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
+
         .shortcut-item {
             display: flex;
             justify-content: space-between;
@@ -266,7 +318,7 @@
             background: var(--bg-tertiary);
             border-radius: 8px;
         }
-        
+
         .shortcut-key {
             background: var(--bg-primary);
             padding: 4px 12px;
@@ -275,7 +327,7 @@
             font-size: 0.9rem;
             border: 1px solid var(--border-default);
         }
-        
+
         .search-history {
             position: absolute;
             top: 100%;
@@ -291,22 +343,22 @@
             z-index: 10;
             box-shadow: 0 4px 12px var(--shadow);
         }
-        
+
         .search-history.show {
             display: block;
         }
-        
+
         .history-item {
             padding: 10px 16px;
             cursor: pointer;
             transition: background 0.2s ease;
             color: var(--text-primary);
         }
-        
+
         .history-item:hover {
             background: var(--bg-tertiary);
         }
-        
+
         .history-clear {
             padding: 8px 16px;
             text-align: center;
@@ -315,51 +367,68 @@
             color: var(--text-muted);
             cursor: pointer;
         }
-        
+
         .history-clear:hover {
             color: var(--accent-primary);
         }
 
-        
         .header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-default);
             padding: 20px 0;
         }
-        
+
         .header-content {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-        
+
         .title {
             text-align: center;
         }
-        
+
         .title h1 {
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 8px;
         }
-        
+
         .title p {
             color: var(--text-secondary);
             font-size: 1.1rem;
         }
-        
-        
+
+        .intro-section {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-muted);
+        }
+        .intro-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 1.8rem;
+        }
+        .intro-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
         .search-section {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        
+
         .search-container {
             position: relative;
         }
-        
+
         .search-input {
             width: 100%;
             padding: 16px 20px 16px 50px;
@@ -370,13 +439,13 @@
             color: var(--text-primary);
             transition: all 0.2s ease;
         }
-        
+
         .search-input:focus {
             outline: none;
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
         }
-        
+
         .search-icon {
             position: absolute;
             left: 18px;
@@ -385,19 +454,19 @@
             color: var(--text-muted);
             font-size: 1.2rem;
         }
-        
+
         .filters {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
             align-items: center;
         }
-        
+
         .filter-label {
             color: var(--text-secondary);
             font-weight: 500;
         }
-        
+
         .category-filter {
             padding: 8px 16px;
             border: 1px solid var(--border-default);
@@ -408,20 +477,20 @@
             transition: all 0.2s ease;
             font-size: 0.9rem;
         }
-        
+
         .category-filter:hover {
             border-color: var(--accent-secondary);
             background: var(--accent-secondary);
+            color: #fff;
         }
-        
+
         .category-filter.active {
             background: var(--accent-primary);
             border-color: var(--accent-primary);
             color: #000;
             font-weight: 600;
         }
-        
-        
+
         .stats {
             display: flex;
             justify-content: center;
@@ -429,40 +498,39 @@
             padding: 20px 0;
             border-bottom: 1px solid var(--border-muted);
         }
-        
+
         .stat {
             text-align: center;
         }
-        
+
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
             color: var(--accent-primary);
             display: block;
         }
-        
+
         .stat-label {
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
-        
-        
+
         .results-container {
             padding: 30px 0;
         }
-        
+
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
+
         .results-count {
             color: var(--text-secondary);
             font-size: 0.95rem;
         }
-        
+
         .clear-search {
             background: none;
             border: 1px solid var(--border-default);
@@ -472,40 +540,48 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
+
         .clear-search:hover {
             border-color: var(--accent-secondary);
             color: var(--accent-primary);
         }
-        
+
         .error-grid {
             display: grid;
             gap: 16px;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
         }
-        
+
         .error-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-default);
             border-radius: 12px;
             overflow: hidden;
             transition: all 0.2s ease;
-            cursor: pointer;
             position: relative;
-            scroll-margin-top: 140px; /* Account for sticky header + warning */
+            scroll-margin-top: 140px;
         }
-        
+
         .error-card:hover {
             border-color: var(--accent-secondary);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px var(--shadow);
         }
-        
+
         .error-header {
             padding: 20px;
             border-bottom: 1px solid var(--border-muted);
+            cursor: pointer;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            color: inherit;
         }
-        
+
         .error-title {
             font-size: 1.2rem;
             font-weight: 600;
@@ -513,7 +589,7 @@
             margin-bottom: 8px;
             font-family: 'Courier New', monospace;
         }
-        
+
         .error-category {
             display: inline-block;
             padding: 4px 10px;
@@ -523,7 +599,8 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
+        /* Category colors */
         .category-http { background: #1f6feb; color: white; }
         .category-tls { background: #d29922; color: white; }
         .category-network { background: #238636; color: white; }
@@ -569,23 +646,31 @@
         .category-caching { background: #dc382d; color: white; }
         .category-regex { background: #6e45e2; color: white; }
         .category-logging { background: #00bfb3; color: white; }
-        
+        /* New categories */
+        .category-webassembly { background: #654ff0; color: white; }
+        .category-web3 { background: #f6851b; color: white; }
+        .category-performance { background: #ff5722; color: white; }
+        .category-auth { background: #6c5ce7; color: white; }
+        .category-windows { background: #0078d4; color: white; }
+        .category-apple { background: #999; color: white; }
+        .category-frontend { background: #00d8ff; color: black; }
+
         .error-body {
             padding: 20px;
             display: none;
         }
-        
+
         .error-body.expanded {
             display: block;
             animation: slideDown 0.2s ease;
         }
-        
+
         .error-explanation {
             color: var(--text-secondary);
             margin-bottom: 20px;
             line-height: 1.7;
         }
-        
+
         .fix-snippet {
             background: var(--bg-primary);
             border: 1px solid var(--border-default);
@@ -594,14 +679,14 @@
             margin: 16px 0;
             position: relative;
         }
-        
+
         .fix-snippet-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
         }
-        
+
         .fix-snippet-title {
             color: var(--text-secondary);
             font-size: 0.9rem;
@@ -609,7 +694,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .copy-button {
             position: absolute;
             top: 12px;
@@ -623,17 +708,17 @@
             font-size: 0.8rem;
             transition: all 0.2s ease;
         }
-        
+
         .copy-button:hover {
             background: var(--accent-secondary);
             color: white;
         }
-        
+
         .copy-button.copied {
             background: var(--success);
             color: white;
         }
-        
+
         .code-block {
             font-family: 'Courier New', Consolas, Monaco, monospace;
             font-size: 0.9rem;
@@ -641,21 +726,22 @@
             color: var(--text-primary);
             white-space: pre-wrap;
             word-break: break-all;
+            display: block;
         }
-        
+
         .sources {
             margin-top: 16px;
             padding-top: 16px;
             border-top: 1px solid var(--border-muted);
         }
-        
+
         .sources-title {
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 8px;
             font-weight: 600;
         }
-        
+
         .source-link {
             display: inline-block;
             color: var(--accent-primary);
@@ -664,18 +750,17 @@
             margin-right: 12px;
             margin-bottom: 4px;
         }
-        
+
         .source-link:hover {
             text-decoration: underline;
         }
-        
-        
+
         .loading {
             text-align: center;
             padding: 60px 20px;
             color: var(--text-secondary);
         }
-        
+
         .spinner {
             display: inline-block;
             width: 30px;
@@ -686,23 +771,47 @@
             animation: spin 1s ease-in-out infinite;
             margin-bottom: 16px;
         }
-        
+
         .empty-state {
             text-align: center;
             padding: 60px 20px;
             color: var(--text-secondary);
         }
-        
+
         .empty-state h3 {
             color: var(--text-primary);
             margin-bottom: 12px;
         }
-        
-        
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%) translateY(40px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+            pointer-events: none;
+            max-width: 90%;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.error { border-color: var(--error); }
+        .toast.success { border-color: var(--success); }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-        
+
         @keyframes slideDown {
             from {
                 opacity: 0;
@@ -713,58 +822,37 @@
                 transform: translateY(0);
             }
         }
-        
-        
+
         @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-            
-            .title h1 {
-                font-size: 2rem;
-            }
-            
-            .error-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .filters {
-                justify-content: center;
-            }
-            
-            .stats {
-                gap: 20px;
-            }
-            
-            .stat-number {
-                font-size: 1.5rem;
-            }
+            .container { padding: 0 16px; }
+            .title h1 { font-size: 2rem; }
+            .error-grid { grid-template-columns: 1fr; }
+            .filters { justify-content: center; }
+            .stats { gap: 20px; }
+            .stat-number { font-size: 1.5rem; }
         }
-        
+
         @media (max-width: 480px) {
-            .header-content {
-                gap: 16px;
-            }
-            
-            .title h1 {
-                font-size: 1.8rem;
-            }
-            
+            .header-content { gap: 16px; }
+            .title h1 { font-size: 1.8rem; }
             .search-input {
                 font-size: 1rem;
                 padding: 14px 18px 14px 45px;
             }
-            
-            .filters {
-                gap: 8px;
-            }
-            
+            .filters { gap: 8px; }
             .category-filter {
                 padding: 6px 12px;
                 font-size: 0.85rem;
             }
         }
-        
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-default);
@@ -772,24 +860,24 @@
             margin-top: 50px;
             text-align: center;
         }
-        
+
         .footer-content {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.6;
         }
-        
+
         .footer-content a {
             color: var(--accent-primary);
             text-decoration: none;
             transition: color 0.2s ease;
         }
-        
+
         .footer-content a:hover {
             color: var(--text-primary);
             text-decoration: underline;
         }
-        
+
         .donate-button {
             display: inline-block;
             margin-top: 16px;
@@ -805,17 +893,17 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(99, 91, 255, 0.3);
         }
-        
+
         .donate-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(99, 91, 255, 0.4);
             background: linear-gradient(135deg, #7a73ff, #3884ff);
         }
-        
+
         .donate-button:active {
             transform: translateY(0);
         }
-        
+
         .donate-icon {
             margin-right: 8px;
             font-size: 1.1rem;
@@ -823,97 +911,56 @@
     </style>
 </head>
 <body>
-    
+    <a href="#errorGrid" class="skip-link">Skip to results</a>
+
     <div class="safety-warning">
         <div class="container">
-            <span class="warning-icon">⚠️</span>
+            <span class="warning-icon" aria-hidden="true">⚠️</span>
             <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
         </div>
     </div>
-    
+
     <header class="header">
         <div class="container">
             <div class="header-content">
                 <div class="title">
-                    <h1>🚀 FixMyError.net</h1>
-                    <section class="intro-section" style="text-align: center; padding: 20px 0; margin-top: 20px; border-top: 1px solid var(--border-muted);">
-                        <h2 style="color: var(--text-primary); margin-bottom: 16px; font-size: 1.8rem;">The Developer's Error Encyclopedia</h2>
-                        <p style="max-width: 800px; margin: 0 auto; line-height: 1.6; color: var(--text-secondary); font-size: 1.1rem;">
-                            FixMyError.net is your instant reference for troubleshooting common development and infrastructure issues. 
-                            Whether you need to <strong>fix HTTP errors quickly</strong>, find <strong>common Docker error solutions</strong>, 
-                            or need help with <strong>Kubernetes troubleshooting</strong>, we have the answers. 
-                            Our searchable database includes detailed explanations and copy-paste fixes for <strong>network error messages</strong>, 
+                    <h1><span aria-hidden="true">🚀</span> FixMyError.net</h1>
+                    <section class="intro-section">
+                        <h2>The Developer's Error Encyclopedia</h2>
+                        <p>
+                            FixMyError.net is your instant reference for troubleshooting common development and infrastructure issues.
+                            Whether you need to <strong>fix HTTP errors quickly</strong>, find <strong>common Docker error solutions</strong>,
+                            or need help with <strong>Kubernetes troubleshooting</strong>, we have the answers.
+                            Our searchable database includes detailed explanations and copy-paste fixes for <strong>network error messages</strong>,
                             TLS handshake failures, database connection timeouts, and system configuration issues.
                         </p>
                     </section>
 
                     <a href="https://donate.stripe.com/fZu8wP1gI3AP5Xa6SmcZa01" target="_blank" rel="noopener noreferrer" class="donate-button">
-                        <span class="donate-icon">💖</span>
+                        <span class="donate-icon" aria-hidden="true">💖</span>
                         Support This Project
                     </a>
                 </div>
-                
+
                 <div class="search-section">
                     <div class="search-container">
-                        <span class="search-icon">🔍</span>
-                        <input 
-                            type="text" 
-                            class="search-input" 
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                        <label for="searchInput" class="visually-hidden" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;">Search errors</label>
+                        <input
+                            type="search"
+                            class="search-input"
                             placeholder="Search errors... (e.g., 'ssl certificate', 'connection refused', '502')"
                             id="searchInput"
                             autocomplete="off"
+                            aria-label="Search errors"
+                            aria-describedby="resultsCount"
                         >
-                        <div class="search-history" id="searchHistory"></div>
+                        <div class="search-history" id="searchHistory" role="listbox" aria-label="Recent searches"></div>
                     </div>
-                    
-                    <div class="filters">
+
+                    <div class="filters" id="categoryFilters" role="toolbar" aria-label="Filter by category">
+                        <!-- Buttons are populated dynamically from data -->
                         <span class="filter-label">Filter by:</span>
-                        <button class="category-filter active" data-category="all">All</button>
-                        <button class="category-filter" data-category="HTTP">HTTP</button>
-                        <button class="category-filter" data-category="TLS">TLS</button>
-                        <button class="category-filter" data-category="Network">Network</button>
-                        <button class="category-filter" data-category="DNS">DNS</button>
-                        <button class="category-filter" data-category="Proxy">Proxy</button>
-                        <button class="category-filter" data-category="Client">Client</button>
-                        <button class="category-filter" data-category="Docker">Docker</button>
-                        <button class="category-filter" data-category="Kubernetes">Kubernetes</button>
-                        <button class="category-filter" data-category="Terraform">Terraform</button>
-                        <button class="category-filter" data-category="Ansible">Ansible</button>
-                        <button class="category-filter" data-category="CI/CD">CI/CD</button>
-                        <button class="category-filter" data-category="Cloud">Cloud</button>
-                        <button class="category-filter" data-category="Database">Database</button>
-                        <button class="category-filter" data-category="Monitoring">Monitoring</button>
-                        <button class="category-filter" data-category="Git">Git</button>
-                        <button class="category-filter" data-category="Ingress">Ingress</button>
-                        <button class="category-filter" data-category="ICMP">ICMP</button>
-                        <button class="category-filter" data-category="Python">Python</button>
-                        <button class="category-filter" data-category="JavaScript">JavaScript</button>
-                        <button class="category-filter" data-category="System">System</button>
-                        <button class="category-filter" data-category="Security">Security</button>
-                        <button class="category-filter" data-category="AI">AI</button>
-                        <button class="category-filter" data-category="API">API</button>
-                        <button class="category-filter" data-category="Storage">Storage</button>
-                        <button class="category-filter" data-category="MessageQueue">Message Queues</button>
-                        <button class="category-filter" data-category="Rust">Rust</button>
-                        <button class="category-filter" data-category="Go">Go</button>
-                        <button class="category-filter" data-category="Mobile">Mobile</button>
-                        <button class="category-filter" data-category="Java">Java</button>
-                        <button class="category-filter" data-category="C++">C++</button>
-                        <button class="category-filter" data-category="PHP">PHP</button>
-                        <button class="category-filter" data-category="Ruby">Ruby</button>
-                        <button class="category-filter" data-category="C#">C#</button>
-                        <button class="category-filter" data-category="BigData">Big Data</button>
-                        <button class="category-filter" data-category="WebServer">Web Server</button>
-                        <button class="category-filter" data-category="GraphQL">GraphQL</button>
-                        <button class="category-filter" data-category="Serverless">Serverless</button>
-                        <button class="category-filter" data-category="TypeScript">TypeScript</button>
-                        <button class="category-filter" data-category="Shell">Shell</button>
-                        <button class="category-filter" data-category="Testing">Testing</button>
-                        <button class="category-filter" data-category="Email">Email</button>
-                        <button class="category-filter" data-category="Virtualization">Virtualization</button>
-                        <button class="category-filter" data-category="Caching">Caching</button>
-                        <button class="category-filter" data-category="Regex">Regex</button>
-                        <button class="category-filter" data-category="Logging">Logging</button>
                     </div>
                 </div>
             </div>
@@ -922,25 +969,25 @@
 
     <div class="toolbar-wrapper">
         <div class="container">
-            <div class="toolbar">
-                <button class="toolbar-btn" id="showFavoritesBtn">
-                    ⭐ Favorites (<span id="favoritesCount">0</span>)
+            <div class="toolbar" role="toolbar" aria-label="Actions">
+                <button class="toolbar-btn" id="showFavoritesBtn" aria-pressed="false">
+                    <span aria-hidden="true">⭐</span> Favorites (<span id="favoritesCount">0</span>)
                 </button>
                 <button class="toolbar-btn" id="exportBtn">
-                    📥 Export
+                    <span aria-hidden="true">📥</span> Export
                 </button>
                 <button class="toolbar-btn" id="shareBtn">
-                    🔗 Share
+                    <span aria-hidden="true">🔗</span> Share
                 </button>
-                <button class="toolbar-btn" id="keyboardShortcutsBtn">
-                    ⌨️ Shortcuts
+                <button class="toolbar-btn" id="keyboardShortcutsBtn" aria-haspopup="dialog">
+                    <span aria-hidden="true">⌨️</span> Shortcuts
                 </button>
             </div>
         </div>
     </div>
 
-    <main class="container">
-        <div class="stats">
+    <main class="container" id="main">
+        <div class="stats" aria-live="polite">
             <div class="stat">
                 <span class="stat-number" id="totalErrors">0</span>
                 <span class="stat-label">Total Errors</span>
@@ -957,21 +1004,21 @@
 
         <div class="results-container">
             <div class="results-header">
-                <div class="results-count" id="resultsCount">Loading errors...</div>
+                <div class="results-count" id="resultsCount" aria-live="polite">Loading errors...</div>
                 <button class="clear-search" id="clearSearch" style="display: none;">Clear Search</button>
             </div>
-            
+
             <div id="loadingState" class="loading">
-                <div class="spinner"></div>
+                <div class="spinner" aria-hidden="true"></div>
                 <p>Loading error database...</p>
             </div>
-            
+
             <div id="emptyState" class="empty-state" style="display: none;">
                 <h3>No errors found</h3>
                 <p>Try adjusting your search terms or category filter</p>
             </div>
-            
-            <div class="error-grid" id="errorGrid"></div>
+
+            <div class="error-grid" id="errorGrid" role="region" aria-label="Errors"></div>
         </div>
     </main>
 
@@ -983,15 +1030,15 @@
         </div>
     </footer>
 
-    <button class="theme-toggle" id="themeToggle" title="Toggle theme">
-        🌙
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">
+        <span id="themeToggleIcon" aria-hidden="true">🌙</span>
     </button>
-    
-    <div class="modal" id="shortcutsModal">
+
+    <div class="modal" id="shortcutsModal" role="dialog" aria-modal="true" aria-labelledby="shortcutsModalTitle" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">⌨️ Keyboard Shortcuts</h2>
-                <button class="modal-close" id="closeShortcutsModal">×</button>
+                <h2 class="modal-title" id="shortcutsModalTitle"><span aria-hidden="true">⌨️</span> Keyboard Shortcuts</h2>
+                <button class="modal-close" id="closeShortcutsModal" aria-label="Close shortcuts dialog">×</button>
             </div>
             <div class="shortcut-list">
                 <div class="shortcut-item">
@@ -1018,12 +1065,14 @@
         </div>
     </div>
 
-    
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
-    
-    
-    <script src="embedded-data.js?v=8"></script>
-    
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"
+            integrity="sha384-zPE55eyESN+FxCWGEnlNxGyAPJud6IZ6TtJmXb56OFRGhxZPN4akj9rjA3gw5Qqa"
+            crossorigin="anonymous"></script>
+
+    <script src="embedded-data.js?v=9"></script>
+
     <script>
         class ErrorCheatsheet {
             constructor() {
@@ -1031,22 +1080,24 @@
                 this.fuse = null;
                 this.currentCategory = 'all';
                 this.currentResults = [];
+                this.knownCategories = new Set();
                 this.favorites = this.loadFavorites();
                 this.searchHistory = this.loadSearchHistory();
                 this.showingFavorites = false;
-                
+                this.lastFocusedBeforeModal = null;
+
                 this.initializeTheme();
                 this.initializeElements();
                 this.loadErrors();
                 this.setupEventListeners();
                 this.registerServiceWorker();
             }
-            
+
             initializeTheme() {
                 const savedTheme = localStorage.getItem('theme') || 'dark';
                 document.documentElement.setAttribute('data-theme', savedTheme);
             }
-            
+
             initializeElements() {
                 this.searchInput = document.getElementById('searchInput');
                 this.clearButton = document.getElementById('clearSearch');
@@ -1057,8 +1108,9 @@
                 this.totalErrors = document.getElementById('totalErrors');
                 this.visibleErrors = document.getElementById('visibleErrors');
                 this.totalCategories = document.getElementById('totalCategories');
-                this.categoryFilters = document.querySelectorAll('.category-filter');
+                this.categoryFiltersContainer = document.getElementById('categoryFilters');
                 this.themeToggle = document.getElementById('themeToggle');
+                this.themeToggleIcon = document.getElementById('themeToggleIcon');
                 this.searchHistoryDiv = document.getElementById('searchHistory');
                 this.favoritesCount = document.getElementById('favoritesCount');
                 this.showFavoritesBtn = document.getElementById('showFavoritesBtn');
@@ -1067,33 +1119,44 @@
                 this.keyboardShortcutsBtn = document.getElementById('keyboardShortcutsBtn');
                 this.shortcutsModal = document.getElementById('shortcutsModal');
                 this.closeShortcutsModal = document.getElementById('closeShortcutsModal');
-                
+                this.toastEl = document.getElementById('toast');
+
+                this.themeToggleIcon.textContent =
+                    document.documentElement.getAttribute('data-theme') === 'dark' ? '🌙' : '☀️';
+
                 this.updateFavoritesCount();
             }
-            
+
             async loadErrors() {
                 try {
-                    if (typeof ERRORS_DATA !== 'undefined') {
+                    if (typeof ERRORS_DATA !== 'undefined' && Array.isArray(ERRORS_DATA)) {
                         this.errors = ERRORS_DATA;
                     } else {
-                        const response = await fetch('errors.json');
-                        this.errors = await response.json();
+                        throw new Error('ERRORS_DATA not available');
                     }
-                    
+
+                    // Build category set
+                    this.knownCategories = new Set(this.errors.map(e => e.category));
+
+                    // Populate category filter buttons dynamically
+                    this.renderCategoryFilters();
+
                     this.fuse = new Fuse(this.errors, {
                         keys: ['title', 'explanation', 'category', 'fix_snippet'],
                         threshold: 0.4,
                         includeScore: true
                     });
-                    
+
                     this.updateStats();
                     this.displayResults(this.errors);
                     this.updateResultsCount(this.errors, '');
                     this.loadingState.style.display = 'none';
 
+                    // Inject FAQPage JSON-LD for SEO (top entries)
+                    this.injectStructuredData();
+
                     // Handle URL parameters after errors are loaded
                     this.handleURLParameters();
-                    
                 } catch (error) {
                     console.error('Error loading errors:', error);
                     this.loadingState.innerHTML = `
@@ -1102,12 +1165,58 @@
                     `;
                 }
             }
-            
+
+            renderCategoryFilters() {
+                const categories = ['all', ...Array.from(this.knownCategories).sort((a, b) => a.localeCompare(b))];
+                // Keep the leading "Filter by:" label and append buttons
+                const label = this.categoryFiltersContainer.querySelector('.filter-label');
+                this.categoryFiltersContainer.innerHTML = '';
+                if (label) this.categoryFiltersContainer.appendChild(label);
+
+                for (const cat of categories) {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'category-filter';
+                    btn.dataset.category = cat;
+                    btn.textContent = cat === 'all' ? 'All' : cat;
+                    if (cat === 'all') btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', cat === 'all' ? 'true' : 'false');
+                    this.categoryFiltersContainer.appendChild(btn);
+                }
+
+                this.categoryFiltersContainer.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.category-filter');
+                    if (!btn) return;
+                    this.setActiveCategory(btn.dataset.category);
+                });
+            }
+
+            injectStructuredData() {
+                // Limit the JSON-LD to the first ~30 entries to keep page weight reasonable.
+                const subset = this.errors.slice(0, 30);
+                const faqPage = {
+                    '@context': 'https://schema.org',
+                    '@type': 'FAQPage',
+                    'mainEntity': subset.map(err => ({
+                        '@type': 'Question',
+                        'name': err.title,
+                        'acceptedAnswer': {
+                            '@type': 'Answer',
+                            'text': err.explanation + '\n\nFix:\n' + err.fix_snippet
+                        }
+                    }))
+                };
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(faqPage);
+                document.head.appendChild(script);
+            }
+
             setupEventListeners() {
                 this.searchInput.addEventListener('input', this.debounce(() => {
                     this.performSearch();
                 }, 300));
-                
+
                 this.searchInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         this.clearSearch();
@@ -1116,57 +1225,103 @@
                         this.addToSearchHistory(this.searchInput.value.trim());
                     }
                 });
-                
+
                 this.searchInput.addEventListener('focus', () => {
                     if (this.searchHistory.length > 0) {
                         this.showSearchHistory();
                     }
                 });
-                
+
                 this.searchInput.addEventListener('blur', () => {
                     setTimeout(() => this.hideSearchHistory(), 200);
                 });
-                
+
                 this.clearButton.addEventListener('click', () => {
                     this.clearSearch();
                 });
-                
-                this.categoryFilters.forEach(filter => {
-                    filter.addEventListener('click', () => {
-                        this.setActiveCategory(filter.dataset.category);
-                    });
-                });
-                
+
                 this.themeToggle.addEventListener('click', () => {
                     this.toggleTheme();
                 });
-                
+
                 this.showFavoritesBtn.addEventListener('click', () => {
                     this.toggleFavoritesView();
                 });
-                
+
                 this.exportBtn.addEventListener('click', () => {
                     this.exportFavorites();
                 });
-                
+
                 this.shareBtn.addEventListener('click', () => {
                     this.shareResults();
                 });
-                
+
                 this.keyboardShortcutsBtn.addEventListener('click', () => {
                     this.showShortcutsModal();
                 });
-                
+
                 this.closeShortcutsModal.addEventListener('click', () => {
                     this.hideShortcutsModal();
                 });
-                
+
                 this.shortcutsModal.addEventListener('click', (e) => {
                     if (e.target === this.shortcutsModal) {
                         this.hideShortcutsModal();
                     }
                 });
-                
+
+                // Delegated event handling for the error grid (one listener, scales)
+                this.errorGrid.addEventListener('click', (e) => {
+                    const linkBtn = e.target.closest('.link-btn');
+                    if (linkBtn) {
+                        e.stopPropagation();
+                        const id = linkBtn.dataset.id;
+                        const url = window.location.origin + window.location.pathname + '#' + id;
+                        this.copyText(url, 'Link copied to clipboard');
+                        return;
+                    }
+
+                    const favBtn = e.target.closest('.favorite-btn');
+                    if (favBtn) {
+                        e.stopPropagation();
+                        const id = favBtn.dataset.id;
+                        this.toggleFavorite(id);
+                        favBtn.textContent = this.isFavorite(id) ? '⭐' : '☆';
+                        favBtn.classList.toggle('favorited');
+                        favBtn.setAttribute('aria-pressed', this.isFavorite(id) ? 'true' : 'false');
+                        this.updateFavoritesCount();
+                        return;
+                    }
+
+                    const copyBtn = e.target.closest('.copy-button');
+                    if (copyBtn) {
+                        e.stopPropagation();
+                        this.copyText(copyBtn.dataset.code, 'Copied!', copyBtn);
+                        return;
+                    }
+
+                    const header = e.target.closest('.error-header');
+                    if (header) {
+                        const card = header.closest('.error-card');
+                        const body = card.querySelector('.error-body');
+                        const wasExpanded = body.classList.contains('expanded');
+                        document.querySelectorAll('.error-body').forEach(b => b.classList.remove('expanded'));
+                        document.querySelectorAll('.error-header').forEach(h => h.setAttribute('aria-expanded', 'false'));
+                        if (!wasExpanded) {
+                            body.classList.add('expanded');
+                            header.setAttribute('aria-expanded', 'true');
+                        }
+                    }
+                });
+
+                this.errorGrid.addEventListener('keydown', (e) => {
+                    const header = e.target.closest('.error-header');
+                    if (header && (e.key === 'Enter' || e.key === ' ')) {
+                        e.preventDefault();
+                        header.click();
+                    }
+                });
+
                 window.addEventListener('hashchange', () => {
                     const hash = window.location.hash.substring(1);
                     if (hash) {
@@ -1175,8 +1330,9 @@
                 });
 
                 document.addEventListener('keydown', (e) => {
-                    if (e.target.tagName === 'INPUT') return;
-                    
+                    const tag = e.target.tagName;
+                    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
+
                     if (e.key === '/') {
                         e.preventDefault();
                         this.searchInput.focus();
@@ -1190,14 +1346,39 @@
                         this.hideShortcutsModal();
                     }
                 });
+
+                // Modal focus trap
+                this.shortcutsModal.addEventListener('keydown', (e) => {
+                    if (!this.shortcutsModal.classList.contains('show')) return;
+                    if (e.key === 'Escape') {
+                        e.preventDefault();
+                        this.hideShortcutsModal();
+                        return;
+                    }
+                    if (e.key === 'Tab') {
+                        const focusable = this.shortcutsModal.querySelectorAll(
+                            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                        );
+                        if (focusable.length === 0) return;
+                        const first = focusable[0];
+                        const last = focusable[focusable.length - 1];
+                        if (e.shiftKey && document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        } else if (!e.shiftKey && document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                });
             }
-            
+
             performSearch() {
                 const query = this.searchInput.value.trim();
                 const showClear = query.length > 0;
-                
+
                 this.clearButton.style.display = showClear ? 'block' : 'none';
-                
+
                 let results;
                 if (query.length === 0) {
                     results = this.errors;
@@ -1205,165 +1386,163 @@
                     const fuseResults = this.fuse.search(query);
                     results = fuseResults.map(result => result.item);
                 }
-                
+
                 if (this.currentCategory !== 'all') {
                     results = results.filter(error => error.category === this.currentCategory);
                 }
-                
+
                 this.currentResults = results;
                 this.displayResults(results);
                 this.updateResultsCount(results, query);
             }
-            
+
             setActiveCategory(category) {
+                // Validate against known categories. Reset to 'all' on unknown.
+                if (category !== 'all' && !this.knownCategories.has(category)) {
+                    console.warn('Unknown category, falling back to all:', category);
+                    category = 'all';
+                }
                 this.currentCategory = category;
-                
-                this.categoryFilters.forEach(filter => {
-                    filter.classList.toggle('active', filter.dataset.category === category);
+
+                // Switching filters exits favorites view
+                if (this.showingFavorites) {
+                    this.showingFavorites = false;
+                    this.showFavoritesBtn.style.background = '';
+                    this.showFavoritesBtn.style.color = '';
+                    this.showFavoritesBtn.setAttribute('aria-pressed', 'false');
+                }
+
+                this.categoryFiltersContainer.querySelectorAll('.category-filter').forEach(filter => {
+                    const isActive = filter.dataset.category === category;
+                    filter.classList.toggle('active', isActive);
+                    filter.setAttribute('aria-pressed', isActive ? 'true' : 'false');
                 });
-                
+
                 this.performSearch();
             }
-            
+
             displayResults(errors) {
-                if (errors.length === 0) {
+                if (!errors || errors.length === 0) {
                     this.errorGrid.style.display = 'none';
                     this.emptyState.style.display = 'block';
+                    this.updateVisibleCount(0);
                     return;
                 }
-                
+
                 this.errorGrid.style.display = 'grid';
                 this.emptyState.style.display = 'none';
-                
-                this.errorGrid.innerHTML = errors.map(error => `
-                    <div id="${error.id}" class="error-card" data-id="${error.id}">
-                        <button class="link-btn" data-id="${error.id}" title="Copy Link">
-                            🔗
+
+                this.errorGrid.innerHTML = errors.map(error => this.renderErrorCard(error)).join('');
+                this.updateVisibleCount(errors.length);
+            }
+
+            renderErrorCard(error) {
+                const title = this.escapeHtml(error.title);
+                const explanation = this.escapeHtml(error.explanation);
+                const fix = this.escapeHtml(error.fix_snippet);
+                const category = this.escapeHtml(error.category);
+                const categoryClass = this.escapeHtml(error.category.toLowerCase());
+                const id = this.escapeHtml(error.id);
+                const isFav = this.isFavorite(error.id);
+
+                const sourcesHtml = (Array.isArray(error.sources) && error.sources.length > 0)
+                    ? `<div class="sources">
+                          <div class="sources-title">Learn More:</div>
+                          ${error.sources
+                              .filter(src => this.isSafeUrl(src))
+                              .map(src => `<a href="${this.escapeHtml(src)}" target="_blank" rel="noopener noreferrer" class="source-link">📖 Reference</a>`)
+                              .join('')}
+                       </div>`
+                    : '';
+
+                return `
+                    <article id="${id}" class="error-card" data-id="${id}">
+                        <button class="link-btn" type="button" data-id="${id}" aria-label="Copy link to this error" title="Copy link">
+                            <span aria-hidden="true">🔗</span>
                         </button>
-                        <button class="favorite-btn ${this.isFavorite(error.id) ? 'favorited' : ''}" data-id="${error.id}">
-                            ${this.isFavorite(error.id) ? '⭐' : '☆'}
+                        <button class="favorite-btn ${isFav ? 'favorited' : ''}" type="button" data-id="${id}"
+                                aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
+                                aria-pressed="${isFav ? 'true' : 'false'}">
+                            ${isFav ? '⭐' : '☆'}
                         </button>
-                        <div class="error-header">
-                            <div class="error-title">${this.escapeHtml(error.title)}</div>
-                            <span class="error-category category-${error.category.toLowerCase()}">${error.category}</span>
-                        </div>
-                        <div class="error-body">
-                            <div class="error-explanation">${this.escapeHtml(error.explanation)}</div>
-                            
+                        <button class="error-header" type="button" aria-expanded="false" aria-controls="body-${id}">
+                            <h3 class="error-title">${title}</h3>
+                            <span class="error-category category-${categoryClass}">${category}</span>
+                        </button>
+                        <div class="error-body" id="body-${id}">
+                            <div class="error-explanation">${explanation}</div>
                             <div class="fix-snippet">
                                 <div class="fix-snippet-header">
                                     <span class="fix-snippet-title">Quick Fix</span>
                                 </div>
-                                <button class="copy-button" data-code="${this.escapeHtml(error.fix_snippet)}">Copy</button>
-                                <code class="code-block">${this.escapeHtml(error.fix_snippet)}</code>
+                                <button class="copy-button" type="button" data-code="${fix}" aria-label="Copy fix to clipboard">Copy</button>
+                                <code class="code-block">${fix}</code>
                             </div>
-                            
-                            ${error.sources && error.sources.length > 0 ? `
-                                <div class="sources">
-                                    <div class="sources-title">Learn More:</div>
-                                    ${error.sources.map(source => `
-                                        <a href="${source}" target="_blank" rel="noopener noreferrer" class="source-link">
-                                            📖 Reference
-                                        </a>
-                                    `).join('')}
-                                </div>
-                            ` : ''}
+                            ${sourcesHtml}
                         </div>
-                    </div>
-                `).join('');
-                
-                this.setupCardInteractions();
-                this.updateVisibleCount(errors.length);
+                    </article>
+                `;
             }
-            
-            setupCardInteractions() {
-                document.querySelectorAll('.link-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const errorId = button.dataset.id;
-                        const url = window.location.origin + window.location.pathname + '#' + errorId;
-                        this.copyToClipboardFallback(url);
-                    });
-                });
 
-                document.querySelectorAll('.favorite-btn').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const errorId = button.dataset.id;
-                        this.toggleFavorite(errorId);
-                        button.textContent = this.isFavorite(errorId) ? '⭐' : '☆';
-                        button.classList.toggle('favorited');
-                        this.updateFavoritesCount();
-                    });
-                });
-                
-                document.querySelectorAll('.error-card').forEach(card => {
-                    const header = card.querySelector('.error-header');
-                    const body = card.querySelector('.error-body');
-                    
-                    header.addEventListener('click', () => {
-                        const isExpanded = body.classList.contains('expanded');
-                        
-                        document.querySelectorAll('.error-body').forEach(b => {
-                            b.classList.remove('expanded');
-                        });
-                        
-                        if (!isExpanded) {
-                            body.classList.add('expanded');
-                        }
-                    });
-                });
-                
-                document.querySelectorAll('.copy-button').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        this.copyToClipboard(button.dataset.code, button);
-                    });
-                });
-            }
-            
-            async copyToClipboard(text, button) {
+            // Allow only http(s) URLs in sources (defense against javascript: etc.)
+            isSafeUrl(url) {
                 try {
-                    await navigator.clipboard.writeText(text);
-                    const originalText = button.textContent;
-                    button.textContent = 'Copied!';
-                    button.classList.add('copied');
-                    
-                    setTimeout(() => {
-                        button.textContent = originalText;
-                        button.classList.remove('copied');
-                    }, 2000);
-                } catch (err) {
-                    console.error('Failed to copy:', err);
-                    button.textContent = 'Failed';
-                    setTimeout(() => {
-                        button.textContent = 'Copy';
-                    }, 2000);
+                    const u = new URL(url, window.location.origin);
+                    return u.protocol === 'http:' || u.protocol === 'https:';
+                } catch (e) {
+                    return false;
                 }
             }
-            
+
+            async copyText(text, message, buttonEl) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    this.showToast(message || 'Copied', 'success');
+                    if (buttonEl) {
+                        const original = buttonEl.textContent;
+                        buttonEl.textContent = 'Copied!';
+                        buttonEl.classList.add('copied');
+                        setTimeout(() => {
+                            buttonEl.textContent = original;
+                            buttonEl.classList.remove('copied');
+                        }, 2000);
+                    }
+                } catch (err) {
+                    console.error('Failed to copy:', err);
+                    // Fallback: select an off-screen textarea
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (_) {}
+                    document.body.removeChild(ta);
+                    this.showToast(ok ? (message || 'Copied') : 'Copy failed', ok ? 'success' : 'error');
+                }
+            }
+
             clearSearch() {
                 this.searchInput.value = '';
                 this.clearButton.style.display = 'none';
                 this.performSearch();
                 this.searchInput.focus();
             }
-            
+
             updateStats() {
-                const categories = [...new Set(this.errors.map(e => e.category))].length;
                 this.totalErrors.textContent = this.errors.length;
-                this.totalCategories.textContent = categories;
+                this.totalCategories.textContent = this.knownCategories.size;
                 this.visibleErrors.textContent = this.errors.length;
             }
-            
+
             updateVisibleCount(count) {
                 this.visibleErrors.textContent = count;
             }
-            
+
             updateResultsCount(results, query) {
                 const count = results.length;
-                const total = this.errors.length;
-                
+
                 if (query.length === 0 && this.currentCategory === 'all') {
                     this.resultsCount.textContent = `Showing all ${count} errors`;
                 } else if (query.length === 0) {
@@ -1372,7 +1551,7 @@
                     this.resultsCount.textContent = `Found ${count} results for "${query}"`;
                 }
             }
-            
+
             debounce(func, wait) {
                 let timeout;
                 return function executedFunction(...args) {
@@ -1384,29 +1563,36 @@
                     timeout = setTimeout(later, wait);
                 };
             }
-            
+
+            // Null/undefined-safe HTML escaper.
             escapeHtml(unsafe) {
-                return unsafe
+                return String(unsafe == null ? '' : unsafe)
                     .replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;")
                     .replace(/"/g, "&quot;")
                     .replace(/'/g, "&#039;");
             }
-            
+
             loadFavorites() {
-                const saved = localStorage.getItem('favorites');
-                return saved ? JSON.parse(saved) : [];
+                try {
+                    const saved = localStorage.getItem('favorites');
+                    return saved ? JSON.parse(saved) : [];
+                } catch (e) {
+                    return [];
+                }
             }
-            
+
             saveFavorites() {
-                localStorage.setItem('favorites', JSON.stringify(this.favorites));
+                try {
+                    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+                } catch (e) { /* quota / private mode */ }
             }
-            
+
             isFavorite(errorId) {
                 return this.favorites.includes(errorId);
             }
-            
+
             toggleFavorite(errorId) {
                 if (this.isFavorite(errorId)) {
                     this.favorites = this.favorites.filter(id => id !== errorId);
@@ -1415,14 +1601,15 @@
                 }
                 this.saveFavorites();
             }
-            
+
             updateFavoritesCount() {
                 this.favoritesCount.textContent = this.favorites.length;
             }
-            
+
             toggleFavoritesView() {
                 this.showingFavorites = !this.showingFavorites;
-                
+                this.showFavoritesBtn.setAttribute('aria-pressed', this.showingFavorites ? 'true' : 'false');
+
                 if (this.showingFavorites) {
                     const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
                     this.displayResults(favoriteErrors);
@@ -1435,49 +1622,53 @@
                     this.showFavoritesBtn.style.color = '';
                 }
             }
-            
+
             toggleTheme() {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                this.themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+                try { localStorage.setItem('theme', newTheme); } catch (e) {}
+                this.themeToggleIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
             }
-            
+
             loadSearchHistory() {
-                const saved = localStorage.getItem('searchHistory');
-                return saved ? JSON.parse(saved) : [];
+                try {
+                    const saved = localStorage.getItem('searchHistory');
+                    return saved ? JSON.parse(saved) : [];
+                } catch (e) {
+                    return [];
+                }
             }
-            
+
             saveSearchHistory() {
-                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+                try {
+                    localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+                } catch (e) {}
             }
-            
+
             addToSearchHistory(query) {
                 this.searchHistory = this.searchHistory.filter(q => q !== query);
                 this.searchHistory.unshift(query);
-                
                 if (this.searchHistory.length > 10) {
                     this.searchHistory = this.searchHistory.slice(0, 10);
                 }
-                
                 this.saveSearchHistory();
             }
-            
+
             showSearchHistory() {
                 if (this.searchHistory.length === 0) return;
-                
+
                 this.searchHistoryDiv.innerHTML = `
                     ${this.searchHistory.map(query => `
-                        <div class="history-item" data-query="${this.escapeHtml(query)}">
+                        <div class="history-item" role="option" data-query="${this.escapeHtml(query)}">
                             ${this.escapeHtml(query)}
                         </div>
                     `).join('')}
                     <div class="history-clear">Clear History</div>
                 `;
-                
+
                 this.searchHistoryDiv.classList.add('show');
-                
+
                 this.searchHistoryDiv.querySelectorAll('.history-item').forEach(item => {
                     item.addEventListener('click', () => {
                         this.searchInput.value = item.dataset.query;
@@ -1485,159 +1676,172 @@
                         this.hideSearchHistory();
                     });
                 });
-                
+
                 this.searchHistoryDiv.querySelector('.history-clear').addEventListener('click', () => {
                     this.searchHistory = [];
                     this.saveSearchHistory();
                     this.hideSearchHistory();
                 });
             }
-            
+
             hideSearchHistory() {
                 this.searchHistoryDiv.classList.remove('show');
             }
-            
+
             exportFavorites() {
                 const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
-                
+
                 if (favoriteErrors.length === 0) {
-                    alert('No favorites to export. Star some errors first!');
+                    this.showToast('No favorites to export. Star some errors first!', 'error');
                     return;
                 }
-                
+
                 const exportData = {
                     exportDate: new Date().toISOString(),
                     totalFavorites: favoriteErrors.length,
                     errors: favoriteErrors
                 };
-                
+
                 const dataStr = JSON.stringify(exportData, null, 2);
                 const dataBlob = new Blob([dataStr], { type: 'application/json' });
                 const url = URL.createObjectURL(dataBlob);
-                
+
                 const link = document.createElement('a');
                 link.href = url;
                 link.download = `fixmyerror-favorites-${new Date().toISOString().split('T')[0]}.json`;
                 link.click();
-                
+
                 URL.revokeObjectURL(url);
+                this.showToast(`Exported ${favoriteErrors.length} favorites`, 'success');
             }
-            
+
             async shareResults() {
                 let url = window.location.origin + window.location.pathname;
                 const params = new URLSearchParams();
-                
+
                 if (this.searchInput.value.trim()) {
                     params.set('search', this.searchInput.value.trim());
                 }
                 if (this.currentCategory !== 'all') {
                     params.set('category', this.currentCategory);
                 }
-                
+
                 if (params.toString()) {
                     url += '?' + params.toString();
                 }
-                
+
                 const text = 'Check out FixMyError.net - instant solutions for HTTP, TLS, network, and system errors!';
-                
+
                 if (navigator.share) {
                     try {
                         await navigator.share({ title: 'FixMyError.net', text, url });
+                        return;
                     } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            this.copyToClipboardFallback(url);
-                        }
+                        if (err.name === 'AbortError') return;
                     }
-                } else {
-                    this.copyToClipboardFallback(url);
                 }
+                this.copyText(url, 'Link copied to clipboard');
             }
-            
-            async copyToClipboardFallback(text) {
-                try {
-                    await navigator.clipboard.writeText(text);
-                    alert('Link copied to clipboard!');
-                } catch (err) {
-                    prompt('Copy this link:', text);
-                }
-            }
-            
+
             showShortcutsModal() {
+                this.lastFocusedBeforeModal = document.activeElement;
                 this.shortcutsModal.classList.add('show');
+                this.shortcutsModal.setAttribute('aria-hidden', 'false');
+                this.closeShortcutsModal.focus();
             }
-            
+
             hideShortcutsModal() {
                 this.shortcutsModal.classList.remove('show');
+                this.shortcutsModal.setAttribute('aria-hidden', 'true');
+                if (this.lastFocusedBeforeModal) {
+                    this.lastFocusedBeforeModal.focus();
+                    this.lastFocusedBeforeModal = null;
+                }
             }
-            
+
+            showToast(message, kind = 'success') {
+                this.toastEl.textContent = message;
+                this.toastEl.classList.remove('error', 'success');
+                this.toastEl.classList.add(kind);
+                this.toastEl.classList.add('show');
+                clearTimeout(this._toastTimer);
+                this._toastTimer = setTimeout(() => {
+                    this.toastEl.classList.remove('show');
+                }, 2500);
+            }
+
             handleURLParameters() {
                 const params = new URLSearchParams(window.location.search);
                 const hash = window.location.hash.substring(1);
-                
+
                 if (params.has('search')) {
                     this.searchInput.value = params.get('search');
                     this.performSearch();
                 }
-                
+
                 if (params.has('category')) {
-                    const category = params.get('category');
-                    this.setActiveCategory(category);
+                    this.setActiveCategory(params.get('category'));
                 }
-                
+
                 if (hash) {
                     this.scrollToError(decodeURIComponent(hash));
                 }
             }
 
-            scrollToError(id, retryCount = 0) {
-                // Try finding by ID (native) or data-id (fallback)
-                const element = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`);
-                
-                if (element) {
-                    // Scroll to element with offset handled by CSS scroll-margin-top
-                    element.scrollIntoView({ behavior: 'auto' });
-                    
-                    const header = element.querySelector('.error-header');
-                    const body = element.querySelector('.error-body');
-                    
-                    // Expand if not already expanded
-                    if (header && body && !body.classList.contains('expanded')) {
-                        // Manually expand to ensure it works reliably
-                        document.querySelectorAll('.error-body').forEach(b => {
-                            b.classList.remove('expanded');
-                        });
-                        body.classList.add('expanded');
-                    }
-                    
-                    // Highlight effect
-                    const originalBorder = element.style.borderColor;
-                    element.style.borderColor = 'var(--accent-primary)';
-                    element.style.boxShadow = '0 0 0 2px var(--accent-primary)';
-                    
-                    setTimeout(() => {
-                        element.style.borderColor = originalBorder;
-                        element.style.boxShadow = '';
-                    }, 2000);
-                    
-                } else if (retryCount < 50) {
-                    // Retry for up to 5 seconds (50 * 100ms) to be safe for slow loads
-                    setTimeout(() => this.scrollToError(id, retryCount + 1), 100);
+            scrollToError(id) {
+                // Short-circuit if the id doesn't exist in our dataset
+                if (!this.errors.some(e => e.id === id)) {
+                    return;
                 }
+
+                const tryScroll = (retryCount = 0) => {
+                    let element;
+                    try {
+                        element = document.getElementById(id);
+                        if (!element) {
+                            // CSS.escape for safe attribute selector
+                            const safe = (window.CSS && CSS.escape) ? CSS.escape(id) : id.replace(/"/g, '\\"');
+                            element = document.querySelector(`[data-id="${safe}"]`);
+                        }
+                    } catch (_) {
+                        element = null;
+                    }
+
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'auto' });
+                        const header = element.querySelector('.error-header');
+                        const body = element.querySelector('.error-body');
+                        if (header && body && !body.classList.contains('expanded')) {
+                            document.querySelectorAll('.error-body').forEach(b => b.classList.remove('expanded'));
+                            document.querySelectorAll('.error-header').forEach(h => h.setAttribute('aria-expanded', 'false'));
+                            body.classList.add('expanded');
+                            header.setAttribute('aria-expanded', 'true');
+                        }
+                        const originalBorder = element.style.borderColor;
+                        element.style.borderColor = 'var(--accent-primary)';
+                        element.style.boxShadow = '0 0 0 2px var(--accent-primary)';
+                        setTimeout(() => {
+                            element.style.borderColor = originalBorder;
+                            element.style.boxShadow = '';
+                        }, 2000);
+                    } else if (retryCount < 20) {
+                        setTimeout(() => tryScroll(retryCount + 1), 100);
+                    }
+                };
+                tryScroll();
             }
-            
+
             async registerServiceWorker() {
                 if ('serviceWorker' in navigator) {
                     try {
                         await navigator.serviceWorker.register('sw.js');
-                        console.log('Service Worker registered successfully');
                     } catch (error) {
-                        console.log('Service Worker registration failed:', error);
+                        console.warn('Service Worker registration failed:', error);
                     }
                 }
             }
         }
-        
-        // Initialize the app when DOM is loaded
+
         document.addEventListener('DOMContentLoaded', () => {
             new ErrorCheatsheet();
         });

@@ -4649,5 +4649,595 @@ const ERRORS_DATA = [
     "sources": [
       "https://www.elastic.co/guide/en/logstash/current/troubleshooting.html"
     ]
+  },
+  {
+    "id": "mysql-lock-wait-timeout",
+    "title": "MySQL: Lock wait timeout exceeded; try restarting transaction",
+    "category": "Database",
+    "explanation": "InnoDB could not acquire a row lock before innodb_lock_wait_timeout because another transaction was holding it. Usually caused by long-running transactions, missing indexes, or high write contention.",
+    "fix_snippet": "-- Find long transactions\nSELECT * FROM information_schema.INNODB_TRX ORDER BY trx_started;\n-- Inspect locks\nSELECT * FROM performance_schema.data_locks;\n-- Kill the blocker only if safe\nKILL <trx_mysql_thread_id>;\n-- Keep transactions short and index WHERE clauses used by UPDATE/DELETE\nSET innodb_lock_wait_timeout = 120;",
+    "sources": [
+      "https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_lock_wait_timeout"
+    ]
+  },
+  {
+    "id": "mysql-server-has-gone-away",
+    "title": "MySQL server has gone away (error 2006)",
+    "category": "Database",
+    "explanation": "The client lost its connection to MySQL, often because an idle pooled connection timed out, max_allowed_packet was too small, or the server restarted.",
+    "fix_snippet": "SHOW VARIABLES LIKE 'wait_timeout';\nSHOW VARIABLES LIKE 'max_allowed_packet';\nSET GLOBAL wait_timeout = 86400;\nSET GLOBAL max_allowed_packet = 67108864;\n# Application side: ping/reconnect before reuse\n# PyMySQL example\nconnection.ping(reconnect=True)",
+    "sources": [
+      "https://dev.mysql.com/doc/refman/8.0/en/gone-away.html"
+    ]
+  },
+  {
+    "id": "mongodb-duplicate-key-error",
+    "title": "MongoDB: E11000 duplicate key error",
+    "category": "Database",
+    "explanation": "An insert or upsert violated a unique index. Common during retries, imports, or migrations that do not account for existing records.",
+    "fix_snippet": "// Inspect indexes\ndb.users.getIndexes()\n// Find the conflicting document\ndb.users.find({ email: 'user@example.com' })\n// Use idempotent upsert\ndb.users.updateOne(\n  { email },\n  { $setOnInsert: { email, createdAt: new Date() } },\n  { upsert: true }\n)",
+    "sources": [
+      "https://www.mongodb.com/docs/manual/core/index-unique/"
+    ]
+  },
+  {
+    "id": "sqlite-database-is-locked",
+    "title": "SQLite: database is locked (SQLITE_BUSY)",
+    "category": "Database",
+    "explanation": "Another process or transaction is holding SQLite's write lock. SQLite allows many readers but only one writer at a time.",
+    "fix_snippet": "PRAGMA journal_mode = WAL;\nPRAGMA synchronous = NORMAL;\nPRAGMA busy_timeout = 5000;\n# Python\nconn = sqlite3.connect('app.db', timeout=5, isolation_level=None)\nconn.execute('PRAGMA journal_mode=WAL')\n# Keep write transactions short",
+    "sources": [
+      "https://www.sqlite.org/wal.html"
+    ]
+  },
+  {
+    "id": "dynamodb-provisioned-throughput-exceeded",
+    "title": "DynamoDB: ProvisionedThroughputExceededException",
+    "category": "Database",
+    "explanation": "The table or a hot partition exceeded its read/write capacity. A skewed partition key can throttle even when overall table capacity looks sufficient.",
+    "fix_snippet": "aws dynamodb update-table --table-name MyTable --billing-mode PAY_PER_REQUEST\n# Or increase provisioned capacity\naws dynamodb update-table --table-name MyTable \\\n  --provisioned-throughput ReadCapacityUnits=200,WriteCapacityUnits=200\n# Add exponential backoff and fix hot partition keys",
+    "sources": [
+      "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughput.html"
+    ]
+  },
+  {
+    "id": "mssql-deadlock-victim",
+    "title": "SQL Server: Transaction was deadlocked (Msg 1205)",
+    "category": "Database",
+    "explanation": "SQL Server chose your transaction as the deadlock victim after two or more sessions blocked each other in a cycle.",
+    "fix_snippet": "-- Capture deadlock graph\nCREATE EVENT SESSION deadlocks ON SERVER\nADD EVENT sqlserver.xml_deadlock_report\nADD TARGET package0.event_file(SET filename='deadlocks.xel');\nALTER EVENT SESSION deadlocks ON SERVER STATE = START;\n-- Always retry error 1205 with backoff\n-- Use consistent table access order and keep transactions short",
+    "sources": [
+      "https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide"
+    ]
+  },
+  {
+    "id": "mtu-mismatch",
+    "title": "MTU mismatch / fragmentation needed but DF set",
+    "category": "Network",
+    "explanation": "A link in the path has a smaller MTU than the sender used and the packet has Don't Fragment set. Common with VPNs, tunnels, PPPoE, VXLAN, WireGuard, and GRE.",
+    "fix_snippet": "# Find largest packet that passes (Linux)\nping -M do -s 1472 8.8.8.8\nping -M do -s 1372 8.8.8.8\n# Lower interface MTU\nsudo ip link set dev eth0 mtu 1400\n# Clamp TCP MSS on a router/firewall\niptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc1191"
+    ]
+  },
+  {
+    "id": "socket-address-in-use",
+    "title": "bind: address already in use (EADDRINUSE)",
+    "category": "Network",
+    "explanation": "Another process is already listening on the port, or a previous server instance did not shut down cleanly.",
+    "fix_snippet": "sudo lsof -iTCP:8080 -sTCP:LISTEN\nsudo ss -lntp | grep :8080\nsudo fuser -k 8080/tcp\n# Node.js: avoid fixed dev ports when possible\nserver.listen({ port: 0, host: '0.0.0.0' })",
+    "sources": [
+      "https://man7.org/linux/man-pages/man2/bind.2.html"
+    ]
+  },
+  {
+    "id": "ipv6-no-route",
+    "title": "IPv6: Network is unreachable / no route to host",
+    "category": "Network",
+    "explanation": "The client prefers IPv6 or receives AAAA records but has no working IPv6 path. This can add long fallback delays or fail outright.",
+    "fix_snippet": "ip -6 route\nping6 -c 3 2606:4700:4700::1111\n# Force IPv4 for testing\ncurl -4 https://example.com\n# Prefer IPv4 temporarily on Linux\necho 'precedence ::ffff:0:0/96  100' | sudo tee -a /etc/gai.conf",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6724"
+    ]
+  },
+  {
+    "id": "quic-handshake-failed",
+    "title": "QUIC handshake failed / UDP 443 blocked",
+    "category": "Network",
+    "explanation": "HTTP/3 over QUIC requires UDP/443. Corporate networks and firewalls often block it, forcing fallback to TCP or causing failures when QUIC is required.",
+    "fix_snippet": "nc -u -zv example.com 443\n# Force HTTP/2 while debugging\ncurl --http2 -v https://example.com\n# Server firewall\nsudo ufw allow 443/udp\n# CDN: disable HTTP/3 temporarily if users are on locked-down networks",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc9114"
+    ]
+  },
+  {
+    "id": "http-422-unprocessable-entity",
+    "title": "422 Unprocessable Entity",
+    "category": "HTTP",
+    "explanation": "The request body is syntactically valid but semantically invalid. APIs commonly return this for validation errors such as missing required fields or invalid enum values.",
+    "fix_snippet": "curl -i -X POST https://api.example.com/users \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"email\":\"not-an-email\"}'\n# Read the response body for field-level errors\n# Validate against OpenAPI/JSON Schema before sending",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/422"
+    ]
+  },
+  {
+    "id": "http-409-conflict",
+    "title": "409 Conflict",
+    "category": "HTTP",
+    "explanation": "The request conflicts with the current resource state. Typical causes include duplicate creates, optimistic locking failures, stale ETags, or version mismatches.",
+    "fix_snippet": "# Fetch latest ETag and retry with If-Match\nETAG=$(curl -sI https://api.example.com/things/42 | awk '/ETag:/ {print $2}' | tr -d '\\r')\ncurl -X PUT https://api.example.com/things/42 \\\n  -H \"If-Match: $ETAG\" \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"name\":\"new\"}'\n# Use idempotency keys for duplicate POSTs",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409"
+    ]
+  },
+  {
+    "id": "http-410-gone",
+    "title": "410 Gone",
+    "category": "HTTP",
+    "explanation": "The resource was intentionally removed and is not expected to return. Unlike 404, 410 tells clients and crawlers the removal is permanent.",
+    "fix_snippet": "# Nginx\nlocation = /old-page { return 410; }\n# Express\napp.all('/old-page', (req, res) => res.sendStatus(410));\n# Remove the URL from sitemap.xml, but let crawlers see the 410",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/410"
+    ]
+  },
+  {
+    "id": "http-425-too-early",
+    "title": "425 Too Early",
+    "category": "HTTP",
+    "explanation": "The server refuses to process a request that might be replayed, typically TLS 1.3 0-RTT early data on a non-idempotent method.",
+    "fix_snippet": "# Nginx pattern\nssl_early_data on;\nproxy_set_header Early-Data $ssl_early_data;\nif ($ssl_early_data = \"1\") { return 425; }\n# Client: retry without early data and never send mutating requests via 0-RTT",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/425"
+    ]
+  },
+  {
+    "id": "http-100-continue-timeout",
+    "title": "100-continue timeout / Expect: 100-continue stalls",
+    "category": "HTTP",
+    "explanation": "The client sent Expect: 100-continue and is waiting before streaming the body, but the proxy or server does not handle the interim response correctly.",
+    "fix_snippet": "curl -H 'Expect:' -F file=@big.zip https://upload.example.com\n# Python requests\nimport requests\ns = requests.Session()\ns.headers.update({'Expect': ''})\n# Nginx upstreams\nproxy_http_version 1.1;\nproxy_request_buffering off;",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc7231#section-5.1.1"
+    ]
+  },
+  {
+    "id": "python-recursion-limit",
+    "title": "Python: RecursionError: maximum recursion depth exceeded",
+    "category": "Python",
+    "explanation": "A function recursed beyond Python's recursion limit. Usually caused by a missing base case, cyclical data, or using recursion for a problem that should be iterative.",
+    "fix_snippet": "import sys\nprint(sys.getrecursionlimit())\nsys.setrecursionlimit(5000)  # temporary workaround\n# Prefer iteration for deep trees\nstack = [root]\nwhile stack:\n    node = stack.pop()\n    stack.extend(node.children)",
+    "sources": [
+      "https://docs.python.org/3/library/sys.html#sys.setrecursionlimit"
+    ]
+  },
+  {
+    "id": "python-attribute-error",
+    "title": "Python: AttributeError: 'NoneType' object has no attribute 'X'",
+    "category": "Python",
+    "explanation": "A function returned None and the caller tried to access an attribute on it. Common with failed lookups, regex matches, and optional database results.",
+    "fix_snippet": "user = db.get(id)\nif user is None:\n    raise NotFound('user')\nname = user.name\n# Type-check Optional values\nfrom typing import Optional\ndef get_user(id: int) -> Optional[User]: ...",
+    "sources": [
+      "https://docs.python.org/3/library/exceptions.html#AttributeError"
+    ]
+  },
+  {
+    "id": "python-keyerror",
+    "title": "Python: KeyError on dict access",
+    "category": "Python",
+    "explanation": "A dictionary key was accessed directly but does not exist. Often happens when parsing JSON from APIs you do not fully control.",
+    "fix_snippet": "value = data.get('user', {}).get('email', '')\nfrom collections import defaultdict\ncounts = defaultdict(int)\ncounts['a'] += 1\ntry:\n    v = data['user']['email']\nexcept KeyError as e:\n    log.warning('missing field %s', e)",
+    "sources": [
+      "https://docs.python.org/3/library/exceptions.html#KeyError"
+    ]
+  },
+  {
+    "id": "python-utf8-decode-error",
+    "title": "Python: UnicodeDecodeError: 'utf-8' codec can't decode byte",
+    "category": "Python",
+    "explanation": "Bytes were decoded as UTF-8 but the source uses another encoding such as CP1252, Latin-1, or UTF-16.",
+    "fix_snippet": "# Detect encoding\npython -c \"import chardet; print(chardet.detect(open('file.csv','rb').read(10000)))\"\n# Open with the correct codec\nwith open('file.csv', encoding='cp1252') as f:\n    rows = f.read()\n# Or tolerate bad bytes\nopen('file.txt', encoding='utf-8', errors='replace')",
+    "sources": [
+      "https://docs.python.org/3/howto/unicode.html"
+    ]
+  },
+  {
+    "id": "django-improperlyconfigured",
+    "title": "Django: ImproperlyConfigured: setting is not configured",
+    "category": "Python",
+    "explanation": "Django could not find a required setting such as SECRET_KEY, DATABASES, or ALLOWED_HOSTS. Often environment variables were not loaded in production.",
+    "fix_snippet": "python manage.py diffsettings\n# Example with django-environ\nimport environ\nenv = environ.Env()\nenviron.Env.read_env()\nSECRET_KEY = env('SECRET_KEY')\nALLOWED_HOSTS = env.list('ALLOWED_HOSTS')",
+    "sources": [
+      "https://docs.djangoproject.com/en/stable/ref/settings/"
+    ]
+  },
+  {
+    "id": "javascript-cannot-read-properties-undefined",
+    "title": "TypeError: Cannot read properties of undefined (reading 'X')",
+    "category": "JavaScript",
+    "explanation": "Code accessed a property on undefined, commonly because API data has not loaded yet or the response shape changed.",
+    "fix_snippet": "const name = data?.user?.profile?.name ?? 'anonymous';\nif (!data || typeof data.user !== 'object') return;\n// React\nif (!user) return <Spinner />;\nreturn <Name name={user.profile.name} />;",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining"
+    ]
+  },
+  {
+    "id": "javascript-maximum-call-stack",
+    "title": "RangeError: Maximum call stack size exceeded",
+    "category": "JavaScript",
+    "explanation": "JavaScript hit its call stack limit, usually from infinite recursion, circular getters, or trying to stringify a deeply nested/cyclic object.",
+    "fix_snippet": "// Convert recursion to iteration\nconst stack = [root];\nwhile (stack.length) {\n  const node = stack.pop();\n  stack.push(...node.children);\n}\n// Avoid cycles in JSON.stringify with a seen Set",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Too_much_recursion"
+    ]
+  },
+  {
+    "id": "npm-eresolve-conflict",
+    "title": "npm ERR! ERESOLVE unable to resolve dependency tree",
+    "category": "JavaScript",
+    "explanation": "npm 7+ enforces peer dependency constraints. One package requires a peer version that conflicts with another dependency.",
+    "fix_snippet": "npm install --dry-run\n# Prefer upgrading the package with the outdated peer\n# package.json override if needed\n{\n  \"overrides\": { \"react\": \"^18.2.0\" }\n}\n# Last resort\nnpm install --legacy-peer-deps",
+    "sources": [
+      "https://docs.npmjs.com/cli/v10/configuring-npm/package-json#overrides"
+    ]
+  },
+  {
+    "id": "pnpm-lockfile-mismatch",
+    "title": "pnpm: ERR_PNPM_OUTDATED_LOCKFILE",
+    "category": "JavaScript",
+    "explanation": "pnpm-lock.yaml is out of sync with package.json and CI is running with --frozen-lockfile.",
+    "fix_snippet": "pnpm install\ngit add pnpm-lock.yaml\n# CI should keep this strict\npnpm install --frozen-lockfile\n# Only if you intentionally want CI to update it\npnpm install --no-frozen-lockfile",
+    "sources": [
+      "https://pnpm.io/cli/install#--frozen-lockfile"
+    ]
+  },
+  {
+    "id": "docker-buildkit-credential-helper",
+    "title": "Docker: error getting credentials - credential helper not installed",
+    "category": "Docker",
+    "explanation": "Docker is configured to use a credential helper such as docker-credential-desktop, but that helper is not installed or not on PATH.",
+    "fix_snippet": "cat ~/.docker/config.json\n# Remove stale credsStore/credHelpers if not needed\n# Or install the helper your config references\n# CI-safe login\necho \"$DOCKER_PASSWORD\" | docker login -u \"$DOCKER_USERNAME\" --password-stdin",
+    "sources": [
+      "https://docs.docker.com/engine/reference/commandline/login/#credential-stores"
+    ]
+  },
+  {
+    "id": "k8s-node-not-ready",
+    "title": "Kubernetes: Node status NotReady",
+    "category": "Kubernetes",
+    "explanation": "The kubelet stopped reporting healthy. Common causes include disk pressure, CNI failures, stopped kubelet, or lost API server connectivity.",
+    "fix_snippet": "kubectl describe node bad-node\nsudo systemctl status kubelet\nsudo journalctl -u kubelet -n 200 --no-pager\ndf -h /var/lib/kubelet\nls /etc/cni/net.d/\n# If needed\nkubectl drain bad-node --ignore-daemonsets --delete-emptydir-data",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/architecture/nodes/#node-status"
+    ]
+  },
+  {
+    "id": "k8s-evicted-pod",
+    "title": "Kubernetes: Pod evicted - node was low on resource",
+    "category": "Kubernetes",
+    "explanation": "The kubelet evicted a pod to reclaim memory, disk, or inodes. Evictions often indicate missing resource requests/limits or node pressure.",
+    "fix_snippet": "kubectl get pods --all-namespaces | grep Evicted\nkubectl describe pod my-pod\n# Clean old failed pods\nkubectl delete pods --field-selector=status.phase=Failed --all-namespaces\n# Add requests/limits\nresources:\n  requests: { memory: 256Mi, cpu: 100m }\n  limits: { memory: 512Mi, cpu: 500m }",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/"
+    ]
+  },
+  {
+    "id": "helm-release-failed",
+    "title": "Helm: release stuck in failed or pending state",
+    "category": "Kubernetes",
+    "explanation": "A previous Helm install or upgrade failed and left the release in a state that blocks later upgrades.",
+    "fix_snippet": "helm history my-release -n my-ns\nhelm rollback my-release 3 -n my-ns\n# Or replace if safe\nhelm uninstall my-release -n my-ns\nhelm install my-release ./chart -n my-ns -f values.yaml\n# Safer future upgrades\nhelm upgrade --install --atomic --wait --timeout 5m my-release ./chart -n my-ns",
+    "sources": [
+      "https://helm.sh/docs/helm/helm_rollback/"
+    ]
+  },
+  {
+    "id": "git-cherry-pick-conflict",
+    "title": "git cherry-pick: conflict",
+    "category": "Git",
+    "explanation": "The commit being cherry-picked modifies lines that diverged on the target branch, so Git needs manual conflict resolution.",
+    "fix_snippet": "git status\n# Resolve files manually, then\ngit add <file>\ngit cherry-pick --continue\n# Abort the operation\ngit cherry-pick --abort\n# Skip this commit in a sequence\ngit cherry-pick --skip",
+    "sources": [
+      "https://git-scm.com/docs/git-cherry-pick"
+    ]
+  },
+  {
+    "id": "git-cannot-lock-ref",
+    "title": "git: cannot lock ref",
+    "category": "Git",
+    "explanation": "Another Git process is holding a ref lock or a stale .lock file remains from a crashed Git process.",
+    "fix_snippet": "ls -la .git/refs/heads/*.lock .git/index.lock 2>/dev/null\npgrep -a git\nrm -f .git/refs/heads/main.lock .git/index.lock\ngit pack-refs --all\ngit gc --prune=now",
+    "sources": [
+      "https://git-scm.com/docs/git-pack-refs"
+    ]
+  },
+  {
+    "id": "git-repository-corrupted",
+    "title": "git: object file is empty / loose object is corrupt",
+    "category": "Git",
+    "explanation": "A Git object under .git/objects is unreadable, commonly after a crash, cloud-sync conflict, or filesystem issue.",
+    "fix_snippet": "git fsck --full --no-dangling\nfind .git/objects -size 0 -delete\ngit fetch --all\n# If origin has everything, a fresh clone is often safest\n# Avoid syncing .git with OneDrive/Dropbox/iCloud",
+    "sources": [
+      "https://git-scm.com/docs/git-fsck"
+    ]
+  },
+  {
+    "id": "openai-insufficient-quota",
+    "title": "OpenAI: 429 insufficient_quota",
+    "category": "AI",
+    "explanation": "The account has no remaining credits or has hit its billing quota. This is different from temporary rate limiting.",
+    "fix_snippet": "# Confirm the key/account you are using\n# Check billing dashboard and usage limits\ntry:\n    resp = client.chat.completions.create(...)\nexcept openai.RateLimitError as e:\n    if 'insufficient_quota' in str(e):\n        notify_billing_or_disable_feature()",
+    "sources": [
+      "https://platform.openai.com/docs/guides/error-codes"
+    ]
+  },
+  {
+    "id": "claude-content-policy-violation",
+    "title": "Claude: response blocked / safety refusal",
+    "category": "AI",
+    "explanation": "The model declined to answer because the prompt matched a disallowed or ambiguous safety category. Provide a clearer benign context or constrain the task.",
+    "fix_snippet": "# Rephrase with benign intent and scope\nclient.messages.create(\n  model='claude-3-5-sonnet-latest',\n  system='You are a helpful Python tutor. Answer Python questions only.',\n  messages=[{'role':'user','content': user_input}]\n)\n# Do not retry the exact same unsafe prompt blindly",
+    "sources": [
+      "https://docs.anthropic.com/en/docs/build-with-claude/usage-policies"
+    ]
+  },
+  {
+    "id": "anthropic-prompt-too-long",
+    "title": "Anthropic API: prompt is too long / context window exceeded",
+    "category": "AI",
+    "explanation": "Input tokens plus requested output tokens exceed the selected model's context window.",
+    "fix_snippet": "# Count tokens first\ntoken_count = client.messages.count_tokens(\n  model='claude-3-5-sonnet-latest',\n  messages=messages\n)\nprint(token_count.input_tokens)\n# Reduce max_tokens, summarize history, use RAG, or use prompt caching for static context",
+    "sources": [
+      "https://docs.anthropic.com/en/docs/about-claude/models"
+    ]
+  },
+  {
+    "id": "macos-gatekeeper-blocked",
+    "title": "macOS: app is damaged and can't be opened / Gatekeeper blocked",
+    "category": "System",
+    "explanation": "macOS quarantined a downloaded app or binary because it is unsigned, unnotarized, or not trusted yet.",
+    "fix_snippet": "xattr -dr com.apple.quarantine /Applications/MyApp.app\n# Or for a CLI\nxattr -d com.apple.quarantine /usr/local/bin/mybin\n# For your own builds: sign and notarize\ncodesign --deep --force --options runtime --sign 'Developer ID Application: Your Name' MyApp.app",
+    "sources": [
+      "https://support.apple.com/guide/security/gatekeeper-and-runtime-protection-sec5599b66df/web"
+    ]
+  },
+  {
+    "id": "windows-error-1603-msi",
+    "title": "Windows: MSI installer error 1603",
+    "category": "System",
+    "explanation": "A generic fatal MSI installation failure. The real error is usually near 'Return value 3' in verbose logs.",
+    "fix_snippet": "msiexec /i installer.msi /L*v install.log\nSelect-String -Path install.log -Pattern 'Return value 3' -Context 5,10\n# Common fixes: run as Administrator, clear %TEMP%, remove a broken previous install, ensure SYSTEM can write to target folders",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-client/application-management/msi-installation-error-1603"
+    ]
+  },
+  {
+    "id": "wsl-vmcompute-not-running",
+    "title": "WSL2: Error 0x80370102 / vmcompute not running",
+    "category": "System",
+    "explanation": "WSL2 cannot start its VM because virtualization features are disabled, hypervisorlaunchtype is off, or vmcompute is stopped.",
+    "fix_snippet": "dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart\ndism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart\nbcdedit /set hypervisorlaunchtype auto\nStart-Service vmcompute\nshutdown /r /t 0",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/wsl/troubleshooting"
+    ]
+  },
+  {
+    "id": "react-too-many-renders",
+    "title": "React: Too many re-renders",
+    "category": "JavaScript",
+    "explanation": "State is updated unconditionally during render, or an effect dependency changes every render and triggers an infinite update loop.",
+    "fix_snippet": "// Bad\n<button onClick={setOpen(true)}>Open</button>\n// Good\n<button onClick={() => setOpen(true)}>Open</button>\n// Memoize object deps\nconst options = useMemo(() => ({ limit: 10 }), []);\nuseEffect(() => fetchData(options), [options]);",
+    "sources": [
+      "https://react.dev/reference/react/useState"
+    ]
+  },
+  {
+    "id": "vite-build-out-of-memory",
+    "title": "Vite: JavaScript heap out of memory during build",
+    "category": "JavaScript",
+    "explanation": "The Node build process exceeded the default heap limit, often because of large source maps, many modules, or oversized bundles.",
+    "fix_snippet": "NODE_OPTIONS=--max-old-space-size=8192 npx vite build\n# package.json\n\"build\": \"node --max-old-space-size=8192 ./node_modules/vite/bin/vite.js build\"\n# Reduce work: disable sourcemaps in CI, remove dead dependencies, split chunks",
+    "sources": [
+      "https://vitejs.dev/config/build-options.html"
+    ]
+  },
+  {
+    "id": "tailwind-class-not-applied",
+    "title": "Tailwind CSS class does not appear in built CSS",
+    "category": "JavaScript",
+    "explanation": "Tailwind only generates class names it can see as literal strings. Dynamically constructed names can be purged from production CSS.",
+    "fix_snippet": "// Bad\n<div className={`text-${color}-500`} />\n// Good\nconst classes = { red: 'text-red-500', blue: 'text-blue-500' };\n<div className={classes[color]} />\n// Or use safelist in tailwind.config.js",
+    "sources": [
+      "https://tailwindcss.com/docs/content-configuration#dynamic-class-names"
+    ]
+  },
+  {
+    "id": "stripe-webhook-signature-failed",
+    "title": "Stripe: Webhook signature verification failed",
+    "category": "API",
+    "explanation": "The Stripe-Signature header does not match the raw request body and endpoint secret. Usually JSON middleware modified the body before verification.",
+    "fix_snippet": "app.post('/webhook',\n  express.raw({ type: 'application/json' }),\n  (req, res) => {\n    const sig = req.headers['stripe-signature'];\n    const event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);\n    res.json({ received: true });\n  }\n)\n# Test locally\nstripe listen --forward-to localhost:3000/webhook",
+    "sources": [
+      "https://stripe.com/docs/webhooks/signatures"
+    ]
+  },
+  {
+    "id": "stripe-card-declined",
+    "title": "Stripe: card_declined",
+    "category": "API",
+    "explanation": "The issuing bank refused the charge. The decline_code provides the actionable reason, such as insufficient_funds, expired_card, or do_not_honor.",
+    "fix_snippet": "try {\n  await stripe.paymentIntents.confirm(piId);\n} catch (err) {\n  if (err.code === 'card_declined') {\n    console.log(err.decline_code);\n  }\n}\n# Map decline codes to user-friendly messages and retry options",
+    "sources": [
+      "https://stripe.com/docs/declines/codes"
+    ]
+  },
+  {
+    "id": "safari-third-party-cookie-blocked",
+    "title": "Safari: third-party cookie blocked (ITP)",
+    "category": "Client",
+    "explanation": "Safari's Intelligent Tracking Prevention blocks cookies in third-party contexts such as iframes, embedded SSO, and cross-site widgets.",
+    "fix_snippet": "Set-Cookie: session=abc; SameSite=None; Secure; HttpOnly\n# Prefer first-party redirects instead of iframe/popup auth\n# Embedded contexts can request storage access\ndocument.requestStorageAccess().then(() => {\n  // cookie access granted\n})",
+    "sources": [
+      "https://webkit.org/blog/10218/full-third-party-cookie-blocking-and-more/"
+    ]
+  },
+  {
+    "id": "browser-cookie-samesite-missing",
+    "title": "Browser warning: Cookie has no SameSite attribute",
+    "category": "Client",
+    "explanation": "Modern browsers default cookies without SameSite to Lax, which may break cross-site login, embedded widgets, or POST-based SSO flows.",
+    "fix_snippet": "Set-Cookie: sessionid=abc; SameSite=Lax; Secure; HttpOnly\nSet-Cookie: embed=xyz; SameSite=None; Secure\n# Express\nres.cookie('sid', token, { sameSite: 'lax', secure: true, httpOnly: true });",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite"
+    ]
+  },
+  {
+    "id": "wasm-compile-error",
+    "title": "WebAssembly: CompileError - invalid magic / section",
+    "category": "WebAssembly",
+    "explanation": "The .wasm file is not valid WebAssembly bytes. Often the server returned an HTML error page, the file was truncated, or the MIME type is wrong.",
+    "fix_snippet": "curl -I https://example.com/app.wasm\nxxd -l 8 app.wasm  # should start: 00 61 73 6d 01 00 00 00\n# Nginx MIME type\ntypes { application/wasm wasm; }\n# Fallback if instantiateStreaming fails\nconst buf = await fetch('app.wasm').then(r => r.arrayBuffer());\nawait WebAssembly.instantiate(buf, imports);",
+    "sources": [
+      "https://webassembly.github.io/spec/core/binary/modules.html"
+    ]
+  },
+  {
+    "id": "wasm-memory-out-of-bounds",
+    "title": "WebAssembly: RuntimeError - memory access out of bounds",
+    "category": "WebAssembly",
+    "explanation": "WASM code accessed memory outside its linear memory, usually from an out-of-bounds index, use-after-free, or insufficient memory growth.",
+    "fix_snippet": "# Rust WASM: build with debug info\n[profile.release]\ndebug = true\n# Add better panic output\nconsole_error_panic_hook::set_once();\n# Inspect inputs and bounds before passing pointers to WASM\n# Increase initial/max memory if the workload genuinely needs it",
+    "sources": [
+      "https://rustwasm.github.io/docs/wasm-bindgen/"
+    ]
+  },
+  {
+    "id": "web3-insufficient-funds-gas",
+    "title": "Web3: insufficient funds for gas * price + value",
+    "category": "Web3",
+    "explanation": "The wallet lacks enough native token to pay transaction value plus gas. This is separate from ERC-20 token balance.",
+    "fix_snippet": "const gas = await contract.estimateGas.transfer(to, amount);\nconst feeData = await provider.getFeeData();\nconst balance = await provider.getBalance(wallet.address);\nif (balance < gas * feeData.gasPrice) throw new Error('Top up native token for gas');\n# Send ETH/MATIC/BNB/etc. to the wallet and retry",
+    "sources": [
+      "https://ethereum.org/en/developers/docs/gas/"
+    ]
+  },
+  {
+    "id": "web3-nonce-too-low",
+    "title": "Web3: nonce too low / replacement transaction underpriced",
+    "category": "Web3",
+    "explanation": "The transaction nonce has already been mined, or a replacement transaction did not increase fees enough to replace the pending transaction.",
+    "fix_snippet": "const nonce = await provider.getTransactionCount(address, 'pending');\nawait wallet.sendTransaction({ to, value, nonce });\n# Replace stuck tx: same nonce, higher maxFeePerGas / gasPrice\n# MetaMask: Settings -> Advanced -> Reset account to clear local nonce cache",
+    "sources": [
+      "https://ethereum.org/en/developers/docs/transactions/"
+    ]
+  },
+  {
+    "id": "web3-revert-execution",
+    "title": "Web3: execution reverted",
+    "category": "Web3",
+    "explanation": "The smart contract reverted. Solidity custom errors or revert strings often explain the exact requirement that failed.",
+    "fix_snippet": "try {\n  await contract.transfer(to, amount);\n} catch (err) {\n  const data = err.data || err.error?.data;\n  const parsed = contract.interface.parseError(data);\n  console.log(parsed.name, parsed.args);\n}\n# Use Tenderly, Foundry cast --trace, or Etherscan debug tools",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/control-structures.html#try-catch"
+    ]
+  },
+  {
+    "id": "ldap-invalid-credentials",
+    "title": "LDAP: invalid credentials / AD data 52e",
+    "category": "Security",
+    "explanation": "LDAP bind failed. In Active Directory, subcode 52e means wrong password; other subcodes indicate no such user, disabled account, expired password, or account lockout.",
+    "fix_snippet": "ldapsearch -x -H ldaps://dc.example.com \\\n  -D \"CN=svc,OU=Apps,DC=example,DC=com\" -W \\\n  -b \"DC=example,DC=com\" \"(sAMAccountName=alice)\"\n# Try UPN format: alice@example.com\n# Check service-account password rotation and LDAPS requirements",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-server/identity/troubleshooting-ldap-over-ssl-connection-problems"
+    ]
+  },
+  {
+    "id": "kerberos-clock-skew",
+    "title": "Kerberos: KRB_AP_ERR_SKEW / clock skew too great",
+    "category": "Security",
+    "explanation": "Kerberos tickets are time-bound. If the client and KDC clocks differ beyond the allowed skew, authentication fails.",
+    "fix_snippet": "date -u\nssh kdc.example.com 'date -u'\n# Linux\nsudo systemctl restart chronyd\nsudo chronyc tracking\n# Windows\nw32tm /resync /force\n# Real fix: reliable NTP on all domain participants",
+    "sources": [
+      "https://web.mit.edu/kerberos/krb5-latest/doc/admin/conf_files/krb5_conf.html"
+    ]
+  },
+  {
+    "id": "saml-signature-invalid",
+    "title": "SAML: invalid signature on assertion / response",
+    "category": "Security",
+    "explanation": "The service provider could not validate the SAML response signature. Usually the IdP signing certificate changed or the wrong metadata is configured.",
+    "fix_snippet": "echo \"$SAML_RESPONSE\" | base64 -d | xmllint --format -\nxmlsec1 --verify --pubkey-cert-pem idp-cert.pem saml-response.xml\n# Fetch and configure current IdP metadata\ncurl -sS https://idp.example.com/metadata.xml > metadata.xml\n# Avoid modifying/minifying SAML XML in transit",
+    "sources": [
+      "https://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf"
+    ]
+  },
+  {
+    "id": "oauth-redirect-uri-mismatch",
+    "title": "OAuth: redirect_uri_mismatch",
+    "category": "Security",
+    "explanation": "The redirect_uri in the authorization request does not exactly match a registered redirect URI. Scheme, host, port, path, trailing slash, and query must match.",
+    "fix_snippet": "# Common mismatches\n# http vs https\n# localhost:3000 vs 127.0.0.1:3000\n# /callback vs /callback/\n# preview URL not registered\nconst REDIRECT_URI = process.env.OAUTH_REDIRECT_URI;\n# Register every production and preview callback URL with the provider",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2"
+    ]
+  },
+  {
+    "id": "perf-gc-pause-too-long",
+    "title": "Long GC pause / stop-the-world latency spike",
+    "category": "Performance",
+    "explanation": "A managed runtime paused application threads to collect garbage long enough to violate latency targets. Large heaps and allocation spikes are common causes.",
+    "fix_snippet": "# JVM low-pause GC\nJAVA_OPTS=\"-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xlog:gc*:file=gc.log\"\n# Very large heaps\n-XX:+UseZGC\n# Node.js: reduce allocation pressure; --max-old-space-size only raises the cap\n# Profile allocations before tuning heap sizes",
+    "sources": [
+      "https://docs.oracle.com/en/java/javase/21/gctuning/"
+    ]
+  },
+  {
+    "id": "perf-thread-starvation",
+    "title": "Thread pool starvation / requests queueing behind blocked threads",
+    "category": "Performance",
+    "explanation": "All threads in a bounded pool are blocked on I/O, locks, or sync-over-async calls. Latency rises while CPU can remain low.",
+    "fix_snippet": "# Symptoms: low CPU, high queue depth, rising P99\n# .NET: avoid Task.Result / .Wait() in ASP.NET\n# Java: move slow downstream calls off request threads\n# Add a dedicated bounded pool for blocking I/O\n# Increase pool size only after removing blocking hotspots",
+    "sources": [
+      "https://learn.microsoft.com/en-us/aspnet/core/performance/performance-best-practices"
+    ]
+  },
+  {
+    "id": "perf-event-loop-lag",
+    "title": "Node.js: event loop lag / blocked synchronously",
+    "category": "Performance",
+    "explanation": "CPU-bound work or sync I/O blocked Node's single event loop thread, delaying unrelated requests and timers.",
+    "fix_snippet": "import { monitorEventLoopDelay } from 'perf_hooks';\nconst h = monitorEventLoopDelay({ resolution: 10 });\nh.enable();\nsetInterval(() => console.log(h.percentile(99) / 1e6), 5000);\n# Move CPU-heavy work to worker_threads\n# Avoid sync crypto/fs and huge JSON.parse on hot paths",
+    "sources": [
+      "https://nodejs.org/api/perf_hooks.html#perf_hooksmonitoreventloopdelayoptions"
+    ]
+  },
+  {
+    "id": "gpg-bad-signature",
+    "title": "GPG: BAD signature / cannot verify signature",
+    "category": "System",
+    "explanation": "The signature does not validate with the public key you have. The file may be modified, truncated, signed with another key, or the signing key may not be trusted.",
+    "fix_snippet": "gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xABCDEF1234567890\ngpg --verify release.tar.gz.sig release.tar.gz\ngpg --list-sigs 0xABCDEF1234567890\n# Verify the fingerprint out-of-band before trusting the key",
+    "sources": [
+      "https://www.gnupg.org/documentation/manuals/gnupg/Verifying-signatures.html"
+    ]
+  },
+  {
+    "id": "ssh-agent-not-running",
+    "title": "ssh: Could not open a connection to your authentication agent",
+    "category": "System",
+    "explanation": "ssh-add cannot find a running ssh-agent because SSH_AUTH_SOCK is unset or points to a stale socket.",
+    "fix_snippet": "eval \"$(ssh-agent -s)\"\nssh-add ~/.ssh/id_ed25519\n# macOS Keychain\nssh-add --apple-use-keychain ~/.ssh/id_ed25519\n# In tmux/CI, ensure SSH_AUTH_SOCK is exported into the session",
+    "sources": [
+      "https://man.openbsd.org/ssh-agent"
+    ]
+  },
+  {
+    "id": "pem-file-corrupted",
+    "title": "PEM error: no start line / unable to load private key",
+    "category": "TLS",
+    "explanation": "The PEM file is malformed, missing its BEGIN header, contains CRLF/extra whitespace, or was base64-decoded/encoded incorrectly.",
+    "fix_snippet": "head -1 key.pem\nsed -i 's/\\r//g' key.pem\nopenssl pkey -in key.pem -check -noout\nopenssl x509 -in cert.pem -noout -subject -issuer -dates\n# Re-emit clean PEM\nopenssl rsa -in key.pem -out key-clean.pem",
+    "sources": [
+      "https://www.openssl.org/docs/man1.1.1/man1/pkey.html"
+    ]
   }
 ];
