@@ -103,7 +103,7 @@ const ERRORS_DATA = [
     "id": "403-forbidden",
     "title": "403 Forbidden",
     "category": "HTTP",
-    "explanation": "The server understood the request but refuses to authorize it. Often due to insufficient permissions.",
+    "explanation": "The server understood the request but refuses to authorise it. Often due to insufficient permissions.",
     "fix_snippet": "# Check file permissions\nls -la /var/www/html/\n# Fix permissions\nsudo chmod 644 file.html\nsudo chown www-data:www-data file.html",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
@@ -133,7 +133,7 @@ const ERRORS_DATA = [
     "id": "cors-policy-error",
     "title": "CORS policy error",
     "category": "Client",
-    "explanation": "Cross-Origin Resource Sharing policy blocked the request. Browser security feature preventing unauthorized cross-domain requests.",
+    "explanation": "Cross-Origin Resource Sharing policy blocked the request. Browser security feature preventing unauthorised cross-domain requests.",
     "fix_snippet": "# Add CORS headers in server config\nHeader add Access-Control-Allow-Origin \"*\"\n# Or in Nginx\nadd_header Access-Control-Allow-Origin *;",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
@@ -1194,7 +1194,7 @@ const ERRORS_DATA = [
     "id": "icmp-timestamp-request-reply",
     "title": "ICMP Timestamp Request/Reply (Type 13/14)",
     "category": "ICMP",
-    "explanation": "Time synchronization mechanism. Often disabled for security reasons as it can leak system time information.",
+    "explanation": "Time synchronisation mechanism. Often disabled for security reasons as it can leak system time information.",
     "fix_snippet": "# Disable timestamp replies (security)\nsudo iptables -A INPUT -p icmp --icmp-type timestamp-request -j DROP\n# Check if enabled\nsudo sysctl net.ipv4.icmp_echo_ignore_all",
     "sources": [
       "https://tools.ietf.org/html/rfc792"
@@ -1424,7 +1424,7 @@ const ERRORS_DATA = [
     "id": "docker-build-failed-cache",
     "title": "Docker build: layer caching issues",
     "category": "Docker",
-    "explanation": "Docker build failing or not using cache properly, resulting in slow builds or unexpected behavior.",
+    "explanation": "Docker build failing or not using cache properly, resulting in slow builds or unexpected behaviour.",
     "fix_snippet": "# Build without cache\ndocker build --no-cache -t image:tag .\n# Pull base image first\ndocker pull base-image:tag\n# Clean build cache\ndocker builder prune\n# Check layer caching\ndocker history image:tag",
     "sources": [
       "https://docs.docker.com/develop/develop-images/dockerfile_best-practices/"
@@ -2104,7 +2104,7 @@ const ERRORS_DATA = [
     "id": "api-authentication-bearer-missing",
     "title": "API: Bearer token missing or malformed",
     "category": "API",
-    "explanation": "API requires Bearer token in Authorization header but token is missing or invalid format.",
+    "explanation": "API requires Bearer token in Authorisation header but token is missing or invalid format.",
     "fix_snippet": "# Correct format\ncurl -H \"Authorization: Bearer YOUR_TOKEN_HERE\" https://api.example.com\n# In JavaScript\nfetch(url, {\n  headers: {\n    'Authorization': `Bearer ${token}`\n  }\n})",
     "sources": [
       "https://tools.ietf.org/html/rfc6750"
@@ -2384,7 +2384,7 @@ const ERRORS_DATA = [
     "id": "python-multiprocessing-pickle-error",
     "title": "Python: Cannot pickle local object in multiprocessing",
     "category": "Python",
-    "explanation": "multiprocessing cannot serialize local function or lambda. Need to use top-level function.",
+    "explanation": "multiprocessing cannot serialise local function or lambda. Need to use top-level function.",
     "fix_snippet": "# Define function at module level\ndef worker(x):\n    return x * 2\n\nif __name__ == '__main__':\n    from multiprocessing import Pool\n    with Pool() as p:\n        results = p.map(worker, data)\n# Or use dill\nimport dill",
     "sources": [
       "https://docs.python.org/3/library/multiprocessing.html"
@@ -2414,7 +2414,7 @@ const ERRORS_DATA = [
     "id": "go-nil-pointer",
     "title": "Go: panic: runtime error: invalid memory address or nil pointer dereference",
     "category": "System",
-    "explanation": "Attempting to dereference a nil pointer. Often happens when initializing a pointer but not assigning a value, or accessing a field of a nil struct.",
+    "explanation": "Attempting to dereference a nil pointer. Often happens when initialising a pointer but not assigning a value, or accessing a field of a nil struct.",
     "fix_snippet": "# Check for nil before access\nif ptr != nil {\n    fmt.Println(*ptr)\n}\n# Initialize pointer\nptr = new(Type)\n# Or use address of variable\nval := Type{}\nptr = &val",
     "sources": [
       "https://go.dev/tour/moretypes/1"
@@ -2454,7 +2454,7 @@ const ERRORS_DATA = [
     "id": "java-null-pointer",
     "title": "Java: java.lang.NullPointerException",
     "category": "Client",
-    "explanation": "Attempting to use an object reference that has not been initialized (is null).",
+    "explanation": "Attempting to use an object reference that has not been initialised (is null).",
     "fix_snippet": "# Check for null\nif (obj != null) {\n    obj.method();\n}\n# Use Optional\nOptional.ofNullable(obj).ifPresent(o -> o.method());\n# Initialize variable\nString str = \"\";",
     "sources": [
       "https://docs.oracle.com/javase/8/docs/api/java/lang/NullPointerException.html"
@@ -2534,7 +2534,7 @@ const ERRORS_DATA = [
     "id": "openai-api-429-rate-limit",
     "title": "OpenAI API: 429 rate limit exceeded",
     "category": "AI",
-    "explanation": "Requests exceed your organization or model rate limits. Returns 429 with retry headers.",
+    "explanation": "Requests exceed your organisation or model rate limits. Returns 429 with retry headers.",
     "fix_snippet": "# Respect Retry-After header\nsleep ${RETRY_AFTER}\n# Implement exponential backoff\n# Reduce request frequency or batch prompts\n# Use smaller models or request quota increase",
     "sources": [
       "https://platform.openai.com/docs/guides/rate-limits"
@@ -2774,7 +2774,7 @@ const ERRORS_DATA = [
     "id": "go-panic-nil-map",
     "title": "Go: panic: assignment to entry in nil map",
     "category": "Go",
-    "explanation": "Attempting to write to a map that hasn't been initialized. In Go, zero-value maps are nil and read-only.",
+    "explanation": "Attempting to write to a map that hasn't been initialised. In Go, zero-value maps are nil and read-only.",
     "fix_snippet": "# Initialize map before use\nm := make(map[string]int)\nm[\"key\"] = 1\n# Incorrect: var m map[string]int; m[\"key\"] = 1 (Panics)",
     "sources": [
       "https://go.dev/blog/maps"
@@ -2934,7 +2934,7 @@ const ERRORS_DATA = [
     "id": "flutter-doctor-issues",
     "title": "Flutter: Android toolchain - develop for Android devices",
     "category": "Mobile",
-    "explanation": "Flutter cannot find Android SDK or licenses not accepted.",
+    "explanation": "Flutter cannot find Android SDK or licences not accepted.",
     "fix_snippet": "# Accept licenses\nflutter doctor --android-licenses\n# Set SDK path\nflutter config --android-sdk /path/to/android/sdk\n# Run diagnosis\nflutter doctor",
     "sources": [
       "https://docs.flutter.dev/get-started/install"
@@ -3034,7 +3034,7 @@ const ERRORS_DATA = [
     "id": "go-race-condition",
     "title": "fatal error: concurrent map writes",
     "category": "Go",
-    "explanation": "Multiple goroutines are reading and writing to a map concurrently without synchronization. Go maps are not safe for concurrent use.",
+    "explanation": "Multiple goroutines are reading and writing to a map concurrently without synchronisation. Go maps are not safe for concurrent use.",
     "fix_snippet": "# Use sync.Mutex to protect map access\nvar mu sync.Mutex\nmu.Lock()\nm[key] = value\nmu.Unlock()\n# Or use sync.Map for concurrent access\nvar m sync.Map\nm.Store(key, value)\n# Detect with race detector\ngo run -race main.go",
     "sources": [
       "https://go.dev/doc/articles/race_detector"
@@ -3044,7 +3044,7 @@ const ERRORS_DATA = [
     "id": "go-context-canceled",
     "title": "context canceled",
     "category": "Go",
-    "explanation": "A context was canceled before the operation completed. Typically because a parent context was canceled, a timeout expired, or the caller canceled the request.",
+    "explanation": "A context was cancelled before the operation completed. Typically because a parent context was cancelled, a timeout expired, or the caller cancelled the request.",
     "fix_snippet": "# Check context error type\nif ctx.Err() == context.Canceled {\n    log.Println(\"request was canceled\")\n}\n# Set appropriate timeout\nctx, cancel := context.WithTimeout(ctx, 30*time.Second)\ndefer cancel()",
     "sources": [
       "https://pkg.go.dev/context"
@@ -3324,7 +3324,7 @@ const ERRORS_DATA = [
     "id": "cpp-use-after-free",
     "title": "heap-use-after-free",
     "category": "C++",
-    "explanation": "Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behavior and potential security vulnerabilities.",
+    "explanation": "Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities.",
     "fix_snippet": "# Use smart pointers\nstd::shared_ptr<MyClass> ptr = std::make_shared<MyClass>();\n# Set raw pointers to nullptr after delete\ndelete ptr;\nptr = nullptr;\n# Detect with ASan\ng++ -fsanitize=address -g main.cpp\n./a.out",
     "sources": [
       "https://github.com/google/sanitizers/wiki/AddressSanitizer"
@@ -3544,7 +3544,7 @@ const ERRORS_DATA = [
     "id": "openai-api-key-invalid",
     "title": "OpenAI: Incorrect API key provided",
     "category": "AI",
-    "explanation": "The API key used in the request is invalid, expired, or revoked. May also occur if the key is from a different organization.",
+    "explanation": "The API key used in the request is invalid, expired, or revoked. May also occur if the key is from a different organisation.",
     "fix_snippet": "# Verify API key is set correctly\nexport OPENAI_API_KEY=sk-...\n# Test with curl\ncurl https://api.openai.com/v1/models -H \"Authorization: Bearer $OPENAI_API_KEY\"\n# Generate new key at platform.openai.com/api-keys\n# Check organization ID if using multiple orgs",
     "sources": [
       "https://platform.openai.com/docs/api-reference/authentication"
@@ -3674,7 +3674,7 @@ const ERRORS_DATA = [
     "id": "csharp-task-canceled",
     "title": "TaskCanceledException",
     "category": "C#",
-    "explanation": "An async operation was canceled via a CancellationToken or the HttpClient request timed out.",
+    "explanation": "An async operation was cancelled via a CancellationToken or the HttpClient request timed out.",
     "fix_snippet": "# Increase HttpClient timeout\nvar client = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };\n# Handle cancellation gracefully\ntry {\n    await DoWorkAsync(cancellationToken);\n} catch (TaskCanceledException) when (cancellationToken.IsCancellationRequested) {\n    // expected cancellation\n}",
     "sources": [
       "https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcanceledexception"
@@ -3684,7 +3684,7 @@ const ERRORS_DATA = [
     "id": "csharp-deadlock-async",
     "title": "C#: Deadlock in async/await",
     "category": "C#",
-    "explanation": "Calling .Result or .Wait() on an async method from a synchronization context (UI thread, ASP.NET) causes a deadlock. The awaited task needs the same context that is blocked.",
+    "explanation": "Calling .Result or .Wait() on an async method from a synchronisation context (UI thread, ASP.NET) causes a deadlock. The awaited task needs the same context that is blocked.",
     "fix_snippet": "# Use async all the way\nawait DoWorkAsync(); // not DoWorkAsync().Result\n# Use ConfigureAwait(false) in libraries\nawait httpClient.GetAsync(url).ConfigureAwait(false);\n# If you must call sync, use Task.Run\nvar result = Task.Run(() => DoWorkAsync()).Result;",
     "sources": [
       "https://learn.microsoft.com/en-us/archive/msdn-magazine/2015/july/async-programming-brownfield-async-development"
@@ -3774,7 +3774,7 @@ const ERRORS_DATA = [
     "id": "git-submodule-not-initialized",
     "title": "Git: Submodule path not initialized",
     "category": "Git",
-    "explanation": "A git submodule was not initialized or updated after cloning. The submodule directory is empty.",
+    "explanation": "A git submodule was not initialised or updated after cloning. The submodule directory is empty.",
     "fix_snippet": "# Initialize and update submodules\ngit submodule update --init --recursive\n# Clone with submodules\ngit clone --recurse-submodules https://repo.git\n# Update existing submodules\ngit submodule update --remote",
     "sources": [
       "https://git-scm.com/docs/git-submodule"
@@ -4004,7 +4004,7 @@ const ERRORS_DATA = [
     "id": "dns-zone-transfer-refused",
     "title": "DNS: Transfer refused (AXFR)",
     "category": "DNS",
-    "explanation": "A DNS zone transfer (AXFR) request was denied. Zone transfers are typically restricted to authorized secondary nameservers.",
+    "explanation": "A DNS zone transfer (AXFR) request was denied. Zone transfers are typically restricted to authorised secondary nameservers.",
     "fix_snippet": "# Check if zone transfers are allowed\ndig @ns1.example.com example.com AXFR\n# Allow specific IPs in BIND config\nzone \"example.com\" {\n    allow-transfer { 10.0.0.2; };\n};\n# Use TSIG keys for secure transfers",
     "sources": [
       "https://datatracker.ietf.org/doc/html/rfc5936"
@@ -4124,7 +4124,7 @@ const ERRORS_DATA = [
     "id": "gcp-cloud-function-deploy-failed",
     "title": "GCP Cloud Functions: Deployment failed",
     "category": "Serverless",
-    "explanation": "Cloud Function deployment failed during build or initialization. Could be a dependency issue, code error, or quota limit.",
+    "explanation": "Cloud Function deployment failed during build or initialisation. Could be a dependency issue, code error, or quota limit.",
     "fix_snippet": "# Check build logs\ngcloud functions logs read my-function\n# Deploy with verbose logging\ngcloud functions deploy my-function --runtime python311 --trigger-http --verbosity=debug\n# Check quotas\ngcloud compute project-info describe\n# Test locally first\nfunctions-framework --target=my_function",
     "sources": [
       "https://cloud.google.com/functions/docs/troubleshooting"
@@ -5174,7 +5174,7 @@ const ERRORS_DATA = [
     "id": "oauth-redirect-uri-mismatch",
     "title": "OAuth: redirect_uri_mismatch",
     "category": "Security",
-    "explanation": "The redirect_uri in the authorization request does not exactly match a registered redirect URI. Scheme, host, port, path, trailing slash, and query must match.",
+    "explanation": "The redirect_uri in the authorisation request does not exactly match a registered redirect URI. Scheme, host, port, path, trailing slash, and query must match.",
     "fix_snippet": "# Common mismatches\n# http vs https\n# localhost:3000 vs 127.0.0.1:3000\n# /callback vs /callback/\n# preview URL not registered\nconst REDIRECT_URI = process.env.OAUTH_REDIRECT_URI;\n# Register every production and preview callback URL with the provider",
     "sources": [
       "https://datatracker.ietf.org/doc/html/rfc6749#section-3.1.2"
@@ -5238,6 +5238,658 @@ const ERRORS_DATA = [
     "fix_snippet": "head -1 key.pem\nsed -i 's/\\r//g' key.pem\nopenssl pkey -in key.pem -check -noout\nopenssl x509 -in cert.pem -noout -subject -issuer -dates\n# Re-emit clean PEM\nopenssl rsa -in key.pem -out key-clean.pem",
     "sources": [
       "https://www.openssl.org/docs/man1.1.1/man1/pkey.html"
+    ]
+  },
+  {
+    "id": "auth0-callback-url-mismatch",
+    "title": "Auth0: Callback URL mismatch",
+    "category": "Auth",
+    "explanation": "Auth0 rejected the login because the redirect URL in the request is not in the application's Allowed Callback URLs. The match must be exact (scheme, host, port, path).",
+    "fix_snippet": "# Auth0 Dashboard -> Applications -> Your App -> Settings\n# Allowed Callback URLs (exact, comma-separated):\nhttps://app.example.com/callback, http://localhost:3000/callback\n# Ensure the SDK uses the same redirect_uri\nconst auth0 = new Auth0Client({ authorizationParams: { redirect_uri: window.location.origin + '/callback' } });",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://auth0.com/docs/get-started/applications/application-settings"
+    ]
+  },
+  {
+    "id": "okta-invalid-client",
+    "title": "Okta: invalid_client",
+    "category": "Auth",
+    "explanation": "The Okta token endpoint returned invalid_client. The client_id/secret is wrong, the token endpoint auth method does not match, or the secret was rotated.",
+    "fix_snippet": "# Confirm the token endpoint auth method matches the request\n# client_secret_basic -> send credentials in the Authorization header\ncurl -X POST https://<org>.okta.com/oauth2/default/v1/token \\\n  -u \"$CLIENT_ID:$CLIENT_SECRET\" \\\n  -d 'grant_type=client_credentials&scope=api'\n# Rotate and update the secret if it was regenerated",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.okta.com/docs/reference/api/oidc/"
+    ]
+  },
+  {
+    "id": "oidc-nonce-mismatch",
+    "title": "OIDC: nonce mismatch",
+    "category": "Auth",
+    "explanation": "The nonce in the returned ID token does not match the nonce sent in the auth request, indicating a replay or a session lost between request and callback.",
+    "fix_snippet": "// Persist the nonce across the redirect, then validate on callback\nconst nonce = crypto.randomUUID();\nsession.nonce = nonce;\n// authorize: ...&nonce=${nonce}\n// callback: assert(idToken.nonce === session.nonce)\n// Session cookie must survive the round trip (SameSite=Lax/None)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://openid.net/specs/openid-connect-core-1_0.html#NonceNotes"
+    ]
+  },
+  {
+    "id": "webauthn-registration-failed",
+    "title": "WebAuthn/Passkey: registration failed (NotAllowedError)",
+    "category": "Auth",
+    "explanation": "navigator.credentials.create() rejected with NotAllowedError. Common causes: not a secure context, rpId not matching the origin, user cancelled, or timeout.",
+    "fix_snippet": "// Must run on https:// (localhost is allowed)\n// rp.id must be a registrable suffix of the origin host\nawait navigator.credentials.create({ publicKey: {\n  rp: { id: 'example.com', name: 'Example' },\n  user: { id: userIdBytes, name: 'alice', displayName: 'Alice' },\n  challenge: challengeBytes,\n  pubKeyCredParams: [{ type: 'public-key', alg: -7 }],\n  timeout: 60000\n}});",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API"
+    ]
+  },
+  {
+    "id": "mfa-challenge-timeout",
+    "title": "MFA: challenge timeout / code expired",
+    "category": "Auth",
+    "explanation": "A TOTP or push challenge was rejected because it expired or the device clock drifted outside the verification window.",
+    "fix_snippet": "# TOTP codes are time-based: sync the device clock\n# Server: allow +/- 1 step (30s) of skew instead of widening windows\ndate -u            # verify server time\n# Re-enroll the authenticator if drift persists",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6238"
+    ]
+  },
+  {
+    "id": "keycloak-invalid-redirect-uri",
+    "title": "Keycloak: Invalid parameter: redirect_uri",
+    "category": "Auth",
+    "explanation": "Keycloak rejected the redirect URI because it is not listed in the client's Valid Redirect URIs, or a wildcard pattern does not cover it.",
+    "fix_snippet": "# Keycloak Admin -> Clients -> your-client -> Settings\n# Valid Redirect URIs (supports a trailing * wildcard):\nhttps://app.example.com/*\nhttp://localhost:3000/*\n# Web origins (CORS): + (to allow all valid redirect origins)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.keycloak.org/docs/latest/server_admin/"
+    ]
+  },
+  {
+    "id": "windows-0xc000007b",
+    "title": "Windows: 0xc000007b application unable to start correctly",
+    "category": "Windows",
+    "explanation": "A 32/64-bit mismatch or corrupt/missing runtime DLLs prevented the application from starting, often a wrong-bitness DLL on the PATH.",
+    "fix_snippet": "# Reinstall the matching Visual C++ Redistributables (BOTH x86 and x64)\nwinget install Microsoft.VCRedist.2015+.x64\nwinget install Microsoft.VCRedist.2015+.x86\n# Repair system files (Run as Administrator)\nsfc /scannow\nDISM /Online /Cleanup-Image /RestoreHealth",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"
+    ]
+  },
+  {
+    "id": "windows-vcruntime140-missing",
+    "title": "Windows: VCRUNTIME140.dll was not found",
+    "category": "Windows",
+    "explanation": "The Microsoft Visual C++ 2015-2022 runtime is missing. Apps compiled with MSVC need the matching redistributable installed.",
+    "fix_snippet": "# Install the Visual C++ 2015-2022 Redistributable (x64)\nwinget install Microsoft.VCRedist.2015+.x64\n# Install the x86 build too if the app is 32-bit\nwinget install Microsoft.VCRedist.2015+.x86\n# Or download vc_redist.x64.exe from Microsoft and run it",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist"
+    ]
+  },
+  {
+    "id": "windows-update-0x80070643",
+    "title": "Windows Update: error 0x80070643",
+    "category": "Windows",
+    "explanation": "A Windows Update (commonly a .NET or security update) failed to install, often due to a corrupted update cache or a pending reboot.",
+    "fix_snippet": "# Run as Administrator\nnet stop wuauserv\nnet stop bits\nRemove-Item C:\\Windows\\SoftwareDistribution\\Download\\* -Recurse -Force\nnet start wuauserv\nnet start bits\n# Reboot, then re-run Windows Update",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://support.microsoft.com/en-us/windows/windows-update-troubleshooter-19bc41ca-ad72-ae67-af3c-89ce169755dd"
+    ]
+  },
+  {
+    "id": "windows-access-denied-5",
+    "title": "Windows: Access is denied (error 5)",
+    "category": "Windows",
+    "explanation": "A process attempted an operation without sufficient privileges, or a file/service is locked or restricted by its ACL.",
+    "fix_snippet": "# Run the shell as Administrator\nStart-Process powershell -Verb RunAs\n# Take ownership and grant rights on a path\ntakeown /f \"C:\\path\\to\\dir\" /r /d y\nicacls \"C:\\path\\to\\dir\" /grant \"$env:USERNAME:(OI)(CI)F\" /T",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls"
+    ]
+  },
+  {
+    "id": "windows-rdp-credssp",
+    "title": "Windows: RDP can't connect (CredSSP encryption oracle remediation)",
+    "category": "Windows",
+    "explanation": "Remote Desktop fails after a CredSSP update mismatch: one side is patched and enforcing while the other is not.",
+    "fix_snippet": "# Preferred: install the latest Windows updates on BOTH machines\n# Temporary client workaround (Run as Admin); revert after patching:\nreg add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\CredSSP\\Parameters\" /v AllowEncryptionOracle /t REG_DWORD /d 2 /f",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-server/remote/credssp-encryption-oracle-remediation"
+    ]
+  },
+  {
+    "id": "windows-system-file-corruption",
+    "title": "Windows: corrupted system files / component store",
+    "category": "Windows",
+    "explanation": "System instability or update failures caused by corruption in protected system files or the component store (WinSxS).",
+    "fix_snippet": "# Run as Administrator, in order\nDISM /Online /Cleanup-Image /CheckHealth\nDISM /Online /Cleanup-Image /ScanHealth\nDISM /Online /Cleanup-Image /RestoreHealth\nsfc /scannow\n# Reboot when complete",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-client/deployment/fix-windows-update-errors"
+    ]
+  },
+  {
+    "id": "macos-xcrun-invalid-developer-path",
+    "title": "macOS: xcrun: error: invalid active developer path",
+    "category": "Apple",
+    "explanation": "The Command Line Tools path is missing or points to a removed Xcode, commonly after a macOS upgrade.",
+    "fix_snippet": "xcode-select --install\n# If Xcode moved/was removed, reset the active path\nsudo xcode-select --reset\n# Or point at a specific toolchain\nsudo xcode-select -s /Library/Developer/CommandLineTools\nxcrun --version",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.apple.com/library/archive/technotes/tn2339/_index.html"
+    ]
+  },
+  {
+    "id": "macos-dyld-library-not-loaded",
+    "title": "macOS: dyld: Library not loaded",
+    "category": "Apple",
+    "explanation": "The dynamic linker could not find a shared library at the path baked into the binary, often after a Homebrew upgrade changed library versions.",
+    "fix_snippet": "# See what the binary expects\notool -L /path/to/binary\n# Reinstall/relink the dependency (Homebrew)\nbrew reinstall <formula>\nbrew link --overwrite <formula>\n# Last resort for your own builds:\nexport DYLD_LIBRARY_PATH=/opt/homebrew/lib:$DYLD_LIBRARY_PATH",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/DynamicLibraries/100-Articles/RunpathDependentLibraries.html"
+    ]
+  },
+  {
+    "id": "homebrew-permission-denied-usr-local",
+    "title": "Homebrew: Permission denied @ /usr/local",
+    "category": "Apple",
+    "explanation": "Homebrew cannot write to its prefix because directory ownership is wrong, common on Intel Macs that use /usr/local.",
+    "fix_snippet": "# Intel Macs (/usr/local)\nsudo chown -R $(whoami) /usr/local/Cellar /usr/local/Homebrew\n# Apple Silicon uses /opt/homebrew (preferred)\nsudo chown -R $(whoami) /opt/homebrew\nbrew doctor",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.brew.sh/Common-Issues"
+    ]
+  },
+  {
+    "id": "macos-notarization-failed",
+    "title": "macOS: notarization failed (notarytool)",
+    "category": "Apple",
+    "explanation": "Apple's notary service rejected the app, usually for unsigned/un-hardened binaries, a missing secure timestamp, or disallowed entitlements.",
+    "fix_snippet": "# Submit and read the detailed log\nxcrun notarytool submit App.zip --apple-id \"$APPLE_ID\" --team-id \"$TEAM_ID\" --password \"$APP_PWD\" --wait\nxcrun notarytool log <submission-id> --apple-id \"$APPLE_ID\" --team-id \"$TEAM_ID\" --password \"$APP_PWD\"\n# Sign with hardened runtime + secure timestamp\ncodesign --force --options runtime --timestamp --sign \"Developer ID Application: ...\" App.app",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution"
+    ]
+  },
+  {
+    "id": "macos-keychain-access-denied",
+    "title": "macOS: errSecAuthFailed / Keychain access denied",
+    "category": "Apple",
+    "explanation": "A code-signing or credential operation could not read the Keychain, common in CI when the keychain is locked or not in the search list.",
+    "fix_snippet": "# Unlock and prioritize a dedicated CI keychain\nsecurity unlock-keychain -p \"$KC_PWD\" build.keychain\nsecurity list-keychains -d user -s build.keychain login.keychain\n# Let codesign use the key without prompting\nsecurity set-key-partition-list -S apple-tool:,apple: -s -k \"$KC_PWD\" build.keychain",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.apple.com/forums/thread/712005"
+    ]
+  },
+  {
+    "id": "macos-command-not-found-path",
+    "title": "macOS: zsh: command not found after Homebrew install (PATH)",
+    "category": "Apple",
+    "explanation": "A freshly installed CLI is not on PATH because the Homebrew shellenv was not added to the shell profile, common on Apple Silicon (/opt/homebrew).",
+    "fix_snippet": "# Apple Silicon\necho 'eval \"$(/opt/homebrew/bin/brew shellenv)\"' >> ~/.zprofile\neval \"$(/opt/homebrew/bin/brew shellenv)\"\n# Intel\necho 'eval \"$(/usr/local/bin/brew shellenv)\"' >> ~/.zprofile\nsource ~/.zprofile && which <command>",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.brew.sh/Installation"
+    ]
+  },
+  {
+    "id": "frontend-fouc",
+    "title": "FOUC: flash of unstyled content",
+    "category": "Frontend",
+    "explanation": "The browser renders HTML before CSS or a web font is applied, producing a brief flash of unstyled or differently-styled content.",
+    "fix_snippet": "<!-- Load critical CSS in <head>, not at the end of <body> -->\n<link rel=\"stylesheet\" href=\"/critical.css\">\n<!-- Preload fonts and control swap behavior -->\n<link rel=\"preload\" href=\"/font.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n@font-face { font-family: 'Inter'; font-display: optional; src: url('/font.woff2'); }",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display"
+    ]
+  },
+  {
+    "id": "frontend-cors-font-blocked",
+    "title": "CORS: web font blocked by Access-Control-Allow-Origin",
+    "category": "Frontend",
+    "explanation": "Fonts are fetched with CORS. A cross-origin font without the right ACAO header is blocked, leaving text in a fallback font.",
+    "fix_snippet": "# Serve the font with CORS headers (Nginx)\nlocation ~* \\.(woff2?|ttf|otf)$ {\n  add_header Access-Control-Allow-Origin \"https://app.example.com\";\n}\n<!-- And request it with crossorigin -->\n<link rel=\"preload\" as=\"font\" href=\"https://cdn.example.com/f.woff2\" crossorigin>",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+    ]
+  },
+  {
+    "id": "frontend-cls-too-high",
+    "title": "Cumulative Layout Shift (CLS) too high",
+    "category": "Frontend",
+    "explanation": "Visible elements move during load because images/ads/embeds have no reserved space, or fonts swap, hurting Core Web Vitals.",
+    "fix_snippet": "<!-- Always set width/height (or aspect-ratio) on media -->\n<img src=\"hero.jpg\" width=\"1200\" height=\"630\" alt=\"\">\n/* Reserve space for dynamic embeds */\n.ad-slot { min-height: 250px; }\n/* Avoid inserting content above existing content after load */",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://web.dev/articles/cls"
+    ]
+  },
+  {
+    "id": "astro-hydration-mismatch",
+    "title": "Astro: client hydration mismatch",
+    "category": "Frontend",
+    "explanation": "An interactive island rendered different markup on the client than the server, or a client directive was missing, so hydration failed.",
+    "fix_snippet": "<!-- Add a client directive so the island hydrates -->\n<Counter client:load />\n<!-- Avoid non-deterministic output (Date.now, Math.random) during render -->\n<!-- Gate browser-only code -->\n{ typeof window !== 'undefined' && <BrowserOnly /> }",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.astro.build/en/concepts/islands/"
+    ]
+  },
+  {
+    "id": "remix-loader-thrown-response",
+    "title": "Remix/React Router: loader threw an unexpected Response",
+    "category": "Frontend",
+    "explanation": "A loader or action threw a Response (e.g., redirect or 404) that was not handled, or returned a non-serialisable value.",
+    "fix_snippet": "export async function loader({ params }) {\n  const item = await db.get(params.id);\n  if (!item) throw new Response('Not Found', { status: 404 });\n  return json(item); // must be serializable\n}\n// Handle thrown responses\nexport function ErrorBoundary() { const e = useRouteError(); /* ... */ }",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://remix.run/docs/en/main/route/loader"
+    ]
+  },
+  {
+    "id": "nuxt-hydration-node-mismatch",
+    "title": "Nuxt: Hydration node mismatch",
+    "category": "Frontend",
+    "explanation": "Vue's server-rendered DOM did not match the client render, often from browser-only APIs during setup or invalid HTML nesting.",
+    "fix_snippet": "<!-- Run browser-only code after mount or wrap in <ClientOnly> -->\n<ClientOnly><Chart /></ClientOnly>\n<script setup>\nonMounted(() => { /* window/localStorage here */ });\n</script>\n<!-- Avoid invalid nesting like <div> inside <p> -->",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://nuxt.com/docs/getting-started/data-fetching"
+    ]
+  },
+  {
+    "id": "esbuild-could-not-resolve",
+    "title": "esbuild: Could not resolve \"X\"",
+    "category": "Frontend",
+    "explanation": "esbuild could not find a module: it is not installed, the path/extension is wrong, or it is a Node built-in being bundled for the browser.",
+    "fix_snippet": "npm install <missing-pkg>\n# Mark Node built-ins/externals so they are not bundled\nesbuild app.js --bundle --platform=browser --external:fs --external:path\n# Add explicit extensions if resolution fails\nesbuild app.ts --bundle --resolve-extensions=.ts,.js,.json",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://esbuild.github.io/api/#resolve-extensions"
+    ]
+  },
+  {
+    "id": "webpack5-node-polyfill-missing",
+    "title": "webpack 5: BREAKING CHANGE - polyfill for Node core module removed",
+    "category": "Frontend",
+    "explanation": "webpack 5 no longer auto-polyfills Node core modules (crypto, stream, buffer). Browser builds importing them now fail to resolve.",
+    "fix_snippet": "// webpack.config.js\nmodule.exports = { resolve: { fallback: {\n  crypto: require.resolve('crypto-browserify'),\n  stream: require.resolve('stream-browserify'),\n  buffer: require.resolve('buffer/')\n}}};\n// Better: avoid Node-only deps in browser code, or set fallback: false",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://webpack.js.org/migrate/5/"
+    ]
+  },
+  {
+    "id": "http-400-bad-request",
+    "title": "400 Bad Request",
+    "category": "HTTP",
+    "explanation": "The server could not parse the request due to malformed syntax: bad JSON body, illegal headers/characters, oversized cookies, or invalid query encoding.",
+    "fix_snippet": "# Validate the JSON you are sending\ncurl -X POST https://api.example.com/v1/items \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"name\":\"widget\"}'\necho '{\"name\":\"widget\"}' | jq .   # must parse\n# Clear oversized cookies; URL-encode query parameters",
+    "fix_snippet_windows": "# PowerShell: validate then send JSON\n$body = '{\"name\":\"widget\"}'\n$body | ConvertFrom-Json   # must parse\nInvoke-RestMethod -Method Post -Uri 'https://api.example.com/v1/items' -ContentType 'application/json' -Body $body",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400"
+    ]
+  },
+  {
+    "id": "http-429-too-many-requests",
+    "title": "429 Too Many Requests",
+    "category": "HTTP",
+    "explanation": "The client sent too many requests in a given window and was rate limited. The Retry-After header, if present, says how long to wait.",
+    "fix_snippet": "# Respect Retry-After and back off exponentially\ncurl -i https://api.example.com/v1/things | grep -i retry-after\n# Pseudocode\n# delay = min(cap, base * 2**attempt) + random_jitter\n# sleep(delay); retry()\n# Cache responses and batch requests to cut volume",
+    "fix_snippet_windows": "# PowerShell: read Retry-After then back off\n$r = Invoke-WebRequest 'https://api.example.com/v1/things'\n$r.Headers['Retry-After']\nStart-Sleep -Seconds 5   # honor Retry-After, add jitter",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429"
+    ]
+  },
+  {
+    "id": "http-426-upgrade-required",
+    "title": "426 Upgrade Required",
+    "category": "HTTP",
+    "explanation": "The server refuses to process the request using the current protocol and requires the client to switch (e.g., to TLS or to WebSocket).",
+    "fix_snippet": "# The server signals the required protocol via the Upgrade header\n# HTTP/1.1 426 Upgrade Required\n# Upgrade: TLS/1.2, HTTP/1.1\n# Connection: Upgrade\n# Client: retry over the required protocol (https:// or wss://)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/426"
+    ]
+  },
+  {
+    "id": "http-451-legal-reasons",
+    "title": "451 Unavailable For Legal Reasons",
+    "category": "HTTP",
+    "explanation": "The resource is blocked for legal reasons such as censorship or a takedown. The response should reference the blocking authority.",
+    "fix_snippet": "# Server example (Nginx) for a legally blocked path\nlocation /blocked-resource {\n  add_header Link '<https://spqr.example.org/legal>; rel=\"blocked-by\"';\n  return 451;\n}\n# Clients: the block is intentional; verify jurisdiction/authority",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/451"
+    ]
+  },
+  {
+    "id": "oracle-ora-12541-tns-no-listener",
+    "title": "Oracle: ORA-12541: TNS:no listener",
+    "category": "Database",
+    "explanation": "The client reached the host but no listener is accepting on that port/service. The listener is down or the host/port/service name is wrong.",
+    "fix_snippet": "# On the DB server: is the listener up?\nlsnrctl status\nlsnrctl start\n# From the client: test the descriptor\ntnsping ORCL\n# Verify host, port (default 1521), and SERVICE_NAME in tnsnames.ora",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.oracle.com/en/database/oracle/oracle-database/19/netrf/"
+    ]
+  },
+  {
+    "id": "cassandra-no-host-available",
+    "title": "Cassandra: NoHostAvailable",
+    "category": "Database",
+    "explanation": "The driver could not reach any node: wrong contact points, the node is down, a datacenter/consistency mismatch, or auth failure.",
+    "fix_snippet": "nodetool status   # UN = Up/Normal\n# Check contact points and the local datacenter in the driver config\n# (DataStax drivers require a local DC for the load-balancing policy)\ncqlsh <node-ip> 9042 -u cassandra -p cassandra\n# Ensure the requested consistency level has enough live replicas",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.datastax.com/en/developer/"
+    ]
+  },
+  {
+    "id": "cockroachdb-retry-40001",
+    "title": "CockroachDB: restart transaction (SQLSTATE 40001)",
+    "category": "Database",
+    "explanation": "A SerialisABLE transaction conflicted and must be retried. Contended transactions can be aborted with a retry error.",
+    "fix_snippet": "-- Wrap transactions in client-side retry logic\n-- Detect SQLSTATE 40001 (retry_serializable) and re-run the txn\n-- Use SAVEPOINT cockroach_restart or the driver's retry helper\n-- Reduce contention: smaller txns, ordered key access, good indexes",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.cockroachlabs.com/docs/stable/transaction-retry-error-reference"
+    ]
+  },
+  {
+    "id": "clickhouse-memory-limit-exceeded",
+    "title": "ClickHouse: Memory limit (total) exceeded",
+    "category": "Database",
+    "explanation": "A query tried to use more memory than max_memory_usage (or the server total) allows, common with large GROUP BY/JOIN/ORDER BY.",
+    "fix_snippet": "-- Allow spilling to disk for heavy aggregations/sorts\nSET max_bytes_before_external_group_by = 2000000000;\nSET max_bytes_before_external_sort = 2000000000;\n-- Or raise the per-query cap (carefully)\nSET max_memory_usage = 8000000000;\n-- Better: filter earlier, select fewer columns, pre-aggregate",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://clickhouse.com/docs/en/operations/settings/settings"
+    ]
+  },
+  {
+    "id": "pgbouncer-no-more-connections",
+    "title": "PgBouncer: no more connections allowed (max_client_conn)",
+    "category": "Database",
+    "explanation": "PgBouncer rejected a client because max_client_conn was reached, or the server pool (default_pool_size) is exhausted by long transactions.",
+    "fix_snippet": "; pgbouncer.ini\nmax_client_conn = 1000\ndefault_pool_size = 20\npool_mode = transaction\n# Inspect live pools\npsql -p 6432 pgbouncer -c 'SHOW POOLS;'\n# Fix leaked / idle-in-transaction sessions in the app",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.pgbouncer.org/config.html"
+    ]
+  },
+  {
+    "id": "supabase-rls-violation",
+    "title": "Supabase/Postgres: new row violates row-level security policy",
+    "category": "Database",
+    "explanation": "An insert/update was blocked because no RLS policy permits it for the current role, or the JWT lacks the expected claims (auth.uid()).",
+    "fix_snippet": "-- Allow the authenticated user to insert their own rows\ncreate policy \"users insert own\" on public.todos\n  for insert to authenticated\n  with check (auth.uid() = user_id);\n-- Add a policy for EACH action (select/insert/update/delete)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://supabase.com/docs/guides/database/postgres/row-level-security"
+    ]
+  },
+  {
+    "id": "argocd-out-of-sync",
+    "title": "Argo CD: Application OutOfSync / Degraded",
+    "category": "Kubernetes",
+    "explanation": "The live cluster state differs from Git (OutOfSync) or resources are unhealthy (Degraded), from drift, a failed sync, or invalid manifests.",
+    "fix_snippet": "argocd app diff my-app\nargocd app sync my-app --prune\n# Inspect why a resource is Degraded\nargocd app get my-app\nkubectl describe <kind>/<name> -n <ns>\n# Enable auto-sync + self-heal to prevent drift",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://argo-cd.readthedocs.io/en/stable/user-guide/sync/"
+    ]
+  },
+  {
+    "id": "istio-503-uh-uf",
+    "title": "Istio: 503 upstream connect error (UH/UF/NR)",
+    "category": "Kubernetes",
+    "explanation": "Envoy returned 503 with flags like UH (no healthy upstream), UF (upstream connection failure), or NR (no route), usually mTLS, port-name, or selector issues.",
+    "fix_snippet": "# Service port name must start with the protocol: http, grpc, tcp...\nistioctl analyze -n <ns>\n# Check proxy clusters\nistioctl proxy-config clusters <pod> -n <ns>\n# mTLS mismatch: align PeerAuthentication / DestinationRule\nkubectl get peerauthentication,destinationrule -A",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://istio.io/latest/docs/ops/diagnostic-tools/"
+    ]
+  },
+  {
+    "id": "helm-operation-in-progress",
+    "title": "Helm: another operation (install/upgrade) is in progress",
+    "category": "Kubernetes",
+    "explanation": "A previous Helm operation crashed and left the release stuck in pending-install/pending-upgrade, blocking new operations.",
+    "fix_snippet": "helm history <release> -n <ns>\n# Roll back to the last good revision\nhelm rollback <release> <good-revision> -n <ns>\n# If no good revision exists and it is stuck pending:\nhelm uninstall <release> -n <ns>   # then reinstall\n# (Helm 3 stores state in Secrets in the release namespace)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://helm.sh/docs/helm/helm_rollback/"
+    ]
+  },
+  {
+    "id": "vault-server-sealed",
+    "title": "Vault: server is sealed",
+    "category": "Cloud",
+    "explanation": "HashiCorp Vault is sealed and cannot serve secrets. It seals on restart and must be unsealed with a quorum of unseal keys unless auto-unseal is configured.",
+    "fix_snippet": "vault status   # Sealed: true\n# Provide the threshold number of unseal key shares\nvault operator unseal <key-share-1>\nvault operator unseal <key-share-2>\nvault operator unseal <key-share-3>\n# Production: configure auto-unseal (KMS/HSM)",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.hashicorp.com/vault/docs/concepts/seal"
+    ]
+  },
+  {
+    "id": "vault-permission-denied",
+    "title": "Vault: permission denied (403)",
+    "category": "Cloud",
+    "explanation": "The token's policies do not grant the requested path/capability, or the token expired. Vault denies by default.",
+    "fix_snippet": "vault token lookup            # check ttl + policies\n# Inspect what a policy allows\nvault policy read my-policy\n# Grant read on a path (my-policy.hcl):\n# path \"secret/data/app/*\" { capabilities = [\"read\"] }\nvault policy write my-policy my-policy.hcl",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://developer.hashicorp.com/vault/docs/concepts/policies"
+    ]
+  },
+  {
+    "id": "pulumi-pending-operations",
+    "title": "Pulumi: the stack has pending operations",
+    "category": "Cloud",
+    "explanation": "A previous update was interrupted, leaving operations indeterminate. Pulumi blocks further updates until state is reconciled.",
+    "fix_snippet": "pulumi stack export > stack.json   # back up first\n# Reconcile real cloud state with the state file\npulumi refresh\n# If a resource is truly gone/created, clear the lock\npulumi cancel\n# Last resort: remove pending_operations from the exported state and import",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.pulumi.com/docs/cli/commands/pulumi_refresh/"
+    ]
+  },
+  {
+    "id": "gemini-safety-block",
+    "title": "Gemini API: response blocked (finishReason: SAFETY)",
+    "category": "AI",
+    "explanation": "Gemini stopped generation because the prompt or candidate tripped a safety category threshold, leaving no usable text.",
+    "fix_snippet": "# Inspect promptFeedback.blockReason and safetyRatings in the response\n# Adjust thresholds (use responsibly)\nsafetySettings: [{ category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_ONLY_HIGH' }]\n# Rephrase the prompt; handle the blocked case gracefully in code",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://ai.google.dev/gemini-api/docs/safety-settings"
+    ]
+  },
+  {
+    "id": "rag-embedding-dimension-mismatch",
+    "title": "RAG: embedding dimension mismatch",
+    "category": "AI",
+    "explanation": "Vectors written with one embedding model do not match the index/column dimension, so inserts or similarity queries fail. Mixing models is the usual cause.",
+    "fix_snippet": "# Pin ONE embedding model + dimension end to end\n# e.g., text-embedding-3-small -> 1536 dims\n# Recreate the index/collection with the correct size, then re-embed ALL docs\n# Never mix vectors from different models in one index",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://platform.openai.com/docs/guides/embeddings"
+    ]
+  },
+  {
+    "id": "pgvector-dimension-mismatch",
+    "title": "pgvector: expected N dimensions, not M",
+    "category": "AI",
+    "explanation": "A vector being inserted or queried does not match the fixed dimension declared on the vector column.",
+    "fix_snippet": "-- The column declares the dimension\nCREATE TABLE items (id bigserial, embedding vector(1536));\n-- Inserts must be exactly 1536 floats\n-- To change models/dims, alter the column and re-embed\nALTER TABLE items ALTER COLUMN embedding TYPE vector(3072);\n-- Rebuild the ANN index afterwards",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://github.com/pgvector/pgvector"
+    ]
+  },
+  {
+    "id": "github-copilot-auth-failed",
+    "title": "GitHub Copilot: authentication failed / no subscription",
+    "category": "AI",
+    "explanation": "The Copilot extension cannot authenticate: the GitHub session expired, there is no active Copilot seat, or a proxy is blocking GitHub endpoints.",
+    "fix_snippet": "# VS Code: Command Palette -> 'GitHub Copilot: Sign Out' then Sign In\n# Verify access\ngh auth status\n# Check seat assignment (org admin): https://github.com/settings/copilot\n# Behind a proxy: allow api.github.com and *.githubcopilot.com",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.github.com/en/copilot/troubleshooting-github-copilot"
+    ]
+  },
+  {
+    "id": "mistral-422-unprocessable",
+    "title": "Mistral API: 422 Unprocessable Entity",
+    "category": "AI",
+    "explanation": "The request body failed validation: unknown model name, malformed messages array, or an unsupported parameter value.",
+    "fix_snippet": "curl https://api.mistral.ai/v1/chat/completions \\\n  -H \"Authorization: Bearer $MISTRAL_API_KEY\" \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"model\":\"mistral-large-latest\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}'\n# Read the JSON error body: it names the invalid field",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.mistral.ai/api/"
+    ]
+  },
+  {
+    "id": "elixir-genserver-call-timeout",
+    "title": "Elixir: GenServer call timeout (exited in :gen_server.call)",
+    "category": "Elixir",
+    "explanation": "A GenServer.call did not get a reply within 5000ms (default) because the server is overloaded, doing slow work in handle_call, or deadlocked.",
+    "fix_snippet": "# Move slow work off the call (reply fast, work async)\n# Or raise the timeout for genuinely slow ops\nGenServer.call(pid, :work, 30_000)\n# Avoid calling back into the same GenServer from handle_call (deadlock)\n# Use handle_cast or Task for fire-and-forget",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://hexdocs.pm/elixir/GenServer.html"
+    ]
+  },
+  {
+    "id": "elixir-mix-deps-compile-failed",
+    "title": "Elixir: Mix could not compile dependency",
+    "category": "Elixir",
+    "explanation": "A dependency failed to compile due to missing native build tools, a version conflict, or stale build artifacts.",
+    "fix_snippet": "mix deps.clean <dep> --build\nmix deps.get\nmix deps.compile\n# Native deps need a C toolchain (make, build-essential, erlang-dev)\n# Resolve conflicts shown by:\nmix deps.tree",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://hexdocs.pm/mix/Mix.Tasks.Deps.html"
+    ]
+  },
+  {
+    "id": "scala-sbt-unresolved-dependency",
+    "title": "Scala: sbt unresolved dependency",
+    "category": "Scala",
+    "explanation": "sbt could not download a library: wrong coordinates, a missing resolver, a Scala-version suffix mismatch, or no credentials for a private repo.",
+    "fix_snippet": "// %% appends the Scala binary version automatically\nlibraryDependencies += \"org.typelevel\" %% \"cats-core\" % \"2.10.0\"\n// Add a resolver for non-Central artifacts\nresolvers += \"Sonatype\" at \"https://oss.sonatype.org/content/repositories/releases\"\n// Then: sbt update",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.scala-sbt.org/1.x/docs/Library-Dependencies.html"
+    ]
+  },
+  {
+    "id": "scala-value-not-a-member",
+    "title": "Scala: value X is not a member of Y",
+    "category": "Scala",
+    "explanation": "You called a method that does not exist on the type, often a missing import for an extension method/implicit, or a more general type than expected.",
+    "fix_snippet": "// Bring extension methods / implicits into scope\nimport scala.concurrent.duration._    // enables 5.seconds\nimport cats.syntax.all._              // enables |+|, etc.\n// Annotate to see the inferred type\nval x: Int = ???\n// Ensure the method matches the actual (not assumed) type",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.scala-lang.org/"
+    ]
+  },
+  {
+    "id": "dart-null-check-on-null",
+    "title": "Dart: Null check operator used on a null value",
+    "category": "Dart",
+    "explanation": "The ! null-assertion was applied to an expression that was null at runtime, throwing in null-safe Dart/Flutter code.",
+    "fix_snippet": "// Avoid ! unless non-null is guaranteed\nfinal user = maybeUser;\nif (user != null) { print(user.name); }\n// Provide a default\nfinal name = maybeName ?? 'Guest';\n// Use late only when you set it before first use\nlate final Foo foo;",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://dart.dev/null-safety/understanding-null-safety"
+    ]
+  },
+  {
+    "id": "flutter-pub-get-version-solving-failed",
+    "title": "Flutter/Dart: pub get failed (version solving failed)",
+    "category": "Dart",
+    "explanation": "pub could not find a set of package versions satisfying all constraints, usually conflicting SDK or transitive dependency bounds.",
+    "fix_snippet": "flutter pub get\n# See why a package is constrained\ndart pub deps\nflutter pub upgrade --major-versions\n# Loosen/align constraints in pubspec.yaml, then\nflutter clean && flutter pub get",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://dart.dev/tools/pub/cmd/pub-get"
+    ]
+  },
+  {
+    "id": "svelte-store-auto-subscription",
+    "title": "Svelte: '$' prefix can only be used with stores",
+    "category": "Svelte",
+    "explanation": "The $ auto-subscription was used on a value that is not a store (no subscribe method), or a store was referenced without importing it.",
+    "fix_snippet": "<script>\n  import { writable } from 'svelte/store';\n  const count = writable(0);   // a real store\n</script>\n<!-- $ auto-subscribes and must target a store -->\n<button on:click={() => $count++}>{$count}</button>",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://svelte.dev/docs/svelte-store"
+    ]
+  },
+  {
+    "id": "sveltekit-500-load",
+    "title": "SvelteKit: 500 error in load function",
+    "category": "Svelte",
+    "explanation": "A load function threw, returned a non-serialisable value, or accessed browser-only APIs during SSR, producing a 500.",
+    "fix_snippet": "import { error } from '@sveltejs/kit';\nexport async function load({ params, fetch }) {\n  const res = await fetch(`/api/items/${params.id}`);\n  if (!res.ok) throw error(res.status, 'Item not found');\n  return await res.json();   // must be serializable\n}\n// Put window/document access in onMount, not in load",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://kit.svelte.dev/docs/load"
+    ]
+  },
+  {
+    "id": "make-missing-separator",
+    "title": "Make: *** missing separator. Stop.",
+    "category": "Shell",
+    "explanation": "A recipe line is indented with spaces instead of a TAB, or a stray character precedes a rule. Make requires recipe lines to begin with a real TAB.",
+    "fix_snippet": "# Recipe lines MUST start with a TAB, not spaces\n# Find offending lines (shows ^I for tabs, leading spaces are visible)\ncat -A Makefile | grep -n '^ '\n# Convert 4 leading spaces to a tab (GNU sed)\nsed -i 's/^    /\\t/' Makefile\n# In editors: disable soft-tabs for Makefiles",
+    "fix_snippet_windows": "# Windows: GNU make still requires TAB-indented recipes\n# Reveal leading whitespace\n(Get-Content Makefile) | ForEach-Object { $_ -replace ' ', '.' }\n# Configure your editor to insert a real TAB in Makefiles",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://www.gnu.org/software/make/manual/make.html#Recipe-Syntax"
+    ]
+  },
+  {
+    "id": "bazel-no-such-target",
+    "title": "Bazel: no such target / no such package",
+    "category": "CI/CD",
+    "explanation": "A label does not resolve: the package has no BUILD file, the target name is wrong, or it is not visible to the caller.",
+    "fix_snippet": "# List the real targets in a package\nbazel query //path/to/pkg:all\n# Ensure path/to/pkg/BUILD(.bazel) exists and defines the target\n# Make it visible to consumers:\n# visibility = [\"//some/other:__subpackages__\"]\nbazel build //path/to/pkg:target",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://bazel.build/concepts/labels"
+    ]
+  },
+  {
+    "id": "deno-permission-denied",
+    "title": "Deno: PermissionDenied: Requires net/read access",
+    "category": "JavaScript",
+    "explanation": "Deno is secure by default and blocks file, network, and env access unless explicitly granted with --allow flags.",
+    "fix_snippet": "# Grant only what you need (preferred)\ndeno run --allow-net=api.example.com --allow-read=./data main.ts\n# Env access\ndeno run --allow-env main.ts\n# Broad (avoid in production)\ndeno run -A main.ts",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://docs.deno.com/runtime/fundamentals/security/"
+    ]
+  },
+  {
+    "id": "bun-cannot-find-module",
+    "title": "Bun: Cannot find module",
+    "category": "JavaScript",
+    "explanation": "Bun could not resolve an import: dependencies not installed, a path/extension typo, or a package relying on Node APIs not yet shimmed.",
+    "fix_snippet": "bun install\n# Verify the specifier and extension\n# import './util'  ->  './util.ts'\nbun pm ls\n# For Node built-ins, import via the node: prefix\n# import { readFile } from 'node:fs/promises'",
+    "dateAdded": "2026-06-25",
+    "sources": [
+      "https://bun.sh/docs/runtime/modules"
     ]
   }
 ];

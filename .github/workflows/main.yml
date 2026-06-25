@@ -34,6 +34,8 @@ jobs:
             --include "manifest.json" \
             --include "robots.txt" \
             --include "sitemap.xml" \
+            --include "feed.xml" \
+            --include "og-image.svg" \
             --cache-control "public, max-age=3600"
 
       # HTML: short cache so deploys are picked up quickly.

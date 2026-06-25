@@ -1,11 +1,12 @@
 // Service worker for fixmyerror.net
 // Bump CACHE_NAME on every release so clients pick up new HTML/JS.
-const CACHE_NAME = 'fixmyerror-net-v2.0.0';
+const CACHE_NAME = 'fixmyerror-net-v2.1.0';
 const CORE_ASSETS = [
   '/',
   '/index.html',
   '/embedded-data.js',
   '/manifest.json',
+  '/feed.xml',
   'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js'
 ];
 

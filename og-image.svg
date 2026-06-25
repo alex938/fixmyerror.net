@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="FixMyError.net - instant developer error solutions">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#58a6ff"/>
+      <stop offset="100%" stop-color="#1f6feb"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="10" fill="url(#accent)"/>
+  <rect x="0" y="620" width="1200" height="10" fill="url(#accent)"/>
+
+  <text x="80" y="250" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="96" font-weight="800" fill="#f0f6fc">🚀 FixMyError.net</text>
+
+  <text x="84" y="330" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="40" font-weight="600" fill="#58a6ff">The Developer's Error Encyclopedia</text>
+
+  <text x="84" y="408" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" fill="#8b949e">580+ copy-paste fixes for HTTP, TLS, Docker, Kubernetes, Terraform,</text>
+  <text x="84" y="452" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="30" fill="#8b949e">cloud, databases, AI APIs, Windows, macOS, and more.</text>
+
+  <g font-family="Courier New, monospace" font-size="26" font-weight="700">
+    <rect x="84" y="500" width="150" height="48" rx="10" fill="#1f6feb"/>
+    <text x="159" y="532" text-anchor="middle" fill="#ffffff">HTTP</text>
+    <rect x="250" y="500" width="130" height="48" rx="10" fill="#d29922"/>
+    <text x="315" y="532" text-anchor="middle" fill="#ffffff">TLS</text>
+    <rect x="396" y="500" width="170" height="48" rx="10" fill="#2496ed"/>
+    <text x="481" y="532" text-anchor="middle" fill="#ffffff">Docker</text>
+    <rect x="582" y="500" width="220" height="48" rx="10" fill="#326ce5"/>
+    <text x="692" y="532" text-anchor="middle" fill="#ffffff">Kubernetes</text>
+    <rect x="818" y="500" width="110" height="48" rx="10" fill="#9c27b0"/>
+    <text x="873" y="532" text-anchor="middle" fill="#ffffff">AI</text>
+  </g>
+
+  <text x="1120" y="595" text-anchor="end" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="24" fill="#656d76">https://fixmyerror.net</text>
+</svg>

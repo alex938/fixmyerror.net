@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>FixMyError.net &#8211; Recently Added Errors</title>
+    <link>https://fixmyerror.net/</link>
+    <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
+    <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
+    <language>en-GB</language>
+    <lastBuildDate>Thu, 25 Jun 2026 19:59:30 GMT</lastBuildDate>
+    <ttl>1440</ttl>
+    <item>
+      <title>Auth0: Callback URL mismatch</title>
+      <link>https://fixmyerror.net/#auth0-callback-url-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-auth0-callback-url-mismatch</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Auth0 rejected the login because the redirect URL in the request is not in the application&apos;s Allowed Callback URLs. The match must be exact (scheme, host, port, path).</description>
+    </item>
+    <item>
+      <title>Okta: invalid_client</title>
+      <link>https://fixmyerror.net/#okta-invalid-client</link>
+      <guid isPermaLink="false">fixmyerror-okta-invalid-client</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The Okta token endpoint returned invalid_client. The client_id/secret is wrong, the token endpoint auth method does not match, or the secret was rotated.</description>
+    </item>
+    <item>
+      <title>OIDC: nonce mismatch</title>
+      <link>https://fixmyerror.net/#oidc-nonce-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-oidc-nonce-mismatch</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The nonce in the returned ID token does not match the nonce sent in the auth request, indicating a replay or a session lost between request and callback.</description>
+    </item>
+    <item>
+      <title>WebAuthn/Passkey: registration failed (NotAllowedError)</title>
+      <link>https://fixmyerror.net/#webauthn-registration-failed</link>
+      <guid isPermaLink="false">fixmyerror-webauthn-registration-failed</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>navigator.credentials.create() rejected with NotAllowedError. Common causes: not a secure context, rpId not matching the origin, user cancelled, or timeout.</description>
+    </item>
+    <item>
+      <title>MFA: challenge timeout / code expired</title>
+      <link>https://fixmyerror.net/#mfa-challenge-timeout</link>
+      <guid isPermaLink="false">fixmyerror-mfa-challenge-timeout</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A TOTP or push challenge was rejected because it expired or the device clock drifted outside the verification window.</description>
+    </item>
+    <item>
+      <title>Keycloak: Invalid parameter: redirect_uri</title>
+      <link>https://fixmyerror.net/#keycloak-invalid-redirect-uri</link>
+      <guid isPermaLink="false">fixmyerror-keycloak-invalid-redirect-uri</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Keycloak rejected the redirect URI because it is not listed in the client&apos;s Valid Redirect URIs, or a wildcard pattern does not cover it.</description>
+    </item>
+    <item>
+      <title>Windows: 0xc000007b application unable to start correctly</title>
+      <link>https://fixmyerror.net/#windows-0xc000007b</link>
+      <guid isPermaLink="false">fixmyerror-windows-0xc000007b</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A 32/64-bit mismatch or corrupt/missing runtime DLLs prevented the application from starting, often a wrong-bitness DLL on the PATH.</description>
+    </item>
+    <item>
+      <title>Windows: VCRUNTIME140.dll was not found</title>
+      <link>https://fixmyerror.net/#windows-vcruntime140-missing</link>
+      <guid isPermaLink="false">fixmyerror-windows-vcruntime140-missing</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The Microsoft Visual C++ 2015-2022 runtime is missing. Apps compiled with MSVC need the matching redistributable installed.</description>
+    </item>
+    <item>
+      <title>Windows Update: error 0x80070643</title>
+      <link>https://fixmyerror.net/#windows-update-0x80070643</link>
+      <guid isPermaLink="false">fixmyerror-windows-update-0x80070643</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A Windows Update (commonly a .NET or security update) failed to install, often due to a corrupted update cache or a pending reboot.</description>
+    </item>
+    <item>
+      <title>Windows: Access is denied (error 5)</title>
+      <link>https://fixmyerror.net/#windows-access-denied-5</link>
+      <guid isPermaLink="false">fixmyerror-windows-access-denied-5</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A process attempted an operation without sufficient privileges, or a file/service is locked or restricted by its ACL.</description>
+    </item>
+    <item>
+      <title>Windows: RDP can&apos;t connect (CredSSP encryption oracle remediation)</title>
+      <link>https://fixmyerror.net/#windows-rdp-credssp</link>
+      <guid isPermaLink="false">fixmyerror-windows-rdp-credssp</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Remote Desktop fails after a CredSSP update mismatch: one side is patched and enforcing while the other is not.</description>
+    </item>
+    <item>
+      <title>Windows: corrupted system files / component store</title>
+      <link>https://fixmyerror.net/#windows-system-file-corruption</link>
+      <guid isPermaLink="false">fixmyerror-windows-system-file-corruption</guid>
+      <category>Windows</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>System instability or update failures caused by corruption in protected system files or the component store (WinSxS).</description>
+    </item>
+    <item>
+      <title>macOS: xcrun: error: invalid active developer path</title>
+      <link>https://fixmyerror.net/#macos-xcrun-invalid-developer-path</link>
+      <guid isPermaLink="false">fixmyerror-macos-xcrun-invalid-developer-path</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The Command Line Tools path is missing or points to a removed Xcode, commonly after a macOS upgrade.</description>
+    </item>
+    <item>
+      <title>macOS: dyld: Library not loaded</title>
+      <link>https://fixmyerror.net/#macos-dyld-library-not-loaded</link>
+      <guid isPermaLink="false">fixmyerror-macos-dyld-library-not-loaded</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The dynamic linker could not find a shared library at the path baked into the binary, often after a Homebrew upgrade changed library versions.</description>
+    </item>
+    <item>
+      <title>Homebrew: Permission denied @ /usr/local</title>
+      <link>https://fixmyerror.net/#homebrew-permission-denied-usr-local</link>
+      <guid isPermaLink="false">fixmyerror-homebrew-permission-denied-usr-local</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Homebrew cannot write to its prefix because directory ownership is wrong, common on Intel Macs that use /usr/local.</description>
+    </item>
+    <item>
+      <title>macOS: notarization failed (notarytool)</title>
+      <link>https://fixmyerror.net/#macos-notarization-failed</link>
+      <guid isPermaLink="false">fixmyerror-macos-notarization-failed</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Apple&apos;s notary service rejected the app, usually for unsigned/un-hardened binaries, a missing secure timestamp, or disallowed entitlements.</description>
+    </item>
+    <item>
+      <title>macOS: errSecAuthFailed / Keychain access denied</title>
+      <link>https://fixmyerror.net/#macos-keychain-access-denied</link>
+      <guid isPermaLink="false">fixmyerror-macos-keychain-access-denied</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A code-signing or credential operation could not read the Keychain, common in CI when the keychain is locked or not in the search list.</description>
+    </item>
+    <item>
+      <title>macOS: zsh: command not found after Homebrew install (PATH)</title>
+      <link>https://fixmyerror.net/#macos-command-not-found-path</link>
+      <guid isPermaLink="false">fixmyerror-macos-command-not-found-path</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A freshly installed CLI is not on PATH because the Homebrew shellenv was not added to the shell profile, common on Apple Silicon (/opt/homebrew).</description>
+    </item>
+    <item>
+      <title>FOUC: flash of unstyled content</title>
+      <link>https://fixmyerror.net/#frontend-fouc</link>
+      <guid isPermaLink="false">fixmyerror-frontend-fouc</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The browser renders HTML before CSS or a web font is applied, producing a brief flash of unstyled or differently-styled content.</description>
+    </item>
+    <item>
+      <title>CORS: web font blocked by Access-Control-Allow-Origin</title>
+      <link>https://fixmyerror.net/#frontend-cors-font-blocked</link>
+      <guid isPermaLink="false">fixmyerror-frontend-cors-font-blocked</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Fonts are fetched with CORS. A cross-origin font without the right ACAO header is blocked, leaving text in a fallback font.</description>
+    </item>
+    <item>
+      <title>Cumulative Layout Shift (CLS) too high</title>
+      <link>https://fixmyerror.net/#frontend-cls-too-high</link>
+      <guid isPermaLink="false">fixmyerror-frontend-cls-too-high</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Visible elements move during load because images/ads/embeds have no reserved space, or fonts swap, hurting Core Web Vitals.</description>
+    </item>
+    <item>
+      <title>Astro: client hydration mismatch</title>
+      <link>https://fixmyerror.net/#astro-hydration-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-astro-hydration-mismatch</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>An interactive island rendered different markup on the client than the server, or a client directive was missing, so hydration failed.</description>
+    </item>
+    <item>
+      <title>Remix/React Router: loader threw an unexpected Response</title>
+      <link>https://fixmyerror.net/#remix-loader-thrown-response</link>
+      <guid isPermaLink="false">fixmyerror-remix-loader-thrown-response</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A loader or action threw a Response (e.g., redirect or 404) that was not handled, or returned a non-serialisable value.</description>
+    </item>
+    <item>
+      <title>Nuxt: Hydration node mismatch</title>
+      <link>https://fixmyerror.net/#nuxt-hydration-node-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-nuxt-hydration-node-mismatch</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Vue&apos;s server-rendered DOM did not match the client render, often from browser-only APIs during setup or invalid HTML nesting.</description>
+    </item>
+    <item>
+      <title>esbuild: Could not resolve &quot;X&quot;</title>
+      <link>https://fixmyerror.net/#esbuild-could-not-resolve</link>
+      <guid isPermaLink="false">fixmyerror-esbuild-could-not-resolve</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>esbuild could not find a module: it is not installed, the path/extension is wrong, or it is a Node built-in being bundled for the browser.</description>
+    </item>
+    <item>
+      <title>webpack 5: BREAKING CHANGE - polyfill for Node core module removed</title>
+      <link>https://fixmyerror.net/#webpack5-node-polyfill-missing</link>
+      <guid isPermaLink="false">fixmyerror-webpack5-node-polyfill-missing</guid>
+      <category>Frontend</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>webpack 5 no longer auto-polyfills Node core modules (crypto, stream, buffer). Browser builds importing them now fail to resolve.</description>
+    </item>
+    <item>
+      <title>400 Bad Request</title>
+      <link>https://fixmyerror.net/#http-400-bad-request</link>
+      <guid isPermaLink="false">fixmyerror-http-400-bad-request</guid>
+      <category>HTTP</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The server could not parse the request due to malformed syntax: bad JSON body, illegal headers/characters, oversized cookies, or invalid query encoding.</description>
+    </item>
+    <item>
+      <title>429 Too Many Requests</title>
+      <link>https://fixmyerror.net/#http-429-too-many-requests</link>
+      <guid isPermaLink="false">fixmyerror-http-429-too-many-requests</guid>
+      <category>HTTP</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The client sent too many requests in a given window and was rate limited. The Retry-After header, if present, says how long to wait.</description>
+    </item>
+    <item>
+      <title>426 Upgrade Required</title>
+      <link>https://fixmyerror.net/#http-426-upgrade-required</link>
+      <guid isPermaLink="false">fixmyerror-http-426-upgrade-required</guid>
+      <category>HTTP</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The server refuses to process the request using the current protocol and requires the client to switch (e.g., to TLS or to WebSocket).</description>
+    </item>
+    <item>
+      <title>451 Unavailable For Legal Reasons</title>
+      <link>https://fixmyerror.net/#http-451-legal-reasons</link>
+      <guid isPermaLink="false">fixmyerror-http-451-legal-reasons</guid>
+      <category>HTTP</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The resource is blocked for legal reasons such as censorship or a takedown. The response should reference the blocking authority.</description>
+    </item>
+    <item>
+      <title>Oracle: ORA-12541: TNS:no listener</title>
+      <link>https://fixmyerror.net/#oracle-ora-12541-tns-no-listener</link>
+      <guid isPermaLink="false">fixmyerror-oracle-ora-12541-tns-no-listener</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The client reached the host but no listener is accepting on that port/service. The listener is down or the host/port/service name is wrong.</description>
+    </item>
+    <item>
+      <title>Cassandra: NoHostAvailable</title>
+      <link>https://fixmyerror.net/#cassandra-no-host-available</link>
+      <guid isPermaLink="false">fixmyerror-cassandra-no-host-available</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The driver could not reach any node: wrong contact points, the node is down, a datacenter/consistency mismatch, or auth failure.</description>
+    </item>
+    <item>
+      <title>CockroachDB: restart transaction (SQLSTATE 40001)</title>
+      <link>https://fixmyerror.net/#cockroachdb-retry-40001</link>
+      <guid isPermaLink="false">fixmyerror-cockroachdb-retry-40001</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A SerialisABLE transaction conflicted and must be retried. Contended transactions can be aborted with a retry error.</description>
+    </item>
+    <item>
+      <title>ClickHouse: Memory limit (total) exceeded</title>
+      <link>https://fixmyerror.net/#clickhouse-memory-limit-exceeded</link>
+      <guid isPermaLink="false">fixmyerror-clickhouse-memory-limit-exceeded</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A query tried to use more memory than max_memory_usage (or the server total) allows, common with large GROUP BY/JOIN/ORDER BY.</description>
+    </item>
+    <item>
+      <title>PgBouncer: no more connections allowed (max_client_conn)</title>
+      <link>https://fixmyerror.net/#pgbouncer-no-more-connections</link>
+      <guid isPermaLink="false">fixmyerror-pgbouncer-no-more-connections</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>PgBouncer rejected a client because max_client_conn was reached, or the server pool (default_pool_size) is exhausted by long transactions.</description>
+    </item>
+    <item>
+      <title>Supabase/Postgres: new row violates row-level security policy</title>
+      <link>https://fixmyerror.net/#supabase-rls-violation</link>
+      <guid isPermaLink="false">fixmyerror-supabase-rls-violation</guid>
+      <category>Database</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>An insert/update was blocked because no RLS policy permits it for the current role, or the JWT lacks the expected claims (auth.uid()).</description>
+    </item>
+    <item>
+      <title>Argo CD: Application OutOfSync / Degraded</title>
+      <link>https://fixmyerror.net/#argocd-out-of-sync</link>
+      <guid isPermaLink="false">fixmyerror-argocd-out-of-sync</guid>
+      <category>Kubernetes</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The live cluster state differs from Git (OutOfSync) or resources are unhealthy (Degraded), from drift, a failed sync, or invalid manifests.</description>
+    </item>
+    <item>
+      <title>Istio: 503 upstream connect error (UH/UF/NR)</title>
+      <link>https://fixmyerror.net/#istio-503-uh-uf</link>
+      <guid isPermaLink="false">fixmyerror-istio-503-uh-uf</guid>
+      <category>Kubernetes</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Envoy returned 503 with flags like UH (no healthy upstream), UF (upstream connection failure), or NR (no route), usually mTLS, port-name, or selector issues.</description>
+    </item>
+    <item>
+      <title>Helm: another operation (install/upgrade) is in progress</title>
+      <link>https://fixmyerror.net/#helm-operation-in-progress</link>
+      <guid isPermaLink="false">fixmyerror-helm-operation-in-progress</guid>
+      <category>Kubernetes</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A previous Helm operation crashed and left the release stuck in pending-install/pending-upgrade, blocking new operations.</description>
+    </item>
+    <item>
+      <title>Vault: server is sealed</title>
+      <link>https://fixmyerror.net/#vault-server-sealed</link>
+      <guid isPermaLink="false">fixmyerror-vault-server-sealed</guid>
+      <category>Cloud</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>HashiCorp Vault is sealed and cannot serve secrets. It seals on restart and must be unsealed with a quorum of unseal keys unless auto-unseal is configured.</description>
+    </item>
+    <item>
+      <title>Vault: permission denied (403)</title>
+      <link>https://fixmyerror.net/#vault-permission-denied</link>
+      <guid isPermaLink="false">fixmyerror-vault-permission-denied</guid>
+      <category>Cloud</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The token&apos;s policies do not grant the requested path/capability, or the token expired. Vault denies by default.</description>
+    </item>
+    <item>
+      <title>Pulumi: the stack has pending operations</title>
+      <link>https://fixmyerror.net/#pulumi-pending-operations</link>
+      <guid isPermaLink="false">fixmyerror-pulumi-pending-operations</guid>
+      <category>Cloud</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A previous update was interrupted, leaving operations indeterminate. Pulumi blocks further updates until state is reconciled.</description>
+    </item>
+    <item>
+      <title>Gemini API: response blocked (finishReason: SAFETY)</title>
+      <link>https://fixmyerror.net/#gemini-safety-block</link>
+      <guid isPermaLink="false">fixmyerror-gemini-safety-block</guid>
+      <category>AI</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Gemini stopped generation because the prompt or candidate tripped a safety category threshold, leaving no usable text.</description>
+    </item>
+    <item>
+      <title>RAG: embedding dimension mismatch</title>
+      <link>https://fixmyerror.net/#rag-embedding-dimension-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-rag-embedding-dimension-mismatch</guid>
+      <category>AI</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Vectors written with one embedding model do not match the index/column dimension, so inserts or similarity queries fail. Mixing models is the usual cause.</description>
+    </item>
+    <item>
+      <title>pgvector: expected N dimensions, not M</title>
+      <link>https://fixmyerror.net/#pgvector-dimension-mismatch</link>
+      <guid isPermaLink="false">fixmyerror-pgvector-dimension-mismatch</guid>
+      <category>AI</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A vector being inserted or queried does not match the fixed dimension declared on the vector column.</description>
+    </item>
+    <item>
+      <title>GitHub Copilot: authentication failed / no subscription</title>
+      <link>https://fixmyerror.net/#github-copilot-auth-failed</link>
+      <guid isPermaLink="false">fixmyerror-github-copilot-auth-failed</guid>
+      <category>AI</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The Copilot extension cannot authenticate: the GitHub session expired, there is no active Copilot seat, or a proxy is blocking GitHub endpoints.</description>
+    </item>
+    <item>
+      <title>Mistral API: 422 Unprocessable Entity</title>
+      <link>https://fixmyerror.net/#mistral-422-unprocessable</link>
+      <guid isPermaLink="false">fixmyerror-mistral-422-unprocessable</guid>
+      <category>AI</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The request body failed validation: unknown model name, malformed messages array, or an unsupported parameter value.</description>
+    </item>
+    <item>
+      <title>Elixir: GenServer call timeout (exited in :gen_server.call)</title>
+      <link>https://fixmyerror.net/#elixir-genserver-call-timeout</link>
+      <guid isPermaLink="false">fixmyerror-elixir-genserver-call-timeout</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A GenServer.call did not get a reply within 5000ms (default) because the server is overloaded, doing slow work in handle_call, or deadlocked.</description>
+    </item>
+    <item>
+      <title>Elixir: Mix could not compile dependency</title>
+      <link>https://fixmyerror.net/#elixir-mix-deps-compile-failed</link>
+      <guid isPermaLink="false">fixmyerror-elixir-mix-deps-compile-failed</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A dependency failed to compile due to missing native build tools, a version conflict, or stale build artifacts.</description>
+    </item>
+    <item>
+      <title>Scala: sbt unresolved dependency</title>
+      <link>https://fixmyerror.net/#scala-sbt-unresolved-dependency</link>
+      <guid isPermaLink="false">fixmyerror-scala-sbt-unresolved-dependency</guid>
+      <category>Scala</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>sbt could not download a library: wrong coordinates, a missing resolver, a Scala-version suffix mismatch, or no credentials for a private repo.</description>
+    </item>
+    <item>
+      <title>Scala: value X is not a member of Y</title>
+      <link>https://fixmyerror.net/#scala-value-not-a-member</link>
+      <guid isPermaLink="false">fixmyerror-scala-value-not-a-member</guid>
+      <category>Scala</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>You called a method that does not exist on the type, often a missing import for an extension method/implicit, or a more general type than expected.</description>
+    </item>
+    <item>
+      <title>Dart: Null check operator used on a null value</title>
+      <link>https://fixmyerror.net/#dart-null-check-on-null</link>
+      <guid isPermaLink="false">fixmyerror-dart-null-check-on-null</guid>
+      <category>Dart</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The ! null-assertion was applied to an expression that was null at runtime, throwing in null-safe Dart/Flutter code.</description>
+    </item>
+    <item>
+      <title>Flutter/Dart: pub get failed (version solving failed)</title>
+      <link>https://fixmyerror.net/#flutter-pub-get-version-solving-failed</link>
+      <guid isPermaLink="false">fixmyerror-flutter-pub-get-version-solving-failed</guid>
+      <category>Dart</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>pub could not find a set of package versions satisfying all constraints, usually conflicting SDK or transitive dependency bounds.</description>
+    </item>
+    <item>
+      <title>Svelte: &apos;$&apos; prefix can only be used with stores</title>
+      <link>https://fixmyerror.net/#svelte-store-auto-subscription</link>
+      <guid isPermaLink="false">fixmyerror-svelte-store-auto-subscription</guid>
+      <category>Svelte</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>The $ auto-subscription was used on a value that is not a store (no subscribe method), or a store was referenced without importing it.</description>
+    </item>
+    <item>
+      <title>SvelteKit: 500 error in load function</title>
+      <link>https://fixmyerror.net/#sveltekit-500-load</link>
+      <guid isPermaLink="false">fixmyerror-sveltekit-500-load</guid>
+      <category>Svelte</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A load function threw, returned a non-serialisable value, or accessed browser-only APIs during SSR, producing a 500.</description>
+    </item>
+    <item>
+      <title>Make: *** missing separator. Stop.</title>
+      <link>https://fixmyerror.net/#make-missing-separator</link>
+      <guid isPermaLink="false">fixmyerror-make-missing-separator</guid>
+      <category>Shell</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A recipe line is indented with spaces instead of a TAB, or a stray character precedes a rule. Make requires recipe lines to begin with a real TAB.</description>
+    </item>
+    <item>
+      <title>Bazel: no such target / no such package</title>
+      <link>https://fixmyerror.net/#bazel-no-such-target</link>
+      <guid isPermaLink="false">fixmyerror-bazel-no-such-target</guid>
+      <category>CI/CD</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>A label does not resolve: the package has no BUILD file, the target name is wrong, or it is not visible to the caller.</description>
+    </item>
+    <item>
+      <title>Deno: PermissionDenied: Requires net/read access</title>
+      <link>https://fixmyerror.net/#deno-permission-denied</link>
+      <guid isPermaLink="false">fixmyerror-deno-permission-denied</guid>
+      <category>JavaScript</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Deno is secure by default and blocks file, network, and env access unless explicitly granted with --allow flags.</description>
+    </item>
+    <item>
+      <title>Bun: Cannot find module</title>
+      <link>https://fixmyerror.net/#bun-cannot-find-module</link>
+      <guid isPermaLink="false">fixmyerror-bun-cannot-find-module</guid>
+      <category>JavaScript</category>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <description>Bun could not resolve an import: dependencies not installed, a path/extension typo, or a package relying on Node APIs not yet shimmed.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors</title>
-    <meta name="description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors. Copy-paste solutions with explanations.">
+    <meta name="description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, Windows, macOS, and system errors. Copy-paste solutions with explanations.">
+    <meta name="keywords" content="fix error, error solutions, HTTP errors, 502 bad gateway, 429 too many requests, SSL certificate error, TLS handshake, Docker error, Kubernetes troubleshooting, Terraform, Windows error, macOS error, Python, JavaScript, database error, DevOps, how to fix">
+    <meta name="author" content="FixMyError.net">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
     <link rel="canonical" href="https://fixmyerror.net/">
 
     <!-- Content Security Policy -->
@@ -15,18 +19,22 @@
     <meta property="og:url" content="https://fixmyerror.net/">
     <meta property="og:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
     <meta property="og:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
-    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.svg">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:image:alt" content="FixMyError.net - instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://fixmyerror.net/">
     <meta name="twitter:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
     <meta name="twitter:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
-    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.svg">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 
     <link rel="manifest" href="manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="feed.xml">
     <meta name="theme-color" content="#1a1a1a">
 
     <!-- Structured data: SoftwareApplication. Per-error FAQPage entries are injected at runtime. -->
@@ -40,6 +48,18 @@
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+
+    <!-- Structured data: site breadcrumb -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixmyerror.net/" },
+        { "@type": "ListItem", "position": 2, "name": "Error Database", "item": "https://fixmyerror.net/" }
+      ]
     }
     </script>
 
@@ -654,6 +674,10 @@
         .category-windows { background: #0078d4; color: white; }
         .category-apple { background: #999; color: white; }
         .category-frontend { background: #00d8ff; color: black; }
+        .category-elixir { background: #6e4a7e; color: white; }
+        .category-scala { background: #dc322f; color: white; }
+        .category-dart { background: #0175c2; color: white; }
+        .category-svelte { background: #ff3e00; color: white; }
 
         .error-body {
             padding: 20px;
@@ -728,6 +752,111 @@
             word-break: break-all;
             display: block;
         }
+
+        /* "New" badge for recently added errors */
+        .new-badge {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: var(--success);
+            color: #fff;
+            vertical-align: middle;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* Active state for toggle toolbar buttons */
+        .toolbar-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: #000;
+            font-weight: 600;
+        }
+
+        /* Multi-shell fix tabs (Linux/macOS vs Windows) */
+        .fix-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .fix-tab {
+            padding: 4px 12px;
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+        }
+        .fix-tab.active {
+            background: var(--accent-secondary);
+            color: #fff;
+            border-color: var(--accent-secondary);
+        }
+        .fix-panel { display: none; }
+        .fix-panel.active { display: block; }
+
+        /* Related errors */
+        .related {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-muted);
+        }
+        .related-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .related-link {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--accent-primary);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            margin: 0 6px 6px 0;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+        .related-link:hover {
+            border-color: var(--accent-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Contribute button + no-JS note */
+        .contribute-button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 18px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .contribute-button:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        .noscript-note {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .noscript-note h2 { color: var(--text-primary); margin-bottom: 12px; }
 
         .sources {
             margin-top: 16px;
@@ -971,7 +1100,10 @@
         <div class="container">
             <div class="toolbar" role="toolbar" aria-label="Actions">
                 <button class="toolbar-btn" id="showFavoritesBtn" aria-pressed="false">
-                    <span aria-hidden="true">⭐</span> Favorites (<span id="favoritesCount">0</span>)
+                    <span aria-hidden="true">⭐</span> Favourites (<span id="favoritesCount">0</span>)
+                </button>
+                <button class="toolbar-btn" id="recentBtn" aria-pressed="false">
+                    <span aria-hidden="true">🆕</span> Recently Added
                 </button>
                 <button class="toolbar-btn" id="exportBtn">
                     <span aria-hidden="true">📥</span> Export
@@ -1013,6 +1145,21 @@
                 <p>Loading error database...</p>
             </div>
 
+            <noscript>
+                <div class="noscript-note">
+                    <h2>Browse 580+ developer &amp; infrastructure error fixes</h2>
+                    <p>
+                        FixMyError.net is a searchable database of copy-paste solutions for the errors developers
+                        and DevOps engineers hit every day &mdash; HTTP status codes (400, 429, 502, 504),
+                        TLS/SSL certificate failures, Docker and Kubernetes problems, Terraform and Ansible runs,
+                        cloud (AWS, Azure, GCP), databases (PostgreSQL, MySQL, MongoDB, Redis), AI/LLM APIs,
+                        and Windows, macOS, Python, JavaScript, Go, Rust and more.
+                    </p>
+                    <p>Each entry includes a plain-English explanation, a quick fix you can copy, and links to authoritative documentation.</p>
+                    <p><strong>Please enable JavaScript</strong> to search, filter by category, and copy fixes.</p>
+                </div>
+            </noscript>
+
             <div id="emptyState" class="empty-state" style="display: none;">
                 <h3>No errors found</h3>
                 <p>Try adjusting your search terms or category filter</p>
@@ -1026,6 +1173,9 @@
         <div class="container">
             <div class="footer-content">
                 <p>Contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> for any comments or suggested adjustments or additions.</p>
+                <p>
+                    <a class="contribute-button" href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix&amp;body=Error%20title%3A%0ACategory%3A%0AExplanation%3A%0AFix%2Fcommand%3A%0ASource%20link%3A">➕ Submit an error or fix</a>
+                </p>
             </div>
         </div>
     </footer>
@@ -1046,11 +1196,15 @@
                     <span class="shortcut-key">/</span>
                 </div>
                 <div class="shortcut-item">
+                    <span>Focus search (alt)</span>
+                    <span class="shortcut-key">Ctrl / ⌘ + K</span>
+                </div>
+                <div class="shortcut-item">
                     <span>Clear search</span>
                     <span class="shortcut-key">Esc</span>
                 </div>
                 <div class="shortcut-item">
-                    <span>Toggle favorites</span>
+                    <span>Toggle favourites</span>
                     <span class="shortcut-key">F</span>
                 </div>
                 <div class="shortcut-item">
@@ -1071,7 +1225,7 @@
             integrity="sha384-zPE55eyESN+FxCWGEnlNxGyAPJud6IZ6TtJmXb56OFRGhxZPN4akj9rjA3gw5Qqa"
             crossorigin="anonymous"></script>
 
-    <script src="embedded-data.js?v=9"></script>
+    <script src="embedded-data.js?v=10"></script>
 
     <script>
         class ErrorCheatsheet {
@@ -1084,6 +1238,7 @@
                 this.favorites = this.loadFavorites();
                 this.searchHistory = this.loadSearchHistory();
                 this.showingFavorites = false;
+                this.showingRecent = false;
                 this.lastFocusedBeforeModal = null;
 
                 this.initializeTheme();
@@ -1114,6 +1269,7 @@
                 this.searchHistoryDiv = document.getElementById('searchHistory');
                 this.favoritesCount = document.getElementById('favoritesCount');
                 this.showFavoritesBtn = document.getElementById('showFavoritesBtn');
+                this.recentBtn = document.getElementById('recentBtn');
                 this.exportBtn = document.getElementById('exportBtn');
                 this.shareBtn = document.getElementById('shareBtn');
                 this.keyboardShortcutsBtn = document.getElementById('keyboardShortcutsBtn');
@@ -1193,7 +1349,7 @@
 
             injectStructuredData() {
                 // Limit the JSON-LD to the first ~30 entries to keep page weight reasonable.
-                const subset = this.errors.slice(0, 30);
+                const subset = this.errors.slice(0, 50);
                 const faqPage = {
                     '@context': 'https://schema.org',
                     '@type': 'FAQPage',
@@ -1248,6 +1404,10 @@
                     this.toggleFavoritesView();
                 });
 
+                this.recentBtn.addEventListener('click', () => {
+                    this.toggleRecentView();
+                });
+
                 this.exportBtn.addEventListener('click', () => {
                     this.exportFavorites();
                 });
@@ -1300,6 +1460,24 @@
                         return;
                     }
 
+                    const relatedLink = e.target.closest('.related-link');
+                    if (relatedLink) {
+                        e.stopPropagation();
+                        const id = relatedLink.dataset.id;
+                        if (id) window.location.hash = id;
+                        return;
+                    }
+
+                    const fixTab = e.target.closest('.fix-tab');
+                    if (fixTab) {
+                        e.stopPropagation();
+                        const snippet = fixTab.closest('.fix-snippet');
+                        const idx = fixTab.dataset.tab;
+                        snippet.querySelectorAll('.fix-tab').forEach(t => t.classList.toggle('active', t === fixTab));
+                        snippet.querySelectorAll('.fix-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === idx));
+                        return;
+                    }
+
                     const header = e.target.closest('.error-header');
                     if (header) {
                         const card = header.closest('.error-card');
@@ -1330,6 +1508,14 @@
                 });
 
                 document.addEventListener('keydown', (e) => {
+                    // Ctrl/Cmd+K focuses search (works even from within inputs)
+                    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+                        e.preventDefault();
+                        this.searchInput.focus();
+                        this.searchInput.select();
+                        return;
+                    }
+
                     const tag = e.target.tagName;
                     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
 
@@ -1404,12 +1590,17 @@
                 }
                 this.currentCategory = category;
 
-                // Switching filters exits favorites view
+                // Switching filters exits favorites and recently-added views
                 if (this.showingFavorites) {
                     this.showingFavorites = false;
                     this.showFavoritesBtn.style.background = '';
                     this.showFavoritesBtn.style.color = '';
                     this.showFavoritesBtn.setAttribute('aria-pressed', 'false');
+                }
+                if (this.showingRecent) {
+                    this.showingRecent = false;
+                    this.recentBtn.classList.remove('active');
+                    this.recentBtn.setAttribute('aria-pressed', 'false');
                 }
 
                 this.categoryFiltersContainer.querySelectorAll('.category-filter').forEach(filter => {
@@ -1439,11 +1630,11 @@
             renderErrorCard(error) {
                 const title = this.escapeHtml(error.title);
                 const explanation = this.escapeHtml(error.explanation);
-                const fix = this.escapeHtml(error.fix_snippet);
                 const category = this.escapeHtml(error.category);
                 const categoryClass = this.escapeHtml(error.category.toLowerCase());
                 const id = this.escapeHtml(error.id);
                 const isFav = this.isFavorite(error.id);
+                const newBadge = this.isRecent(error.dateAdded) ? '<span class="new-badge">New</span>' : '';
 
                 const sourcesHtml = (Array.isArray(error.sources) && error.sources.length > 0)
                     ? `<div class="sources">
@@ -1461,27 +1652,82 @@
                             <span aria-hidden="true">🔗</span>
                         </button>
                         <button class="favorite-btn ${isFav ? 'favorited' : ''}" type="button" data-id="${id}"
-                                aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}"
+                                aria-label="${isFav ? 'Remove from favourites' : 'Add to favourites'}"
                                 aria-pressed="${isFav ? 'true' : 'false'}">
                             ${isFav ? '⭐' : '☆'}
                         </button>
                         <button class="error-header" type="button" aria-expanded="false" aria-controls="body-${id}">
-                            <h3 class="error-title">${title}</h3>
+                            <h3 class="error-title">${title}${newBadge}</h3>
                             <span class="error-category category-${categoryClass}">${category}</span>
                         </button>
                         <div class="error-body" id="body-${id}">
                             <div class="error-explanation">${explanation}</div>
+                            ${this.renderFixBlock(error)}
+                            ${sourcesHtml}
+                            ${this.renderRelated(error)}
+                        </div>
+                    </article>
+                `;
+            }
+
+            // Quick Fix block; adds Linux/macOS + Windows tabs when a
+            // platform-specific snippet is present.
+            renderFixBlock(error) {
+                const fix = this.escapeHtml(error.fix_snippet);
+                const hasWin = typeof error.fix_snippet_windows === 'string' && error.fix_snippet_windows.length > 0;
+
+                if (!hasWin) {
+                    return `
                             <div class="fix-snippet">
                                 <div class="fix-snippet-header">
                                     <span class="fix-snippet-title">Quick Fix</span>
                                 </div>
                                 <button class="copy-button" type="button" data-code="${fix}" aria-label="Copy fix to clipboard">Copy</button>
                                 <code class="code-block">${fix}</code>
-                            </div>
-                            ${sourcesHtml}
-                        </div>
-                    </article>
-                `;
+                            </div>`;
+                }
+
+                const fixWin = this.escapeHtml(error.fix_snippet_windows);
+                return `
+                            <div class="fix-snippet">
+                                <div class="fix-snippet-header">
+                                    <span class="fix-snippet-title">Quick Fix</span>
+                                </div>
+                                <div class="fix-tabs" role="tablist">
+                                    <button class="fix-tab active" type="button" data-tab="0">Linux / macOS</button>
+                                    <button class="fix-tab" type="button" data-tab="1">Windows</button>
+                                </div>
+                                <div class="fix-panel active" data-panel="0">
+                                    <button class="copy-button" type="button" data-code="${fix}" aria-label="Copy fix to clipboard">Copy</button>
+                                    <code class="code-block">${fix}</code>
+                                </div>
+                                <div class="fix-panel" data-panel="1">
+                                    <button class="copy-button" type="button" data-code="${fixWin}" aria-label="Copy Windows fix to clipboard">Copy</button>
+                                    <code class="code-block">${fixWin}</code>
+                                </div>
+                            </div>`;
+            }
+
+            // Up to 4 sibling errors in the same category.
+            renderRelated(error) {
+                const related = this.errors
+                    .filter(e => e.category === error.category && e.id !== error.id)
+                    .slice(0, 4);
+                if (related.length === 0) return '';
+                const cat = this.escapeHtml(error.category);
+                const links = related
+                    .map(r => `<button class="related-link" type="button" data-id="${this.escapeHtml(r.id)}">${this.escapeHtml(r.title)}</button>`)
+                    .join('');
+                return `<div class="related"><div class="related-title">Related in ${cat}:</div>${links}</div>`;
+            }
+
+            // True when dateAdded is within the last 45 days.
+            isRecent(dateStr) {
+                if (!dateStr) return false;
+                const d = new Date(dateStr + 'T00:00:00Z');
+                if (isNaN(d.getTime())) return false;
+                const days = (Date.now() - d.getTime()) / 86400000;
+                return days >= 0 && days <= 45;
             }
 
             // Allow only http(s) URLs in sources (defense against javascript: etc.)
@@ -1610,16 +1856,46 @@
                 this.showingFavorites = !this.showingFavorites;
                 this.showFavoritesBtn.setAttribute('aria-pressed', this.showingFavorites ? 'true' : 'false');
 
+                // Favorites and recently-added are mutually exclusive
+                if (this.showingRecent) {
+                    this.showingRecent = false;
+                    this.recentBtn.classList.remove('active');
+                    this.recentBtn.setAttribute('aria-pressed', 'false');
+                }
+
                 if (this.showingFavorites) {
                     const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
                     this.displayResults(favoriteErrors);
-                    this.resultsCount.textContent = `Showing ${favoriteErrors.length} favorite errors`;
+                    this.resultsCount.textContent = `Showing ${favoriteErrors.length} favourite errors`;
                     this.showFavoritesBtn.style.background = 'var(--accent-primary)';
                     this.showFavoritesBtn.style.color = '#000';
                 } else {
                     this.performSearch();
                     this.showFavoritesBtn.style.background = '';
                     this.showFavoritesBtn.style.color = '';
+                }
+            }
+
+            toggleRecentView() {
+                this.showingRecent = !this.showingRecent;
+                this.recentBtn.classList.toggle('active', this.showingRecent);
+                this.recentBtn.setAttribute('aria-pressed', this.showingRecent ? 'true' : 'false');
+
+                if (this.showingRecent) {
+                    // Exit favorites view if active
+                    if (this.showingFavorites) {
+                        this.showingFavorites = false;
+                        this.showFavoritesBtn.style.background = '';
+                        this.showFavoritesBtn.style.color = '';
+                        this.showFavoritesBtn.setAttribute('aria-pressed', 'false');
+                    }
+                    const recent = this.errors
+                        .filter(e => e.dateAdded)
+                        .sort((a, b) => (a.dateAdded < b.dateAdded ? 1 : (a.dateAdded > b.dateAdded ? -1 : 0)));
+                    this.displayResults(recent);
+                    this.resultsCount.textContent = `Showing ${recent.length} recently added errors`;
+                } else {
+                    this.performSearch();
                 }
             }
 
@@ -1692,7 +1968,7 @@
                 const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
 
                 if (favoriteErrors.length === 0) {
-                    this.showToast('No favorites to export. Star some errors first!', 'error');
+                    this.showToast('No favourites to export. Star some errors first!', 'error');
                     return;
                 }
 
@@ -1712,7 +1988,7 @@
                 link.click();
 
                 URL.revokeObjectURL(url);
-                this.showToast(`Exported ${favoriteErrors.length} favorites`, 'success');
+                this.showToast(`Exported ${favoriteErrors.length} favourites`, 'success');
             }
 
             async shareResults() {
