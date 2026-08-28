@@ -4,9 +4,31 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # The generated pages are committed, so CI's job is to prove the data
+      # is still well formed, every internal link resolves, and the app and
+      # generated pages still behave.
+      - name: Install dev dependencies
+        run: npm ci
+
+      - name: Validate data, links and SEO metadata
+        run: npm run validate
+
+      - name: Behavioural tests
+        run: npm test
+
   deploy:
+    needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,38 +44,60 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION || 'us-east-1' }}
 
-      # Hashed/static assets: long-lived cache.
-      - name: Sync static assets (immutable cache)
+      # Long-lived assets: content changes rarely and the filenames are stable,
+      # so a day of caching is safe and keeps repeat visits cheap.
+      - name: Sync static assets
         run: |
           aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }}/ \
             --acl public-read \
-            --delete \
+            --exclude "*" \
+            --include "assets/*" \
+            --include "*.png" \
+            --cache-control "public, max-age=86400" \
+            --delete
+
+      # The dataset changes with every content update but is fingerprinted by
+      # the ?v= query string in index.html.
+      - name: Sync data and service worker
+        run: |
+          aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }}/ \
+            --acl public-read \
             --exclude "*" \
             --include "embedded-data.js" \
-            --include "sw.js" \
             --include "manifest.json" \
+            --cache-control "public, max-age=3600"
+          aws s3 cp sw.js s3://${{ secrets.AWS_S3_BUCKET }}/sw.js \
+            --acl public-read \
+            --cache-control "no-cache"
+
+      # Feeds and crawl files: short cache so new pages are discovered quickly.
+      - name: Sync crawl files
+        run: |
+          aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }}/ \
+            --acl public-read \
+            --exclude "*" \
             --include "robots.txt" \
             --include "sitemap.xml" \
             --include "feed.xml" \
-            --include "og-image.svg" \
-            --cache-control "public, max-age=3600"
+            --cache-control "public, max-age=600"
 
-      # HTML: short cache so deploys are picked up quickly.
-      - name: Sync HTML (short cache)
+      # HTML: no-cache so a deploy is picked up immediately. --delete prunes
+      # pages for errors that were removed or renamed.
+      - name: Sync HTML
         run: |
           aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }}/ \
             --acl public-read \
-            --delete \
             --exclude "*" \
-            --include "index.html" \
             --include "*.html" \
-            --cache-control "no-cache"
-
-      # Catch-all (anything not matched above) without --delete to be safe.
-      - name: Sync remaining files
-        run: |
-          aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET }}/ \
-            --acl public-read \
-            --exclude ".git/*" \
             --exclude ".github/*" \
-            --exclude "README.md"
+            --cache-control "no-cache" \
+            --delete
+
+      # Source material is not part of the published site.
+      - name: Remove build sources from the bucket
+        run: |
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/data/ --recursive || true
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/scripts/ --recursive || true
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/README.md || true
+          # Replaced by og-image.png; SVG is not rendered by social platforms.
+          aws s3 rm s3://${{ secrets.AWS_S3_BUCKET }}/og-image.svg || true

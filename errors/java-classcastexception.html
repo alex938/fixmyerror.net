@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassCastException – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/java-classcastexception.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/java-classcastexception.html">
+    <meta property="og:title" content="ClassCastException – cause and fix">
+    <meta property="og:description" content="An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting. Includes a copy-paste fix and how to diagnose it.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ClassCastException – cause and fix">
+    <meta name="twitter:description" content="An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ClassCastException","name":"ClassCastException","description":"An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/java-classcastexception.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/java-classcastexception.html"},"inLanguage":"en-GB","articleSection":"Java","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassCastException.html"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Java errors","item":"https://fixmyerror.net/categories/java.html"},{"@type":"ListItem","position":3,"name":"ClassCastException","item":"https://fixmyerror.net/errors/java-classcastexception.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/java.html">Java errors</a></li><li aria-current="page">ClassCastException</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/java.html">Java</a>
+                
+                
+            </div>
+            <h1 class="page-title">ClassCastException</h1>
+            <p class="page-lede">An object was cast to a type it is not an instance of. Common when using raw types or incorrect downcasting.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-java-classcastexception">Copy</button></div>
+                    <pre class="code-block" id="fix-java-classcastexception"><code># Check type before casting
+if (obj instanceof MyClass) {
+    MyClass mc = (MyClass) obj;
+}
+# Use generics to avoid raw types
+List&lt;String&gt; list = new ArrayList&lt;&gt;();
+# Use pattern matching (Java 16+)
+if (obj instanceof MyClass mc) { ... }</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose Java errors</h2>
+                <p>Java errors concentrate at the <strong>class loading</strong> boundary (ClassNotFoundException, NoClassDefFoundError, UnsupportedClassVersionError) and around <strong>resource pools</strong> under load. Class loading errors are almost always classpath or version problems rather than missing code — <code>UnsupportedClassVersionError</code> in particular is a pure bytecode-version mismatch and tells you exactly which JDK compiled the class.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Print the actual runtime version with <code>java -version</code> and compare it against your build target. Major bytecode version 65 is Java 21, 61 is Java 17, 52 is Java 8.</li>
+                    <li>Inspect the resolved dependency tree (<code>mvn dependency:tree</code>, <code>gradle dependencies</code>) to find duplicate or conflicting versions of the same library.</li>
+                    <li>For pool exhaustion, log pool metrics (HikariCP exposes active, idle and pending counts). Exhaustion means connections are not being returned, which is a try-with-resources problem.</li>
+                    <li>Enable <code>-verbose:class</code> temporarily to see which jar a class is loaded from when two versions are on the classpath.</li>
+                    <li>Capture a heap dump on OOM with <code>-XX:+HeapDumpOnOutOfMemoryError</code> and analyse it rather than raising <code>-Xmx</code> blindly.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>mvn dependency:tree</code></li>
+                    <li><code>jcmd / jstack / jmap</code></li>
+                    <li><code>-verbose:class</code></li>
+                    <li><code>Eclipse MAT</code></li>
+                    <li><code>JFR (Java Flight Recorder)</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/ClassCastException.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> docs.oracle.com</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related Java errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/java-connection-pool-exhausted.html">Cannot get a connection, pool error<span class="sub">The database connection pool (HikariCP, DBCP, etc.) has no available connections. All…</span></a></li>
+                <li><a href="../errors/java-concurrentmodification.html">ConcurrentModificationException<span class="sub">A collection was modified while being iterated over. This can happen in single-threaded code…</span></a></li>
+                <li><a href="../errors/java-maven-dependency-resolution.html">Could not resolve dependencies<span class="sub">Maven or Gradle cannot download or resolve project dependencies. May be caused by missing…</span></a></li>
+                <li><a href="../errors/spring-bean-override-exception.html">Spring Boot: BeanDefinitionOverrideException<span class="sub">Two beans have the same name, and Spring Boot&#039;s default configuration prevents silent…</span></a></li>
+                <li><a href="../errors/spring-failed-to-configure-datasource.html">Spring Boot: Failed to configure a DataSource — &#039;url&#039; attribute is not specified<span class="sub">Spring Boot detected a database driver on the classpath and tried to auto-configure a…</span></a></li>
+                <li><a href="../errors/spring-port-already-in-use.html">Spring Boot: Web server failed to start — port 8080 was already in use<span class="sub">Another process holds the port. Usually a previous run of the same application that did not…</span></a></li>
+                <li><a href="../errors/java-stackoverflow.html">StackOverflowError<span class="sub">The call stack has exceeded its maximum size, usually caused by infinite recursion or…</span></a></li>
+                <li><a href="../errors/java-unsupported-class-version.html">UnsupportedClassVersionError<span class="sub">A class was compiled with a newer version of the JDK than the JRE running it. For example…</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/java.html">See all 9 Java errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20ClassCastException">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

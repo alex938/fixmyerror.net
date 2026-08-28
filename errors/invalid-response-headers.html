@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invalid response headers – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="Server sent malformed HTTP headers that the client couldn&#039;t parse properly. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/invalid-response-headers.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/invalid-response-headers.html">
+    <meta property="og:title" content="Invalid response headers – cause and fix">
+    <meta property="og:description" content="Server sent malformed HTTP headers that the client couldn&#039;t parse properly. Includes a copy-paste fix and how to diagnose it.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Invalid response headers – cause and fix">
+    <meta name="twitter:description" content="Server sent malformed HTTP headers that the client couldn&#039;t parse properly. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Invalid response headers","name":"Invalid response headers","description":"Server sent malformed HTTP headers that the client couldn't parse properly. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/invalid-response-headers.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/invalid-response-headers.html"},"inLanguage":"en-GB","articleSection":"HTTP","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://tools.ietf.org/html/rfc7230#section-3.2"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"HTTP errors","item":"https://fixmyerror.net/categories/http.html"},{"@type":"ListItem","position":3,"name":"Invalid response headers","item":"https://fixmyerror.net/errors/invalid-response-headers.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/http.html">HTTP errors</a></li><li aria-current="page">Invalid response headers</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/http.html">HTTP</a>
+                
+                
+            </div>
+            <h1 class="page-title">Invalid response headers</h1>
+            <p class="page-lede">Server sent malformed HTTP headers that the client couldn&#039;t parse properly.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-invalid-response-headers">Copy</button></div>
+                    <pre class="code-block" id="fix-invalid-response-headers"><code># Check raw HTTP response
+curl -D headers.txt https://example.com
+# Validate header format
+# Fix server header generation</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose HTTP errors</h2>
+                <p>HTTP status codes are a first classification, not a diagnosis. The essential split: <strong>4xx means the request was wrong</strong> (fix the client), <strong>5xx means the server failed to fulfil a valid request</strong> (fix the server). The subtlety is that reverse proxies and CDNs generate their own 5xx responses — a 502 or 504 from nginx tells you about nginx's relationship with the upstream, not about your application code.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Capture the full exchange with <code>curl -v</code> or <code>curl -sD - -o /dev/null</code>. Response headers frequently name the component that generated the error (<code>Server:</code>, <code>Via:</code>, <code>X-Cache:</code>).</li>
+                    <li>Determine whether the response came from your application or from something in front of it. Add a unique header in your app and check whether it survives; if it is missing, a proxy answered.</li>
+                    <li>For 502/504, check the upstream directly, bypassing the proxy. If the upstream is healthy, the problem is proxy timeouts, buffer sizes, or DNS re-resolution.</li>
+                    <li>Follow redirects explicitly with <code>curl -IL</code> to catch loops. A redirect loop is usually an HTTPS-terminating proxy that does not forward <code>X-Forwarded-Proto</code>.</li>
+                    <li>Correlate the request with server logs using a request ID. Guessing from the status code alone is the slowest way to debug HTTP.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>curl -v / -IL</code></li>
+                    <li><code>browser devtools Network tab</code></li>
+                    <li><code>access logs</code></li>
+                    <li><code>tcpdump / Wireshark</code></li>
+                    <li><code>httpstat</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://tools.ietf.org/html/rfc7230#section-3.2" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> tools.ietf.org</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related HTTP errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/http-100-continue-timeout.html">100-continue timeout / Expect: 100-continue stalls<span class="sub">The client sent Expect: 100-continue and is waiting before streaming the body, but the proxy…</span></a></li>
+                <li><a href="../errors/http-400-bad-request.html">400 Bad Request<span class="sub">The server could not parse the request due to malformed syntax: bad JSON body, illegal…</span></a></li>
+                <li><a href="../errors/401-unauthorized.html">401 Unauthorized<span class="sub">The request requires authentication credentials. The client must authenticate to get the…</span></a></li>
+                <li><a href="../errors/http-402-payment-required.html">402 Payment Required<span class="sub">Reserved in the original HTTP specification and now used by many SaaS APIs to signal that the…</span></a></li>
+                <li><a href="../errors/403-forbidden.html">403 Forbidden<span class="sub">The server understood the request but refuses to authorise it. Often due to insufficient…</span></a></li>
+                <li><a href="../errors/404-not-found.html">404 Not Found<span class="sub">The requested resource could not be found on the server. URL may be incorrect or resource was…</span></a></li>
+                <li><a href="../errors/http-409-conflict.html">409 Conflict<span class="sub">The request conflicts with the current resource state. Typical causes include duplicate…</span></a></li>
+                <li><a href="../errors/http-410-gone.html">410 Gone<span class="sub">The resource was intentionally removed and is not expected to return. Unlike 404, 410 tells…</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/http.html">See all 49 HTTP errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Invalid%20response%20headers">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostname verification failed – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="The SSL certificate&#039;s hostname doesn&#039;t match the requested domain name. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/hostname-verification-failed.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/hostname-verification-failed.html">
+    <meta property="og:title" content="Hostname verification failed – cause and fix">
+    <meta property="og:description" content="The SSL certificate&#039;s hostname doesn&#039;t match the requested domain name. Includes a copy-paste fix and how to diagnose it.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hostname verification failed – cause and fix">
+    <meta name="twitter:description" content="The SSL certificate&#039;s hostname doesn&#039;t match the requested domain name. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Hostname verification failed","name":"Hostname verification failed","description":"The SSL certificate's hostname doesn't match the requested domain name. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/hostname-verification-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/hostname-verification-failed.html"},"inLanguage":"en-GB","articleSection":"TLS","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.openssl.org/docs/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"TLS errors","item":"https://fixmyerror.net/categories/tls.html"},{"@type":"ListItem","position":3,"name":"Hostname verification failed","item":"https://fixmyerror.net/errors/hostname-verification-failed.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/tls.html">TLS errors</a></li><li aria-current="page">Hostname verification failed</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/tls.html">TLS</a>
+                
+                
+            </div>
+            <h1 class="page-title">Hostname verification failed</h1>
+            <p class="page-lede">The SSL certificate&#039;s hostname doesn&#039;t match the requested domain name.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-hostname-verification-failed">Copy</button></div>
+                    <pre class="code-block" id="fix-hostname-verification-failed"><code># Check certificate details
+openssl s_client -connect example.com:443 | openssl x509 -noout -text
+# Generate certificate with correct SAN
+openssl req -new -x509 -days 365 -subj &#039;/CN=example.com&#039;</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose TLS errors</h2>
+                <p>TLS errors have a small number of root causes: the certificate is <strong>expired</strong>, the <strong>hostname does not match</strong> any SAN entry, the <strong>chain is incomplete</strong> (the server did not send its intermediates), the <strong>issuing CA is not trusted</strong> by this client, or the two sides <strong>share no cipher or protocol version</strong>. The incomplete-chain case is the most deceptive, because browsers often paper over it with cached intermediates while curl, Java and Go fail.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Inspect the live handshake: <code>openssl s_client -connect host:443 -servername host -showcerts</code>. It shows the full chain the server actually sends.</li>
+                    <li>Check dates and SANs: <code>openssl x509 -noout -dates -subject -ext subjectAltName</code>. The Common Name is ignored by modern clients — only SANs matter.</li>
+                    <li>If browsers work but curl or your language runtime does not, suspect a missing intermediate. Browsers cache intermediates; other clients do not.</li>
+                    <li>Verify the trust store the failing client uses. Containers frequently ship without <code>ca-certificates</code> installed, and Java, Node and Python each have their own store.</li>
+                    <li>For protocol or cipher errors, check the negotiated version and the server's supported list. TLS 1.0 and 1.1 are disabled by default in current clients.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>openssl s_client</code></li>
+                    <li><code>openssl x509 -noout -text</code></li>
+                    <li><code>curl -vI</code></li>
+                    <li><code>testssl.sh</code></li>
+                    <li><code>sslyze</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://www.openssl.org/docs/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> openssl.org</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related TLS errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/apache-mod-ssl-error.html">Apache mod_ssl error<span class="sub">Apache&#039;s SSL module encountered an error, often due to misconfigured SSL directives.</span></a></li>
+                <li><a href="../errors/certificate-chain-incomplete.html">Certificate chain incomplete<span class="sub">SSL certificate chain is missing intermediate certificates, causing trust validation to fail.</span></a></li>
+                <li><a href="../errors/certificate-expired.html">Certificate has expired<span class="sub">The SSL certificate is past its expiration date and is no longer valid for secure connections.</span></a></li>
+                <li><a href="../errors/client-certificate-required.html">Client certificate required<span class="sub">Server requires client certificate authentication but none was provided.</span></a></li>
+                <li><a href="../errors/curl-ssl-read-connection-reset.html">curl: (56) OpenSSL SSL_read: Connection reset by peer<span class="sub">The SSL connection was abruptly closed by the remote server, often due to protocol mismatch…</span></a></li>
+                <li><a href="../errors/err-ssl-protocol-error.html">ERR_SSL_PROTOCOL_ERROR<span class="sub">Browser detected an SSL protocol violation or misconfiguration. Often caused by mixed…</span></a></li>
+                <li><a href="../errors/invalid-ssl-certificate.html">Invalid SSL certificate<span class="sub">The SSL certificate is malformed, self-signed, or doesn&#039;t meet security requirements.</span></a></li>
+                <li><a href="../errors/mtls-verification-failed.html">Mutual TLS verification failed<span class="sub">Mutual TLS authentication failed due to invalid client certificate or trust chain issues.</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/tls.html">See all 22 TLS errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Hostname%20verification%20failed">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

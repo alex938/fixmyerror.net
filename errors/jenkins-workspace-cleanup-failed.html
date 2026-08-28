@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenkins: Workspace cleanup failed – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="Cannot clean workspace due to permission issues or file locks. Prevents build from starting. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/jenkins-workspace-cleanup-failed.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/jenkins-workspace-cleanup-failed.html">
+    <meta property="og:title" content="Jenkins: Workspace cleanup failed – cause and fix">
+    <meta property="og:description" content="Cannot clean workspace due to permission issues or file locks. Prevents build from starting. Includes a copy-paste fix and how to diagnose it.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jenkins: Workspace cleanup failed – cause and fix">
+    <meta name="twitter:description" content="Cannot clean workspace due to permission issues or file locks. Prevents build from starting. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Jenkins: Workspace cleanup failed","name":"Jenkins: Workspace cleanup failed","description":"Cannot clean workspace due to permission issues or file locks. Prevents build from starting. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/jenkins-workspace-cleanup-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/jenkins-workspace-cleanup-failed.html"},"inLanguage":"en-GB","articleSection":"CI/CD","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.jenkins.io/doc/pipeline/tour/running-multiple-steps/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"CI/CD errors","item":"https://fixmyerror.net/categories/ci-cd.html"},{"@type":"ListItem","position":3,"name":"Jenkins: Workspace cleanup failed","item":"https://fixmyerror.net/errors/jenkins-workspace-cleanup-failed.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/ci-cd.html">CI/CD errors</a></li><li aria-current="page">Jenkins: Workspace cleanup failed</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/ci-cd.html">CI/CD</a>
+                
+                
+            </div>
+            <h1 class="page-title">Jenkins: Workspace cleanup failed</h1>
+            <p class="page-lede">Cannot clean workspace due to permission issues or file locks. Prevents build from starting.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-jenkins-workspace-cleanup-failed">Copy</button></div>
+                    <pre class="code-block" id="fix-jenkins-workspace-cleanup-failed"><code># Manual cleanup
+rm -rf /var/jenkins_home/workspace/job-name
+# In Jenkinsfile
+cleanWs()
+# Check permissions
+sudo chown -R jenkins:jenkins /var/jenkins_home
+# Use Docker for isolation
+agent { docker { image &#039;maven:3&#039; } }</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose CI/CD errors</h2>
+                <p>CI failures that do not reproduce locally are almost always about <strong>environment</strong>, <strong>permissions</strong> or <strong>resource limits</strong> rather than about your code. CI runners have less memory than a laptop, a deliberately restricted token, a clean cache, and often a different CPU architecture. Treating a CI failure as a code bug before checking those four things wastes an enormous amount of time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Re-run the job with debug logging enabled (<code>ACTIONS_STEP_DEBUG=true</code> in GitHub Actions, <code>CI_DEBUG_TRACE</code> in GitLab). The default log deliberately hides the most useful lines.</li>
+                    <li>Print the environment early: <code>env | sort</code>, <code>node -v</code>, <code>free -m</code>, <code>df -h</code>. Half of all "works on my machine" CI bugs are visible in that output.</li>
+                    <li>Check token permissions explicitly. GitHub's <code>GITHUB_TOKEN</code> defaults to read-only in many organisations and produces the misleading <code>Resource not accessible by integration</code> error.</li>
+                    <li>Remember that secrets are not available to workflows triggered by pull requests from forks. This is a security feature, not a misconfiguration.</li>
+                    <li>Reproduce locally in the same container image the runner uses, rather than on your host, before changing pipeline configuration.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>ACTIONS_STEP_DEBUG</code></li>
+                    <li><code>act (local Actions runner)</code></li>
+                    <li><code>docker run &lt;runner image&gt;</code></li>
+                    <li><code>free -m / df -h in-job</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://www.jenkins.io/doc/pipeline/tour/running-multiple-steps/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> jenkins.io</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related CI/CD errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/bazel-no-such-target.html">Bazel: no such target / no such package<span class="sub">A label does not resolve: the package has no BUILD file, the target name is wrong, or it is…</span></a></li>
+                <li><a href="../errors/bitbucket-pipelines-memory-limit.html">Bitbucket Pipelines: Memory limit exceeded<span class="sub">The pipeline step exceeded the allocated memory (default 4GB). The build process or tests…</span></a></li>
+                <li><a href="../errors/circleci-out-of-memory.html">CircleCI: Container ran out of memory<span class="sub">Build process exceeded container memory limit. Need larger resource class or Optimise build.</span></a></li>
+                <li><a href="../errors/gha-cache-reserve-failed.html">GitHub Actions: Failed to save cache — Unable to reserve cache<span class="sub">Two concurrent jobs tried to save the same cache key, or the repository is at its 10 GB cache…</span></a></li>
+                <li><a href="../errors/gha-resource-not-accessible.html">GitHub Actions: Resource not accessible by integration<span class="sub">Workflow on fork PR lacks permission to access secrets or write operations.</span></a></li>
+                <li><a href="../errors/github-actions-secret-not-available.html">GitHub Actions: Secret not available in fork PRs<span class="sub">Secrets are not passed to workflows triggered by pull requests from forks for security reasons.</span></a></li>
+                <li><a href="../errors/gha-node-action-deprecated.html">GitHub Actions: this action uses a deprecated Node version<span class="sub">GitHub retires the Node runtimes that JavaScript actions execute on. An action pinned to an…</span></a></li>
+                <li><a href="../errors/github-actions-quota-exceeded.html">GitHub Actions: Usage limit exceeded<span class="sub">Free tier minutes exhausted or concurrent job limit reached. Need to upgrade plan or wait for…</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/ci-cd.html">See all 13 CI/CD errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Jenkins%3A%20Workspace%20cleanup%20failed">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

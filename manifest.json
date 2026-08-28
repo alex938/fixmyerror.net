@@ -1,113 +1,119 @@
 {
+  "id": "/",
   "name": "FixMyError.net - Instant Error Solutions",
-  "short_name": "FixMyError.net",
-  "description": "Find instant fixes for HTTP, TLS, network, Docker, Kubernetes, Terraform, Ansible, CI/CD, cloud, database, and system errors. Stop wasting time searching - get solutions now.",
-  "start_url": "/",
+  "short_name": "FixMyError",
+  "description": "Find instant fixes for HTTP, TLS, network, Docker, Kubernetes, Terraform, Ansible, CI/CD, cloud, database, AI/LLM and system errors. Copy-paste solutions with plain-English explanations.",
+  "start_url": "/?utm_source=pwa",
   "display": "standalone",
   "background_color": "#0d1117",
-  "theme_color": "#1a1a1a",
-  "orientation": "portrait-primary",
-  "categories": ["developer-tools", "productivity", "reference"],
+  "theme_color": "#0d1117",
+  "categories": [
+    "developer-tools",
+    "productivity",
+    "reference",
+    "education"
+  ],
   "lang": "en-GB",
+  "dir": "ltr",
   "scope": "/",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230d1117'/><text x='96' y='120' text-anchor='middle' font-size='120' fill='%2358a6ff'>🚀</text></svg>",
+      "src": "/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%230d1117'/><text x='256' y='320' text-anchor='middle' font-size='320' fill='%2358a6ff'>🚀</text></svg>",
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "screenshots": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect width='540' height='720' fill='%230d1117'/><rect x='20' y='20' width='500' height='100' rx='12' fill='%23161b22' stroke='%2330363d'/><text x='270' y='80' text-anchor='middle' font-size='24' fill='%23f0f6fc'>🔧 Error Cheatsheet</text><rect x='20' y='140' width='500' height='60' rx='8' fill='%2321262d' stroke='%2330363d'/><text x='40' y='175' font-size='16' fill='%238b949e'>🔍 Search errors...</text><rect x='20' y='220' width='500' height='80' rx='8' fill='%23161b22' stroke='%2330363d'/><text x='40' y='250' font-size='14' fill='%23f0f6fc'>502 Bad Gateway</text><text x='40' y='280' font-size='12' fill='%238b949e'>The server received an invalid response from upstream...</text></svg>",
-      "sizes": "540x720",
-      "type": "image/svg+xml",
-      "form_factor": "narrow"
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Search 690+ documented developer errors"
     }
   ],
   "shortcuts": [
     {
-      "name": "Search HTTP Errors",
+      "name": "Search HTTP errors",
       "short_name": "HTTP",
-      "description": "Search for HTTP status code errors",
-      "url": "/?category=HTTP",
+      "description": "HTTP status code errors and fixes",
+      "url": "/categories/http.html",
       "icons": [
         {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%231f6feb'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>H</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     },
     {
-      "name": "Search TLS Errors",
-      "short_name": "TLS",
-      "description": "Search for SSL/TLS certificate errors",
-      "url": "/?category=TLS",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%23d29922'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>🔒</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Search Network Errors",
-      "short_name": "Network",
-      "description": "Search for network connectivity errors",
-      "url": "/?category=Network",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%23238636'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>🌐</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Search ICMP Errors",
-      "short_name": "ICMP",
-      "description": "Search for ICMP protocol errors",
-      "url": "/?category=ICMP",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%23e85d04'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>📶</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Search Docker Errors",
-      "short_name": "Docker",
-      "description": "Search for Docker container errors",
-      "url": "/?category=Docker",
-      "icons": [
-        {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%232496ed'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>🐳</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
-        }
-      ]
-    },
-    {
-      "name": "Search Kubernetes Errors",
+      "name": "Search Kubernetes errors",
       "short_name": "K8s",
-      "description": "Search for Kubernetes orchestration errors",
-      "url": "/?category=Kubernetes",
+      "description": "Kubernetes pod, scheduling and RBAC errors",
+      "url": "/categories/kubernetes.html",
       "icons": [
         {
-          "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%23326ce5'/><text x='48' y='60' text-anchor='middle' font-size='48' fill='white'>☸️</text></svg>",
-          "sizes": "96x96",
-          "type": "image/svg+xml"
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Search Docker errors",
+      "short_name": "Docker",
+      "description": "Docker daemon, image and build errors",
+      "url": "/categories/docker.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Search TLS errors",
+      "short_name": "TLS",
+      "description": "SSL/TLS certificate and handshake errors",
+      "url": "/categories/tls.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Browse all categories",
+      "short_name": "Browse",
+      "description": "All 56 error categories",
+      "url": "/categories.html",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     }

@@ -3,64 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors</title>
-    <meta name="description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, Windows, macOS, and system errors. Copy-paste solutions with explanations.">
-    <meta name="keywords" content="fix error, error solutions, HTTP errors, 502 bad gateway, 429 too many requests, SSL certificate error, TLS handshake, Docker error, Kubernetes troubleshooting, Terraform, Windows error, macOS error, Python, JavaScript, database error, DevOps, how to fix">
+    <title>FixMyError.net – 690+ Developer Error Fixes, Searchable</title>
+    <meta name="description" content="Search 690+ developer and DevOps errors across 56 categories. Plain-English explanations, copy-paste fixes and links to the official docs. Free, no sign-up.">
     <meta name="author" content="FixMyError.net">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="googlebot" content="index, follow">
     <link rel="canonical" href="https://fixmyerror.net/">
 
     <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fixmyerror.net/">
-    <meta property="og:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
-    <meta property="og:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
-    <meta property="og:image" content="https://fixmyerror.net/og-image.svg">
-    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:title" content="FixMyError.net – the developer's error encyclopedia">
+    <meta property="og:description" content="690+ developer and DevOps errors with plain-English explanations, copy-paste fixes and links to the official docs.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="FixMyError.net - instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://fixmyerror.net/">
-    <meta name="twitter:title" content="FixMyError.net - Instant Solutions for HTTP, Network & DevOps Errors">
-    <meta name="twitter:description" content="Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.">
-    <meta name="twitter:image" content="https://fixmyerror.net/og-image.svg">
+    <meta name="twitter:title" content="FixMyError.net – the developer's error encyclopedia">
+    <meta name="twitter:description" content="690+ developer and DevOps errors with plain-English explanations, copy-paste fixes and links to the official docs.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+    <meta name="twitter:image:alt" content="FixMyError.net - instant developer error solutions">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
 
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="feed.xml">
     <meta name="theme-color" content="#1a1a1a">
 
-    <!-- Structured data: SoftwareApplication. Per-error FAQPage entries are injected at runtime. -->
+    <!-- Structured data. Per-error TechArticle markup lives on the generated
+         /errors/<id>.html pages, which are the canonical URL for each entry. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://fixmyerror.net/#website",
+      "name": "FixMyError.net",
+      "alternateName": "The Developer's Error Encyclopedia",
+      "url": "https://fixmyerror.net/",
+      "inLanguage": "en-GB",
+      "description": "Searchable database of developer and infrastructure error messages with explanations, copy-paste fixes and links to authoritative documentation.",
+      "publisher": { "@id": "https://fixmyerror.net/#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://fixmyerror.net/?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://fixmyerror.net/#organization",
+      "name": "FixMyError.net",
+      "url": "https://fixmyerror.net/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fixmyerror.net/og-image.png",
+        "width": 1200,
+        "height": 630
+      },
+      "email": "alex@slash-root.com"
+    }
+    </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "FixMyError.net",
       "url": "https://fixmyerror.net/",
-      "description": "Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, and system errors.",
+      "description": "Searchable database of fixes for HTTP, TLS, Docker, Kubernetes, Terraform, database, cloud, AI/LLM and system errors.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "isAccessibleForFree": true,
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
 
-    <!-- Structured data: site breadcrumb -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://fixmyerror.net/" },
-        { "@type": "ListItem", "position": 2, "name": "Error Database", "item": "https://fixmyerror.net/" }
-      ]
-    }
+    <!-- Theme is applied before first paint so a light-mode user never sees a
+         dark flash. Falls back to the OS preference on a first visit. -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme');
+          var system = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', saved || system);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      }());
     </script>
 
     <style>
@@ -1037,6 +1086,154 @@
             margin-right: 8px;
             font-size: 1.1rem;
         }
+
+        /* ---------- Top navigation ---------- */
+        .top-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 14px;
+        }
+        .top-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 5px 12px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+        }
+        .top-nav a:hover {
+            color: var(--accent-primary);
+            border-color: var(--border-default);
+        }
+
+        /* ---------- Category filters ----------
+           56 categories is far too many to show at once, so the row starts
+           collapsed and can be expanded. */
+        .filters.collapsed .category-filter.is-overflow { display: none; }
+        .filter-toggle {
+            padding: 8px 16px;
+            border: 1px dashed var(--border-default);
+            border-radius: 6px;
+            background: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+        .filter-toggle:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        .category-filter .count {
+            opacity: 0.65;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* ---------- Error card additions ---------- */
+        .card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-muted);
+        }
+        .card-action {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .card-action:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+        .card-action.primary {
+            border-color: var(--accent-secondary);
+            color: var(--accent-primary);
+        }
+
+        /* ---------- Progressive rendering ---------- */
+        .load-more-wrap { text-align: center; padding: 26px 0 4px; }
+        .load-more {
+            padding: 11px 26px;
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+        .load-more:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+
+        /* ---------- Browse-by-category section ----------
+           Real anchors, always in the HTML, so crawlers and no-JS visitors can
+           reach every category hub and error page. */
+        .browse {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-default);
+        }
+        .browse h2 { font-size: 1.3rem; margin-bottom: 6px; }
+        .browse > p { color: var(--text-secondary); margin-bottom: 18px; font-size: 0.95rem; }
+        .browse-grid {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            list-style: none;
+        }
+        .browse-grid a {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.92rem;
+        }
+        .browse-grid a:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+        .browse-grid .count { color: var(--text-muted); font-size: 0.8rem; }
+        .browse-links { margin-top: 18px; font-size: 0.95rem; }
+        .browse-links a { color: var(--accent-primary); }
+
+        /* ---------- Search history keyboard selection ---------- */
+        .history-item.is-active { background: var(--bg-tertiary); }
+
+        .footer-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            justify-content: center;
+            margin-bottom: 14px;
+            font-size: 0.92rem;
+        }
+
+        kbd {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-default);
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: 0.85em;
+            font-family: monospace;
+        }
+
     </style>
 </head>
 <body>
@@ -1054,14 +1251,22 @@
             <div class="header-content">
                 <div class="title">
                     <h1><span aria-hidden="true">🚀</span> FixMyError.net</h1>
+                    <nav class="top-nav" aria-label="Primary">
+                        <a href="categories.html">Browse categories</a>
+                        <a href="all-errors.html">All errors A–Z</a>
+                        <a href="about.html">About</a>
+                        <a href="feed.xml">RSS</a>
+                    </nav>
+
                     <section class="intro-section">
                         <h2>The Developer's Error Encyclopedia</h2>
                         <p>
-                            FixMyError.net is your instant reference for troubleshooting common development and infrastructure issues.
-                            Whether you need to <strong>fix HTTP errors quickly</strong>, find <strong>common Docker error solutions</strong>,
-                            or need help with <strong>Kubernetes troubleshooting</strong>, we have the answers.
-                            Our searchable database includes detailed explanations and copy-paste fixes for <strong>network error messages</strong>,
-                            TLS handshake failures, database connection timeouts, and system configuration issues.
+                            Paste an error message, get a plain-English explanation and a fix you can copy.
+                            FixMyError.net documents <strong>HTTP status codes</strong>, <strong>TLS and certificate failures</strong>,
+                            <strong>Docker and Kubernetes problems</strong>, Terraform and CI/CD runs, cloud IAM and quota errors,
+                            databases, AI and LLM APIs, and language runtimes from Python and TypeScript to Go and Rust.
+                            Every entry links to the authoritative documentation, and every
+                            <a href="categories.html">category</a> has a guide to debugging that whole class of problem.
                         </p>
                     </section>
 
@@ -1082,8 +1287,13 @@
                             id="searchInput"
                             autocomplete="off"
                             aria-label="Search errors"
-                            aria-describedby="resultsCount"
+                            aria-describedby="searchHint"
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-controls="searchHistory"
+                            role="combobox"
                         >
+                        <p id="searchHint" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">Search by error message, command or technology. Results update as you type.</p>
                         <div class="search-history" id="searchHistory" role="listbox" aria-label="Recent searches"></div>
                     </div>
 
@@ -1106,7 +1316,7 @@
                     <span aria-hidden="true">🆕</span> Recently Added
                 </button>
                 <button class="toolbar-btn" id="exportBtn">
-                    <span aria-hidden="true">📥</span> Export
+                    <span aria-hidden="true">📥</span> Export favourites
                 </button>
                 <button class="toolbar-btn" id="shareBtn">
                     <span aria-hidden="true">🔗</span> Share
@@ -1147,7 +1357,7 @@
 
             <noscript>
                 <div class="noscript-note">
-                    <h2>Browse 580+ developer &amp; infrastructure error fixes</h2>
+                    <h2>Browse 690+ developer &amp; infrastructure error fixes</h2>
                     <p>
                         FixMyError.net is a searchable database of copy-paste solutions for the errors developers
                         and DevOps engineers hit every day &mdash; HTTP status codes (400, 429, 502, 504),
@@ -1156,7 +1366,11 @@
                         and Windows, macOS, Python, JavaScript, Go, Rust and more.
                     </p>
                     <p>Each entry includes a plain-English explanation, a quick fix you can copy, and links to authoritative documentation.</p>
-                    <p><strong>Please enable JavaScript</strong> to search, filter by category, and copy fixes.</p>
+                    <p>
+                        The search box needs JavaScript, but every error also has its own page that does not:
+                        <a href="all-errors.html">browse the full A&ndash;Z index</a> or
+                        <a href="categories.html">pick a category</a>.
+                    </p>
                 </div>
             </noscript>
 
@@ -1166,12 +1380,34 @@
             </div>
 
             <div class="error-grid" id="errorGrid" role="region" aria-label="Errors"></div>
+
+            <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+                <button class="load-more" type="button" id="loadMoreBtn">Show more errors</button>
+            </div>
         </div>
+
+        <!-- Static, always-present links. Search engines and no-JS visitors
+             reach every category hub and, from there, every error page. -->
+        <section class="browse" id="browse">
+            <h2>Browse errors by category</h2>
+            <p>Each category page includes an authored guide to diagnosing that whole class of error, not just a list of messages.</p>
+            <ul class="browse-grid" id="browseGrid"></ul>
+            <p class="browse-links">
+                <a href="all-errors.html">See the complete A&ndash;Z index of every error &rarr;</a>
+            </p>
+        </section>
     </main>
 
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
+                <nav class="footer-nav" aria-label="Footer">
+                    <a href="categories.html">Categories</a>
+                    <a href="all-errors.html">All errors</a>
+                    <a href="about.html">About</a>
+                    <a href="feed.xml">RSS feed</a>
+                    <a href="sitemap.xml">Sitemap</a>
+                </nav>
                 <p>Contact me at <a href="mailto:alex@slash-root.com">alex@slash-root.com</a> for any comments or suggested adjustments or additions.</p>
                 <p>
                     <a class="contribute-button" href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix&amp;body=Error%20title%3A%0ACategory%3A%0AExplanation%3A%0AFix%2Fcommand%3A%0ASource%20link%3A">➕ Submit an error or fix</a>
@@ -1212,6 +1448,14 @@
                     <span class="shortcut-key">T</span>
                 </div>
                 <div class="shortcut-item">
+                    <span>Toggle recently added</span>
+                    <span class="shortcut-key">R</span>
+                </div>
+                <div class="shortcut-item">
+                    <span>Move through search history</span>
+                    <span class="shortcut-key">↑ / ↓</span>
+                </div>
+                <div class="shortcut-item">
                     <span>Show shortcuts</span>
                     <span class="shortcut-key">?</span>
                 </div>
@@ -1221,11 +1465,12 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"
-            integrity="sha384-zPE55eyESN+FxCWGEnlNxGyAPJud6IZ6TtJmXb56OFRGhxZPN4akj9rjA3gw5Qqa"
-            crossorigin="anonymous"></script>
-
-    <script src="embedded-data.js?v=10"></script>
+    <!-- Both self-hosted and deferred: no third-party connection on the
+         critical path, and neither blocks first paint. Deferred scripts run
+         in order and finish before DOMContentLoaded, which is when the app
+         boots. -->
+    <script src="assets/fuse.min.js" defer></script>
+    <script src="embedded-data.js?v=11" defer></script>
 
     <script>
         class ErrorCheatsheet {
@@ -1241,6 +1486,16 @@
                 this.showingRecent = false;
                 this.lastFocusedBeforeModal = null;
 
+                // Rendering 690+ cards at once costs ~40ms of layout on every
+                // keystroke. Render in pages instead and grow on demand.
+                this.PAGE_SIZE = 60;
+                this.renderedCount = 0;
+                this.pendingResults = [];
+                // category -> errors, built once so renderRelated is O(1)
+                // per card instead of scanning the whole dataset each time.
+                this.byCategory = new Map();
+                this.historyIndex = -1;
+
                 this.initializeTheme();
                 this.initializeElements();
                 this.loadErrors();
@@ -1248,9 +1503,12 @@
                 this.registerServiceWorker();
             }
 
+            // The theme attribute is already set by the inline script in <head>
+            // (before first paint). This only keeps the toggle icon in sync.
             initializeTheme() {
-                const savedTheme = localStorage.getItem('theme') || 'dark';
-                document.documentElement.setAttribute('data-theme', savedTheme);
+                if (!document.documentElement.getAttribute('data-theme')) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
             }
 
             initializeElements() {
@@ -1276,6 +1534,9 @@
                 this.shortcutsModal = document.getElementById('shortcutsModal');
                 this.closeShortcutsModal = document.getElementById('closeShortcutsModal');
                 this.toastEl = document.getElementById('toast');
+                this.loadMoreBtn = document.getElementById('loadMoreBtn');
+                this.loadMoreWrap = document.getElementById('loadMoreWrap');
+                this.browseGrid = document.getElementById('browseGrid');
 
                 this.themeToggleIcon.textContent =
                     document.documentElement.getAttribute('data-theme') === 'dark' ? '🌙' : '☀️';
@@ -1291,11 +1552,17 @@
                         throw new Error('ERRORS_DATA not available');
                     }
 
-                    // Build category set
+                    // Build category set and the per-category index used by
+                    // renderRelated and the filter counts.
                     this.knownCategories = new Set(this.errors.map(e => e.category));
+                    for (const err of this.errors) {
+                        if (!this.byCategory.has(err.category)) this.byCategory.set(err.category, []);
+                        this.byCategory.get(err.category).push(err);
+                    }
 
-                    // Populate category filter buttons dynamically
+                    // Populate category filter buttons and the static browse grid
                     this.renderCategoryFilters();
+                    this.renderBrowseGrid();
 
                     this.fuse = new Fuse(this.errors, {
                         keys: ['title', 'explanation', 'category', 'fix_snippet'],
@@ -1308,9 +1575,6 @@
                     this.updateResultsCount(this.errors, '');
                     this.loadingState.style.display = 'none';
 
-                    // Inject FAQPage JSON-LD for SEO (top entries)
-                    this.injectStructuredData();
-
                     // Handle URL parameters after errors are loaded
                     this.handleURLParameters();
                 } catch (error) {
@@ -1322,23 +1586,55 @@
                 }
             }
 
+            // 56 categories will not fit on one row. Show the largest dozen by
+            // default and let the rest be expanded.
             renderCategoryFilters() {
-                const categories = ['all', ...Array.from(this.knownCategories).sort((a, b) => a.localeCompare(b))];
-                // Keep the leading "Filter by:" label and append buttons
+                const VISIBLE = 12;
+                const sorted = Array.from(this.knownCategories)
+                    .sort((a, b) => (this.byCategory.get(b).length - this.byCategory.get(a).length)
+                        || a.localeCompare(b));
+
                 const label = this.categoryFiltersContainer.querySelector('.filter-label');
                 this.categoryFiltersContainer.innerHTML = '';
                 if (label) this.categoryFiltersContainer.appendChild(label);
+                this.categoryFiltersContainer.classList.add('collapsed');
 
-                for (const cat of categories) {
+                const makeBtn = (cat, count, overflow) => {
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = 'category-filter';
+                    btn.className = 'category-filter' + (overflow ? ' is-overflow' : '');
                     btn.dataset.category = cat;
                     btn.textContent = cat === 'all' ? 'All' : cat;
+                    if (count != null) {
+                        const span = document.createElement('span');
+                        span.className = 'count';
+                        span.textContent = count;
+                        btn.appendChild(span);
+                    }
                     if (cat === 'all') btn.classList.add('active');
                     btn.setAttribute('aria-pressed', cat === 'all' ? 'true' : 'false');
-                    this.categoryFiltersContainer.appendChild(btn);
-                }
+                    return btn;
+                };
+
+                this.categoryFiltersContainer.appendChild(makeBtn('all', this.errors.length, false));
+                sorted.forEach((cat, i) => {
+                    this.categoryFiltersContainer.appendChild(
+                        makeBtn(cat, this.byCategory.get(cat).length, i >= VISIBLE)
+                    );
+                });
+
+                const toggle = document.createElement('button');
+                toggle.type = 'button';
+                toggle.className = 'filter-toggle';
+                toggle.setAttribute('aria-expanded', 'false');
+                const hidden = Math.max(0, sorted.length - VISIBLE);
+                toggle.textContent = `+ ${hidden} more`;
+                toggle.addEventListener('click', () => {
+                    const collapsed = this.categoryFiltersContainer.classList.toggle('collapsed');
+                    toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+                    toggle.textContent = collapsed ? `+ ${hidden} more` : 'Show fewer';
+                });
+                if (hidden > 0) this.categoryFiltersContainer.appendChild(toggle);
 
                 this.categoryFiltersContainer.addEventListener('click', (e) => {
                     const btn = e.target.closest('.category-filter');
@@ -1347,25 +1643,26 @@
                 });
             }
 
-            injectStructuredData() {
-                // Limit the JSON-LD to the first ~30 entries to keep page weight reasonable.
-                const subset = this.errors.slice(0, 50);
-                const faqPage = {
-                    '@context': 'https://schema.org',
-                    '@type': 'FAQPage',
-                    'mainEntity': subset.map(err => ({
-                        '@type': 'Question',
-                        'name': err.title,
-                        'acceptedAnswer': {
-                            '@type': 'Answer',
-                            'text': err.explanation + '\n\nFix:\n' + err.fix_snippet
-                        }
-                    }))
-                };
-                const script = document.createElement('script');
-                script.type = 'application/ld+json';
-                script.textContent = JSON.stringify(faqPage);
-                document.head.appendChild(script);
+            // Static, crawlable links to every category hub page.
+            renderBrowseGrid() {
+                if (!this.browseGrid) return;
+                const sorted = Array.from(this.knownCategories).sort((a, b) => a.localeCompare(b));
+                this.browseGrid.innerHTML = sorted.map(cat => `
+                    <li><a href="categories/${this.escapeHtml(this.categorySlug(cat))}.html">
+                        <span>${this.escapeHtml(cat)}</span>
+                        <span class="count">${this.byCategory.get(cat).length}</span>
+                    </a></li>`).join('');
+            }
+
+            // Must match slugify() in scripts/build.mjs.
+            categorySlug(name) {
+                return String(name)
+                    .replace(/\+\+/g, '-plus-plus')
+                    .replace(/#/g, '-sharp')
+                    .replace(/\//g, '-')
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')
+                    .replace(/^-+|-+$/g, '');
             }
 
             setupEventListeners() {
@@ -1374,11 +1671,43 @@
                 }, 300));
 
                 this.searchInput.addEventListener('keydown', (e) => {
+                    const open = this.searchHistoryDiv.classList.contains('show');
+                    const items = open ? Array.from(this.searchHistoryDiv.querySelectorAll('.history-item')) : [];
+
+                    if (open && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+                        e.preventDefault();
+                        if (items.length === 0) return;
+                        const delta = e.key === 'ArrowDown' ? 1 : -1;
+                        this.historyIndex = (this.historyIndex + delta + items.length + 1) % (items.length + 1) - 1;
+                        if (this.historyIndex < -1) this.historyIndex = items.length - 1;
+                        items.forEach((el, i) => {
+                            const active = i === this.historyIndex;
+                            el.classList.toggle('is-active', active);
+                            el.setAttribute('aria-selected', active ? 'true' : 'false');
+                            if (active) this.searchInput.setAttribute('aria-activedescendant', el.id);
+                        });
+                        if (this.historyIndex === -1) this.searchInput.removeAttribute('aria-activedescendant');
+                        return;
+                    }
+
                     if (e.key === 'Escape') {
-                        this.clearSearch();
-                        this.hideSearchHistory();
-                    } else if (e.key === 'Enter' && this.searchInput.value.trim()) {
-                        this.addToSearchHistory(this.searchInput.value.trim());
+                        if (open) {
+                            this.hideSearchHistory();
+                        } else {
+                            this.clearSearch();
+                        }
+                    } else if (e.key === 'Enter') {
+                        if (open && this.historyIndex >= 0 && items[this.historyIndex]) {
+                            e.preventDefault();
+                            this.searchInput.value = items[this.historyIndex].dataset.query;
+                            this.hideSearchHistory();
+                            this.performSearch();
+                            return;
+                        }
+                        if (this.searchInput.value.trim()) {
+                            this.addToSearchHistory(this.searchInput.value.trim());
+                            this.hideSearchHistory();
+                        }
                     }
                 });
 
@@ -1408,8 +1737,8 @@
                     this.toggleRecentView();
                 });
 
-                this.exportBtn.addEventListener('click', () => {
-                    this.exportFavorites();
+                this.exportBtn.addEventListener('click', (e) => {
+                    this.exportFavorites(e.shiftKey ? 'md' : 'json');
                 });
 
                 this.shareBtn.addEventListener('click', () => {
@@ -1418,6 +1747,13 @@
 
                 this.keyboardShortcutsBtn.addEventListener('click', () => {
                     this.showShortcutsModal();
+                });
+
+                this.loadMoreBtn.addEventListener('click', () => {
+                    const firstNew = this.renderedCount;
+                    this.renderNextPage();
+                    const cards = this.errorGrid.querySelectorAll('.error-card');
+                    if (cards[firstNew]) cards[firstNew].querySelector('.error-header').focus();
                 });
 
                 this.closeShortcutsModal.addEventListener('click', () => {
@@ -1435,11 +1771,22 @@
                     const linkBtn = e.target.closest('.link-btn');
                     if (linkBtn) {
                         e.stopPropagation();
-                        const id = linkBtn.dataset.id;
-                        const url = window.location.origin + window.location.pathname + '#' + id;
-                        this.copyText(url, 'Link copied to clipboard');
+                        // Copy the canonical permalink, not a fragment on the
+                        // search page — the error page is the indexable URL.
+                        this.copyText(this.permalinkFor(linkBtn.dataset.id), 'Permalink copied to clipboard');
                         return;
                     }
+
+                    const markdownBtn = e.target.closest('.markdown-btn');
+                    if (markdownBtn) {
+                        e.stopPropagation();
+                        const err = this.errors.find(x => x.id === markdownBtn.dataset.id);
+                        if (err) this.copyText(this.toMarkdown(err), 'Markdown copied', markdownBtn);
+                        return;
+                    }
+
+                    // Let the "Full page" anchor navigate normally.
+                    if (e.target.closest('.card-action[href]')) return;
 
                     const favBtn = e.target.closest('.favorite-btn');
                     if (favBtn) {
@@ -1508,6 +1855,8 @@
                 });
 
                 document.addEventListener('keydown', (e) => {
+                    if (!e.key) return;
+
                     // Ctrl/Cmd+K focuses search (works even from within inputs)
                     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
                         e.preventDefault();
@@ -1515,6 +1864,14 @@
                         this.searchInput.select();
                         return;
                     }
+
+                    const modalOpen = this.shortcutsModal.classList.contains('show');
+                    if (modalOpen) {
+                        if (e.key === 'Escape') this.hideShortcutsModal();
+                        return; // single-key shortcuts must not fire behind the dialog
+                    }
+
+                    if (e.ctrlKey || e.metaKey || e.altKey) return;
 
                     const tag = e.target.tagName;
                     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.target.isContentEditable) return;
@@ -1526,10 +1883,10 @@
                         this.toggleTheme();
                     } else if (e.key.toLowerCase() === 'f') {
                         this.toggleFavoritesView();
+                    } else if (e.key.toLowerCase() === 'r') {
+                        this.toggleRecentView();
                     } else if (e.key === '?') {
                         this.showShortcutsModal();
-                    } else if (e.key === 'Escape') {
-                        this.hideShortcutsModal();
                     }
                 });
 
@@ -1613,18 +1970,44 @@
             }
 
             displayResults(errors) {
-                if (!errors || errors.length === 0) {
+                this.pendingResults = errors || [];
+                this.renderedCount = 0;
+                this.errorGrid.innerHTML = '';
+
+                if (this.pendingResults.length === 0) {
                     this.errorGrid.style.display = 'none';
                     this.emptyState.style.display = 'block';
+                    this.loadMoreWrap.style.display = 'none';
                     this.updateVisibleCount(0);
                     return;
                 }
 
                 this.errorGrid.style.display = 'grid';
                 this.emptyState.style.display = 'none';
+                this.renderNextPage();
+                this.updateVisibleCount(this.pendingResults.length);
+            }
 
-                this.errorGrid.innerHTML = errors.map(error => this.renderErrorCard(error)).join('');
-                this.updateVisibleCount(errors.length);
+            // Append one page of cards. Keeps the first paint fast on a result
+            // set of several hundred entries.
+            renderNextPage() {
+                const next = this.pendingResults.slice(this.renderedCount, this.renderedCount + this.PAGE_SIZE);
+                if (next.length === 0) return;
+                this.errorGrid.insertAdjacentHTML('beforeend', next.map(e => this.renderErrorCard(e)).join(''));
+                this.renderedCount += next.length;
+
+                const remaining = this.pendingResults.length - this.renderedCount;
+                if (remaining > 0) {
+                    this.loadMoreWrap.style.display = '';
+                    this.loadMoreBtn.textContent = `Show ${Math.min(remaining, this.PAGE_SIZE)} more (${remaining} remaining)`;
+                } else {
+                    this.loadMoreWrap.style.display = 'none';
+                }
+            }
+
+            // Render every remaining result, e.g. before scrolling to a deep link.
+            renderAllPending() {
+                while (this.renderedCount < this.pendingResults.length) this.renderNextPage();
             }
 
             renderErrorCard(error) {
@@ -1646,9 +2029,11 @@
                        </div>`
                     : '';
 
+                const permalink = `errors/${id}.html`;
+
                 return `
                     <article id="${id}" class="error-card" data-id="${id}">
-                        <button class="link-btn" type="button" data-id="${id}" aria-label="Copy link to this error" title="Copy link">
+                        <button class="link-btn" type="button" data-id="${id}" aria-label="Copy link to this error" title="Copy permalink">
                             <span aria-hidden="true">🔗</span>
                         </button>
                         <button class="favorite-btn ${isFav ? 'favorited' : ''}" type="button" data-id="${id}"
@@ -1665,6 +2050,14 @@
                             ${this.renderFixBlock(error)}
                             ${sourcesHtml}
                             ${this.renderRelated(error)}
+                            <div class="card-actions">
+                                <a class="card-action primary" href="${permalink}">
+                                    <span aria-hidden="true">📄</span> Full page &amp; diagnosis steps
+                                </a>
+                                <button class="card-action markdown-btn" type="button" data-id="${id}">
+                                    <span aria-hidden="true">📝</span> Copy as Markdown
+                                </button>
+                            </div>
                         </div>
                     </article>
                 `;
@@ -1710,9 +2103,8 @@
 
             // Up to 4 sibling errors in the same category.
             renderRelated(error) {
-                const related = this.errors
-                    .filter(e => e.category === error.category && e.id !== error.id)
-                    .slice(0, 4);
+                const siblings = this.byCategory.get(error.category) || [];
+                const related = siblings.filter(e => e.id !== error.id).slice(0, 4);
                 if (related.length === 0) return '';
                 const cat = this.escapeHtml(error.category);
                 const links = related
@@ -1721,13 +2113,15 @@
                 return `<div class="related"><div class="related-title">Related in ${cat}:</div>${links}</div>`;
             }
 
-            // True when dateAdded is within the last 45 days.
+            // True when dateAdded is within the last 60 days. Kept in sync with
+            // NEW_WINDOW_DAYS in scripts/build.mjs so the badge matches the
+            // static pages.
             isRecent(dateStr) {
                 if (!dateStr) return false;
                 const d = new Date(dateStr + 'T00:00:00Z');
                 if (isNaN(d.getTime())) return false;
                 const days = (Date.now() - d.getTime()) / 86400000;
-                return days >= 0 && days <= 45;
+                return days >= -1 && days <= 60;
             }
 
             // Allow only http(s) URLs in sources (defense against javascript: etc.)
@@ -1767,6 +2161,38 @@
                     document.body.removeChild(ta);
                     this.showToast(ok ? (message || 'Copied') : 'Copy failed', ok ? 'success' : 'error');
                 }
+            }
+
+            permalinkFor(id) {
+                const base = window.location.origin + window.location.pathname.replace(/[^/]*$/, '');
+                return `${base}errors/${id}.html`;
+            }
+
+            // Markdown is the format people actually paste into an issue,
+            // a PR description or a chat thread.
+            toMarkdown(error) {
+                const lines = [
+                    `## ${error.title}`,
+                    '',
+                    `**Category:** ${error.category}`,
+                    '',
+                    error.explanation,
+                    '',
+                    '### Fix',
+                    '',
+                    '```bash',
+                    error.fix_snippet,
+                    '```'
+                ];
+                if (error.fix_snippet_windows) {
+                    lines.push('', '### Fix (Windows)', '', '```powershell', error.fix_snippet_windows, '```');
+                }
+                if (Array.isArray(error.sources) && error.sources.length) {
+                    lines.push('', '### References', '');
+                    for (const src of error.sources.filter(u => this.isSafeUrl(u))) lines.push(`- ${src}`);
+                }
+                lines.push('', `Source: ${this.permalinkFor(error.id)}`);
+                return lines.join('\n');
             }
 
             clearSearch() {
@@ -1889,11 +2315,17 @@
                         this.showFavoritesBtn.style.color = '';
                         this.showFavoritesBtn.setAttribute('aria-pressed', 'false');
                     }
-                    const recent = this.errors
-                        .filter(e => e.dateAdded)
-                        .sort((a, b) => (a.dateAdded < b.dateAdded ? 1 : (a.dateAdded > b.dateAdded ? -1 : 0)));
+                    // Newest first; entries with no recorded date sort last
+                    // rather than disappearing from the view entirely.
+                    const recent = this.errors.slice().sort((a, b) => {
+                        const ad = a.dateAdded || '';
+                        const bd = b.dateAdded || '';
+                        if (ad === bd) return a.title.localeCompare(b.title);
+                        return bd.localeCompare(ad);
+                    });
+                    const dated = recent.filter(e => e.dateAdded).length;
                     this.displayResults(recent);
-                    this.resultsCount.textContent = `Showing ${recent.length} recently added errors`;
+                    this.resultsCount.textContent = `Showing all ${recent.length} errors, newest first (${dated} carry an added date)`;
                 } else {
                     this.performSearch();
                 }
@@ -1934,9 +2366,10 @@
             showSearchHistory() {
                 if (this.searchHistory.length === 0) return;
 
+                this.historyIndex = -1;
                 this.searchHistoryDiv.innerHTML = `
-                    ${this.searchHistory.map(query => `
-                        <div class="history-item" role="option" data-query="${this.escapeHtml(query)}">
+                    ${this.searchHistory.map((query, i) => `
+                        <div class="history-item" role="option" id="history-opt-${i}" aria-selected="false" data-query="${this.escapeHtml(query)}">
                             ${this.escapeHtml(query)}
                         </div>
                     `).join('')}
@@ -1944,6 +2377,7 @@
                 `;
 
                 this.searchHistoryDiv.classList.add('show');
+                this.searchInput.setAttribute('aria-expanded', 'true');
 
                 this.searchHistoryDiv.querySelectorAll('.history-item').forEach(item => {
                     item.addEventListener('click', () => {
@@ -1962,9 +2396,13 @@
 
             hideSearchHistory() {
                 this.searchHistoryDiv.classList.remove('show');
+                this.searchInput.setAttribute('aria-expanded', 'false');
+                this.searchInput.removeAttribute('aria-activedescendant');
+                this.historyIndex = -1;
             }
 
-            exportFavorites() {
+            // Shift-click exports Markdown instead of JSON.
+            exportFavorites(format = 'json') {
                 const favoriteErrors = this.errors.filter(error => this.isFavorite(error.id));
 
                 if (favoriteErrors.length === 0) {
@@ -1972,23 +2410,40 @@
                     return;
                 }
 
-                const exportData = {
-                    exportDate: new Date().toISOString(),
-                    totalFavorites: favoriteErrors.length,
-                    errors: favoriteErrors
-                };
+                let body;
+                let type;
+                let ext;
+                if (format === 'md') {
+                    body = [
+                        '# FixMyError.net favourites',
+                        '',
+                        `Exported ${new Date().toISOString().split('T')[0]} — ${favoriteErrors.length} entries.`,
+                        ''
+                    ].concat(favoriteErrors.map(e => this.toMarkdown(e))).join('\n\n---\n\n');
+                    type = 'text/markdown';
+                    ext = 'md';
+                } else {
+                    body = JSON.stringify({
+                        exportDate: new Date().toISOString(),
+                        source: 'https://fixmyerror.net/',
+                        totalFavorites: favoriteErrors.length,
+                        errors: favoriteErrors
+                    }, null, 2);
+                    type = 'application/json';
+                    ext = 'json';
+                }
 
-                const dataStr = JSON.stringify(exportData, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-
+                const url = URL.createObjectURL(new Blob([body], { type }));
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = `fixmyerror-favorites-${new Date().toISOString().split('T')[0]}.json`;
+                link.download = `fixmyerror-favourites-${new Date().toISOString().split('T')[0]}.${ext}`;
+                document.body.appendChild(link);
                 link.click();
+                link.remove();
+                // Revoking immediately can cancel the download in some browsers.
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
 
-                URL.revokeObjectURL(url);
-                this.showToast(`Exported ${favoriteErrors.length} favourites`, 'success');
+                this.showToast(`Exported ${favoriteErrors.length} favourites as ${ext.toUpperCase()}`, 'success');
             }
 
             async shareResults() {
@@ -2050,14 +2505,26 @@
                 const params = new URLSearchParams(window.location.search);
                 const hash = window.location.hash.substring(1);
 
-                if (params.has('search')) {
-                    this.searchInput.value = params.get('search');
-                    this.performSearch();
+                // Set both pieces of state first, then search once — doing it
+                // per-parameter rendered the whole grid twice.
+                const query = params.get('search');
+                if (query) {
+                    this.searchInput.value = query;
+                    this.clearButton.style.display = 'block';
                 }
 
-                if (params.has('category')) {
-                    this.setActiveCategory(params.get('category'));
+                const category = params.get('category');
+                if (category) {
+                    const valid = this.knownCategories.has(category) ? category : 'all';
+                    this.currentCategory = valid;
+                    this.categoryFiltersContainer.querySelectorAll('.category-filter').forEach(filter => {
+                        const isActive = filter.dataset.category === valid;
+                        filter.classList.toggle('active', isActive);
+                        filter.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                    });
                 }
+
+                if (query || category) this.performSearch();
 
                 if (hash) {
                     this.scrollToError(decodeURIComponent(hash));
@@ -2069,6 +2536,9 @@
                 if (!this.errors.some(e => e.id === id)) {
                     return;
                 }
+
+                // A deep-linked card may sit past the first rendered page.
+                this.renderAllPending();
 
                 const tryScroll = (retryCount = 0) => {
                     let element;
@@ -2108,19 +2578,37 @@
             }
 
             async registerServiceWorker() {
-                if ('serviceWorker' in navigator) {
-                    try {
-                        await navigator.serviceWorker.register('sw.js');
-                    } catch (error) {
-                        console.warn('Service Worker registration failed:', error);
-                    }
+                if (!('serviceWorker' in navigator)) return;
+                try {
+                    const registration = await navigator.serviceWorker.register('sw.js');
+
+                    // Tell the user when a newer build is cached and waiting,
+                    // rather than serving them stale content indefinitely.
+                    registration.addEventListener('updatefound', () => {
+                        const installing = registration.installing;
+                        if (!installing) return;
+                        installing.addEventListener('statechange', () => {
+                            if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+                                this.showToast('Site updated in the background — reload for the latest content', 'success');
+                            }
+                        });
+                    });
+                } catch (error) {
+                    console.warn('Service Worker registration failed:', error);
                 }
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            new ErrorCheatsheet();
-        });
+        // Boot exactly once, and cope with the script being evaluated after
+        // DOMContentLoaded has already fired (bfcache restore, injected script).
+        (function boot() {
+            if (window.__app) return;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', boot, { once: true });
+                return;
+            }
+            window.__app = new ErrorCheatsheet();
+        }());
     </script>
 </body>
 </html>

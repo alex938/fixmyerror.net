@@ -1,13 +1,17 @@
 // Service worker for fixmyerror.net
 // Bump CACHE_NAME on every release so clients pick up new HTML/JS.
-const CACHE_NAME = 'fixmyerror-net-v2.1.0';
+const CACHE_NAME = 'fixmyerror-net-v3.0.0';
 const CORE_ASSETS = [
   '/',
   '/index.html',
   '/embedded-data.js',
   '/manifest.json',
   '/feed.xml',
-  'https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js'
+  '/404.html',
+  '/assets/fuse.min.js',
+  '/assets/site.css',
+  '/assets/page.js',
+  '/icon-192.png'
 ];
 
 // Install: pre-cache core assets. Use individual put() calls so a single
@@ -54,11 +58,10 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   if (request.method !== 'GET') return;
 
+  // Everything the app needs is now first-party; nothing cross-origin is
+  // cached or intercepted.
   const url = new URL(request.url);
-  const isSameOrigin = url.origin === self.location.origin;
-  const isPinnedCdn =
-    url.host === 'cdn.jsdelivr.net' && url.pathname.includes('/fuse.js@6.6.2/');
-  if (!isSameOrigin && !isPinnedCdn) return;
+  if (url.origin !== self.location.origin) return;
 
   const acceptHeader = request.headers.get('accept') || '';
   const isHtml =
@@ -82,7 +85,9 @@ async function networkFirst(request) {
   } catch (err) {
     const cached = await cache.match(request);
     if (cached) return cached;
-    const fallback = await cache.match('/index.html');
+    // Offline and not cached: show the 404 page if we have it, otherwise the
+    // app shell, which at least renders the cached error database.
+    const fallback = (await cache.match('/404.html')) || (await cache.match('/index.html'));
     if (fallback) return fallback;
     throw err;
   }

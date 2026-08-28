@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security &amp; Token Errors – 19 Fixes | FixMyError.net</title>
+    <meta name="description" content="19 documented Security errors with copy-paste fixes. JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/categories/security.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fixmyerror.net/categories/security.html">
+    <meta property="og:title" content="Security &amp; Token Errors">
+    <meta property="og:description" content="19 documented Security errors with copy-paste fixes. JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Security &amp; Token Errors">
+    <meta name="twitter:description" content="19 documented Security errors with copy-paste fixes. JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Security \u0026 Token Errors","description":"19 documented Security errors with copy-paste fixes. JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.","url":"https://fixmyerror.net/categories/security.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":19,"itemListElement":[{"@type":"ListItem","position":1,"name":"Cookie: SameSite=None requires the Secure attribute","url":"https://fixmyerror.net/errors/cookie-samesite-none-requires-secure.html"},{"@type":"ListItem","position":2,"name":"CSP: Refused to connect to URL","url":"https://fixmyerror.net/errors/csp-refused-to-connect.html"},{"@type":"ListItem","position":3,"name":"CSP: Refused to execute inline script because it violates the policy","url":"https://fixmyerror.net/errors/csp-refused-to-execute-inline-script.html"},{"@type":"ListItem","position":4,"name":"CSRF: Token invalid or missing","url":"https://fixmyerror.net/errors/csrf-token-invalid.html"},{"@type":"ListItem","position":5,"name":"JWT: Invalid audience claim","url":"https://fixmyerror.net/errors/jwt-invalid-audience.html"},{"@type":"ListItem","position":6,"name":"JWT: Token expired","url":"https://fixmyerror.net/errors/jwt-token-expired.html"},{"@type":"ListItem","position":7,"name":"Kerberos: KRB_AP_ERR_SKEW / clock skew too great","url":"https://fixmyerror.net/errors/kerberos-clock-skew.html"},{"@type":"ListItem","position":8,"name":"LDAP: invalid credentials / AD data 52e","url":"https://fixmyerror.net/errors/ldap-invalid-credentials.html"},{"@type":"ListItem","position":9,"name":"OAuth: redirect_uri_mismatch","url":"https://fixmyerror.net/errors/oauth-redirect-uri-mismatch.html"},{"@type":"ListItem","position":10,"name":"OAuth: Token revoked","url":"https://fixmyerror.net/errors/oauth-token-revoked.html"},{"@type":"ListItem","position":11,"name":"OAuth2: invalid_grant (refresh token expired)","url":"https://fixmyerror.net/errors/oauth-invalid-grant-refresh-expired.html"},{"@type":"ListItem","position":12,"name":"SAML: invalid signature on assertion / response","url":"https://fixmyerror.net/errors/saml-signature-invalid.html"},{"@type":"ListItem","position":13,"name":"Security: JWT algorithm confusion attack","url":"https://fixmyerror.net/errors/security-jwt-algorithm-confusion.html"},{"@type":"ListItem","position":14,"name":"Security: Path traversal vulnerability","url":"https://fixmyerror.net/errors/security-path-traversal.html"},{"@type":"ListItem","position":15,"name":"Security: Required security header missing","url":"https://fixmyerror.net/errors/security-header-missing.html"},{"@type":"ListItem","position":16,"name":"Security: SQL injection vulnerability detected","url":"https://fixmyerror.net/errors/security-sql-injection-detected.html"},{"@type":"ListItem","position":17,"name":"SELinux: Permission denied","url":"https://fixmyerror.net/errors/selinux-permission-denied.html"},{"@type":"ListItem","position":18,"name":"SSH: Host key verification failed","url":"https://fixmyerror.net/errors/ssh-host-key-verification-failed.html"},{"@type":"ListItem","position":19,"name":"Subresource Integrity check failed","url":"https://fixmyerror.net/errors/sri-integrity-check-failed.html"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Categories","item":"https://fixmyerror.net/categories.html"},{"@type":"ListItem","position":3,"name":"Security errors","item":"https://fixmyerror.net/categories/security.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories.html">Categories</a></li><li aria-current="page">Security errors</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <span class="badge">Security</span>
+                <span class="badge badge-muted">19 errors</span>
+            </div>
+            <h1 class="page-title">Security &amp; Token Errors</h1>
+            <p class="page-lede">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</p>
+
+            <section class="block">
+                <h2>Understanding Security errors</h2>
+                <p>Security errors are usually a control working correctly. A rejected JWT, a CSP violation, an SELinux denial or a host key mismatch is the system telling you an invariant was broken — and the right response is to understand the invariant, never to disable the control. Two of these deserve special caution: an SSH host key mismatch can indicate a genuine interception, and JWT algorithm confusion is an active exploitation technique, not a configuration nuisance.</p>
+            </section>
+
+            <section class="block">
+                <h2>How to debug Security errors</h2>
+                <ol>
+                    <li>Decode tokens locally and check <code>exp</code>, <code>nbf</code>, <code>iss</code> and <code>aud</code>. Never paste a live token into an online decoder — it is a credential.</li>
+                    <li>Pin the accepted JWT algorithm explicitly on the verifying side. Accepting whatever the token's header claims is the algorithm-confusion vulnerability.</li>
+                    <li>For SELinux, read the actual denial: <code>ausearch -m avc -ts recent | audit2why</code>. Set the correct file context with <code>semanage fcontext</code> rather than running <code>setenforce 0</code>.</li>
+                    <li>For CSP violations, read the browser console message — it names the exact directive and blocked URI. Add the specific source, not a wildcard.</li>
+                    <li>For an SSH host key mismatch, verify the new fingerprint out of band before removing the old key. This warning exists to catch man-in-the-middle attacks.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>ausearch / audit2why</code></li>
+                    <li><code>openssl x509 -noout -text</code></li>
+                    <li><code>ssh-keygen -lf</code></li>
+                    <li><code>browser CSP console reports</code></li>
+                    <li><code>local JWT decoding</code></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>All 19 Security errors</h2>
+                <ul class="link-list">
+                    <li><a href="../errors/cookie-samesite-none-requires-secure.html">Cookie: SameSite=None requires the Secure attribute <span class="badge badge-new">New</span><span class="sub">Browsers reject a cookie that declares SameSite=None without Secure. Cross-site cookies must be sent over HTTPS only…</span></a></li>
+                    <li><a href="../errors/csp-refused-to-connect.html">CSP: Refused to connect to URL<span class="sub">Content Security Policy blocks outbound fetch/WebSocket/XHR to the target origin because connect-src is restrictive.</span></a></li>
+                    <li><a href="../errors/csp-refused-to-execute-inline-script.html">CSP: Refused to execute inline script because it violates the policy <span class="badge badge-new">New</span><span class="sub">Content-Security-Policy blocked an inline or an inline event handler. This is the policy preventing the main injection…</span></a></li>
+                    <li><a href="../errors/csrf-token-invalid.html">CSRF: Token invalid or missing<span class="sub">Cross-Site Request Forgery token is invalid, expired, or missing from request.</span></a></li>
+                    <li><a href="../errors/jwt-invalid-audience.html">JWT: Invalid audience claim<span class="sub">aud claim in JWT does not match expected audience for the API or resource server.</span></a></li>
+                    <li><a href="../errors/jwt-token-expired.html">JWT: Token expired<span class="sub">JSON Web Token has exceeded its expiration time. Need to refresh token or re-authenticate.</span></a></li>
+                    <li><a href="../errors/kerberos-clock-skew.html">Kerberos: KRB_AP_ERR_SKEW / clock skew too great<span class="sub">Kerberos tickets are time-bound. If the client and KDC clocks differ beyond the allowed skew, authentication fails.</span></a></li>
+                    <li><a href="../errors/ldap-invalid-credentials.html">LDAP: invalid credentials / AD data 52e<span class="sub">LDAP bind failed. In Active Directory, subcode 52e means wrong password; other subcodes indicate no such user…</span></a></li>
+                    <li><a href="../errors/oauth-redirect-uri-mismatch.html">OAuth: redirect_uri_mismatch<span class="sub">The redirect_uri in the authorisation request does not exactly match a registered redirect URI. Scheme, host, port…</span></a></li>
+                    <li><a href="../errors/oauth-token-revoked.html">OAuth: Token revoked<span class="sub">OAuth access token has been revoked. User revoked access or token was compromised.</span></a></li>
+                    <li><a href="../errors/oauth-invalid-grant-refresh-expired.html">OAuth2: invalid_grant (refresh token expired)<span class="sub">Refresh token is expired/revoked or used with wrong client/redirect URI, returning invalid_grant.</span></a></li>
+                    <li><a href="../errors/saml-signature-invalid.html">SAML: invalid signature on assertion / response<span class="sub">The service provider could not validate the SAML response signature. Usually the IdP signing certificate changed or…</span></a></li>
+                    <li><a href="../errors/security-jwt-algorithm-confusion.html">Security: JWT algorithm confusion attack<span class="sub">JWT using &#039;none&#039; algorithm or algorithm confusion between RS256 and HS256. Critical vulnerability.</span></a></li>
+                    <li><a href="../errors/security-path-traversal.html">Security: Path traversal vulnerability<span class="sub">User input used in file path allows access to files outside intended directory. Critical vulnerability.</span></a></li>
+                    <li><a href="../errors/security-header-missing.html">Security: Required security header missing<span class="sub">HTTP response missing important security headers like CSP, HSTS, or X-Frame-Options.</span></a></li>
+                    <li><a href="../errors/security-sql-injection-detected.html">Security: SQL injection vulnerability detected<span class="sub">User input directly concatenated into SQL query. Critical security vulnerability.</span></a></li>
+                    <li><a href="../errors/selinux-permission-denied.html">SELinux: Permission denied<span class="sub">SELinux policy blocking operation. File context mismatch or policy violation.</span></a></li>
+                    <li><a href="../errors/ssh-host-key-verification-failed.html">SSH: Host key verification failed<span class="sub">The remote server&#039;s SSH host key has changed, or you&#039;re connecting to a new server with the same IP (Man-in-the-Middle…</span></a></li>
+                    <li><a href="../errors/sri-integrity-check-failed.html">Subresource Integrity check failed <span class="badge badge-new">New</span><span class="sub">The browser refused a script or stylesheet because its hash did not match the integrity attribute. Either the CDN…</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/ansible.html"><span class="card-title">Ansible <span class="card-count">8</span></span><span class="card-desc">Unreachable hosts, become passwords, undefined variables and Jinja2 failures.</span></a></li>
+                    <li><a href="../categories/api.html"><span class="card-title">API <span class="card-count">14</span></span><span class="card-desc">Auth headers, payload limits, versioning, idempotency and webhook signatures.</span></a></li>
+                    <li><a href="../categories/apple.html"><span class="card-title">Apple <span class="card-count">7</span></span><span class="card-desc">Command line tools, dyld, Homebrew permissions, notarisation and Keychain.</span></a></li>
+                    <li><a href="../categories/auth.html"><span class="card-title">Auth <span class="card-count">8</span></span><span class="card-desc">OIDC, SAML, Auth0, Okta, Keycloak, passkeys and MFA failures.</span></a></li>
+                    <li><a href="../categories/bigdata.html"><span class="card-title">BigData <span class="card-count">10</span></span><span class="card-desc">Spark, Kafka, Airflow, Snowflake, Flink and Databricks failures.</span></a></li>
+                    <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
+                    <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
+                    <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">13</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
+                    <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/dns.html"><span class="card-title">DNS <span class="card-count">9</span></span><span class="card-desc">NXDOMAIN, SERVFAIL, timeouts, propagation and delegation problems.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">15</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/elixir.html"><span class="card-title">Elixir <span class="card-count">3</span></span><span class="card-desc">GenServer timeouts, supervision failures and Mix compilation problems.</span></a></li>
+                    <li><a href="../categories/email.html"><span class="card-title">Email <span class="card-count">8</span></span><span class="card-desc">Delivery failures, relay denial, authentication, SPF, DKIM and DMARC.</span></a></li>
+                    <li><a href="../categories/frontend.html"><span class="card-title">Frontend <span class="card-count">11</span></span><span class="card-desc">Hydration mismatches, bundler resolution, layout shift and font loading.</span></a></li>
+                    <li><a href="../categories/git.html"><span class="card-title">Git <span class="card-count">15</span></span><span class="card-desc">Merge conflicts, rejected pushes, detached HEAD, LFS and repository corruption.</span></a></li>
+                    <li><a href="../categories/go.html"><span class="card-title">Go <span class="card-count">10</span></span><span class="card-desc">Nil map assignment, concurrent map access, context cancellation and deadlocks.</span></a></li>
+                    <li><a href="../categories/graphql.html"><span class="card-title">GraphQL <span class="card-count">8</span></span><span class="card-desc">Validation, depth limits, N+1 queries and fragment problems.</span></a></li>
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/ingress.html"><span class="card-title">Ingress <span class="card-count">7</span></span><span class="card-desc">404 default backend, missing TLS secrets, IngressClass and path matching.</span></a></li>
+                    <li><a href="../categories/java.html"><span class="card-title">Java <span class="card-count">9</span></span><span class="card-desc">Class loading, dependency resolution, connection pools and JVM version…</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
+                    <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">9</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/performance.html"><span class="card-title">Performance <span class="card-count">4</span></span><span class="card-desc">GC pauses, thread pool starvation and event loop blocking.</span></a></li>
+                    <li><a href="../categories/php.html"><span class="card-title">PHP <span class="card-count">8</span></span><span class="card-desc">Memory limits, execution timeouts, autoloading, Composer and PDO connections.</span></a></li>
+                    <li><a href="../categories/proxy.html"><span class="card-title">Proxy <span class="card-count">15</span></span><span class="card-desc">nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/regex.html"><span class="card-title">Regex <span class="card-count">5</span></span><span class="card-desc">Catastrophic backtracking, back references, escaping and engine differences.</span></a></li>
+                    <li><a href="../categories/ruby.html"><span class="card-title">Ruby <span class="card-count">9</span></span><span class="card-desc">Bundler, migrations, native extensions, encoding and asset compilation.</span></a></li>
+                    <li><a href="../categories/rust.html"><span class="card-title">Rust <span class="card-count">9</span></span><span class="card-desc">Borrow checker, ownership moves, trait bounds and lifetime mismatches.</span></a></li>
+                    <li><a href="../categories/scala.html"><span class="card-title">Scala <span class="card-count">3</span></span><span class="card-desc">Dependency resolution, binary compatibility and type inference failures.</span></a></li>
+                    <li><a href="../categories/serverless.html"><span class="card-title">Serverless <span class="card-count">9</span></span><span class="card-desc">Lambda timeouts, package size limits, VPC networking and cold starts.</span></a></li>
+                    <li><a href="../categories/shell.html"><span class="card-title">Shell <span class="card-count">10</span></span><span class="card-desc">Command not found, permissions, quoting, expansion and Makefile syntax.</span></a></li>
+                    <li><a href="../categories/storage.html"><span class="card-title">Storage <span class="card-count">11</span></span><span class="card-desc">S3 permissions, NFS mounts, quotas, signed URLs and volume attachment.</span></a></li>
+                    <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">12</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">9</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
+                    <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
+                    <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
+                    <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/windows.html"><span class="card-title">Windows <span class="card-count">7</span></span><span class="card-desc">Installer failures, missing runtimes, update errors and permission problems.</span></a></li>
+                </ul>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

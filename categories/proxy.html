@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy &amp; Load Balancer Errors – 15 Fixes | FixMyError.net</title>
+    <meta name="description" content="15 documented Proxy errors with copy-paste fixes. nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/categories/proxy.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fixmyerror.net/categories/proxy.html">
+    <meta property="og:title" content="Proxy &amp; Load Balancer Errors">
+    <meta property="og:description" content="15 documented Proxy errors with copy-paste fixes. nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Proxy &amp; Load Balancer Errors">
+    <meta name="twitter:description" content="15 documented Proxy errors with copy-paste fixes. nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Proxy \u0026 Load Balancer Errors","description":"15 documented Proxy errors with copy-paste fixes. nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.","url":"https://fixmyerror.net/categories/proxy.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":15,"itemListElement":[{"@type":"ListItem","position":1,"name":"Caddy upstream error","url":"https://fixmyerror.net/errors/caddy-upstream-error.html"},{"@type":"ListItem","position":2,"name":"Cloudflare 520: Web server returns an unknown error","url":"https://fixmyerror.net/errors/cloudflare-520-unknown-error.html"},{"@type":"ListItem","position":3,"name":"Cloudflare 522: Connection timed out","url":"https://fixmyerror.net/errors/cloudflare-522-origin-connection.html"},{"@type":"ListItem","position":4,"name":"Cloudflare error","url":"https://fixmyerror.net/errors/cloudflare-error.html"},{"@type":"ListItem","position":5,"name":"Cloudflare Worker 1101 runtime error","url":"https://fixmyerror.net/errors/cloudflare-worker-1101-runtime-error.html"},{"@type":"ListItem","position":6,"name":"Envoy upstream reset","url":"https://fixmyerror.net/errors/envoy-upstream-reset.html"},{"@type":"ListItem","position":7,"name":"HAProxy server error","url":"https://fixmyerror.net/errors/haproxy-server-error.html"},{"@type":"ListItem","position":8,"name":"Load balancer error","url":"https://fixmyerror.net/errors/load-balancer-error.html"},{"@type":"ListItem","position":9,"name":"Nginx: Upstream request timeout","url":"https://fixmyerror.net/errors/nginx-upstream-timeout.html"},{"@type":"ListItem","position":10,"name":"nginx: upstream sent too big header while reading response header","url":"https://fixmyerror.net/errors/nginx-upstream-sent-too-big-header.html"},{"@type":"ListItem","position":11,"name":"Proxy authentication required","url":"https://fixmyerror.net/errors/proxy-authentication-required.html"},{"@type":"ListItem","position":12,"name":"Proxy connection failed","url":"https://fixmyerror.net/errors/proxy-connection-failed.html"},{"@type":"ListItem","position":13,"name":"Proxy tunnel failed","url":"https://fixmyerror.net/errors/proxy-tunnel-failed.html"},{"@type":"ListItem","position":14,"name":"Traefik backend not found","url":"https://fixmyerror.net/errors/traefik-no-backend.html"},{"@type":"ListItem","position":15,"name":"Upstream connect error","url":"https://fixmyerror.net/errors/upstream-connect-error.html"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Categories","item":"https://fixmyerror.net/categories.html"},{"@type":"ListItem","position":3,"name":"Proxy errors","item":"https://fixmyerror.net/categories/proxy.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories.html">Categories</a></li><li aria-current="page">Proxy errors</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <span class="badge">Proxy</span>
+                <span class="badge badge-muted">15 errors</span>
+            </div>
+            <h1 class="page-title">Proxy &amp; Load Balancer Errors</h1>
+            <p class="page-lede">nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.</p>
+
+            <section class="block">
+                <h2>Understanding Proxy errors</h2>
+                <p>A proxy error tells you about <strong>the proxy's relationship with the upstream</strong>, not about the upstream's business logic. nginx's 502 means it could not get a valid response; 504 means the upstream did not answer in time; Envoy's flag codes (<code>UH</code> no healthy upstream, <code>UF</code> upstream connection failure, <code>NR</code> no route) are far more precise than the status code. Reading those flags is the fastest path to a diagnosis.</p>
+            </section>
+
+            <section class="block">
+                <h2>How to debug Proxy errors</h2>
+                <ol>
+                    <li>Include upstream detail in the access log format — <code>$upstream_addr</code>, <code>$upstream_status</code> and <code>$upstream_response_time</code> in nginx turn a generic 502 into a specific one.</li>
+                    <li>Bypass the proxy and call the upstream directly from the proxy host. If that works, the issue is proxy configuration: timeouts, buffers, DNS caching or TLS to the backend.</li>
+                    <li>For Envoy, read the response flags in the access log rather than the status code. <code>UH</code>, <code>UF</code>, <code>UO</code> and <code>NR</code> each have distinct fixes.</li>
+                    <li>Check that the proxy re-resolves DNS. nginx caches upstream IPs at startup by default, which breaks when backends move — use a <code>resolver</code> directive with a variable upstream.</li>
+                    <li>For header-size and body-size errors, raise the limit at every layer; CDN, load balancer and origin each enforce their own.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>nginx -T</code></li>
+                    <li><code>envoy access logs (response flags)</code></li>
+                    <li><code>haproxy -c -f</code></li>
+                    <li><code>curl --resolve</code></li>
+                    <li><code>traefik dashboard</code></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>All 15 Proxy errors</h2>
+                <ul class="link-list">
+                    <li><a href="../errors/caddy-upstream-error.html">Caddy upstream error<span class="sub">Caddy web server failed to connect to or receive response from upstream server.</span></a></li>
+                    <li><a href="../errors/cloudflare-520-unknown-error.html">Cloudflare 520: Web server returns an unknown error <span class="badge badge-new">New</span><span class="sub">Cloudflare reached the origin but received a response it could not parse — an empty reply, a connection reset…</span></a></li>
+                    <li><a href="../errors/cloudflare-522-origin-connection.html">Cloudflare 522: Connection timed out<span class="sub">Cloudflare edge could not establish TCP handshake to your origin. Origin offline, blocked by firewall, or wrong…</span></a></li>
+                    <li><a href="../errors/cloudflare-error.html">Cloudflare error<span class="sub">Cloudflare CDN encountered an error, often related to origin server connectivity or SSL issues.</span></a></li>
+                    <li><a href="../errors/cloudflare-worker-1101-runtime-error.html">Cloudflare Worker 1101 runtime error<span class="sub">Worker script threw an exception during execution. Common causes: undefined variables, failed fetch, exceeded CPU/time…</span></a></li>
+                    <li><a href="../errors/envoy-upstream-reset.html">Envoy upstream reset<span class="sub">Envoy proxy received a reset from the upstream service before completing the request.</span></a></li>
+                    <li><a href="../errors/haproxy-server-error.html">HAProxy server error<span class="sub">HAProxy load balancer encountered an error with backend servers, often health check failures.</span></a></li>
+                    <li><a href="../errors/load-balancer-error.html">Load balancer error<span class="sub">Load balancer cannot route requests due to no healthy backend servers being available.</span></a></li>
+                    <li><a href="../errors/nginx-upstream-timeout.html">Nginx: Upstream request timeout<span class="sub">Nginx timed out waiting for response from upstream server. Backend processing too slow or unresponsive.</span></a></li>
+                    <li><a href="../errors/nginx-upstream-sent-too-big-header.html">nginx: upstream sent too big header while reading response header <span class="badge badge-new">New</span><span class="sub">The backend&#039;s response headers exceeded nginx&#039;s proxy buffer, so nginx discarded the response and returned 502. Large…</span></a></li>
+                    <li><a href="../errors/proxy-authentication-required.html">Proxy authentication required<span class="sub">Proxy server requires authentication before allowing the request to proceed.</span></a></li>
+                    <li><a href="../errors/proxy-connection-failed.html">Proxy connection failed<span class="sub">Unable to establish connection through the configured proxy server. Proxy may be down or misconfigured.</span></a></li>
+                    <li><a href="../errors/proxy-tunnel-failed.html">Proxy tunnel failed<span class="sub">HTTPS tunnel through HTTP proxy failed, often due to proxy configuration or authentication issues.</span></a></li>
+                    <li><a href="../errors/traefik-no-backend.html">Traefik backend not found<span class="sub">Traefik reverse proxy cannot find a healthy backend service to route the request to.</span></a></li>
+                    <li><a href="../errors/upstream-connect-error.html">Upstream connect error<span class="sub">Reverse proxy couldn&#039;t connect to the upstream server. Backend service may be unreachable.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/ansible.html"><span class="card-title">Ansible <span class="card-count">8</span></span><span class="card-desc">Unreachable hosts, become passwords, undefined variables and Jinja2 failures.</span></a></li>
+                    <li><a href="../categories/api.html"><span class="card-title">API <span class="card-count">14</span></span><span class="card-desc">Auth headers, payload limits, versioning, idempotency and webhook signatures.</span></a></li>
+                    <li><a href="../categories/apple.html"><span class="card-title">Apple <span class="card-count">7</span></span><span class="card-desc">Command line tools, dyld, Homebrew permissions, notarisation and Keychain.</span></a></li>
+                    <li><a href="../categories/auth.html"><span class="card-title">Auth <span class="card-count">8</span></span><span class="card-desc">OIDC, SAML, Auth0, Okta, Keycloak, passkeys and MFA failures.</span></a></li>
+                    <li><a href="../categories/bigdata.html"><span class="card-title">BigData <span class="card-count">10</span></span><span class="card-desc">Spark, Kafka, Airflow, Snowflake, Flink and Databricks failures.</span></a></li>
+                    <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
+                    <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
+                    <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">13</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
+                    <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/dns.html"><span class="card-title">DNS <span class="card-count">9</span></span><span class="card-desc">NXDOMAIN, SERVFAIL, timeouts, propagation and delegation problems.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">15</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/elixir.html"><span class="card-title">Elixir <span class="card-count">3</span></span><span class="card-desc">GenServer timeouts, supervision failures and Mix compilation problems.</span></a></li>
+                    <li><a href="../categories/email.html"><span class="card-title">Email <span class="card-count">8</span></span><span class="card-desc">Delivery failures, relay denial, authentication, SPF, DKIM and DMARC.</span></a></li>
+                    <li><a href="../categories/frontend.html"><span class="card-title">Frontend <span class="card-count">11</span></span><span class="card-desc">Hydration mismatches, bundler resolution, layout shift and font loading.</span></a></li>
+                    <li><a href="../categories/git.html"><span class="card-title">Git <span class="card-count">15</span></span><span class="card-desc">Merge conflicts, rejected pushes, detached HEAD, LFS and repository corruption.</span></a></li>
+                    <li><a href="../categories/go.html"><span class="card-title">Go <span class="card-count">10</span></span><span class="card-desc">Nil map assignment, concurrent map access, context cancellation and deadlocks.</span></a></li>
+                    <li><a href="../categories/graphql.html"><span class="card-title">GraphQL <span class="card-count">8</span></span><span class="card-desc">Validation, depth limits, N+1 queries and fragment problems.</span></a></li>
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/ingress.html"><span class="card-title">Ingress <span class="card-count">7</span></span><span class="card-desc">404 default backend, missing TLS secrets, IngressClass and path matching.</span></a></li>
+                    <li><a href="../categories/java.html"><span class="card-title">Java <span class="card-count">9</span></span><span class="card-desc">Class loading, dependency resolution, connection pools and JVM version…</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
+                    <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">9</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/performance.html"><span class="card-title">Performance <span class="card-count">4</span></span><span class="card-desc">GC pauses, thread pool starvation and event loop blocking.</span></a></li>
+                    <li><a href="../categories/php.html"><span class="card-title">PHP <span class="card-count">8</span></span><span class="card-desc">Memory limits, execution timeouts, autoloading, Composer and PDO connections.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/regex.html"><span class="card-title">Regex <span class="card-count">5</span></span><span class="card-desc">Catastrophic backtracking, back references, escaping and engine differences.</span></a></li>
+                    <li><a href="../categories/ruby.html"><span class="card-title">Ruby <span class="card-count">9</span></span><span class="card-desc">Bundler, migrations, native extensions, encoding and asset compilation.</span></a></li>
+                    <li><a href="../categories/rust.html"><span class="card-title">Rust <span class="card-count">9</span></span><span class="card-desc">Borrow checker, ownership moves, trait bounds and lifetime mismatches.</span></a></li>
+                    <li><a href="../categories/scala.html"><span class="card-title">Scala <span class="card-count">3</span></span><span class="card-desc">Dependency resolution, binary compatibility and type inference failures.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                    <li><a href="../categories/serverless.html"><span class="card-title">Serverless <span class="card-count">9</span></span><span class="card-desc">Lambda timeouts, package size limits, VPC networking and cold starts.</span></a></li>
+                    <li><a href="../categories/shell.html"><span class="card-title">Shell <span class="card-count">10</span></span><span class="card-desc">Command not found, permissions, quoting, expansion and Makefile syntax.</span></a></li>
+                    <li><a href="../categories/storage.html"><span class="card-title">Storage <span class="card-count">11</span></span><span class="card-desc">S3 permissions, NFS mounts, quotas, signed URLs and volume attachment.</span></a></li>
+                    <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">12</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">9</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
+                    <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
+                    <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
+                    <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/windows.html"><span class="card-title">Windows <span class="card-count">7</span></span><span class="card-desc">Installer failures, missing runtimes, update errors and permission problems.</span></a></li>
+                </ul>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

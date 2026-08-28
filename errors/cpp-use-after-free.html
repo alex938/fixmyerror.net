@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>heap-use-after-free – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities. Includes a…">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/cpp-use-after-free.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/cpp-use-after-free.html">
+    <meta property="og:title" content="heap-use-after-free – cause and fix">
+    <meta property="og:description" content="Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities. Includes a…">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="heap-use-after-free – cause and fix">
+    <meta name="twitter:description" content="Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities. Includes a…">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"heap-use-after-free","name":"heap-use-after-free","description":"Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities. Includes a…","url":"https://fixmyerror.net/errors/cpp-use-after-free.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/cpp-use-after-free.html"},"inLanguage":"en-GB","articleSection":"C++","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://github.com/google/sanitizers/wiki/AddressSanitizer"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"C++ errors","item":"https://fixmyerror.net/categories/c-plus-plus.html"},{"@type":"ListItem","position":3,"name":"heap-use-after-free","item":"https://fixmyerror.net/errors/cpp-use-after-free.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/c-plus-plus.html">C++ errors</a></li><li aria-current="page">heap-use-after-free</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/c-plus-plus.html">C++</a>
+                
+                
+            </div>
+            <h1 class="page-title">heap-use-after-free</h1>
+            <p class="page-lede">Accessing memory after it has been freed. Detected by AddressSanitizer. Causes undefined behaviour and potential security vulnerabilities.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-cpp-use-after-free">Copy</button></div>
+                    <pre class="code-block" id="fix-cpp-use-after-free"><code># Use smart pointers
+std::shared_ptr&lt;MyClass&gt; ptr = std::make_shared&lt;MyClass&gt;();
+# Set raw pointers to nullptr after delete
+delete ptr;
+ptr = nullptr;
+# Detect with ASan
+g++ -fsanitize=address -g main.cpp
+./a.out</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose C++ errors</h2>
+                <p>C++ errors fall into two very different worlds. <strong>Compile and link errors</strong> — undefined reference, multiple definition, template substitution failure — are deterministic and are almost always about declarations, the One Definition Rule, or link order. <strong>Runtime memory errors</strong> — segfaults, double free, use-after-free — are non-deterministic and should never be debugged by reading code alone; a sanitizer will find in seconds what code review misses for days.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Rebuild with sanitizers before anything else: <code>-fsanitize=address,undefined -fno-omit-frame-pointer -g</code>. AddressSanitizer reports the exact allocation and free sites for use-after-free and double-free.</li>
+                    <li>For undefined-reference errors, check link order — with GNU ld, libraries must come <em>after</em> the objects that use them — and check for a C/C++ linkage mismatch that needs <code>extern "C"</code>.</li>
+                    <li>Use <code>nm -C libfoo.a | grep symbol</code> to confirm the symbol is actually present and to see the demangled signature. A signature that differs by a <code>const</code> is a different symbol.</li>
+                    <li>Enable core dumps (<code>ulimit -c unlimited</code>) and open them in gdb with <code>gdb ./binary core</code>, then <code>bt full</code>. A stack trace beats speculation.</li>
+                    <li>For template errors, read the message from the <em>bottom up</em>. The final line is usually the real constraint that failed; everything above is instantiation context.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>-fsanitize=address,undefined</code></li>
+                    <li><code>valgrind</code></li>
+                    <li><code>gdb / lldb</code></li>
+                    <li><code>nm -C</code></li>
+                    <li><code>ldd</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://github.com/google/sanitizers/wiki/AddressSanitizer" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> github.com</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related C++ errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/cpp-undefined-behaviour-sanitizer-signed-overflow.html">C++: runtime error: signed integer overflow (UBSan)<span class="sub">Signed integer overflow is undefined behaviour in C and C++. The program may appear to work…</span></a></li>
+                <li><a href="../errors/cpp-segmentation-fault.html">C++: Segmentation fault (core dumped)<span class="sub">Program attempted to access memory it doesn&#039;t own (e.g., dereferencing null pointer, buffer…</span></a></li>
+                <li><a href="../errors/cpp-double-free.html">double free or corruption<span class="sub">Heap memory was freed twice, corrupting the memory allocator. Often caused by manual delete…</span></a></li>
+                <li><a href="../errors/cpp-linker-multiple-definition.html">multiple definition of &#039;symbol&#039;<span class="sub">The same symbol is defined in multiple translation units. Usually caused by defining…</span></a></li>
+                <li><a href="../errors/cpp-stack-buffer-overflow.html">stack-buffer-overflow<span class="sub">A write exceeded the bounds of a stack-allocated buffer. Detected by AddressSanitizer or…</span></a></li>
+                <li><a href="../errors/cpp-template-deduction-failed.html">template argument deduction/substitution failed<span class="sub">The compiler could not deduce template arguments from the function call or the substituted…</span></a></li>
+                <li><a href="../errors/cpp-undefined-reference.html">undefined reference to &#039;function&#039;<span class="sub">The linker cannot find the definition of a function or variable that was declared. The source…</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/c-plus-plus.html">See all 8 C++ errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20heap-use-after-free">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

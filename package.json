@@ -1,0 +1,20 @@
+{
+  "name": "fixmyerror.net",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Searchable database of developer and infrastructure error messages, with a fix and an explanation for each.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "og": "python3 scripts/make-og-image.py",
+    "validate": "node scripts/validate.mjs",
+    "test": "node scripts/test-dom.mjs",
+    "check": "npm run build && npm run validate && npm test"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

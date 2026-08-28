@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>goroutine leak detected – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation…">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/go-goroutine-leak.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/go-goroutine-leak.html">
+    <meta property="og:title" content="goroutine leak detected – cause and fix">
+    <meta property="og:description" content="Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation…">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="goroutine leak detected – cause and fix">
+    <meta name="twitter:description" content="Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation…">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"goroutine leak detected","name":"goroutine leak detected","description":"Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation…","url":"https://fixmyerror.net/errors/go-goroutine-leak.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/go-goroutine-leak.html"},"inLanguage":"en-GB","articleSection":"Go","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://go.dev/blog/pipelines"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Go errors","item":"https://fixmyerror.net/categories/go.html"},{"@type":"ListItem","position":3,"name":"goroutine leak detected","item":"https://fixmyerror.net/errors/go-goroutine-leak.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/go.html">Go errors</a></li><li aria-current="page">goroutine leak detected</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/go.html">Go</a>
+                
+                
+            </div>
+            <h1 class="page-title">goroutine leak detected</h1>
+            <p class="page-lede">Goroutines are not being properly terminated, causing memory growth over time. Often caused by blocked channel operations or missing context cancellation.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-go-goroutine-leak">Copy</button></div>
+                    <pre class="code-block" id="fix-go-goroutine-leak"><code># Use context for cancellation
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+go func(ctx context.Context) {
+    select {
+    case &lt;-ctx.Done():
+        return
+    case msg := &lt;-ch:
+        process(msg)
+    }
+}(ctx)
+# Monitor goroutine count
+runtime.NumGoroutine()</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose Go errors</h2>
+                <p>Go's runtime is unusually good at telling you what went wrong — <code>concurrent map writes</code> and <code>all goroutines are asleep - deadlock!</code> are precise diagnoses rather than vague crashes. The recurring themes are <strong>nil zero values that need explicit initialisation</strong> (maps, channels, pointers inside interfaces), <strong>unsynchronised shared state</strong>, and <strong>contexts that are cancelled upstream</strong>.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Run tests and, where possible, production builds under the race detector: <code>go test -race ./...</code>. It finds data races that are invisible under normal execution.</li>
+                    <li>Read the full panic output. Go prints every goroutine's stack, and the one that matters is usually not the first.</li>
+                    <li>For <code>context canceled</code>, walk up the call chain to find who cancelled — a client disconnect, a timeout, or a parent context that went out of scope are the three sources.</li>
+                    <li>Distinguish a nil interface from an interface holding a nil pointer. <code>var p *T = nil; var i I = p</code> makes <code>i != nil</code>, which is the cause of most "interface conversion: interface is nil" surprises.</li>
+                    <li>Use <code>go tool pprof</code> and <code>runtime.NumGoroutine()</code> to find goroutine leaks — a count that only ever grows means something is never returning.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>go test -race</code></li>
+                    <li><code>go vet</code></li>
+                    <li><code>go tool pprof</code></li>
+                    <li><code>GODEBUG=gctrace=1</code></li>
+                    <li><code>delve (dlv)</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://go.dev/blog/pipelines" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> go.dev</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related Go errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/go-module-not-found.html">cannot find module providing package<span class="sub">Go cannot resolve a package import. The module may not be downloaded, the import path may be…</span></a></li>
+                <li><a href="../errors/go-context-canceled.html">context canceled<span class="sub">A context was cancelled before the operation completed. Typically because a parent context…</span></a></li>
+                <li><a href="../errors/go-deadlock.html">fatal error: all goroutines are asleep - deadlock!<span class="sub">All goroutines are blocked waiting on channels or locks with no goroutine able to make…</span></a></li>
+                <li><a href="../errors/go-race-condition.html">fatal error: concurrent map writes<span class="sub">Multiple goroutines are reading and writing to a map concurrently without synchronisation. Go…</span></a></li>
+                <li><a href="../errors/go-checksum-mismatch.html">Go: checksum mismatch — SECURITY ERROR<span class="sub">The downloaded module&#039;s hash does not match go.sum or the public checksum database. This can…</span></a></li>
+                <li><a href="../errors/go-missing-go-sum-entry.html">Go: missing go.sum entry for module<span class="sub">A module is required by go.mod but has no checksum recorded in go.sum. Go refuses to build…</span></a></li>
+                <li><a href="../errors/go-mod-requires-newer-go.html">Go: module requires go &gt;= 1.x (running go 1.y)<span class="sub">A dependency&#039;s go.mod declares a language version newer than your toolchain. Since Go 1.21…</span></a></li>
+                <li><a href="../errors/go-panic-nil-map.html">Go: panic: assignment to entry in nil map<span class="sub">Attempting to write to a map that hasn&#039;t been initialised. In Go, zero-value maps are nil and…</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/go.html">See all 10 Go errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20goroutine%20leak%20detected">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>

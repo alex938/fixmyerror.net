@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Crawlers do not need the raw dataset or the build sources.
+Disallow: /data/
+Disallow: /scripts/
+
 Sitemap: https://fixmyerror.net/sitemap.xml

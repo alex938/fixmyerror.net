@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API: HTTP method override not working – Cause and Fix | FixMyError.net</title>
+    <meta name="description" content="Some proxies/firewalls block PUT/PATCH/DELETE. Need to use X-HTTP-Method-Override header. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <link rel="canonical" href="https://fixmyerror.net/errors/api-rest-method-override.html">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://fixmyerror.net/errors/api-rest-method-override.html">
+    <meta property="og:title" content="API: HTTP method override not working – cause and fix">
+    <meta property="og:description" content="Some proxies/firewalls block PUT/PATCH/DELETE. Need to use X-HTTP-Method-Override header. Includes a copy-paste fix and how to diagnose it.">
+    <meta property="og:image" content="https://fixmyerror.net/og-image.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:site_name" content="FixMyError.net">
+    <meta property="og:locale" content="en_GB">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="API: HTTP method override not working – cause and fix">
+    <meta name="twitter:description" content="Some proxies/firewalls block PUT/PATCH/DELETE. Need to use X-HTTP-Method-Override header. Includes a copy-paste fix and how to diagnose it.">
+    <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="../assets/site.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"API: HTTP method override not working","name":"API: HTTP method override not working","description":"Some proxies/firewalls block PUT/PATCH/DELETE. Need to use X-HTTP-Method-Override header. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/api-rest-method-override.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/api-rest-method-override.html"},"inLanguage":"en-GB","articleSection":"API","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://restfulapi.net/http-method-override/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"API errors","item":"https://fixmyerror.net/categories/api.html"},{"@type":"ListItem","position":3,"name":"API: HTTP method override not working","item":"https://fixmyerror.net/errors/api-rest-method-override.html"}]}</script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <div class="safety-warning">
+        <div class="container-wide">
+            <span aria-hidden="true">⚠️</span>
+            <strong>SECURITY WARNING:</strong> Never run commands you don't understand. Always review code before execution. Use at your own risk.
+        </div>
+    </div>
+
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="site-brand" href="../"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <nav class="site-nav" aria-label="Primary">
+                <a href="../#searchInput">Search</a>
+                <a href="../categories.html">Categories</a>
+                <a href="../all-errors.html">All errors</a>
+                <a href="../about.html">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/api.html">API errors</a></li><li aria-current="page">API: HTTP method override not working</li></ol></nav>
+        <div class="container">
+        <article>
+            <div class="meta-row">
+                <a class="badge" href="../categories/api.html">API</a>
+                
+                
+            </div>
+            <h1 class="page-title">API: HTTP method override not working</h1>
+            <p class="page-lede">Some proxies/firewalls block PUT/PATCH/DELETE. Need to use X-HTTP-Method-Override header.</p>
+
+            <section class="block">
+                <h2>Quick fix</h2>
+                <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
+                <div class="code-wrap">
+                    <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-api-rest-method-override">Copy</button></div>
+                    <pre class="code-block" id="fix-api-rest-method-override"><code># Use method override
+curl -X POST https://api.example.com/resource/1 \
+  -H &quot;X-HTTP-Method-Override: DELETE&quot;
+# Server must support header
+# Or tunnel through POST with _method param</code></pre>
+                </div>
+            </section>
+
+            <section class="block">
+                <h2>How to diagnose API errors</h2>
+                <p>API integration errors are usually a contract mismatch: the client and the server disagree about authentication, encoding, size limits, or which version of the API is in play. Because most API clients swallow the response body and surface only the status code, the single highest-value debugging habit here is to log the full response — headers included — before you touch any code.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <ol>
+                    <li>Reproduce the failing call with <code>curl -v</code> outside your application. If curl succeeds and your client fails, the bug is in your client's header or serialisation layer, not on the server.</li>
+                    <li>Print the exact <code>Authorization</code> header being sent (redact the secret, keep the prefix). A missing <code>Bearer&nbsp;</code> prefix and a trailing newline from an environment file are the two most common causes of a mystery 401.</li>
+                    <li>Check for an intermediate proxy. A 413 or 502 from nginx, Cloudflare or an API gateway looks identical to one from your application, but is fixed in completely different config.</li>
+                    <li>For webhooks, verify the signature against the <em>raw</em> request body. Any middleware that parses and re-serialises JSON before your handler runs will silently break HMAC verification.</li>
+                    <li>Confirm the API version. Deprecation errors and unexpected schema changes almost always trace back to a pinned version header that was never updated, or one that was never pinned at all.</li>
+                </ol>
+                <h3>Tools worth reaching for</h3>
+                <ul class="tool-list">
+                    <li><code>curl -v</code></li>
+                    <li><code>httpie</code></li>
+                    <li><code>Postman/Bruno</code></li>
+                    <li><code>mitmproxy</code></li>
+                    <li><code>ngrok (for webhooks)</code></li>
+                </ul>
+            </section>
+
+        <section class="block">
+            <h2>Authoritative references</h2>
+            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p><a class="source-link" href="https://restfulapi.net/http-method-override/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> restfulapi.net</a></p>
+        </section>
+
+        <section class="block">
+            <h2>Related API errors</h2>
+            <ul class="link-list">
+                <li><a href="../errors/apigw-413-payload-too-large.html">API Gateway 413: Payload too large<span class="sub">Request body exceeds API Gateway/Lambda payload limits (10MB REST, 6MB HTTP API by default).</span></a></li>
+                <li><a href="../errors/api-authentication-bearer-missing.html">API: Bearer token missing or malformed<span class="sub">API requires Bearer token in Authorisation header but token is missing or invalid format.</span></a></li>
+                <li><a href="../errors/api-cors-preflight-failed.html">API: CORS preflight request failed<span class="sub">Browser sent OPTIONS preflight but server returned error. Need to handle OPTIONS requests.</span></a></li>
+                <li><a href="../errors/api-endpoint-deprecated.html">API: Endpoint deprecated<span class="sub">API endpoint is deprecated and will be removed. Need to migrate to new version.</span></a></li>
+                <li><a href="../errors/api-idempotency-key-conflict.html">API: Idempotency key conflict<span class="sub">Same idempotency key used with different request parameters. Indicates duplicate or…</span></a></li>
+                <li><a href="../errors/api-json-schema-validation-failed.html">API: JSON schema validation failed<span class="sub">Request body doesn&#039;t match expected JSON schema. Missing required fields or wrong types.</span></a></li>
+                <li><a href="../errors/api-rate-limit-per-minute.html">API: Rate limit exceeded (per minute)<span class="sub">Too many API requests in the last minute. Need to implement rate limiting or backoff.</span></a></li>
+                <li><a href="../errors/api-payload-too-large.html">API: Request payload too large<span class="sub">API request body exceeds maximum allowed size. Need to reduce payload or use chunking.</span></a></li>
+            </ul>
+            <p style="margin-top:14px"><a href="../categories/api.html">See all 14 API errors →</a></p>
+        </section>
+
+            <section class="block">
+                <h2>Browse other categories</h2>
+                <ul class="card-grid">
+                    <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                </ul>
+            </section>
+
+            <section class="block">
+                <h2>Something missing or wrong?</h2>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20API%3A%20HTTP%20method%20override%20not%20working">email a correction</a> and it will be reviewed.</p>
+            </section>
+        </article>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide">
+            <div class="footer-cols">
+                <div>
+                    <h2>Browse</h2>
+                    <ul>
+                        <li><a href="../">Search all errors</a></li>
+                        <li><a href="../categories.html">Categories</a></li>
+                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../feed.xml">RSS feed</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Popular</h2>
+                    <ul>
+                        <li><a href="../categories/http.html">HTTP errors</a></li>
+                        <li><a href="../categories/kubernetes.html">Kubernetes errors</a></li>
+                        <li><a href="../categories/docker.html">Docker errors</a></li>
+                        <li><a href="../categories/tls.html">TLS errors</a></li>
+                        <li><a href="../categories/database.html">Database errors</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Contribute</h2>
+                    <ul>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20submit%20an%20error%20or%20fix">Submit an error or fix</a></li>
+                        <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
+                        <li><a href="../about.html">About this site</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark theme"><span id="themeToggleIcon" aria-hidden="true">🌙</span></button>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="../assets/page.js" defer></script>
+</body>
+</html>
