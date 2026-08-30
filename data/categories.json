@@ -4,18 +4,23 @@
     "tagline": "Rate limits, context windows, GPU memory and model-serving failures.",
     "intro": "AI and LLM errors cluster into four families: <strong>quota and rate limiting</strong> (429s, insufficient_quota), <strong>context window overflow</strong> (the prompt plus the requested completion exceeds the model's limit), <strong>accelerator memory</strong> (CUDA OOM, KV-cache exhaustion), and <strong>content policy</strong> (a refusal or safety stop rather than a transport failure). The first thing to establish is which family you are in, because the fixes have nothing in common: a 429 wants backoff and a quota increase, a context overflow wants truncation or chunking, and a CUDA OOM wants a smaller batch or a quantised model.",
     "howToDebug": [
-      "Read the error <em>body</em>, not just the status code. Providers put the real reason in a JSON <code>error.type</code> / <code>error.code</code> field — <code>rate_limit_exceeded</code> and <code>insufficient_quota</code> are both HTTP 429 but mean completely different things.",
+      "Read the error <em>body</em>, not just the status code. Providers put the real reason in a JSON <code>error.type</code> / <code>error.code</code> field: <code>rate_limit_exceeded</code> and <code>insufficient_quota</code> are both HTTP 429 but mean completely different things.",
       "Count your tokens before you send. Use the provider's tokenizer (tiktoken, Anthropic's count-tokens endpoint) rather than guessing from character length, and remember that <code>max_tokens</code> for the response is reserved <em>inside</em> the context window.",
       "For local inference, watch VRAM live with <code>nvidia-smi -l 1</code> while the request runs. Memory that peaks during the forward pass rather than at load time points at batch size or sequence length, not at model weights.",
-      "Distinguish a refusal from a failure. A <code>stop_reason</code> of <code>refusal</code>, or a <code>finishReason</code> of <code>SAFETY</code>, is a successful HTTP 200 — retrying identical input will produce the same result.",
+      "Distinguish a refusal from a failure. A <code>stop_reason</code> of <code>refusal</code>, or a <code>finishReason</code> of <code>SAFETY</code>, is a successful HTTP 200. Retrying identical input will produce the same result.",
       "Always implement exponential backoff with jitter and honour the <code>retry-after</code> header. Most production LLM incidents are self-inflicted retry storms."
     ],
-    "tools": ["tiktoken", "nvidia-smi", "curl -i", "provider status pages"]
+    "tools": [
+      "tiktoken",
+      "nvidia-smi",
+      "curl -i",
+      "provider status pages"
+    ]
   },
   "API": {
     "title": "REST API & Webhook Errors",
     "tagline": "Auth headers, payload limits, versioning, idempotency and webhook signatures.",
-    "intro": "API integration errors are usually a contract mismatch: the client and the server disagree about authentication, encoding, size limits, or which version of the API is in play. Because most API clients swallow the response body and surface only the status code, the single highest-value debugging habit here is to log the full response — headers included — before you touch any code.",
+    "intro": "API integration errors are usually a contract mismatch: the client and the server disagree about authentication, encoding, size limits, or which version of the API is in play. Because most API clients swallow the response body and surface only the status code, the single highest-value debugging habit here is to log the full response, headers included, before you touch any code.",
     "howToDebug": [
       "Reproduce the failing call with <code>curl -v</code> outside your application. If curl succeeds and your client fails, the bug is in your client's header or serialisation layer, not on the server.",
       "Print the exact <code>Authorization</code> header being sent (redact the secret, keep the prefix). A missing <code>Bearer&nbsp;</code> prefix and a trailing newline from an environment file are the two most common causes of a mystery 401.",
@@ -23,7 +28,13 @@
       "For webhooks, verify the signature against the <em>raw</em> request body. Any middleware that parses and re-serialises JSON before your handler runs will silently break HMAC verification.",
       "Confirm the API version. Deprecation errors and unexpected schema changes almost always trace back to a pinned version header that was never updated, or one that was never pinned at all."
     ],
-    "tools": ["curl -v", "httpie", "Postman/Bruno", "mitmproxy", "ngrok (for webhooks)"]
+    "tools": [
+      "curl -v",
+      "httpie",
+      "Postman/Bruno",
+      "mitmproxy",
+      "ngrok (for webhooks)"
+    ]
   },
   "Ansible": {
     "title": "Ansible Playbook & Connection Errors",
@@ -36,20 +47,31 @@
       "For undefined-variable errors, dump the actual scope with a <code>debug</code> task (<code>var: hostvars[inventory_hostname]</code>) rather than reasoning about precedence from the docs.",
       "Remember variable precedence order: extra vars (<code>-e</code>) beat everything, role defaults lose to everything. Surprising values are nearly always a precedence surprise."
     ],
-    "tools": ["ansible -m ping", "ansible-playbook --check --diff", "ansible-lint", "ssh -vvv"]
+    "tools": [
+      "ansible -m ping",
+      "ansible-playbook --check --diff",
+      "ansible-lint",
+      "ssh -vvv"
+    ]
   },
   "Apple": {
     "title": "macOS & Xcode Errors",
     "tagline": "Command line tools, dyld, Homebrew permissions, notarisation and Keychain.",
-    "intro": "macOS developer errors concentrate around three subsystems: the <strong>command line tools</strong> (xcrun and the active developer directory), the <strong>dynamic linker</strong> (dyld, library paths, and code signing), and <strong>Gatekeeper / notarisation</strong>. Apple Silicon added a fourth axis — architecture mismatches between arm64 and x86_64 binaries, which usually surface as confusing \"library not loaded\" or \"bad CPU type\" messages rather than as an explicit architecture error.",
+    "intro": "macOS developer errors concentrate around three subsystems: the <strong>command line tools</strong> (xcrun and the active developer directory), the <strong>dynamic linker</strong> (dyld, library paths, and code signing), and <strong>Gatekeeper / notarisation</strong>. Apple Silicon added a fourth axis: architecture mismatches between arm64 and x86_64 binaries, which usually surface as confusing \"library not loaded\" or \"bad CPU type\" messages rather than as an explicit architecture error.",
     "howToDebug": [
       "Check the active developer directory first with <code>xcode-select -p</code>. After every macOS or Xcode update this can point at a path that no longer exists, breaking git, compilers and package managers all at once.",
       "For dyld errors, run <code>otool -L /path/to/binary</code> to list what it actually wants, then verify each path exists. <code>DYLD_PRINT_LIBRARIES=1</code> shows the resolution order at runtime.",
       "Confirm architecture with <code>file /path/to/binary</code> and <code>uname -m</code>. On Apple Silicon, a Rosetta shell reports <code>x86_64</code> and will silently install the wrong Homebrew prefix.",
       "Homebrew lives at <code>/opt/homebrew</code> on Apple Silicon and <code>/usr/local</code> on Intel. Permission errors under <code>/usr/local</code> on an M-series Mac almost always mean a Rosetta/native mix-up.",
-      "For Gatekeeper and notarisation, use <code>spctl -a -vvv</code> to assess a bundle and <code>xcrun notarytool log</code> to get the actual rejection reason — the submission status alone tells you nothing useful."
+      "For Gatekeeper and notarisation, use <code>spctl -a -vvv</code> to assess a bundle and <code>xcrun notarytool log</code> to get the actual rejection reason. The submission status alone tells you nothing useful."
     ],
-    "tools": ["xcode-select -p", "otool -L", "codesign -dv --verbose=4", "spctl -a -vvv", "xcrun notarytool log"]
+    "tools": [
+      "xcode-select -p",
+      "otool -L",
+      "codesign -dv --verbose=4",
+      "spctl -a -vvv",
+      "xcrun notarytool log"
+    ]
   },
   "Auth": {
     "title": "Authentication & SSO Errors",
@@ -58,11 +80,16 @@
     "howToDebug": [
       "Open the identity provider's log or event stream first. Auth0, Okta and Keycloak all record a detailed reason that they never send back to the client.",
       "Compare the redirect URI byte for byte, including scheme, port and trailing slash. <code>http://localhost:3000/callback</code> and <code>http://localhost:3000/callback/</code> are different URIs.",
-      "Decode the token rather than guessing. Paste it into a local JWT decoder and check <code>iss</code>, <code>aud</code>, <code>exp</code> and <code>nbf</code> — never a remote paste site, because tokens are credentials.",
+      "Decode the token rather than guessing. Paste it into a local JWT decoder and check <code>iss</code>, <code>aud</code>, <code>exp</code> and <code>nbf</code>, never a remote paste site, because tokens are credentials.",
       "Check clock skew with <code>timedatectl</code> or <code>ntpq -p</code>. Kerberos, SAML and JWT all reject tokens outside a tight time window, and a drifting VM clock produces intermittent, unreproducible auth failures.",
-      "For passkeys and WebAuthn, verify the Relying Party ID matches the origin exactly and that the page is served over HTTPS or on <code>localhost</code> — nothing else is a secure context."
+      "For passkeys and WebAuthn, verify the Relying Party ID matches the origin exactly and that the page is served over HTTPS or on <code>localhost</code>. Nothing else is a secure context."
     ],
-    "tools": ["Provider audit logs", "jwt decoding (locally)", "openssl x509 -noout -text", "browser devtools network tab"]
+    "tools": [
+      "Provider audit logs",
+      "jwt decoding (locally)",
+      "openssl x509 -noout -text",
+      "browser devtools network tab"
+    ]
   },
   "BigData": {
     "title": "Big Data & Pipeline Errors",
@@ -75,12 +102,17 @@
       "Confirm whether the job failed or was killed. YARN, Kubernetes and Databricks all kill containers that exceed memory limits, and the resulting message looks like a crash rather than an eviction.",
       "Before increasing memory, try increasing partitions. Doubling <code>spark.sql.shuffle.partitions</code> is cheaper and more often correct than doubling executor memory."
     ],
-    "tools": ["Spark UI", "kafka-consumer-groups", "Airflow task logs", "EXPLAIN / query profile"]
+    "tools": [
+      "Spark UI",
+      "kafka-consumer-groups",
+      "Airflow task logs",
+      "EXPLAIN / query profile"
+    ]
   },
   "C#": {
     "title": ".NET & C# Errors",
     "tagline": "NuGet restore, null references, EF Core migrations, async deadlocks and Blazor interop.",
-    "intro": "C# errors divide into <strong>compile-time and restore-time</strong> problems (NuGet resolution, target framework mismatches) and <strong>runtime</strong> problems dominated by null references and async misuse. The classic .NET production hazard is the sync-over-async deadlock — calling <code>.Result</code> or <code>.Wait()</code> on a task in a context with a synchronisation context — which manifests as a hang rather than an exception and is therefore much harder to spot.",
+    "intro": "C# errors divide into <strong>compile-time and restore-time</strong> problems (NuGet resolution, target framework mismatches) and <strong>runtime</strong> problems dominated by null references and async misuse. The classic .NET production hazard is the sync-over-async deadlock, calling <code>.Result</code> or <code>.Wait()</code> on a task in a context with a synchronisation context, which manifests as a hang rather than an exception and is therefore much harder to spot.",
     "howToDebug": [
       "Run <code>dotnet restore --verbosity detailed</code> to see which feed each package resolved from. Most restore failures are a private feed with expired credentials, not a missing package.",
       "Enable nullable reference types (<code>&lt;Nullable&gt;enable&lt;/Nullable&gt;</code>) and treat the warnings as errors. This converts a whole class of production NullReferenceExceptions into compile failures.",
@@ -88,24 +120,35 @@
       "For EF Core, run <code>dotnet ef migrations list</code> to see which migrations the database believes are applied before generating a new one.",
       "Capture a dump with <code>dotnet-dump</code> and inspect it with <code>dotnet-gcdump</code> / <code>dotnet-counters</code> when the process misbehaves without throwing."
     ],
-    "tools": ["dotnet restore -v detailed", "dotnet ef migrations list", "dotnet-counters", "dotnet-dump"]
+    "tools": [
+      "dotnet restore -v detailed",
+      "dotnet ef migrations list",
+      "dotnet-counters",
+      "dotnet-dump"
+    ]
   },
   "C++": {
     "title": "C & C++ Errors",
     "tagline": "Segfaults, linker errors, memory corruption and template deduction failures.",
-    "intro": "C++ errors fall into two very different worlds. <strong>Compile and link errors</strong> — undefined reference, multiple definition, template substitution failure — are deterministic and are almost always about declarations, the One Definition Rule, or link order. <strong>Runtime memory errors</strong> — segfaults, double free, use-after-free — are non-deterministic and should never be debugged by reading code alone; a sanitizer will find in seconds what code review misses for days.",
+    "intro": "C++ errors fall into two very different worlds. <strong>Compile and link errors</strong> (undefined reference, multiple definition, template substitution failure) are deterministic and are almost always about declarations, the One Definition Rule, or link order. <strong>Runtime memory errors</strong> (segfaults, double free, use-after-free) are non-deterministic and should never be debugged by reading code alone; a sanitizer will find in seconds what code review misses for days.",
     "howToDebug": [
       "Rebuild with sanitizers before anything else: <code>-fsanitize=address,undefined -fno-omit-frame-pointer -g</code>. AddressSanitizer reports the exact allocation and free sites for use-after-free and double-free.",
-      "For undefined-reference errors, check link order — with GNU ld, libraries must come <em>after</em> the objects that use them — and check for a C/C++ linkage mismatch that needs <code>extern \"C\"</code>.",
+      "For undefined-reference errors, check link order, remembering that with GNU ld libraries must come <em>after</em> the objects that use them, and check for a C/C++ linkage mismatch that needs <code>extern \"C\"</code>.",
       "Use <code>nm -C libfoo.a | grep symbol</code> to confirm the symbol is actually present and to see the demangled signature. A signature that differs by a <code>const</code> is a different symbol.",
       "Enable core dumps (<code>ulimit -c unlimited</code>) and open them in gdb with <code>gdb ./binary core</code>, then <code>bt full</code>. A stack trace beats speculation.",
       "For template errors, read the message from the <em>bottom up</em>. The final line is usually the real constraint that failed; everything above is instantiation context."
     ],
-    "tools": ["-fsanitize=address,undefined", "valgrind", "gdb / lldb", "nm -C", "ldd"]
+    "tools": [
+      "-fsanitize=address,undefined",
+      "valgrind",
+      "gdb / lldb",
+      "nm -C",
+      "ldd"
+    ]
   },
   "CI/CD": {
     "title": "CI/CD Pipeline Errors",
-    "tagline": "GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and resource limits.",
+    "tagline": "GitHub Actions, GitLab CI, Jenkins, CircleCI: permissions, runners and resource limits.",
     "intro": "CI failures that do not reproduce locally are almost always about <strong>environment</strong>, <strong>permissions</strong> or <strong>resource limits</strong> rather than about your code. CI runners have less memory than a laptop, a deliberately restricted token, a clean cache, and often a different CPU architecture. Treating a CI failure as a code bug before checking those four things wastes an enormous amount of time.",
     "howToDebug": [
       "Re-run the job with debug logging enabled (<code>ACTIONS_STEP_DEBUG=true</code> in GitHub Actions, <code>CI_DEBUG_TRACE</code> in GitLab). The default log deliberately hides the most useful lines.",
@@ -114,7 +157,12 @@
       "Remember that secrets are not available to workflows triggered by pull requests from forks. This is a security feature, not a misconfiguration.",
       "Reproduce locally in the same container image the runner uses, rather than on your host, before changing pipeline configuration."
     ],
-    "tools": ["ACTIONS_STEP_DEBUG", "act (local Actions runner)", "docker run <runner image>", "free -m / df -h in-job"]
+    "tools": [
+      "ACTIONS_STEP_DEBUG",
+      "act (local Actions runner)",
+      "docker run <runner image>",
+      "free -m / df -h in-job"
+    ]
   },
   "Caching": {
     "title": "Caching & CDN Errors",
@@ -122,38 +170,53 @@
     "intro": "Cache problems are rarely reported as cache problems. They arrive as <strong>a traffic spike that takes down the origin</strong> (a stampede after a mass eviction), <strong>users seeing old content after a deploy</strong>, or <strong>an inexplicable 403 from the CDN</strong>. The unifying diagnostic is to look at the cache status header on a real response before theorising about anything else.",
     "howToDebug": [
       "Read the cache status header on a live request: <code>curl -sI https://example.com | grep -i -E 'cache|age|x-cache|cf-cache-status'</code>. HIT, MISS and BYPASS each point at a different root cause.",
-      "Check the <code>Age</code> header against your intended TTL. An <code>Age</code> larger than <code>max-age</code> means something is serving stale content deliberately (<code>stale-while-revalidate</code>) — often the desired behaviour, occasionally the bug.",
+      "Check the <code>Age</code> header against your intended TTL. An <code>Age</code> larger than <code>max-age</code> means something is serving stale content deliberately (<code>stale-while-revalidate</code>), often the desired behaviour, occasionally the bug.",
       "For stampedes, add request coalescing or a short randomised TTL jitter rather than a longer TTL. Identical expiry times across many keys are what create the thundering herd.",
       "Use content-hashed filenames for static assets and <code>no-cache</code> for HTML. Almost every \"users see the old version\" incident traces back to a long TTL on an HTML document.",
       "For CDN 403s, distinguish a CDN-generated response from an origin one by checking whether CDN-specific headers are present. An origin 403 has a completely different fix."
     ],
-    "tools": ["curl -sI", "varnishlog", "CDN edge logs", "Cache-Control validators"]
+    "tools": [
+      "curl -sI",
+      "varnishlog",
+      "CDN edge logs",
+      "Cache-Control validators"
+    ]
   },
   "Client": {
     "title": "Client-Side & Browser Errors",
     "tagline": "CORS, mixed content, module resolution, memory limits and framework runtime errors.",
     "intro": "Client-side errors are what the browser console shows when something the page depends on cannot be loaded, parsed or executed. Two patterns dominate: <strong>the browser refused to make or read a request</strong> (CORS, mixed content, cookie policy), and <strong>the bundler or runtime could not resolve a module</strong>. Both produce alarming messages that point at the wrong file, so read the network tab before the stack trace.",
     "howToDebug": [
-      "Open devtools and look at the failing request in the Network tab, not just the console message. CORS errors always have a real underlying response — or a real absence of one — that the console hides.",
+      "Open devtools and look at the failing request in the Network tab, not just the console message. CORS errors always have a real underlying response, or a real absence of one, that the console hides.",
       "For CORS, remember the fix belongs on the <em>server</em>. No client-side change can grant your page access; browser extensions that appear to fix it only mask the problem in development.",
       "Distinguish a preflight failure from a main-request failure. If you see an <code>OPTIONS</code> request in the network tab that returns a non-2xx, the server is not handling preflight at all.",
       "For module resolution errors, check the exact specifier, the file extension and the case of the path. Case-insensitive filesystems on macOS and Windows hide errors that appear only on Linux CI.",
       "Test in a private window with extensions disabled. Ad blockers and privacy extensions cause a surprising share of reported \"CORS\" and \"network\" errors."
     ],
-    "tools": ["Browser devtools (Network + Console)", "curl -H 'Origin: …' -X OPTIONS -i", "Lighthouse", "private/incognito window"]
+    "tools": [
+      "Browser devtools (Network + Console)",
+      "curl -H 'Origin: …' -X OPTIONS -i",
+      "Lighthouse",
+      "private/incognito window"
+    ]
   },
   "Cloud": {
     "title": "AWS, Azure & GCP Errors",
     "tagline": "IAM permissions, quotas, service limits and credential failures.",
-    "intro": "Cloud provider errors are overwhelmingly one of two things: <strong>IAM</strong> (the caller is not permitted, or the credentials are not the ones you think) or <strong>quota</strong> (the account limit was reached). Providers deliberately return the same vague <code>AccessDenied</code> for a missing permission, a deny in a boundary or SCP, and a resource policy that excludes you — so the fix begins with identifying <em>which</em> identity made the call.",
+    "intro": "Cloud provider errors are overwhelmingly one of two things: <strong>IAM</strong> (the caller is not permitted, or the credentials are not the ones you think) or <strong>quota</strong> (the account limit was reached). Providers deliberately return the same vague <code>AccessDenied</code> for a missing permission, a deny in a boundary or SCP, and a resource policy that excludes you, so the fix begins with identifying <em>which</em> identity made the call.",
     "howToDebug": [
       "Confirm the identity first: <code>aws sts get-caller-identity</code>, <code>az account show</code>, or <code>gcloud auth list</code>. An unexpectedly large share of AccessDenied errors are the right policy on the wrong principal.",
       "Use the provider's policy simulator (IAM Policy Simulator, <code>gcloud policy-troubleshoot</code>) rather than reading policy JSON. It accounts for boundaries, SCPs and resource policies that are invisible in a single document.",
       "Check CloudTrail / Activity Log / Cloud Audit Logs for the denied call. The log entry names the exact action and resource ARN, which the client-side error usually omits.",
-      "For quota errors, look up the current limit and the current usage before requesting an increase — many quotas are per-region and per-account, and the resource you think is idle may be counted.",
+      "For quota errors, look up the current limit and the current usage before requesting an increase: many quotas are per-region and per-account, and the resource you think is idle may be counted.",
       "Verify the region. A resource that \"does not exist\" very often exists in a different region than the one your CLI profile defaults to."
     ],
-    "tools": ["aws sts get-caller-identity", "IAM Policy Simulator", "gcloud policy-troubleshoot", "CloudTrail / Activity Log"]
+    "tools": [
+      "aws sts get-caller-identity",
+      "IAM Policy Simulator",
+      "gcloud policy-troubleshoot",
+      "CloudTrail / Activity Log"
+    ]
   },
   "DNS": {
     "title": "DNS Resolution Errors",
@@ -162,42 +225,59 @@
     "howToDebug": [
       "Query the authoritative nameserver directly, bypassing all caches: <code>dig @ns1.example.com example.com A</code>. If that answers correctly, you have a caching or propagation issue, not a records issue.",
       "Trace the full delegation with <code>dig +trace example.com</code>. This shows exactly which level of the hierarchy stops returning answers.",
-      "Distinguish NXDOMAIN from SERVFAIL from timeout — they have three entirely different causes. Check the <code>status:</code> line in dig output.",
+      "Distinguish NXDOMAIN from SERVFAIL from timeout. They have three entirely different causes. Check the <code>status:</code> line in dig output.",
       "For SERVFAIL, test with DNSSEC validation disabled: <code>dig +cd example.com</code>. If that succeeds, the problem is a broken DNSSEC chain, often after a key rollover.",
       "Check TTLs before declaring propagation broken. A record with a 24-hour TTL genuinely will not update for resolvers that cached it, and there is no way to force them."
     ],
-    "tools": ["dig +trace", "dig @authoritative-ns", "dig +cd (DNSSEC bypass)", "kdig", "resolvectl status"]
+    "tools": [
+      "dig +trace",
+      "dig @authoritative-ns",
+      "dig +cd (DNSSEC bypass)",
+      "kdig",
+      "resolvectl status"
+    ]
   },
   "Dart": {
     "title": "Dart & Flutter Errors",
     "tagline": "Null safety, pub version solving and build toolchain problems.",
     "intro": "Dart errors are dominated by <strong>null safety</strong> at runtime and <strong>version solving</strong> at build time. The null-check operator failure (<code>!</code> on a null) is Dart's equivalent of a NullPointerException and almost always means an assumption about initialisation order was wrong. Pub version solving failures are dependency-graph conflicts and are solved by reading the constraint that pub reports as unsatisfiable, not by deleting the lockfile.",
     "howToDebug": [
-      "Read the full <code>pub get</code> output — it names the two packages whose constraints conflict. Deleting <code>pubspec.lock</code> hides that information without fixing anything.",
+      "Read the full <code>pub get</code> output. It names the two packages whose constraints conflict. Deleting <code>pubspec.lock</code> hides that information without fixing anything.",
       "Replace <code>!</code> with a null check plus a meaningful error, or with <code>late final</code> where initialisation genuinely happens before first use. The crash location is where the assumption broke.",
       "Run <code>flutter doctor -v</code> before debugging any build failure. It catches missing Android SDK components and licence acceptance, which produce misleading Gradle errors.",
       "Use <code>dart pub deps --style=tree</code> to see the resolved graph and find which transitive dependency is pinning an old version.",
-      "Clear derived state with <code>flutter clean</code> only after you have read the error — it resets the symptom and loses the evidence."
+      "Clear derived state with <code>flutter clean</code> only after you have read the error. It resets the symptom and loses the evidence."
     ],
-    "tools": ["flutter doctor -v", "dart pub deps", "dart analyze", "flutter run --verbose"]
+    "tools": [
+      "flutter doctor -v",
+      "dart pub deps",
+      "dart analyze",
+      "flutter run --verbose"
+    ]
   },
   "Database": {
     "title": "Database Errors",
     "tagline": "Connections, deadlocks, constraints, replication and memory limits.",
-    "intro": "Database errors group into <strong>connection exhaustion</strong>, <strong>lock contention and deadlocks</strong>, <strong>constraint violations</strong>, and <strong>resource limits</strong>. Connection errors under load are the most misdiagnosed: \"too many connections\" is almost never fixed by raising <code>max_connections</code>, because each connection costs memory — it is fixed by putting a pooler in front and finding the code path that leaks connections.",
+    "intro": "Database errors group into <strong>connection exhaustion</strong>, <strong>lock contention and deadlocks</strong>, <strong>constraint violations</strong>, and <strong>resource limits</strong>. Connection errors under load are the most misdiagnosed: \"too many connections\" is almost never fixed by raising <code>max_connections</code>, because each connection costs memory. It is fixed by putting a pooler in front and finding the code path that leaks connections.",
     "howToDebug": [
       "Look at what the server currently sees: <code>SELECT * FROM pg_stat_activity</code> in PostgreSQL, <code>SHOW FULL PROCESSLIST</code> in MySQL. Sessions sitting in <code>idle in transaction</code> are the usual culprit behind connection exhaustion.",
-      "For deadlocks, read the deadlock report the database logs — it names both transactions and the exact lock order. The fix is nearly always to make all code paths acquire locks in the same order.",
+      "For deadlocks, read the deadlock report the database logs. It names both transactions and the exact lock order. The fix is nearly always to make all code paths acquire locks in the same order.",
       "Check whether the error is from the database or from a pooler. PgBouncer, ProxySQL and RDS Proxy return their own errors that look database-native but need pooler-side fixes.",
       "Run <code>EXPLAIN (ANALYZE, BUFFERS)</code> on slow queries. Lock-wait timeouts are often just very slow queries holding locks longer than they should.",
       "Verify you are connected to the writer, not a read replica. <code>READONLY</code> and \"cannot execute in a read-only transaction\" errors mean traffic is reaching the wrong endpoint."
     ],
-    "tools": ["pg_stat_activity", "SHOW ENGINE INNODB STATUS", "EXPLAIN ANALYZE", "slow query log", "pgbadger"]
+    "tools": [
+      "pg_stat_activity",
+      "SHOW ENGINE INNODB STATUS",
+      "EXPLAIN ANALYZE",
+      "slow query log",
+      "pgbadger"
+    ]
   },
   "Docker": {
     "title": "Docker & Container Errors",
     "tagline": "Daemon connectivity, disk space, image pulls, ports and architecture mismatches.",
-    "intro": "Docker errors are usually about <strong>the daemon</strong> (not running, or not reachable by your user), <strong>the host</strong> (disk full, port already bound), or <strong>the image</strong> (wrong architecture, rate-limited pull, missing credentials). Apple Silicon and ARM cloud instances made architecture mismatches far more common — <code>exec format error</code> is the signature, and it means an amd64 binary is being run on arm64 or vice versa.",
+    "intro": "Docker errors are usually about <strong>the daemon</strong> (not running, or not reachable by your user), <strong>the host</strong> (disk full, port already bound), or <strong>the image</strong> (wrong architecture, rate-limited pull, missing credentials). Apple Silicon and ARM cloud instances made architecture mismatches far more common. <code>exec format error</code> is the signature, and it means an amd64 binary is being run on arm64 or vice versa.",
     "howToDebug": [
       "Check the daemon before anything else: <code>docker info</code>. A \"cannot connect to the Docker daemon\" error is a socket permission or service problem, never an image problem.",
       "Reclaim space deliberately with <code>docker system df</code> to see where it went, then <code>docker system prune</code>. Build cache and dangling volumes are usually the bulk of it.",
@@ -205,7 +285,13 @@
       "Find what is holding a port with <code>ss -tulpn | grep :PORT</code> (or <code>lsof -i :PORT</code>) rather than restarting Docker and hoping.",
       "Read build failures from the first error, not the last. BuildKit prints failing steps out of order, and the final line is often a downstream consequence."
     ],
-    "tools": ["docker info", "docker system df", "docker buildx", "ss -tulpn", "docker logs --tail 100"]
+    "tools": [
+      "docker info",
+      "docker system df",
+      "docker buildx",
+      "ss -tulpn",
+      "docker logs --tail 100"
+    ]
   },
   "Elixir": {
     "title": "Elixir & Erlang Errors",
@@ -215,15 +301,21 @@
       "Attach to a running node with <code>iex --remsh</code> and inspect the process: <code>Process.info(pid, :message_queue_len)</code>. A growing mailbox means the process is the bottleneck.",
       "Use <code>:observer.start()</code> to see the supervision tree, process memory and message queues visually.",
       "Move long-running work out of <code>handle_call</code>. Use <code>handle_cast</code>, a Task, or a dedicated pool so the GenServer stays responsive.",
-      "Check restart intensity — a supervisor that exceeds <code>max_restarts</code> takes down its own supervisor, producing a cascade that looks like an unrelated failure at the top.",
+      "Check restart intensity. A supervisor that exceeds <code>max_restarts</code> takes down its own supervisor, producing a cascade that looks like an unrelated failure at the top.",
       "For compile errors in dependencies, run <code>mix deps.compile --force</code> and check that any required native toolchain (make, gcc, erlang headers) is installed."
     ],
-    "tools": [":observer.start()", "iex --remsh", "Process.info/2", "mix deps.tree", ":recon"]
+    "tools": [
+      ":observer.start()",
+      "iex --remsh",
+      "Process.info/2",
+      "mix deps.tree",
+      ":recon"
+    ]
   },
   "Email": {
     "title": "Email & SMTP Errors",
     "tagline": "Delivery failures, relay denial, authentication, SPF, DKIM and DMARC.",
-    "intro": "SMTP errors follow a strict convention: a <strong>4xx</strong> code is temporary and will be retried, a <strong>5xx</strong> is permanent and will not. Beyond delivery mechanics, most modern email problems are <strong>authentication</strong> problems — SPF, DKIM and DMARC alignment — which cause silent filtering into spam rather than an explicit bounce, and therefore need to be checked proactively.",
+    "intro": "SMTP errors follow a strict convention: a <strong>4xx</strong> code is temporary and will be retried, a <strong>5xx</strong> is permanent and will not. Beyond delivery mechanics, most modern email problems are <strong>authentication</strong> problems (SPF, DKIM and DMARC alignment) which cause silent filtering into spam rather than an explicit bounce, and therefore need to be checked proactively.",
     "howToDebug": [
       "Read the full bounce message. The enhanced status code (for example <code>5.7.1</code>) is far more specific than the three-digit code and usually names the exact policy that rejected the message.",
       "Test the SMTP conversation manually with <code>swaks --to user@example.com --server smtp.example.com --tls</code>. It shows each command and response.",
@@ -231,64 +323,93 @@
       "Check DMARC <em>alignment</em>, not just presence: the domain in the <code>From:</code> header must align with the SPF or DKIM domain, or DMARC fails even when both pass individually.",
       "Confirm the sending IP is not on a blocklist and has valid reverse DNS. Missing PTR records cause rejection by many large providers."
     ],
-    "tools": ["swaks", "dig TXT", "openssl s_client -starttls smtp", "postfix mail logs", "DMARC aggregate reports"]
+    "tools": [
+      "swaks",
+      "dig TXT",
+      "openssl s_client -starttls smtp",
+      "postfix mail logs",
+      "DMARC aggregate reports"
+    ]
   },
   "Frontend": {
     "title": "Frontend Build & Rendering Errors",
     "tagline": "Hydration mismatches, bundler resolution, layout shift and font loading.",
-    "intro": "Modern frontend errors are dominated by the boundary between <strong>server rendering and client hydration</strong>. A hydration mismatch means the HTML the server produced does not match what the client would have rendered — usually because of a date, a random value, a browser-only API, or user-specific content rendered during SSR. The second large family is <strong>bundler resolution</strong>, where the error names a module but the real cause is configuration.",
+    "intro": "Modern frontend errors are dominated by the boundary between <strong>server rendering and client hydration</strong>. A hydration mismatch means the HTML the server produced does not match what the client would have rendered, usually because of a date, a random value, a browser-only API, or user-specific content rendered during SSR. The second large family is <strong>bundler resolution</strong>, where the error names a module but the real cause is configuration.",
     "howToDebug": [
-      "For hydration errors, read the diff the framework prints — React, Nuxt and Astro all show the mismatched node. Look for <code>Date</code>, <code>Math.random</code>, <code>window</code>, <code>localStorage</code> and locale formatting in that subtree.",
+      "For hydration errors, read the diff the framework prints: React, Nuxt and Astro all show the mismatched node. Look for <code>Date</code>, <code>Math.random</code>, <code>window</code>, <code>localStorage</code> and locale formatting in that subtree.",
       "Deliberately defer browser-only rendering with a mount effect or the framework's client-only directive rather than suppressing the warning.",
       "For resolution errors, run the bundler with verbose logging and check whether the package ships ESM, CJS or both, and whether your <code>conditions</code> / <code>mainFields</code> configuration selects the right one.",
       "Diagnose layout shift with Lighthouse or the Performance panel's Layout Shift regions. Nearly all CLS comes from images without dimensions, injected banners, and web fonts without <code>font-display: swap</code>.",
       "Reproduce production build failures locally with <code>NODE_ENV=production</code>; dev servers are far more forgiving than production builds."
     ],
-    "tools": ["Lighthouse", "Chrome Performance panel", "vite build --debug", "webpack-bundle-analyzer", "React DevTools"]
+    "tools": [
+      "Lighthouse",
+      "Chrome Performance panel",
+      "vite build --debug",
+      "webpack-bundle-analyzer",
+      "React DevTools"
+    ]
   },
   "Git": {
     "title": "Git Errors",
     "tagline": "Merge conflicts, rejected pushes, detached HEAD, LFS and repository corruption.",
     "intro": "Git errors are frightening mostly because the messages describe internal state rather than what to do. The reassuring fact is that almost nothing is lost: <code>git reflog</code> records every position HEAD has held, so a bad rebase, a hard reset or a deleted branch is nearly always recoverable. Before running any destructive command, note the current commit hash.",
     "howToDebug": [
-      "Run <code>git status</code> and read it fully — it tells you the current state and usually names the exact command to move forward or abort.",
+      "Run <code>git status</code> and read it fully. It tells you the current state and usually names the exact command to move forward or abort.",
       "Use <code>git reflog</code> to find any commit you think you have lost, then <code>git reset --hard &lt;hash&gt;</code> or <code>git branch recovery &lt;hash&gt;</code> to get it back.",
       "For a rejected push, run <code>git fetch</code> then <code>git log --oneline HEAD..@{u}</code> to see exactly what is on the remote that you do not have. Prefer <code>--force-with-lease</code> over <code>--force</code>, which refuses to overwrite work you have not seen.",
       "Abort rather than improvise when a merge or rebase goes wrong: <code>git merge --abort</code>, <code>git rebase --abort</code>, <code>git cherry-pick --abort</code>.",
       "For repository corruption, run <code>git fsck --full</code>. If objects are missing, re-cloning and cherry-picking your local work is usually faster and safer than repairing in place."
     ],
-    "tools": ["git status", "git reflog", "git fsck --full", "git log --graph --oneline --all", "git diff --check"]
+    "tools": [
+      "git status",
+      "git reflog",
+      "git fsck --full",
+      "git log --graph --oneline --all",
+      "git diff --check"
+    ]
   },
   "Go": {
     "title": "Go Errors",
     "tagline": "Nil map assignment, concurrent map access, context cancellation and deadlocks.",
-    "intro": "Go's runtime is unusually good at telling you what went wrong — <code>concurrent map writes</code> and <code>all goroutines are asleep - deadlock!</code> are precise diagnoses rather than vague crashes. The recurring themes are <strong>nil zero values that need explicit initialisation</strong> (maps, channels, pointers inside interfaces), <strong>unsynchronised shared state</strong>, and <strong>contexts that are cancelled upstream</strong>.",
+    "intro": "Go's runtime is unusually good at telling you what went wrong. <code>concurrent map writes</code> and <code>all goroutines are asleep - deadlock!</code> are precise diagnoses rather than vague crashes. The recurring themes are <strong>nil zero values that need explicit initialisation</strong> (maps, channels, pointers inside interfaces), <strong>unsynchronised shared state</strong>, and <strong>contexts that are cancelled upstream</strong>.",
     "howToDebug": [
       "Run tests and, where possible, production builds under the race detector: <code>go test -race ./...</code>. It finds data races that are invisible under normal execution.",
       "Read the full panic output. Go prints every goroutine's stack, and the one that matters is usually not the first.",
-      "For <code>context canceled</code>, walk up the call chain to find who cancelled — a client disconnect, a timeout, or a parent context that went out of scope are the three sources.",
+      "For <code>context canceled</code>, walk up the call chain to find who cancelled: a client disconnect, a timeout, or a parent context that went out of scope are the three sources.",
       "Distinguish a nil interface from an interface holding a nil pointer. <code>var p *T = nil; var i I = p</code> makes <code>i != nil</code>, which is the cause of most \"interface conversion: interface is nil\" surprises.",
-      "Use <code>go tool pprof</code> and <code>runtime.NumGoroutine()</code> to find goroutine leaks — a count that only ever grows means something is never returning."
+      "Use <code>go tool pprof</code> and <code>runtime.NumGoroutine()</code> to find goroutine leaks. A count that only ever grows means something is never returning."
     ],
-    "tools": ["go test -race", "go vet", "go tool pprof", "GODEBUG=gctrace=1", "delve (dlv)"]
+    "tools": [
+      "go test -race",
+      "go vet",
+      "go tool pprof",
+      "GODEBUG=gctrace=1",
+      "delve (dlv)"
+    ]
   },
   "GraphQL": {
     "title": "GraphQL Errors",
     "tagline": "Validation, depth limits, N+1 queries and fragment problems.",
-    "intro": "GraphQL returns HTTP 200 with an <code>errors</code> array far more often than it returns a non-2xx status, so clients that only check the status code silently ignore failures. Errors split into <strong>validation</strong> (the query does not match the schema — always fixable from the schema), <strong>authorisation</strong> (per-field resolvers rejecting), and <strong>performance guards</strong> (depth and complexity limits) which exist to protect the server from expensive queries.",
+    "intro": "GraphQL returns HTTP 200 with an <code>errors</code> array far more often than it returns a non-2xx status, so clients that only check the status code silently ignore failures. Errors split into <strong>validation</strong> (the query does not match the schema, always fixable from the schema), <strong>authorisation</strong> (per-field resolvers rejecting), and <strong>performance guards</strong> (depth and complexity limits) which exist to protect the server from expensive queries.",
     "howToDebug": [
       "Always inspect the <code>errors</code> array, not just the HTTP status. Each entry carries a <code>path</code> that points at the exact field that failed.",
       "Validate the query against the schema locally before sending it. GraphQL IDEs and <code>graphql-codegen</code> catch every validation error at build time.",
       "For N+1 problems, enable resolver tracing or SQL logging and count queries per request. A DataLoader that batches by key is the standard fix.",
-      "When you hit a depth or complexity limit, restructure the query rather than raising the limit — the limit is usually protecting the database from an unbounded traversal.",
+      "When you hit a depth or complexity limit, restructure the query rather than raising the limit. The limit is usually protecting the database from an unbounded traversal.",
       "Check whether the error is from the gateway or the subgraph in a federated setup; the two have separate schemas and separate authorisation."
     ],
-    "tools": ["GraphiQL / Apollo Sandbox", "graphql-codegen", "Apollo tracing", "DataLoader"]
+    "tools": [
+      "GraphiQL / Apollo Sandbox",
+      "graphql-codegen",
+      "Apollo tracing",
+      "DataLoader"
+    ]
   },
   "HTTP": {
     "title": "HTTP Status Code Errors",
     "tagline": "4xx client errors, 5xx server errors, redirects, headers and protocol problems.",
-    "intro": "HTTP status codes are a first classification, not a diagnosis. The essential split: <strong>4xx means the request was wrong</strong> (fix the client), <strong>5xx means the server failed to fulfil a valid request</strong> (fix the server). The subtlety is that reverse proxies and CDNs generate their own 5xx responses — a 502 or 504 from nginx tells you about nginx's relationship with the upstream, not about your application code.",
+    "intro": "HTTP status codes are a first classification, not a diagnosis. The essential split: <strong>4xx means the request was wrong</strong> (fix the client), <strong>5xx means the server failed to fulfil a valid request</strong> (fix the server). The subtlety is that reverse proxies and CDNs generate their own 5xx responses. A 502 or 504 from nginx tells you about nginx's relationship with the upstream, not about your application code.",
     "howToDebug": [
       "Capture the full exchange with <code>curl -v</code> or <code>curl -sD - -o /dev/null</code>. Response headers frequently name the component that generated the error (<code>Server:</code>, <code>Via:</code>, <code>X-Cache:</code>).",
       "Determine whether the response came from your application or from something in front of it. Add a unique header in your app and check whether it survives; if it is missing, a proxy answered.",
@@ -296,7 +417,13 @@
       "Follow redirects explicitly with <code>curl -IL</code> to catch loops. A redirect loop is usually an HTTPS-terminating proxy that does not forward <code>X-Forwarded-Proto</code>.",
       "Correlate the request with server logs using a request ID. Guessing from the status code alone is the slowest way to debug HTTP."
     ],
-    "tools": ["curl -v / -IL", "browser devtools Network tab", "access logs", "tcpdump / Wireshark", "httpstat"]
+    "tools": [
+      "curl -v / -IL",
+      "browser devtools Network tab",
+      "access logs",
+      "tcpdump / Wireshark",
+      "httpstat"
+    ]
   },
   "ICMP": {
     "title": "ICMP Message Types & Codes",
@@ -307,9 +434,15 @@
       "Use <code>traceroute</code> (or <code>mtr</code> for a continuous view) to see which hop generates the unreachable or time-exceeded message.",
       "Suspect PMTUD when small packets succeed and large transfers stall. Test with <code>ping -M do -s 1472 host</code> and lower the size until it passes to find the real MTU.",
       "Never block ICMP Type 3 Code 4 or Type 11 at a firewall. They are required for correct TCP operation and for traceroute.",
-      "For IPv6, remember ICMPv6 is mandatory — Neighbour Discovery and PMTUD both depend on it, so filtering it breaks connectivity entirely."
+      "For IPv6, remember ICMPv6 is mandatory. Neighbour Discovery and PMTUD both depend on it, so filtering it breaks connectivity entirely."
     ],
-    "tools": ["tcpdump -n icmp", "traceroute / mtr", "ping -M do -s", "tracepath", "nmap --traceroute"]
+    "tools": [
+      "tcpdump -n icmp",
+      "traceroute / mtr",
+      "ping -M do -s",
+      "tracepath",
+      "nmap --traceroute"
+    ]
   },
   "Ingress": {
     "title": "Kubernetes Ingress Errors",
@@ -322,12 +455,18 @@
       "Remember TLS secrets must live in the <em>same namespace</em> as the Ingress. This is the single most common TLS mistake.",
       "Verify path type semantics: <code>Prefix</code>, <code>Exact</code> and <code>ImplementationSpecific</code> match differently, and regex behaviour varies between controllers."
     ],
-    "tools": ["kubectl describe ingress", "kubectl get endpoints", "controller logs", "curl -H 'Host: …'", "openssl s_client -servername"]
+    "tools": [
+      "kubectl describe ingress",
+      "kubectl get endpoints",
+      "controller logs",
+      "curl -H 'Host: …'",
+      "openssl s_client -servername"
+    ]
   },
   "Java": {
     "title": "Java & JVM Errors",
     "tagline": "Class loading, dependency resolution, connection pools and JVM version mismatches.",
-    "intro": "Java errors concentrate at the <strong>class loading</strong> boundary (ClassNotFoundException, NoClassDefFoundError, UnsupportedClassVersionError) and around <strong>resource pools</strong> under load. Class loading errors are almost always classpath or version problems rather than missing code — <code>UnsupportedClassVersionError</code> in particular is a pure bytecode-version mismatch and tells you exactly which JDK compiled the class.",
+    "intro": "Java errors concentrate at the <strong>class loading</strong> boundary (ClassNotFoundException, NoClassDefFoundError, UnsupportedClassVersionError) and around <strong>resource pools</strong> under load. Class loading errors are almost always classpath or version problems rather than missing code. <code>UnsupportedClassVersionError</code> in particular is a pure bytecode-version mismatch and tells you exactly which JDK compiled the class.",
     "howToDebug": [
       "Print the actual runtime version with <code>java -version</code> and compare it against your build target. Major bytecode version 65 is Java 21, 61 is Java 17, 52 is Java 8.",
       "Inspect the resolved dependency tree (<code>mvn dependency:tree</code>, <code>gradle dependencies</code>) to find duplicate or conflicting versions of the same library.",
@@ -335,12 +474,18 @@
       "Enable <code>-verbose:class</code> temporarily to see which jar a class is loaded from when two versions are on the classpath.",
       "Capture a heap dump on OOM with <code>-XX:+HeapDumpOnOutOfMemoryError</code> and analyse it rather than raising <code>-Xmx</code> blindly."
     ],
-    "tools": ["mvn dependency:tree", "jcmd / jstack / jmap", "-verbose:class", "Eclipse MAT", "JFR (Java Flight Recorder)"]
+    "tools": [
+      "mvn dependency:tree",
+      "jcmd / jstack / jmap",
+      "-verbose:class",
+      "Eclipse MAT",
+      "JFR (Java Flight Recorder)"
+    ]
   },
   "JavaScript": {
     "title": "JavaScript & Node.js Errors",
     "tagline": "npm resolution, async pitfalls, hydration, memory limits and runtime type errors.",
-    "intro": "JavaScript errors cluster into <strong>package management</strong> (resolution conflicts, lockfile drift, native build failures), <strong>asynchrony</strong> (unhandled rejections, race conditions, wrong <code>this</code>), and <strong>memory</strong> (the V8 heap limit, which is a fixed ceiling rather than a leak indicator on its own). Because JavaScript coerces rather than throws, many bugs surface far from their cause — <code>undefined is not a function</code> usually means a bad import, not a bad call.",
+    "intro": "JavaScript errors cluster into <strong>package management</strong> (resolution conflicts, lockfile drift, native build failures), <strong>asynchrony</strong> (unhandled rejections, race conditions, wrong <code>this</code>), and <strong>memory</strong> (the V8 heap limit, which is a fixed ceiling rather than a leak indicator on its own). Because JavaScript coerces rather than throws, many bugs surface far from their cause. <code>undefined is not a function</code> usually means a bad import, not a bad call.",
     "howToDebug": [
       "For dependency errors, read what npm actually reports as the conflicting peer requirement. Reaching for <code>--force</code> or <code>--legacy-peer-deps</code> installs a tree you have not validated.",
       "Always attach a rejection handler: <code>process.on('unhandledRejection', …)</code> in Node, and check that every async function called from a non-async context has a <code>.catch()</code>.",
@@ -348,7 +493,13 @@
       "Use <code>node --inspect</code> with Chrome DevTools to take heap snapshots and compare allocations between two points in time.",
       "For native module build failures (node-gyp), confirm Python and a C++ toolchain are present and that the Node major version matches the module's prebuilt binaries."
     ],
-    "tools": ["node --inspect", "npm ls <pkg>", "node --max-old-space-size", "clinic.js", "why-is-node-running"]
+    "tools": [
+      "node --inspect",
+      "npm ls <pkg>",
+      "node --max-old-space-size",
+      "clinic.js",
+      "why-is-node-running"
+    ]
   },
   "Kubernetes": {
     "title": "Kubernetes Errors",
@@ -361,33 +512,52 @@
       "Test RBAC directly: <code>kubectl auth can-i &lt;verb&gt; &lt;resource&gt; --as=system:serviceaccount:&lt;ns&gt;:&lt;sa&gt;</code>. This answers permission questions definitively.",
       "For networking, confirm the Service has endpoints (<code>kubectl get endpoints</code>) before suspecting DNS, Ingress or the CNI."
     ],
-    "tools": ["kubectl describe", "kubectl logs --previous", "kubectl auth can-i", "kubectl top", "kubectl events --sort-by=.lastTimestamp", "k9s"]
+    "tools": [
+      "kubectl describe",
+      "kubectl logs --previous",
+      "kubectl auth can-i",
+      "kubectl top",
+      "kubectl events --sort-by=.lastTimestamp",
+      "k9s"
+    ]
   },
   "Logging": {
     "title": "Logging Pipeline Errors",
     "tagline": "Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.",
     "intro": "Logging failures are dangerous because they are silent: the application keeps running while its telemetry disappears. The recurring causes are <strong>buffer overflow under backpressure</strong> (the destination cannot keep up), <strong>permissions on log files or directories</strong>, and <strong>ingestion rate limits</strong> at the cloud provider. Monitoring the logging pipeline itself is the only reliable way to notice.",
     "howToDebug": [
-      "Check the collector's own logs first — Fluentd, Logstash and the CloudWatch agent all log their own failures, usually to a separate destination.",
+      "Check the collector's own logs first: Fluentd, Logstash and the CloudWatch agent all log their own failures, usually to a separate destination.",
       "Look for backpressure metrics: buffer queue length, retry counts, and dropped-record counters. A full buffer means the destination, not the collector, is the bottleneck.",
       "Verify write permissions and disk space on the buffer path. A full disk silently stops most collectors.",
       "For cloud ingestion, check the API rate limit for the log group or stream and batch more aggressively rather than retrying harder.",
       "Add a heartbeat log line and alert on its absence. This is the only way to detect a pipeline that has stopped without erroring."
     ],
-    "tools": ["collector self-logs", "buffer/queue metrics", "df -h", "aws logs describe-log-streams", "logger / fluent-cat for test events"]
+    "tools": [
+      "collector self-logs",
+      "buffer/queue metrics",
+      "df -h",
+      "aws logs describe-log-streams",
+      "logger / fluent-cat for test events"
+    ]
   },
   "MessageQueue": {
     "title": "Message Queue & Streaming Errors",
-    "tagline": "Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.",
-    "intro": "Queue errors are usually about <strong>the balance between producers and consumers</strong>. Growing lag means consumers cannot keep up. Endless rebalancing usually means consumers are being evicted for exceeding a poll or heartbeat interval, not that the cluster is unhealthy. A poison message — one that always fails processing — will block an ordered partition forever unless there is a dead-letter path, which is why a DLQ is not optional in production.",
+    "tagline": "Kafka, RabbitMQ, SQS, NATS and Celery: lag, rebalancing and poison messages.",
+    "intro": "Queue errors are usually about <strong>the balance between producers and consumers</strong>. Growing lag means consumers cannot keep up. Endless rebalancing usually means consumers are being evicted for exceeding a poll or heartbeat interval, not that the cluster is unhealthy. A poison message, one that always fails processing, will block an ordered partition forever unless there is a dead-letter path, which is why a DLQ is not optional in production.",
     "howToDebug": [
       "Measure lag over time, not once: <code>kafka-consumer-groups --describe --group &lt;g&gt;</code>. The trend distinguishes a throughput problem from a stuck consumer.",
       "For repeated rebalancing, compare processing time per batch against <code>max.poll.interval.ms</code>. Slow processing looks exactly like a dead consumer to the coordinator.",
       "Always configure a dead-letter queue with a bounded retry count. Without one, a single malformed message stops the partition indefinitely.",
-      "Check message size against the broker limit before assuming a network failure — SQS caps at 256&nbsp;KB, Kafka at <code>message.max.bytes</code>.",
+      "Check message size against the broker limit before assuming a network failure: SQS caps at 256&nbsp;KB, Kafka at <code>message.max.bytes</code>.",
       "Verify consumer ACLs and topic authorisation separately from connectivity; an authorisation failure often surfaces as a metadata error."
     ],
-    "tools": ["kafka-consumer-groups", "rabbitmqctl list_queues", "aws sqs get-queue-attributes", "kafkacat / kcat", "flower (Celery)"]
+    "tools": [
+      "kafka-consumer-groups",
+      "rabbitmqctl list_queues",
+      "aws sqs get-queue-attributes",
+      "kafkacat / kcat",
+      "flower (Celery)"
+    ]
   },
   "Mobile": {
     "title": "Mobile Build Errors",
@@ -396,11 +566,17 @@
     "howToDebug": [
       "Run the build with full output: <code>./gradlew assembleDebug --stacktrace --info</code>. Gradle's default output hides the actual failing task.",
       "Verify the JDK the build is using (<code>./gradlew -version</code>), not the one on your PATH. Android Gradle Plugin has strict JDK requirements.",
-      "For CocoaPods, run <code>pod install</code> — not <code>pod update</code> — after pulling changes, and open the <code>.xcworkspace</code> rather than the <code>.xcodeproj</code>.",
+      "For CocoaPods, run <code>pod install</code>, not <code>pod update</code>, after pulling changes, and open the <code>.xcworkspace</code> rather than the <code>.xcodeproj</code>.",
       "For code signing, check the provisioning profile's expiry, bundle identifier and device list in Xcode's Signing &amp; Capabilities tab before touching certificates.",
       "Clear caches only as a last resort and one at a time (<code>./gradlew clean</code>, <code>rm -rf ~/Library/Developer/Xcode/DerivedData</code>, <code>watchman watch-del-all</code>), so you learn which one mattered."
     ],
-    "tools": ["./gradlew --stacktrace --info", "pod install", "xcodebuild -showBuildSettings", "flutter doctor -v", "adb logcat"]
+    "tools": [
+      "./gradlew --stacktrace --info",
+      "pod install",
+      "xcodebuild -showBuildSettings",
+      "flutter doctor -v",
+      "adb logcat"
+    ]
   },
   "Monitoring": {
     "title": "Monitoring & Observability Errors",
@@ -408,17 +584,23 @@
     "intro": "Monitoring failures create a dangerous blind spot: dashboards go flat and the natural assumption is that traffic stopped. The usual causes are <strong>scrape targets unreachable</strong> (network policy, wrong port, or a service with no endpoints), <strong>exporter queues full</strong> (the backend is rejecting or throttling), and <strong>cardinality explosions</strong> that cause the time-series database to reject writes. Always alert on the absence of data, not only on bad values.",
     "howToDebug": [
       "Check the scrape target's status page (<code>/targets</code> in Prometheus). It shows the last scrape error verbatim.",
-      "Curl the metrics endpoint from inside the cluster or network segment the scraper runs in — reachability from your laptop proves nothing.",
+      "Curl the metrics endpoint from inside the cluster or network segment the scraper runs in: reachability from your laptop proves nothing.",
       "For OpenTelemetry, enable the collector's own telemetry and watch <code>otelcol_exporter_queue_size</code> and <code>otelcol_exporter_send_failed_spans</code>.",
       "Investigate cardinality before increasing memory: a label containing a user ID, request ID or URL path with IDs in it will exhaust any TSDB.",
       "Write a dead-man's-switch alert that fires when a known-always-firing metric stops arriving. It is the only alert that catches a broken pipeline."
     ],
-    "tools": ["Prometheus /targets", "promtool check config", "otelcol internal metrics", "curl <exporter>/metrics", "Grafana Explore"]
+    "tools": [
+      "Prometheus /targets",
+      "promtool check config",
+      "otelcol internal metrics",
+      "curl <exporter>/metrics",
+      "Grafana Explore"
+    ]
   },
   "Network": {
     "title": "Network Connectivity Errors",
     "tagline": "Refused connections, timeouts, resets, MTU problems and port exhaustion.",
-    "intro": "Network errors are precise if you read them literally. <strong>Connection refused</strong> means a machine answered and actively rejected — nothing is listening on that port. <strong>Timeout</strong> means nothing answered at all, which points at a firewall silently dropping packets or a wrong address. <strong>Connection reset</strong> means the peer accepted then abruptly closed, often a proxy, a protocol mismatch, or an application crash. Distinguishing those three saves most of the debugging time.",
+    "intro": "Network errors are precise if you read them literally. <strong>Connection refused</strong> means a machine answered and actively rejected: nothing is listening on that port. <strong>Timeout</strong> means nothing answered at all, which points at a firewall silently dropping packets or a wrong address. <strong>Connection reset</strong> means the peer accepted then abruptly closed, often a proxy, a protocol mismatch, or an application crash. Distinguishing those three saves most of the debugging time.",
     "howToDebug": [
       "Test layer by layer: <code>ping</code> for reachability, <code>nc -zv host port</code> for the port, then the application protocol. Do not skip to the application layer.",
       "Confirm what is listening locally with <code>ss -tulpn</code>. \"Connection refused\" on localhost almost always means the service bound to <code>127.0.0.1</code> when it needed <code>0.0.0.0</code>, or vice versa.",
@@ -426,25 +608,38 @@
       "For intermittent failures under load, check ephemeral port exhaustion and conntrack table limits (<code>ss -s</code>, <code>conntrack -S</code>) before blaming the network.",
       "Suspect MTU when small requests succeed and large ones hang. Test with <code>ping -M do -s 1472</code> and reduce until packets pass."
     ],
-    "tools": ["ss -tulpn", "nc -zv", "tcpdump", "mtr", "curl --connect-timeout", "iptables -L -n -v"]
+    "tools": [
+      "ss -tulpn",
+      "nc -zv",
+      "tcpdump",
+      "mtr",
+      "curl --connect-timeout",
+      "iptables -L -n -v"
+    ]
   },
   "PHP": {
     "title": "PHP & Laravel Errors",
     "tagline": "Memory limits, execution timeouts, autoloading, Composer and PDO connections.",
-    "intro": "PHP errors are dominated by <strong>per-request resource limits</strong> (<code>memory_limit</code>, <code>max_execution_time</code>) and by <strong>autoloading</strong>. Class-not-found errors are almost never missing code — they are a namespace that does not match the PSR-4 mapping, or a stale Composer autoload map. Laravel adds a caching layer that produces genuinely confusing errors when configuration is cached with the wrong environment.",
+    "intro": "PHP errors are dominated by <strong>per-request resource limits</strong> (<code>memory_limit</code>, <code>max_execution_time</code>) and by <strong>autoloading</strong>. Class-not-found errors are almost never missing code. They are a namespace that does not match the PSR-4 mapping, or a stale Composer autoload map. Laravel adds a caching layer that produces genuinely confusing errors when configuration is cached with the wrong environment.",
     "howToDebug": [
       "Read the real limits from the running process, not from a config file: <code>php -i | grep -E 'memory_limit|max_execution_time'</code>. CLI and FPM have separate configurations.",
       "Regenerate the autoload map with <code>composer dump-autoload -o</code> before investigating a class-not-found error any further.",
       "For Laravel, clear cached config and routes with <code>php artisan optimize:clear</code>. A config cache built in the wrong environment causes errors that survive every code change.",
-      "Enable full error display in development (<code>display_errors=On</code>, <code>error_reporting=E_ALL</code>) — the default production settings hide the cause.",
+      "Enable full error display in development (<code>display_errors=On</code>, <code>error_reporting=E_ALL</code>). The default production settings hide the cause.",
       "For PDO connection refusals, test the same credentials with the database's own CLI client to separate PHP configuration from database access."
     ],
-    "tools": ["php -i", "composer dump-autoload -o", "php artisan optimize:clear", "Xdebug", "tail -f storage/logs/laravel.log"]
+    "tools": [
+      "php -i",
+      "composer dump-autoload -o",
+      "php artisan optimize:clear",
+      "Xdebug",
+      "tail -f storage/logs/laravel.log"
+    ]
   },
   "Performance": {
     "title": "Performance & Latency Errors",
     "tagline": "GC pauses, thread pool starvation and event loop blocking.",
-    "intro": "Performance failures rarely produce an error message — they produce timeouts elsewhere. The three classic causes are <strong>stop-the-world garbage collection</strong>, <strong>thread pool starvation</strong> (all workers blocked on I/O so new requests queue), and <strong>event loop blocking</strong> in single-threaded runtimes. All three look identical from outside: latency climbs, then upstream timeouts fire. Distinguishing them requires looking inside the process.",
+    "intro": "Performance failures rarely produce an error message. They produce timeouts elsewhere. The three classic causes are <strong>stop-the-world garbage collection</strong>, <strong>thread pool starvation</strong> (all workers blocked on I/O so new requests queue), and <strong>event loop blocking</strong> in single-threaded runtimes. All three look identical from outside: latency climbs, then upstream timeouts fire. Distinguishing them requires looking inside the process.",
     "howToDebug": [
       "Measure the p99, not the mean. Averages hide exactly the pauses that cause timeouts.",
       "For the JVM, enable GC logging (<code>-Xlog:gc*</code>) and correlate pause durations with latency spikes before tuning anything.",
@@ -452,20 +647,32 @@
       "In Node.js, measure event loop lag directly (<code>perf_hooks.monitorEventLoopDelay</code>). Any synchronous work over a few milliseconds per request will show up here.",
       "Profile before optimising. <code>pprof</code>, <code>async-profiler</code>, <code>py-spy</code> and Chrome's profiler all point at the real hot path, which is rarely where intuition suggests."
     ],
-    "tools": ["async-profiler", "go tool pprof", "py-spy", "perf_hooks.monitorEventLoopDelay", "-Xlog:gc*"]
+    "tools": [
+      "async-profiler",
+      "go tool pprof",
+      "py-spy",
+      "perf_hooks.monitorEventLoopDelay",
+      "-Xlog:gc*"
+    ]
   },
   "Proxy": {
     "title": "Proxy & Load Balancer Errors",
     "tagline": "nginx, Envoy, HAProxy, Traefik, Caddy and Cloudflare upstream failures.",
     "intro": "A proxy error tells you about <strong>the proxy's relationship with the upstream</strong>, not about the upstream's business logic. nginx's 502 means it could not get a valid response; 504 means the upstream did not answer in time; Envoy's flag codes (<code>UH</code> no healthy upstream, <code>UF</code> upstream connection failure, <code>NR</code> no route) are far more precise than the status code. Reading those flags is the fastest path to a diagnosis.",
     "howToDebug": [
-      "Include upstream detail in the access log format — <code>$upstream_addr</code>, <code>$upstream_status</code> and <code>$upstream_response_time</code> in nginx turn a generic 502 into a specific one.",
+      "Include upstream detail in the access log format: <code>$upstream_addr</code>, <code>$upstream_status</code> and <code>$upstream_response_time</code> in nginx turn a generic 502 into a specific one.",
       "Bypass the proxy and call the upstream directly from the proxy host. If that works, the issue is proxy configuration: timeouts, buffers, DNS caching or TLS to the backend.",
       "For Envoy, read the response flags in the access log rather than the status code. <code>UH</code>, <code>UF</code>, <code>UO</code> and <code>NR</code> each have distinct fixes.",
-      "Check that the proxy re-resolves DNS. nginx caches upstream IPs at startup by default, which breaks when backends move — use a <code>resolver</code> directive with a variable upstream.",
+      "Check that the proxy re-resolves DNS. nginx caches upstream IPs at startup by default, which breaks when backends move. Use a <code>resolver</code> directive with a variable upstream.",
       "For header-size and body-size errors, raise the limit at every layer; CDN, load balancer and origin each enforce their own."
     ],
-    "tools": ["nginx -T", "envoy access logs (response flags)", "haproxy -c -f", "curl --resolve", "traefik dashboard"]
+    "tools": [
+      "nginx -T",
+      "envoy access logs (response flags)",
+      "haproxy -c -f",
+      "curl --resolve",
+      "traefik dashboard"
+    ]
   },
   "Python": {
     "title": "Python Errors",
@@ -475,23 +682,35 @@
       "Identify the interpreter and its paths: <code>python -c \"import sys; print(sys.executable); print(sys.path)\"</code>. This resolves most import errors immediately.",
       "Install into the interpreter you are running, not the one on PATH: <code>python -m pip install …</code> rather than bare <code>pip</code>.",
       "Read tracebacks bottom-up. The last line is the exception; the frames above show the call chain, and the relevant frame is usually your code, not the library's.",
-      "For encoding errors, name the encoding explicitly and decide on an error policy — <code>open(path, encoding='utf-8', errors='replace')</code> — rather than relying on the locale default.",
+      "For encoding errors, name the encoding explicitly and decide on an error policy, such as <code>open(path, encoding='utf-8', errors='replace')</code>, rather than relying on the locale default.",
       "For multiprocessing pickling errors, move the target function to module level. Closures, lambdas and locally defined classes cannot be pickled."
     ],
-    "tools": ["python -m pip", "python -c 'import sys; print(sys.path)'", "pip check", "py-spy dump", "uv / pipx for isolation"]
+    "tools": [
+      "python -m pip",
+      "python -c 'import sys; print(sys.path)'",
+      "pip check",
+      "py-spy dump",
+      "uv / pipx for isolation"
+    ]
   },
   "Regex": {
     "title": "Regular Expression Errors",
     "tagline": "Catastrophic backtracking, back references, escaping and engine differences.",
-    "intro": "Regex problems come in two flavours: <strong>it does not match what you expect</strong> (usually escaping, greediness, or an engine feature difference) and <strong>it matches but takes forever</strong>. The second is catastrophic backtracking — a genuine denial-of-service vector known as ReDoS — caused by nested quantifiers over overlapping character classes, such as <code>(a+)+b</code>. Any regex applied to untrusted input should be checked for it.",
+    "intro": "Regex problems come in two flavours: <strong>it does not match what you expect</strong> (usually escaping, greediness, or an engine feature difference) and <strong>it matches but takes forever</strong>. The second is catastrophic backtracking, a genuine denial-of-service vector known as ReDoS, caused by nested quantifiers over overlapping character classes, such as <code>(a+)+b</code>. Any regex applied to untrusted input should be checked for it.",
     "howToDebug": [
-      "Test against a visualiser that shows backtracking steps, and always test with input that <em>fails</em> to match — that is where catastrophic backtracking appears, not on successful matches.",
+      "Test against a visualiser that shows backtracking steps, and always test with input that <em>fails</em> to match. That is where catastrophic backtracking appears, not on successful matches.",
       "Eliminate nested quantifiers over overlapping classes. Rewrite <code>(a+)+</code> as <code>a+</code>, and prefer possessive quantifiers or atomic groups where the engine supports them.",
       "Know your engine: lookbehind, named groups and Unicode property escapes differ between PCRE, RE2, JavaScript, Python and Go. RE2 (used by Go) deliberately has no backtracking and rejects some patterns outright.",
       "Anchor patterns with <code>^</code> and <code>$</code> where you mean a whole-string match. Unanchored patterns silently match substrings.",
       "Set a timeout or use a linear-time engine for user-supplied patterns. Never run an untrusted regex on a request thread."
     ],
-    "tools": ["regex101.com", "re2 / RE2J", "Python re.DEBUG", "grep -P for PCRE testing", "recheck / redos linters"]
+    "tools": [
+      "regex101.com",
+      "re2 / RE2J",
+      "Python re.DEBUG",
+      "grep -P for PCRE testing",
+      "recheck / redos linters"
+    ]
   },
   "Ruby": {
     "title": "Ruby & Rails Errors",
@@ -499,25 +718,37 @@
     "intro": "Ruby errors are dominated by <strong>Bundler and gem resolution</strong>, <strong>native extension compilation</strong> (which needs system headers Ruby cannot install for you), and in Rails by <strong>the pending-migration and asset-precompilation guards</strong>. Those guards are deliberate safety checks, so the fix is to satisfy them rather than to disable them.",
     "howToDebug": [
       "Run <code>bundle install</code> with verbose output and read which gem fails and why. Native extension failures name the missing header in the mkmf log.",
-      "Check the mkmf log path the error prints — it contains the actual compiler error, which the Bundler summary truncates.",
+      "Check the mkmf log path the error prints. It contains the actual compiler error, which the Bundler summary truncates.",
       "For Rails migration errors, run <code>rails db:migrate:status</code> to see exactly which migrations the database has recorded.",
       "For asset errors in production, confirm <code>rails assets:precompile</code> ran during deployment and that the manifest is present in <code>public/assets</code>.",
       "Verify the Ruby version matches <code>.ruby-version</code> and the Gemfile. Version managers silently switch, producing gem-not-found errors for gems that are installed elsewhere."
     ],
-    "tools": ["bundle install --verbose", "rails db:migrate:status", "gem env", "rbenv/rvm version check", "bundle exec"]
+    "tools": [
+      "bundle install --verbose",
+      "rails db:migrate:status",
+      "gem env",
+      "rbenv/rvm version check",
+      "bundle exec"
+    ]
   },
   "Rust": {
     "title": "Rust Errors",
     "tagline": "Borrow checker, ownership moves, trait bounds and lifetime mismatches.",
-    "intro": "Rust's compiler errors are unusually helpful — they are closer to a code review than an error message. Almost all of them come from <strong>ownership</strong> (a value was moved and then used), <strong>borrowing</strong> (two mutable borrows, or a borrow outliving its owner), or <strong>trait resolution</strong> (the required bound is not satisfied). The productive habit is to read the error's notes and help sections in full and run <code>rustc --explain</code> on the code.",
+    "intro": "Rust's compiler errors are unusually helpful. They are closer to a code review than an error message. Almost all of them come from <strong>ownership</strong> (a value was moved and then used), <strong>borrowing</strong> (two mutable borrows, or a borrow outliving its owner), or <strong>trait resolution</strong> (the required bound is not satisfied). The productive habit is to read the error's notes and help sections in full and run <code>rustc --explain</code> on the code.",
     "howToDebug": [
       "Run <code>rustc --explain E0502</code> (or whichever code) for a worked explanation of the rule you violated.",
-      "For borrow conflicts, shorten the borrow's scope first — introduce a block or bind the intermediate result — before reaching for <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>.",
+      "For borrow conflicts, shorten the borrow's scope first, introducing a block or binding the intermediate result, before reaching for <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>.",
       "For moved-value errors, decide deliberately: clone (cost), borrow (lifetime), or restructure so ownership flows one way. Cloning to silence the compiler is fine early and worth revisiting later.",
       "For trait errors, read which bound is missing and where it is required. <code>cargo tree -d</code> finds duplicate crate versions, which cause \"trait not implemented\" errors between two identical-looking types.",
       "Use <code>cargo clippy</code> routinely; it catches idiom problems that later become borrow-checker fights."
     ],
-    "tools": ["rustc --explain", "cargo clippy", "cargo tree -d", "cargo expand", "RUST_BACKTRACE=1"]
+    "tools": [
+      "rustc --explain",
+      "cargo clippy",
+      "cargo tree -d",
+      "cargo expand",
+      "RUST_BACKTRACE=1"
+    ]
   },
   "Scala": {
     "title": "Scala & sbt Errors",
@@ -525,38 +756,55 @@
     "intro": "Scala's most distinctive error class is <strong>binary incompatibility</strong>: libraries are published per Scala major version, and mixing artifacts built for different versions produces confusing \"not a member of\" or <code>NoSuchMethodError</code> failures. The <code>%%</code> operator in sbt exists precisely to append the right suffix, and most unresolved-dependency errors are a <code>%</code> where <code>%%</code> was needed.",
     "howToDebug": [
       "Check the Scala version suffix on every dependency. Use <code>%%</code> for Scala libraries and plain <code>%</code> only for Java ones.",
-      "Run <code>sbt evicted</code> to list dependencies that were evicted by version conflict — a frequent source of runtime NoSuchMethodError.",
+      "Run <code>sbt evicted</code> to list dependencies that were evicted by version conflict. A frequent source of runtime NoSuchMethodError.",
       "Use <code>sbt dependencyTree</code> to see the resolved graph and locate the transitive dependency pulling in an old version.",
       "For inference failures, add explicit type annotations at the boundary rather than at the error site; inference failures usually propagate from further up.",
       "Clear stale state with <code>sbt clean</code> and remove <code>~/.ivy2/cache</code> or <code>~/.cache/coursier</code> entries only for the specific failing artifact."
     ],
-    "tools": ["sbt evicted", "sbt dependencyTree", "coursier resolve", "scalac -explain", "MiMa (binary compat checks)"]
+    "tools": [
+      "sbt evicted",
+      "sbt dependencyTree",
+      "coursier resolve",
+      "scalac -explain",
+      "MiMa (binary compat checks)"
+    ]
   },
   "Security": {
     "title": "Security & Token Errors",
     "tagline": "JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.",
-    "intro": "Security errors are usually a control working correctly. A rejected JWT, a CSP violation, an SELinux denial or a host key mismatch is the system telling you an invariant was broken — and the right response is to understand the invariant, never to disable the control. Two of these deserve special caution: an SSH host key mismatch can indicate a genuine interception, and JWT algorithm confusion is an active exploitation technique, not a configuration nuisance.",
+    "intro": "Security errors are usually a control working correctly. A rejected JWT, a CSP violation, an SELinux denial or a host key mismatch is the system telling you an invariant was broken, and the right response is to understand the invariant, never to disable the control. Two of these deserve special caution: an SSH host key mismatch can indicate a genuine interception, and JWT algorithm confusion is an active exploitation technique, not a configuration nuisance.",
     "howToDebug": [
-      "Decode tokens locally and check <code>exp</code>, <code>nbf</code>, <code>iss</code> and <code>aud</code>. Never paste a live token into an online decoder — it is a credential.",
+      "Decode tokens locally and check <code>exp</code>, <code>nbf</code>, <code>iss</code> and <code>aud</code>. Never paste a live token into an online decoder. It is a credential.",
       "Pin the accepted JWT algorithm explicitly on the verifying side. Accepting whatever the token's header claims is the algorithm-confusion vulnerability.",
       "For SELinux, read the actual denial: <code>ausearch -m avc -ts recent | audit2why</code>. Set the correct file context with <code>semanage fcontext</code> rather than running <code>setenforce 0</code>.",
-      "For CSP violations, read the browser console message — it names the exact directive and blocked URI. Add the specific source, not a wildcard.",
+      "For CSP violations, read the browser console message. It names the exact directive and blocked URI. Add the specific source, not a wildcard.",
       "For an SSH host key mismatch, verify the new fingerprint out of band before removing the old key. This warning exists to catch man-in-the-middle attacks."
     ],
-    "tools": ["ausearch / audit2why", "openssl x509 -noout -text", "ssh-keygen -lf", "browser CSP console reports", "local JWT decoding"]
+    "tools": [
+      "ausearch / audit2why",
+      "openssl x509 -noout -text",
+      "ssh-keygen -lf",
+      "browser CSP console reports",
+      "local JWT decoding"
+    ]
   },
   "Serverless": {
     "title": "Serverless Function Errors",
     "tagline": "Lambda timeouts, package size limits, VPC networking and cold starts.",
-    "intro": "Serverless errors are shaped by <strong>hard platform limits</strong>: execution duration, deployment package size, memory, and concurrency. Unlike a server you control, these cannot be tuned away — the fix is to restructure the workload. VPC-attached functions add a second class of problem, because they lose default internet access and depend on ENI capacity and NAT configuration.",
+    "intro": "Serverless errors are shaped by <strong>hard platform limits</strong>: execution duration, deployment package size, memory, and concurrency. Unlike a server you control, these cannot be tuned away. The fix is to restructure the workload. VPC-attached functions add a second class of problem, because they lose default internet access and depend on ENI capacity and NAT configuration.",
     "howToDebug": [
-      "Check the platform limit before changing code — timeout, package size and memory are all documented, and the error is usually the limit being reported literally.",
+      "Check the platform limit before changing code: timeout, package size and memory are all documented, and the error is usually the limit being reported literally.",
       "For timeouts, add timing logs around each external call. A function that times out is nearly always waiting on one downstream dependency.",
       "Reduce package size with layers, tree-shaking, and by excluding dev dependencies and the provider SDK that the runtime already includes.",
       "For VPC functions with no internet access, confirm there is a NAT Gateway or the relevant VPC endpoints. A function in a private subnet cannot reach the public internet by default.",
       "Measure cold start separately from warm invocation in your metrics, and use provisioned concurrency only after confirming cold starts are the actual problem."
     ],
-    "tools": ["CloudWatch Logs Insights", "aws lambda get-function-configuration", "X-Ray / distributed tracing", "sam local invoke"]
+    "tools": [
+      "CloudWatch Logs Insights",
+      "aws lambda get-function-configuration",
+      "X-Ray / distributed tracing",
+      "sam local invoke"
+    ]
   },
   "Shell": {
     "title": "Shell & Bash Errors",
@@ -569,20 +817,32 @@
       "Use <code>command -v foo</code> to check whether something is on PATH, and <code>echo \"$PATH\"</code> to see what the shell is actually searching.",
       "In Makefiles, recipe lines must begin with a real tab character. \"missing separator\" always means spaces were used instead."
     ],
-    "tools": ["shellcheck", "bash -x", "set -euo pipefail", "command -v", "cat -A (to reveal tabs)"]
+    "tools": [
+      "shellcheck",
+      "bash -x",
+      "set -euo pipefail",
+      "command -v",
+      "cat -A (to reveal tabs)"
+    ]
   },
   "Storage": {
     "title": "Object & Block Storage Errors",
     "tagline": "S3 permissions, NFS mounts, quotas, signed URLs and volume attachment.",
-    "intro": "Storage errors are dominated by <strong>permissions</strong> and <strong>locality</strong>. S3 access denials can come from an IAM policy, a bucket policy, a Block Public Access setting, an ACL or a KMS key policy — five independent layers, all of which must allow the call. Block storage errors are usually about availability zones: a volume can only attach to an instance in the same AZ.",
+    "intro": "Storage errors are dominated by <strong>permissions</strong> and <strong>locality</strong>. S3 access denials can come from an IAM policy, a bucket policy, a Block Public Access setting, an ACL or a KMS key policy: five independent layers, all of which must allow the call. Block storage errors are usually about availability zones: a volume can only attach to an instance in the same AZ.",
     "howToDebug": [
       "For S3 denials, check all five layers: IAM policy, bucket policy, Block Public Access, object ACL and the KMS key policy if the object is encrypted with a customer-managed key.",
       "Confirm the region and the exact bucket name. A bucket in another region returns a redirect or a permanent error that reads like a permission problem.",
-      "For signed URLs, check the expiry and that the clock on the signing machine is correct — a skewed clock produces URLs that are already expired.",
+      "For signed URLs, check the expiry and that the clock on the signing machine is correct. A skewed clock produces URLs that are already expired.",
       "For NFS stale file handles, remount rather than retrying; the file the handle referred to no longer exists on the server.",
       "For volume attachment failures, verify the availability zone matches and that the volume is in the <code>available</code> state, not still attached elsewhere."
     ],
-    "tools": ["aws s3api get-bucket-policy", "IAM Policy Simulator", "mount -v / showmount -e", "df -h / du -sh", "aws ec2 describe-volumes"]
+    "tools": [
+      "aws s3api get-bucket-policy",
+      "IAM Policy Simulator",
+      "mount -v / showmount -e",
+      "df -h / du -sh",
+      "aws ec2 describe-volumes"
+    ]
   },
   "Svelte": {
     "title": "Svelte & SvelteKit Errors",
@@ -590,12 +850,17 @@
     "intro": "Svelte errors mostly arise at the <strong>compiler's boundaries</strong>: the <code>$</code> store prefix only works on real stores in component context, and SvelteKit's <code>load</code> functions run in two different environments with different capabilities. A 500 from a load function usually means server-only code (a database client, a secret, <code>fs</code>) reached a universal load that also runs in the browser.",
     "howToDebug": [
       "Check whether the file is a universal load (<code>+page.js</code>) or a server-only load (<code>+page.server.js</code>). Anything touching secrets or the filesystem belongs in the latter.",
-      "Read the full server-side stack trace in the terminal, not just the browser's 500 page — SvelteKit hides details in production for security.",
+      "Read the full server-side stack trace in the terminal, not just the browser's 500 page: SvelteKit hides details in production for security.",
       "For <code>$</code> prefix errors, confirm the value is an actual store with a <code>subscribe</code> method and that you are inside a component, not a plain module.",
       "Use <code>$env/static/private</code> and <code>$env/dynamic/private</code> for secrets so the compiler enforces the server-only boundary for you.",
       "Reproduce with <code>vite build &amp;&amp; vite preview</code>; dev-mode behaviour differs meaningfully from the production build."
     ],
-    "tools": ["vite build && vite preview", "SvelteKit terminal logs", "svelte-check", "$env/static/private"]
+    "tools": [
+      "vite build && vite preview",
+      "SvelteKit terminal logs",
+      "svelte-check",
+      "$env/static/private"
+    ]
   },
   "System": {
     "title": "Linux & System Errors",
@@ -608,7 +873,14 @@
       "For \"too many open files\", check both the limit and the usage: <code>ulimit -n</code>, <code>cat /proc/&lt;pid&gt;/limits</code>, and <code>ls /proc/&lt;pid&gt;/fd | wc -l</code>. systemd services need <code>LimitNOFILE</code>, not a shell ulimit.",
       "For cron jobs that work manually but not scheduled, remember cron has a minimal environment and no PATH. Use absolute paths and log stdout and stderr to a file."
     ],
-    "tools": ["df -h / df -i", "dmesg -T", "journalctl -u", "lsof / ss", "systemd-analyze blame", "ncdu"]
+    "tools": [
+      "df -h / df -i",
+      "dmesg -T",
+      "journalctl -u",
+      "lsof / ss",
+      "systemd-analyze blame",
+      "ncdu"
+    ]
   },
   "TLS": {
     "title": "TLS & SSL Certificate Errors",
@@ -616,12 +888,18 @@
     "intro": "TLS errors have a small number of root causes: the certificate is <strong>expired</strong>, the <strong>hostname does not match</strong> any SAN entry, the <strong>chain is incomplete</strong> (the server did not send its intermediates), the <strong>issuing CA is not trusted</strong> by this client, or the two sides <strong>share no cipher or protocol version</strong>. The incomplete-chain case is the most deceptive, because browsers often paper over it with cached intermediates while curl, Java and Go fail.",
     "howToDebug": [
       "Inspect the live handshake: <code>openssl s_client -connect host:443 -servername host -showcerts</code>. It shows the full chain the server actually sends.",
-      "Check dates and SANs: <code>openssl x509 -noout -dates -subject -ext subjectAltName</code>. The Common Name is ignored by modern clients — only SANs matter.",
+      "Check dates and SANs: <code>openssl x509 -noout -dates -subject -ext subjectAltName</code>. The Common Name is ignored by modern clients: only SANs matter.",
       "If browsers work but curl or your language runtime does not, suspect a missing intermediate. Browsers cache intermediates; other clients do not.",
       "Verify the trust store the failing client uses. Containers frequently ship without <code>ca-certificates</code> installed, and Java, Node and Python each have their own store.",
       "For protocol or cipher errors, check the negotiated version and the server's supported list. TLS 1.0 and 1.1 are disabled by default in current clients."
     ],
-    "tools": ["openssl s_client", "openssl x509 -noout -text", "curl -vI", "testssl.sh", "sslyze"]
+    "tools": [
+      "openssl s_client",
+      "openssl x509 -noout -text",
+      "curl -vI",
+      "testssl.sh",
+      "sslyze"
+    ]
   },
   "Terraform": {
     "title": "Terraform & IaC Errors",
@@ -634,20 +912,32 @@
       "For <code>for_each</code> errors, restructure so keys come from static values or from variables, not from attributes of resources that do not yet exist. Use <code>-target</code> for a staged apply as a last resort.",
       "Run <code>terraform plan -refresh-only</code> to see drift explicitly before applying anything unexpected."
     ],
-    "tools": ["terraform state list/show", "TF_LOG=DEBUG", "terraform plan -refresh-only", "terraform graph", "tflint / checkov"]
+    "tools": [
+      "terraform state list/show",
+      "TF_LOG=DEBUG",
+      "terraform plan -refresh-only",
+      "terraform graph",
+      "tflint / checkov"
+    ]
   },
   "Testing": {
     "title": "Test Framework Errors",
-    "tagline": "Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.",
-    "intro": "Test errors divide into <strong>infrastructure</strong> problems (the framework cannot find or load your tests, fixtures or modules) and <strong>flakiness</strong>, which is the more expensive category. End-to-end timeouts are almost always a race between the test and the application, and the durable fix is to wait for a condition — an element, a network response, a state change — rather than for a duration.",
+    "tagline": "Jest, pytest, JUnit, Cypress and Playwright: fixtures, snapshots and timeouts.",
+    "intro": "Test errors divide into <strong>infrastructure</strong> problems (the framework cannot find or load your tests, fixtures or modules) and <strong>flakiness</strong>, which is the more expensive category. End-to-end timeouts are almost always a race between the test and the application, and the durable fix is to wait for a condition (an element, a network response, a state change) rather than for a duration.",
     "howToDebug": [
       "Run a single failing test in isolation. If it passes alone but fails in the suite, you have shared state or test ordering dependence.",
       "For Cypress and Playwright timeouts, use the trace viewer or video to see what the page actually showed. The element usually exists but is covered, detached, or not yet interactive.",
       "Replace fixed waits with condition-based waits. <code>waitForSelector</code> and auto-retrying assertions eliminate an entire class of flakiness.",
       "For collection and module-resolution errors, check the framework's rootDir/testPaths configuration and the presence of <code>__init__.py</code> or <code>conftest.py</code> where the framework expects it.",
-      "Review snapshot diffs rather than updating them reflexively — a changed snapshot is sometimes a real regression."
+      "Review snapshot diffs rather than updating them reflexively. A changed snapshot is sometimes a real regression."
     ],
-    "tools": ["playwright show-trace", "pytest -x -vv --tb=long", "jest --runInBand", "cypress open", "test retry analytics"]
+    "tools": [
+      "playwright show-trace",
+      "pytest -x -vv --tb=long",
+      "jest --runInBand",
+      "cypress open",
+      "test retry analytics"
+    ]
   },
   "TypeScript": {
     "title": "TypeScript Errors",
@@ -660,50 +950,72 @@
       "Use <code>tsc --noEmit --pretty</code> to check the whole project; editors sometimes use a different TypeScript version than the build.",
       "Check <code>strict</code>, <code>skipLibCheck</code> and <code>moduleResolution</code> in tsconfig when errors appear only in CI or only in the editor."
     ],
-    "tools": ["tsc --noEmit", "ts-node / tsx", "@types/* packages", "typescript-eslint", "editor TS version selector"]
+    "tools": [
+      "tsc --noEmit",
+      "ts-node / tsx",
+      "@types/* packages",
+      "typescript-eslint",
+      "editor TS version selector"
+    ]
   },
   "Virtualization": {
     "title": "Virtualisation & VM Errors",
     "tagline": "VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.",
-    "intro": "Virtualisation errors are usually about <strong>hardware virtualisation access</strong> — either it is disabled in firmware, or another hypervisor already holds it. On Windows, Hyper-V, WSL 2, Docker Desktop, Credential Guard and memory integrity all claim the virtualisation extensions, and VirtualBox or VMware then fails with a message that mentions VT-x but not the actual conflict.",
+    "intro": "Virtualisation errors are usually about <strong>hardware virtualisation access</strong>: either it is disabled in firmware, or another hypervisor already holds it. On Windows, Hyper-V, WSL 2, Docker Desktop, Credential Guard and memory integrity all claim the virtualisation extensions, and VirtualBox or VMware then fails with a message that mentions VT-x but not the actual conflict.",
     "howToDebug": [
       "Confirm virtualisation is enabled at the CPU level: <code>grep -E 'vmx|svm' /proc/cpuinfo</code> on Linux, or the Performance tab of Task Manager on Windows.",
       "On Windows, check what else is using the hypervisor: <code>bcdedit /enum | findstr hypervisorlaunchtype</code> and whether Hyper-V, WSL 2 or Core Isolation are enabled.",
       "On Linux, check <code>/dev/kvm</code> exists and that your user is in the <code>kvm</code> group; nested virtualisation must be enabled explicitly on cloud VMs.",
-      "Match guest additions and tools versions to the hypervisor version — mismatches cause shared folders, clipboard and display problems that look like guest OS bugs.",
+      "Match guest additions and tools versions to the hypervisor version: mismatches cause shared folders, clipboard and display problems that look like guest OS bugs.",
       "For WSL, run <code>wsl --status</code> and <code>wsl --update</code>; most WSL 2 errors are a stale kernel or a disabled Virtual Machine Platform feature."
     ],
-    "tools": ["grep -E 'vmx|svm' /proc/cpuinfo", "wsl --status", "bcdedit /enum", "ls -l /dev/kvm", "systemctl status libvirtd"]
+    "tools": [
+      "grep -E 'vmx|svm' /proc/cpuinfo",
+      "wsl --status",
+      "bcdedit /enum",
+      "ls -l /dev/kvm",
+      "systemctl status libvirtd"
+    ]
   },
   "Web3": {
     "title": "Web3 & Blockchain Errors",
     "tagline": "Gas estimation, nonce management and reverted transactions.",
-    "intro": "Web3 errors are unusually terse because the EVM reports failure without explanation by default. <code>execution reverted</code> means a <code>require</code> or <code>revert</code> triggered — the reason string is present in the return data but most libraries discard it. Nonce errors reflect the strict sequential ordering of transactions per account, so a stuck transaction blocks every one behind it.",
+    "intro": "Web3 errors are unusually terse because the EVM reports failure without explanation by default. <code>execution reverted</code> means a <code>require</code> or <code>revert</code> triggered. The reason string is present in the return data but most libraries discard it. Nonce errors reflect the strict sequential ordering of transactions per account, so a stuck transaction blocks every one behind it.",
     "howToDebug": [
       "Simulate before sending: <code>eth_call</code> against the same block returns the revert reason string that a submitted transaction hides.",
       "Use a transaction tracer (Tenderly, Foundry's <code>cast run</code>, or a node's <code>debug_traceTransaction</code>) to see the exact opcode and contract where execution reverted.",
       "For nonce errors, query the account's pending nonce (<code>eth_getTransactionCount</code> with the <code>pending</code> tag) rather than tracking it locally.",
-      "To replace a stuck transaction, resend with the same nonce and a materially higher gas price — most nodes require at least a 10% increase.",
+      "To replace a stuck transaction, resend with the same nonce and a materially higher gas price: most nodes require at least a 10% increase.",
       "Check the chain ID matches the network you intend. Signing for the wrong chain produces confusing rejection messages."
     ],
-    "tools": ["cast (Foundry)", "eth_call simulation", "Tenderly / block explorer tracer", "debug_traceTransaction"]
+    "tools": [
+      "cast (Foundry)",
+      "eth_call simulation",
+      "Tenderly / block explorer tracer",
+      "debug_traceTransaction"
+    ]
   },
   "WebAssembly": {
     "title": "WebAssembly Errors",
     "tagline": "Compile errors, memory bounds and host binding mismatches.",
-    "intro": "WebAssembly errors are precise about the layer that failed. A <code>CompileError</code> means the bytes are not a valid module — most often the file was served with the wrong MIME type, or an HTML error page was fetched instead of the <code>.wasm</code> file. A <code>RuntimeError: memory access out of bounds</code> means the module read or wrote outside its linear memory, which in a language like C or Rust is a genuine memory-safety bug caught by the sandbox.",
+    "intro": "WebAssembly errors are precise about the layer that failed. A <code>CompileError</code> means the bytes are not a valid module: most often the file was served with the wrong MIME type, or an HTML error page was fetched instead of the <code>.wasm</code> file. A <code>RuntimeError: memory access out of bounds</code> means the module read or wrote outside its linear memory, which in a language like C or Rust is a genuine memory-safety bug caught by the sandbox.",
     "howToDebug": [
       "Check what the server actually returned. The wasm file must be served as <code>application/wasm</code> for streaming compilation, and a 404 HTML page produces a misleading magic-number error.",
       "Validate the module offline with <code>wasm-validate</code> and inspect it with <code>wasm-objdump -x</code> from the WABT toolkit.",
-      "For out-of-bounds errors, rebuild with sanitizers or debug assertions in the source language — the wasm runtime cannot tell you which source line was responsible without DWARF info.",
+      "For out-of-bounds errors, rebuild with sanitizers or debug assertions in the source language. The wasm runtime cannot tell you which source line was responsible without DWARF info.",
       "Confirm imports match: every function the module imports must be supplied by the host with the exact name and signature, or instantiation fails.",
       "Build with debug symbols and use the browser's DWARF support to step through original source rather than raw wasm."
     ],
-    "tools": ["wasm-validate / wasm-objdump (WABT)", "browser DWARF debugging", "wasmtime --invoke", "curl -I (check MIME type)"]
+    "tools": [
+      "wasm-validate / wasm-objdump (WABT)",
+      "browser DWARF debugging",
+      "wasmtime --invoke",
+      "curl -I (check MIME type)"
+    ]
   },
   "WebServer": {
     "title": "Web Server Errors",
-    "tagline": "nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.",
+    "tagline": "nginx, Apache, IIS and Caddy: binding, permissions, rewrites and TLS.",
     "intro": "Web server errors are usually about <strong>permissions</strong>, <strong>binding</strong>, or <strong>configuration that was never loaded</strong>. A common trap: the server runs as an unprivileged user (<code>www-data</code>, <code>nginx</code>), so it needs execute permission on <em>every</em> directory in the path to a file, not just read permission on the file itself. Another: editing a config file changes nothing until the server is reloaded and the file is actually included.",
     "howToDebug": [
       "Validate configuration before reloading: <code>nginx -t</code>, <code>apachectl configtest</code>, <code>caddy validate</code>. This catches syntax errors without dropping traffic.",
@@ -712,7 +1024,13 @@
       "For permission errors, test as the server user: <code>sudo -u www-data cat /path/to/file</code>. Check execute bits on every parent directory.",
       "For binding failures, find the current listener with <code>ss -tulpn | grep :80</code>. Ports below 1024 need privileges or a capability such as <code>CAP_NET_BIND_SERVICE</code>."
     ],
-    "tools": ["nginx -t / nginx -T", "apachectl configtest", "ss -tulpn", "tail -f error.log", "sudo -u www-data"]
+    "tools": [
+      "nginx -t / nginx -T",
+      "apachectl configtest",
+      "ss -tulpn",
+      "tail -f error.log",
+      "sudo -u www-data"
+    ]
   },
   "Windows": {
     "title": "Windows Errors",
@@ -720,11 +1038,17 @@
     "intro": "Windows errors surface as numeric codes that mean little on their own, but the operating system keeps detailed logs that almost always contain the real cause. Two categories dominate developer machines: <strong>missing Visual C++ redistributables</strong> (a DLL-not-found error for a runtime the application assumed was present) and <strong>architecture or dependency mismatches</strong> (the 0xc000007b family, usually a 32-bit/64-bit mix).",
     "howToDebug": [
       "Read Event Viewer under Windows Logs → Application and System, filtered to the time of the failure. The numeric code in the dialog maps to a detailed entry there.",
-      "For MSI failures, install with verbose logging: <code>msiexec /i package.msi /l*v install.log</code>, then search the log for \"Return value 3\" — the lines just above name the failing action.",
+      "For MSI failures, install with verbose logging: <code>msiexec /i package.msi /l*v install.log</code>, then search the log for \"Return value 3\". The lines just above name the failing action.",
       "For missing DLLs, install the matching Visual C++ Redistributable and confirm the architecture matches the application (x64 versus x86).",
       "Repair system corruption with <code>sfc /scannow</code> followed by <code>DISM /Online /Cleanup-Image /RestoreHealth</code>, in that order.",
       "For access-denied errors, check both NTFS permissions and whether the process needs elevation; UAC virtualisation can make writes appear to succeed while landing elsewhere."
     ],
-    "tools": ["Event Viewer", "msiexec /l*v", "sfc /scannow", "DISM /RestoreHealth", "Process Monitor (ProcMon)"]
+    "tools": [
+      "Event Viewer",
+      "msiexec /l*v",
+      "sfc /scannow",
+      "DISM /RestoreHealth",
+      "Process Monitor (ProcMon)"
+    ]
   }
 }

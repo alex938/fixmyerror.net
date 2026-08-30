@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/jwt-token-used-before-issued-clock-skew.html">
-    <meta property="og:title" content="JWT: token used before issued / not valid yet – cause and fix">
+    <meta property="og:title" content="JWT: token used before issued / not valid yet: cause and fix">
     <meta property="og:description" content="Validation compared the token&#039;s iat or nbf claim against the verifier&#039;s clock and decided the token is from the future. The token is fine; the two machines&#039;…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="JWT: token used before issued / not valid yet – cause and fix">
+    <meta name="twitter:title" content="JWT: token used before issued / not valid yet: cause and fix">
     <meta name="twitter:description" content="Validation compared the token&#039;s iat or nbf claim against the verifier&#039;s clock and decided the token is from the future. The token is fine; the two machines&#039;…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"JWT: token used before issued / not valid yet","name":"JWT: token used before issued / not valid yet","description":"Validation compared the token's iat or nbf claim against the verifier's clock and decided the token is from the future. The token is fine; the two machines'…","url":"https://fixmyerror.net/errors/jwt-token-used-before-issued-clock-skew.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/jwt-token-used-before-issued-clock-skew.html"},"inLanguage":"en-GB","articleSection":"Auth","proficiencyLevel":"Expert","datePublished":"2026-08-30","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://datatracker.ietf.org/doc/html/rfc7519"]}</script>
@@ -94,13 +94,13 @@ sudo timedatectl set-ntp true</code></pre>
             <section class="block">
                 <h2>How to diagnose Auth errors</h2>
                 <p>Identity errors are almost always <strong>configuration mismatches between two systems</strong> rather than code bugs: a redirect URI registered with a trailing slash, a client secret that was rotated on one side only, a clock that has drifted past the token skew allowance. Because the identity provider deliberately returns vague errors to avoid leaking information to attackers, the provider's own log is usually far more informative than the message your application receives.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Open the identity provider's log or event stream first. Auth0, Okta and Keycloak all record a detailed reason that they never send back to the client.</li>
                     <li>Compare the redirect URI byte for byte, including scheme, port and trailing slash. <code>http://localhost:3000/callback</code> and <code>http://localhost:3000/callback/</code> are different URIs.</li>
-                    <li>Decode the token rather than guessing. Paste it into a local JWT decoder and check <code>iss</code>, <code>aud</code>, <code>exp</code> and <code>nbf</code> — never a remote paste site, because tokens are credentials.</li>
+                    <li>Decode the token rather than guessing. Paste it into a local JWT decoder and check <code>iss</code>, <code>aud</code>, <code>exp</code> and <code>nbf</code>, never a remote paste site, because tokens are credentials.</li>
                     <li>Check clock skew with <code>timedatectl</code> or <code>ntpq -p</code>. Kerberos, SAML and JWT all reject tokens outside a tight time window, and a drifting VM clock produces intermittent, unreproducible auth failures.</li>
-                    <li>For passkeys and WebAuthn, verify the Relying Party ID matches the origin exactly and that the page is served over HTTPS or on <code>localhost</code> — nothing else is a secure context.</li>
+                    <li>For passkeys and WebAuthn, verify the Relying Party ID matches the origin exactly and that the page is served over HTTPS or on <code>localhost</code>. Nothing else is a secure context.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
                 <ul class="tool-list">
@@ -113,7 +113,7 @@ sudo timedatectl set-ntp true</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> datatracker.ietf.org</a></p>
         </section>
 
@@ -123,8 +123,8 @@ sudo timedatectl set-ntp true</code></pre>
                 <li><a href="../errors/auth0-callback-url-mismatch.html">Auth0: Callback URL mismatch<span class="sub">Auth0 rejected the login because the redirect URL in the request is not in the application&#039;s…</span></a></li>
                 <li><a href="../errors/keycloak-invalid-redirect-uri.html">Keycloak: Invalid parameter: redirect_uri<span class="sub">Keycloak rejected the redirect URI because it is not listed in the client&#039;s Valid Redirect…</span></a></li>
                 <li><a href="../errors/mfa-challenge-timeout.html">MFA: challenge timeout / code expired<span class="sub">A TOTP or push challenge was rejected because it expired or the device clock drifted outside…</span></a></li>
-                <li><a href="../errors/entra-aadsts50011-redirect-uri.html">Microsoft Entra ID: AADSTS50011 — redirect URI mismatch<span class="sub">The redirect_uri sent in the authorisation request is not registered on the app registration…</span></a></li>
-                <li><a href="../errors/oauth-pkce-code-verifier-mismatch.html">OAuth 2: invalid_grant — PKCE code_verifier does not match<span class="sub">The code_verifier sent to the token endpoint does not hash to the code_challenge sent to the…</span></a></li>
+                <li><a href="../errors/entra-aadsts50011-redirect-uri.html">Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)<span class="sub">The redirect_uri sent in the authorisation request is not registered on the app registration…</span></a></li>
+                <li><a href="../errors/oauth-pkce-code-verifier-mismatch.html">OAuth 2: invalid_grant (PKCE code_verifier does not match)<span class="sub">The code_verifier sent to the token endpoint does not hash to the code_challenge sent to the…</span></a></li>
                 <li><a href="../errors/oidc-nonce-mismatch.html">OIDC: nonce mismatch<span class="sub">The nonce in the returned ID token does not match the nonce sent in the auth request…</span></a></li>
                 <li><a href="../errors/okta-invalid-client.html">Okta: invalid_client<span class="sub">The Okta token endpoint returned invalid_client. The client_id/secret is wrong, the token…</span></a></li>
                 <li><a href="../errors/webauthn-registration-failed.html">WebAuthn/Passkey: registration failed (NotAllowedError)<span class="sub">navigator.credentials.create() rejected with NotAllowedError. Common causes: not a secure…</span></a></li>
@@ -152,7 +152,7 @@ sudo timedatectl set-ntp true</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20JWT%3A%20token%20used%20before%20issued%20%2F%20not%20valid%20yet">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20JWT%3A%20token%20used%20before%20issued%20%2F%20not%20valid%20yet">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -166,7 +166,7 @@ sudo timedatectl set-ntp true</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -194,7 +194,7 @@ sudo timedatectl set-ntp true</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

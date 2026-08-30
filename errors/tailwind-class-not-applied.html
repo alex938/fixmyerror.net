@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/tailwind-class-not-applied.html">
-    <meta property="og:title" content="Tailwind CSS class does not appear in built CSS – cause and fix">
+    <meta property="og:title" content="Tailwind CSS class does not appear in built CSS: cause and fix">
     <meta property="og:description" content="Tailwind only generates class names it can see as literal strings. Dynamically constructed names can be purged from production CSS. Includes a copy-paste…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tailwind CSS class does not appear in built CSS – cause and fix">
+    <meta name="twitter:title" content="Tailwind CSS class does not appear in built CSS: cause and fix">
     <meta name="twitter:description" content="Tailwind only generates class names it can see as literal strings. Dynamically constructed names can be purged from production CSS. Includes a copy-paste…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tailwind CSS class does not appear in built CSS","name":"Tailwind CSS class does not appear in built CSS","description":"Tailwind only generates class names it can see as literal strings. Dynamically constructed names can be purged from production CSS. Includes a copy-paste…","url":"https://fixmyerror.net/errors/tailwind-class-not-applied.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/tailwind-class-not-applied.html"},"inLanguage":"en-GB","articleSection":"JavaScript","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://tailwindcss.com/docs/content-configuration#dynamic-class-names"]}</script>
@@ -87,8 +87,8 @@ const classes = { red: &#039;text-red-500&#039;, blue: &#039;text-blue-500&#039;
 
             <section class="block">
                 <h2>How to diagnose JavaScript errors</h2>
-                <p>JavaScript errors cluster into <strong>package management</strong> (resolution conflicts, lockfile drift, native build failures), <strong>asynchrony</strong> (unhandled rejections, race conditions, wrong <code>this</code>), and <strong>memory</strong> (the V8 heap limit, which is a fixed ceiling rather than a leak indicator on its own). Because JavaScript coerces rather than throws, many bugs surface far from their cause — <code>undefined is not a function</code> usually means a bad import, not a bad call.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>JavaScript errors cluster into <strong>package management</strong> (resolution conflicts, lockfile drift, native build failures), <strong>asynchrony</strong> (unhandled rejections, race conditions, wrong <code>this</code>), and <strong>memory</strong> (the V8 heap limit, which is a fixed ceiling rather than a leak indicator on its own). Because JavaScript coerces rather than throws, many bugs surface far from their cause. <code>undefined is not a function</code> usually means a bad import, not a bad call.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>For dependency errors, read what npm actually reports as the conflicting peer requirement. Reaching for <code>--force</code> or <code>--legacy-peer-deps</code> installs a tree you have not validated.</li>
                     <li>Always attach a rejection handler: <code>process.on('unhandledRejection', …)</code> in Node, and check that every async function called from a non-async context has a <code>.catch()</code>.</li>
@@ -108,7 +108,7 @@ const classes = { red: &#039;text-red-500&#039;, blue: &#039;text-blue-500&#039;
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://tailwindcss.com/docs/content-configuration#dynamic-class-names" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> tailwindcss.com</a></p>
         </section>
 
@@ -147,7 +147,7 @@ const classes = { red: &#039;text-red-500&#039;, blue: &#039;text-blue-500&#039;
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Tailwind%20CSS%20class%20does%20not%20appear%20in%20built%20CSS">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Tailwind%20CSS%20class%20does%20not%20appear%20in%20built%20CSS">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -161,7 +161,7 @@ const classes = { red: &#039;text-red-500&#039;, blue: &#039;text-blue-500&#039;
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -189,7 +189,7 @@ const classes = { red: &#039;text-red-500&#039;, blue: &#039;text-blue-500&#039;
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

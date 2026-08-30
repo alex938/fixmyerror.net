@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/python-pickle-unpickling-error.html">
-    <meta property="og:title" content="Python: Unpickling error - module not found – cause and fix">
+    <meta property="og:title" content="Python: Unpickling error - module not found: cause and fix">
     <meta property="og:description" content="Cannot unpickle object because module or class definition changed or missing. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Python: Unpickling error - module not found – cause and fix">
+    <meta name="twitter:title" content="Python: Unpickling error - module not found: cause and fix">
     <meta name="twitter:description" content="Cannot unpickle object because module or class definition changed or missing. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Python: Unpickling error - module not found","name":"Python: Unpickling error - module not found","description":"Cannot unpickle object because module or class definition changed or missing. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/python-pickle-unpickling-error.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/python-pickle-unpickling-error.html"},"inLanguage":"en-GB","articleSection":"Python","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.python.org/3/library/pickle.html"]}</script>
@@ -90,12 +90,12 @@ import dill</code></pre>
             <section class="block">
                 <h2>How to diagnose Python errors</h2>
                 <p>Python errors cluster around <strong>the import system</strong> (which is really about <code>sys.path</code> and the active interpreter), <strong>environment management</strong> (which interpreter and which site-packages), and <strong>concurrency</strong> (the GIL, event loops, and pickling constraints in multiprocessing). A very large share of "module not found" reports are simply the wrong interpreter, which is why the first command should always identify it.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Identify the interpreter and its paths: <code>python -c "import sys; print(sys.executable); print(sys.path)"</code>. This resolves most import errors immediately.</li>
                     <li>Install into the interpreter you are running, not the one on PATH: <code>python -m pip install …</code> rather than bare <code>pip</code>.</li>
                     <li>Read tracebacks bottom-up. The last line is the exception; the frames above show the call chain, and the relevant frame is usually your code, not the library's.</li>
-                    <li>For encoding errors, name the encoding explicitly and decide on an error policy — <code>open(path, encoding='utf-8', errors='replace')</code> — rather than relying on the locale default.</li>
+                    <li>For encoding errors, name the encoding explicitly and decide on an error policy, such as <code>open(path, encoding='utf-8', errors='replace')</code>, rather than relying on the locale default.</li>
                     <li>For multiprocessing pickling errors, move the target function to module level. Closures, lambdas and locally defined classes cannot be pickled.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
@@ -110,7 +110,7 @@ import dill</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://docs.python.org/3/library/pickle.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> docs.python.org</a></p>
         </section>
 
@@ -149,7 +149,7 @@ import dill</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Python%3A%20Unpickling%20error%20-%20module%20not%20found">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Python%3A%20Unpickling%20error%20-%20module%20not%20found">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -163,7 +163,7 @@ import dill</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -191,7 +191,7 @@ import dill</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

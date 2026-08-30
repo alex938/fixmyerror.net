@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/ts-verbatim-module-syntax-type-import.html">
-    <meta property="og:title" content="TypeScript: type-only import must use &#039;import type&#039; (verbatimModuleSyntax) – cause and fix">
+    <meta property="og:title" content="TypeScript: type-only import must use &#039;import type&#039; (verbatimModuleSyntax): cause and fix">
     <meta property="og:description" content="With verbatimModuleSyntax enabled, TypeScript emits import statements exactly as written. An import used only as a type would survive into the JavaScript…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TypeScript: type-only import must use &#039;import type&#039; (verbatimModuleSyntax) – cause and fix">
+    <meta name="twitter:title" content="TypeScript: type-only import must use &#039;import type&#039; (verbatimModuleSyntax): cause and fix">
     <meta name="twitter:description" content="With verbatimModuleSyntax enabled, TypeScript emits import statements exactly as written. An import used only as a type would survive into the JavaScript…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"TypeScript: type-only import must use 'import type' (verbatimModuleSyntax)","name":"TypeScript: type-only import must use 'import type' (verbatimModuleSyntax)","description":"With verbatimModuleSyntax enabled, TypeScript emits import statements exactly as written. An import used only as a type would survive into the JavaScript…","url":"https://fixmyerror.net/errors/ts-verbatim-module-syntax-type-import.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ts-verbatim-module-syntax-type-import.html"},"inLanguage":"en-GB","articleSection":"TypeScript","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax"]}</script>
@@ -92,7 +92,7 @@ import { createUser, type User } from &#039;./user&#039;;
             <section class="block">
                 <h2>How to diagnose TypeScript errors</h2>
                 <p>TypeScript errors are the compiler describing a mismatch between what you declared and what you did. Nearly all of them fall into <strong>assignability</strong> (this shape is not that shape), <strong>missing declarations</strong> (a JavaScript package with no types), or <strong>strict null checks</strong> (a value can be undefined on a path you did not handle). Casting with <code>as</code> or <code>any</code> silences the message without fixing the underlying mismatch, which usually reappears at runtime.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Read the error from the innermost "Types of property X are incompatible" line outward. That nested line names the actual mismatch.</li>
                     <li>For missing declarations, try <code>npm i -D @types/&lt;pkg&gt;</code> first; if none exists, write a minimal <code>.d.ts</code> rather than reaching for <code>any</code>.</li>
@@ -112,7 +112,7 @@ import { createUser, type User } from &#039;./user&#039;;
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> typescriptlang.org</a></p>
         </section>
 
@@ -151,7 +151,7 @@ import { createUser, type User } from &#039;./user&#039;;
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20TypeScript%3A%20type-only%20import%20must%20use%20'import%20type'%20(verbatimModuleSyntax)">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20TypeScript%3A%20type-only%20import%20must%20use%20'import%20type'%20(verbatimModuleSyntax)">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -165,7 +165,7 @@ import { createUser, type User } from &#039;./user&#039;;
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -193,7 +193,7 @@ import { createUser, type User } from &#039;./user&#039;;
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

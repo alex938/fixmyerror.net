@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/scala-3-given-not-found.html">
-    <meta property="og:title" content="Scala 3: no given instance of type X was found – cause and fix">
+    <meta property="og:title" content="Scala 3: no given instance of type X was found: cause and fix">
     <meta property="og:description" content="The compiler needed a contextual value and could not find one in scope. This is Scala 3&#039;s replacement for implicit resolution errors, and the cause is…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Scala 3: no given instance of type X was found – cause and fix">
+    <meta name="twitter:title" content="Scala 3: no given instance of type X was found: cause and fix">
     <meta name="twitter:description" content="The compiler needed a contextual value and could not find one in scope. This is Scala 3&#039;s replacement for implicit resolution errors, and the cause is…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Scala 3: no given instance of type X was found","name":"Scala 3: no given instance of type X was found","description":"The compiler needed a contextual value and could not find one in scope. This is Scala 3's replacement for implicit resolution errors, and the cause is…","url":"https://fixmyerror.net/errors/scala-3-given-not-found.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/scala-3-given-not-found.html"},"inLanguage":"en-GB","articleSection":"Scala","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.scala-lang.org/scala3/reference/contextual/givens.html"]}</script>
@@ -92,10 +92,10 @@ given Ordering[MyType] = Ordering.by(_.id)</code></pre>
             <section class="block">
                 <h2>How to diagnose Scala errors</h2>
                 <p>Scala's most distinctive error class is <strong>binary incompatibility</strong>: libraries are published per Scala major version, and mixing artifacts built for different versions produces confusing "not a member of" or <code>NoSuchMethodError</code> failures. The <code>%%</code> operator in sbt exists precisely to append the right suffix, and most unresolved-dependency errors are a <code>%</code> where <code>%%</code> was needed.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Check the Scala version suffix on every dependency. Use <code>%%</code> for Scala libraries and plain <code>%</code> only for Java ones.</li>
-                    <li>Run <code>sbt evicted</code> to list dependencies that were evicted by version conflict — a frequent source of runtime NoSuchMethodError.</li>
+                    <li>Run <code>sbt evicted</code> to list dependencies that were evicted by version conflict. A frequent source of runtime NoSuchMethodError.</li>
                     <li>Use <code>sbt dependencyTree</code> to see the resolved graph and locate the transitive dependency pulling in an old version.</li>
                     <li>For inference failures, add explicit type annotations at the boundary rather than at the error site; inference failures usually propagate from further up.</li>
                     <li>Clear stale state with <code>sbt clean</code> and remove <code>~/.ivy2/cache</code> or <code>~/.cache/coursier</code> entries only for the specific failing artifact.</li>
@@ -112,7 +112,7 @@ given Ordering[MyType] = Ordering.by(_.id)</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://docs.scala-lang.org/scala3/reference/contextual/givens.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> docs.scala-lang.org</a></p>
         </section>
 
@@ -145,7 +145,7 @@ given Ordering[MyType] = Ordering.by(_.id)</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Scala%203%3A%20no%20given%20instance%20of%20type%20X%20was%20found">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Scala%203%3A%20no%20given%20instance%20of%20type%20X%20was%20found">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -159,7 +159,7 @@ given Ordering[MyType] = Ordering.by(_.id)</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -187,7 +187,7 @@ given Ordering[MyType] = Ordering.by(_.id)</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

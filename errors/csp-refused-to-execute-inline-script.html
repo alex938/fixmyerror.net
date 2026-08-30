@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/csp-refused-to-execute-inline-script.html">
-    <meta property="og:title" content="CSP: Refused to execute inline script because it violates the policy – cause and fix">
+    <meta property="og:title" content="CSP: Refused to execute inline script because it violates the policy: cause and fix">
     <meta property="og:description" content="Content-Security-Policy blocked an inline or an inline event handler. This is the policy preventing the main injection vector for XSS, so the fix is to make…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="CSP: Refused to execute inline script because it violates the policy – cause and fix">
+    <meta name="twitter:title" content="CSP: Refused to execute inline script because it violates the policy: cause and fix">
     <meta name="twitter:description" content="Content-Security-Policy blocked an inline or an inline event handler. This is the policy preventing the main injection vector for XSS, so the fix is to make…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"CSP: Refused to execute inline script because it violates the policy","name":"CSP: Refused to execute inline script because it violates the policy","description":"Content-Security-Policy blocked an inline or an inline event handler. This is the policy preventing the main injection vector for XSS, so the fix is to make…","url":"https://fixmyerror.net/errors/csp-refused-to-execute-inline-script.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/csp-refused-to-execute-inline-script.html"},"inLanguage":"en-GB","articleSection":"Security","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src"]}</script>
@@ -88,19 +88,19 @@
 printf &#039;%s&#039; &quot;console.log(1)&quot; | openssl dgst -sha256 -binary | openssl base64
 # script-src &#039;sha256-...&#039;
 
-# Avoid &#039;unsafe-inline&#039; — it disables the protection entirely.</code></pre>
+# Avoid &#039;unsafe-inline&#039;. It disables the protection entirely.</code></pre>
                 </div>
             </section>
 
             <section class="block">
                 <h2>How to diagnose Security errors</h2>
-                <p>Security errors are usually a control working correctly. A rejected JWT, a CSP violation, an SELinux denial or a host key mismatch is the system telling you an invariant was broken — and the right response is to understand the invariant, never to disable the control. Two of these deserve special caution: an SSH host key mismatch can indicate a genuine interception, and JWT algorithm confusion is an active exploitation technique, not a configuration nuisance.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Security errors are usually a control working correctly. A rejected JWT, a CSP violation, an SELinux denial or a host key mismatch is the system telling you an invariant was broken, and the right response is to understand the invariant, never to disable the control. Two of these deserve special caution: an SSH host key mismatch can indicate a genuine interception, and JWT algorithm confusion is an active exploitation technique, not a configuration nuisance.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
-                    <li>Decode tokens locally and check <code>exp</code>, <code>nbf</code>, <code>iss</code> and <code>aud</code>. Never paste a live token into an online decoder — it is a credential.</li>
+                    <li>Decode tokens locally and check <code>exp</code>, <code>nbf</code>, <code>iss</code> and <code>aud</code>. Never paste a live token into an online decoder. It is a credential.</li>
                     <li>Pin the accepted JWT algorithm explicitly on the verifying side. Accepting whatever the token's header claims is the algorithm-confusion vulnerability.</li>
                     <li>For SELinux, read the actual denial: <code>ausearch -m avc -ts recent | audit2why</code>. Set the correct file context with <code>semanage fcontext</code> rather than running <code>setenforce 0</code>.</li>
-                    <li>For CSP violations, read the browser console message — it names the exact directive and blocked URI. Add the specific source, not a wildcard.</li>
+                    <li>For CSP violations, read the browser console message. It names the exact directive and blocked URI. Add the specific source, not a wildcard.</li>
                     <li>For an SSH host key mismatch, verify the new fingerprint out of band before removing the old key. This warning exists to catch man-in-the-middle attacks.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
@@ -115,7 +115,7 @@ printf &#039;%s&#039; &quot;console.log(1)&quot; | openssl dgst -sha256 -binary 
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> developer.mozilla.org</a></p>
         </section>
 
@@ -154,7 +154,7 @@ printf &#039;%s&#039; &quot;console.log(1)&quot; | openssl dgst -sha256 -binary 
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20CSP%3A%20Refused%20to%20execute%20inline%20script%20because%20it%20violates%20the%20policy">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20CSP%3A%20Refused%20to%20execute%20inline%20script%20because%20it%20violates%20the%20policy">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -168,7 +168,7 @@ printf &#039;%s&#039; &quot;console.log(1)&quot; | openssl dgst -sha256 -binary 
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -196,7 +196,7 @@ printf &#039;%s&#039; &quot;console.log(1)&quot; | openssl dgst -sha256 -binary 
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

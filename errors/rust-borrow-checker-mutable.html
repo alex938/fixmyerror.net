@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/rust-borrow-checker-mutable.html">
-    <meta property="og:title" content="Rust: cannot borrow `x` as mutable more than once at a time – cause and fix">
+    <meta property="og:title" content="Rust: cannot borrow `x` as mutable more than once at a time: cause and fix">
     <meta property="og:description" content="Rust&#039;s ownership rules prevent multiple mutable references to the same data simultaneously to avoid data races. Includes a copy-paste fix and how to…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Rust: cannot borrow `x` as mutable more than once at a time – cause and fix">
+    <meta name="twitter:title" content="Rust: cannot borrow `x` as mutable more than once at a time: cause and fix">
     <meta name="twitter:description" content="Rust&#039;s ownership rules prevent multiple mutable references to the same data simultaneously to avoid data races. Includes a copy-paste fix and how to…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rust: cannot borrow `x` as mutable more than once at a time","name":"Rust: cannot borrow `x` as mutable more than once at a time","description":"Rust's ownership rules prevent multiple mutable references to the same data simultaneously to avoid data races. Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/rust-borrow-checker-mutable.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/rust-borrow-checker-mutable.html"},"inLanguage":"en-GB","articleSection":"Rust","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html"]}</script>
@@ -86,11 +86,11 @@ let z = &amp;mut x; // Now allowed
 
             <section class="block">
                 <h2>How to diagnose Rust errors</h2>
-                <p>Rust's compiler errors are unusually helpful — they are closer to a code review than an error message. Almost all of them come from <strong>ownership</strong> (a value was moved and then used), <strong>borrowing</strong> (two mutable borrows, or a borrow outliving its owner), or <strong>trait resolution</strong> (the required bound is not satisfied). The productive habit is to read the error's notes and help sections in full and run <code>rustc --explain</code> on the code.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Rust's compiler errors are unusually helpful. They are closer to a code review than an error message. Almost all of them come from <strong>ownership</strong> (a value was moved and then used), <strong>borrowing</strong> (two mutable borrows, or a borrow outliving its owner), or <strong>trait resolution</strong> (the required bound is not satisfied). The productive habit is to read the error's notes and help sections in full and run <code>rustc --explain</code> on the code.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Run <code>rustc --explain E0502</code> (or whichever code) for a worked explanation of the rule you violated.</li>
-                    <li>For borrow conflicts, shorten the borrow's scope first — introduce a block or bind the intermediate result — before reaching for <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>.</li>
+                    <li>For borrow conflicts, shorten the borrow's scope first, introducing a block or binding the intermediate result, before reaching for <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>.</li>
                     <li>For moved-value errors, decide deliberately: clone (cost), borrow (lifetime), or restructure so ownership flows one way. Cloning to silence the compiler is fine early and worth revisiting later.</li>
                     <li>For trait errors, read which bound is missing and where it is required. <code>cargo tree -d</code> finds duplicate crate versions, which cause "trait not implemented" errors between two identical-looking types.</li>
                     <li>Use <code>cargo clippy</code> routinely; it catches idiom problems that later become borrow-checker fights.</li>
@@ -107,7 +107,7 @@ let z = &amp;mut x; // Now allowed
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> doc.rust-lang.org</a></p>
         </section>
 
@@ -119,7 +119,7 @@ let z = &amp;mut x; // Now allowed
                 <li><a href="../errors/rust-cargo-lock-version-unsupported.html">Cargo: lock file version requires a newer version of Cargo<span class="sub">Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot…</span></a></li>
                 <li><a href="../errors/rust-cargo-dependency-conflict.html">failed to select a version for X<span class="sub">Cargo cannot resolve a compatible set of dependency versions. Two or more crates require…</span></a></li>
                 <li><a href="../errors/rust-mismatched-types.html">mismatched types: expected X, found Y<span class="sub">The compiler expected one type but found another. Common with integer types, string types…</span></a></li>
-                <li><a href="../errors/rust-could-not-compile-sigkill.html">Rust: could not compile — process didn&#039;t exit successfully (signal: 9, SIGKILL)<span class="sub">The compiler was killed by the operating system, essentially always the OOM killer. rustc is…</span></a></li>
+                <li><a href="../errors/rust-could-not-compile-sigkill.html">Rust: could not compile, process didn&#039;t exit successfully (signal: 9, SIGKILL)<span class="sub">The compiler was killed by the operating system, almost always the OOM killer. rustc is…</span></a></li>
                 <li><a href="../errors/rust-linking-with-cc-failed.html">Rust: linking with `cc` failed<span class="sub">Compilation succeeded but linking did not. Almost always a missing system library that a -sys…</span></a></li>
                 <li><a href="../errors/rust-trait-not-implemented.html">the trait X is not implemented for Y<span class="sub">A type does not implement a required trait. This happens when a trait bound is specified but…</span></a></li>
             </ul>
@@ -146,7 +146,7 @@ let z = &amp;mut x; // Now allowed
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Rust%3A%20cannot%20borrow%20%60x%60%20as%20mutable%20more%20than%20once%20at%20a%20time">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Rust%3A%20cannot%20borrow%20%60x%60%20as%20mutable%20more%20than%20once%20at%20a%20time">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -160,7 +160,7 @@ let z = &amp;mut x; // Now allowed
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -188,7 +188,7 @@ let z = &amp;mut x; // Now allowed
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

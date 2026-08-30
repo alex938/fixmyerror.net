@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/icmp-destination-unreachable-host-prohibited.html">
-    <meta property="og:title" content="ICMP Host Administratively Prohibited (Type 3, Code 10) – cause and fix">
+    <meta property="og:title" content="ICMP Host Administratively Prohibited (Type 3, Code 10): cause and fix">
     <meta property="og:description" content="Host access is specifically blocked by administrative policy or security rules. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ICMP Host Administratively Prohibited (Type 3, Code 10) – cause and fix">
+    <meta name="twitter:title" content="ICMP Host Administratively Prohibited (Type 3, Code 10): cause and fix">
     <meta name="twitter:description" content="Host access is specifically blocked by administrative policy or security rules. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"ICMP Host Administratively Prohibited (Type 3, Code 10)","name":"ICMP Host Administratively Prohibited (Type 3, Code 10)","description":"Host access is specifically blocked by administrative policy or security rules. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/icmp-destination-unreachable-host-prohibited.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/icmp-destination-unreachable-host-prohibited.html"},"inLanguage":"en-GB","articleSection":"ICMP","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://tools.ietf.org/html/rfc1812"]}</script>
@@ -89,13 +89,13 @@ cat /etc/hosts.deny</code></pre>
             <section class="block">
                 <h2>How to diagnose ICMP errors</h2>
                 <p>ICMP is the diagnostic layer of IP, and its messages are the network telling you precisely why a packet could not be delivered. Learning the type/code pairs turns vague "the network is broken" reports into specific diagnoses: <strong>Type 3 Code 1</strong> means a router reached the destination network but not the host; <strong>Type 3 Code 4</strong> (fragmentation needed) is the signature of a broken Path MTU Discovery, which causes the classic "small requests work, large requests hang" symptom. Blanket-blocking ICMP at a firewall breaks PMTUD and is a common self-inflicted outage.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Capture the ICMP itself: <code>sudo tcpdump -n icmp</code>. The type and code are printed in plain text and give you the exact reason.</li>
                     <li>Use <code>traceroute</code> (or <code>mtr</code> for a continuous view) to see which hop generates the unreachable or time-exceeded message.</li>
                     <li>Suspect PMTUD when small packets succeed and large transfers stall. Test with <code>ping -M do -s 1472 host</code> and lower the size until it passes to find the real MTU.</li>
                     <li>Never block ICMP Type 3 Code 4 or Type 11 at a firewall. They are required for correct TCP operation and for traceroute.</li>
-                    <li>For IPv6, remember ICMPv6 is mandatory — Neighbour Discovery and PMTUD both depend on it, so filtering it breaks connectivity entirely.</li>
+                    <li>For IPv6, remember ICMPv6 is mandatory. Neighbour Discovery and PMTUD both depend on it, so filtering it breaks connectivity entirely.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
                 <ul class="tool-list">
@@ -109,7 +109,7 @@ cat /etc/hosts.deny</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://tools.ietf.org/html/rfc1812" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> tools.ietf.org</a></p>
         </section>
 
@@ -148,7 +148,7 @@ cat /etc/hosts.deny</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20ICMP%20Host%20Administratively%20Prohibited%20(Type%203%2C%20Code%2010)">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20ICMP%20Host%20Administratively%20Prohibited%20(Type%203%2C%20Code%2010)">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -162,7 +162,7 @@ cat /etc/hosts.deny</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -190,7 +190,7 @@ cat /etc/hosts.deny</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

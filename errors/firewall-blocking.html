@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firewall blocking connection – Cause and Fix | FixMyError.net</title>
+    <title>Firewall blocking connection: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="Network firewall is blocking the connection attempt to the destination port or IP address. Includes a copy-paste fix and how to diagnose it.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/firewall-blocking.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/firewall-blocking.html">
-    <meta property="og:title" content="Firewall blocking connection – cause and fix">
+    <meta property="og:title" content="Firewall blocking connection: cause and fix">
     <meta property="og:description" content="Network firewall is blocking the connection attempt to the destination port or IP address. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Firewall blocking connection – cause and fix">
+    <meta name="twitter:title" content="Firewall blocking connection: cause and fix">
     <meta name="twitter:description" content="Network firewall is blocking the connection attempt to the destination port or IP address. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Firewall blocking connection","name":"Firewall blocking connection","description":"Network firewall is blocking the connection attempt to the destination port or IP address. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/firewall-blocking.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/firewall-blocking.html"},"inLanguage":"en-GB","articleSection":"Network","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://help.ubuntu.com/community/UFW"]}</script>
@@ -86,8 +86,8 @@ sudo ufw allow 80/tcp
 
             <section class="block">
                 <h2>How to diagnose Network errors</h2>
-                <p>Network errors are precise if you read them literally. <strong>Connection refused</strong> means a machine answered and actively rejected — nothing is listening on that port. <strong>Timeout</strong> means nothing answered at all, which points at a firewall silently dropping packets or a wrong address. <strong>Connection reset</strong> means the peer accepted then abruptly closed, often a proxy, a protocol mismatch, or an application crash. Distinguishing those three saves most of the debugging time.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Network errors are precise if you read them literally. <strong>Connection refused</strong> means a machine answered and actively rejected: nothing is listening on that port. <strong>Timeout</strong> means nothing answered at all, which points at a firewall silently dropping packets or a wrong address. <strong>Connection reset</strong> means the peer accepted then abruptly closed, often a proxy, a protocol mismatch, or an application crash. Distinguishing those three saves most of the debugging time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Test layer by layer: <code>ping</code> for reachability, <code>nc -zv host port</code> for the port, then the application protocol. Do not skip to the application layer.</li>
                     <li>Confirm what is listening locally with <code>ss -tulpn</code>. "Connection refused" on localhost almost always means the service bound to <code>127.0.0.1</code> when it needed <code>0.0.0.0</code>, or vice versa.</li>
@@ -108,7 +108,7 @@ sudo ufw allow 80/tcp
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://help.ubuntu.com/community/UFW" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> help.ubuntu.com</a></p>
         </section>
 
@@ -147,7 +147,7 @@ sudo ufw allow 80/tcp
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Firewall%20blocking%20connection">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Firewall%20blocking%20connection">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -161,7 +161,7 @@ sudo ufw allow 80/tcp
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -189,7 +189,7 @@ sudo ufw allow 80/tcp
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -5918,7 +5918,7 @@
     "id": "node-err-unsupported-dir-import",
     "title": "Node.js: ERR_UNSUPPORTED_DIR_IMPORT",
     "category": "JavaScript",
-    "explanation": "An ESM import pointed at a directory. Unlike CommonJS, ESM does not resolve a directory to its index.js — you must import the file, or the package must declare an \"exports\" entry.",
+    "explanation": "An ESM import pointed at a directory. Unlike CommonJS, ESM does not resolve a directory to its index.js. You must import the file, or the package must declare an \"exports\" entry.",
     "fix_snippet": "// Wrong\nimport { helper } from './lib';\n// Right\nimport { helper } from './lib/index.js';\n\n// For your own package, declare exports:\n// package.json\n{ \"exports\": { \".\": \"./dist/index.js\" } }",
     "sources": [
       "https://nodejs.org/api/errors.html#err_unsupported_dir_import"
@@ -5962,7 +5962,7 @@
     "id": "mime-type-text-html-module-script",
     "title": "Failed to load module script: expected a JavaScript module but got text/html",
     "category": "Frontend",
-    "explanation": "The browser requested a .js module and the server returned an HTML page — almost always a 404 handled by an SPA fallback rewriting every unknown path to index.html. The path or base URL is wrong, not the JavaScript.",
+    "explanation": "The browser requested a .js module and the server returned an HTML page. That is almost always a 404 handled by an SPA fallback rewriting every unknown path to index.html. The path or base URL is wrong, not the JavaScript.",
     "fix_snippet": "# Confirm what the server actually returns\ncurl -sI https://example.com/assets/main-abc123.js | head -5\n\n# Common causes:\n# 1. Wrong base path in the bundler\n#    vite.config.js -> export default { base: '/subpath/' }\n# 2. SPA fallback catching /assets/*  -> exclude static dirs from the rewrite\n# 3. Deploy did not upload the assets directory",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/module"
@@ -5982,7 +5982,7 @@
   },
   {
     "id": "nextjs-dynamic-server-usage",
-    "title": "Next.js: Dynamic server usage — route couldn't be rendered statically",
+    "title": "Next.js: Dynamic server usage (route couldn't be rendered statically)",
     "category": "JavaScript",
     "explanation": "A route Next.js wanted to prerender at build time used a request-scoped API such as cookies(), headers() or searchParams. Those values do not exist during a static build.",
     "fix_snippet": "// Opt the route into dynamic rendering\nexport const dynamic = 'force-dynamic';\n\n// Or isolate the dynamic part behind Suspense so the shell stays static\nimport { Suspense } from 'react';\n<Suspense fallback={<Skeleton />}><UserPanel /></Suspense>\n\n// Or make the fetch itself uncached\nfetch(url, { cache: 'no-store' });",
@@ -6017,7 +6017,7 @@
     "id": "ts-inferred-type-cannot-be-named",
     "title": "TypeScript: The inferred type of X cannot be named without a reference to Y",
     "category": "TypeScript",
-    "explanation": "When emitting declaration files, TypeScript needs to write out the type of an exported value, but that type lives in a package that is not a direct dependency — so the generated .d.ts would reference something consumers cannot resolve.",
+    "explanation": "When emitting declaration files, TypeScript needs to write out the type of an exported value, but that type lives in a package that is not a direct dependency, so the generated .d.ts would reference something consumers cannot resolve.",
     "fix_snippet": "// 1. Annotate the export explicitly so inference is not needed\nimport type { Router } from 'express';\nexport const router: Router = makeRouter();\n\n// 2. Or promote the transitive package to a direct dependency\nnpm i -D @types/express\n\n// 3. Or disable declaration emit for that entry point\n// tsconfig.json -> \"declaration\": false",
     "sources": [
       "https://www.typescriptlang.org/docs/handbook/declaration-files/publishing.html"
@@ -6039,7 +6039,7 @@
     "id": "python-no-running-event-loop",
     "title": "Python: RuntimeError: no running event loop",
     "category": "Python",
-    "explanation": "An asyncio API that requires an active loop — asyncio.create_task, asyncio.get_running_loop, or awaiting from sync code — was called outside of a coroutine.",
+    "explanation": "An asyncio API that requires an active loop (asyncio.create_task, asyncio.get_running_loop, or awaiting from sync code) was called outside of a coroutine.",
     "fix_snippet": "# Wrong: called at import time / from sync code\ntask = asyncio.create_task(work())\n\n# Right: run inside a loop\nasync def main():\n    task = asyncio.create_task(work())\n    await task\n\nasyncio.run(main())\n\n# Bridging from sync code in another thread\nasyncio.run_coroutine_threadsafe(work(), loop)",
     "sources": [
       "https://docs.python.org/3/library/asyncio-task.html"
@@ -6070,7 +6070,7 @@
   },
   {
     "id": "k8s-untolerated-taint",
-    "title": "Kubernetes: 0/N nodes are available — node(s) had untolerated taint",
+    "title": "Kubernetes: 0/N nodes are available, node(s) had untolerated taint",
     "category": "Kubernetes",
     "explanation": "The scheduler found no node willing to accept the pod because every candidate carries a taint the pod does not tolerate. Control-plane nodes, GPU pools and nodes under pressure are all tainted by default.",
     "fix_snippet": "# See the taints\nkubectl get nodes -o json | jq '.items[] | {name:.metadata.name, taints:.spec.taints}'\n\n# Add a matching toleration to the pod spec\ntolerations:\n  - key: \"nvidia.com/gpu\"\n    operator: \"Exists\"\n    effect: \"NoSchedule\"\n\n# Or remove a taint that should not be there\nkubectl taint nodes node1 key=value:NoSchedule-",
@@ -6094,7 +6094,7 @@
     "id": "k8s-admission-webhook-denied",
     "title": "Kubernetes: admission webhook denied the request",
     "category": "Kubernetes",
-    "explanation": "A validating or mutating admission webhook rejected the object. This is policy enforcement — Kyverno, Gatekeeper, cert-manager, an Ingress controller or a service mesh — not an API server fault.",
+    "explanation": "A validating or mutating admission webhook rejected the object. This is policy enforcement from Kyverno, Gatekeeper, cert-manager, an Ingress controller or a service mesh, not an API server fault.",
     "fix_snippet": "# The message names the webhook; find its configuration\nkubectl get validatingwebhookconfigurations\nkubectl describe validatingwebhookconfiguration <name>\n\n# Read the policy controller's logs for the real reason\nkubectl logs -n kyverno deploy/kyverno-admission-controller --tail=100\n\n# If the webhook backend is down, requests fail with 'connection refused'\n# and failurePolicy: Fail blocks everything until it recovers",
     "sources": [
       "https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/"
@@ -6105,7 +6105,7 @@
     "id": "k8s-progress-deadline-exceeded",
     "title": "Kubernetes: Deployment exceeded its progress deadline",
     "category": "Kubernetes",
-    "explanation": "A rollout did not reach the required number of available replicas within progressDeadlineSeconds (600 by default). The Deployment is reporting that the new pods never became ready — the underlying failure is on the pods.",
+    "explanation": "A rollout did not reach the required number of available replicas within progressDeadlineSeconds (600 by default). The Deployment is reporting that the new pods never became ready. The underlying failure is on the pods.",
     "fix_snippet": "kubectl rollout status deploy/<name>\nkubectl describe deploy/<name> | tail -20\n\n# Look at the new ReplicaSet's pods, not the old ones\nkubectl get pods -l app=<name> --sort-by=.metadata.creationTimestamp\nkubectl describe pod <newest-pod>\n\n# Usual causes: failing readiness probe, image pull failure, or\n# insufficient resources to schedule the surge replica\nkubectl rollout undo deploy/<name>   # roll back while you investigate",
     "sources": [
       "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#failed-deployment"
@@ -6128,7 +6128,7 @@
     "title": "Kubernetes: Init:CrashLoopBackOff",
     "category": "Kubernetes",
     "explanation": "An init container is failing, so the main containers never start. Init containers run sequentially to completion, and any non-zero exit blocks the whole pod.",
-    "fix_snippet": "# Name the init container explicitly — logs default to the app container\nkubectl logs <pod> -c <init-container-name>\nkubectl logs <pod> -c <init-container-name> --previous\n\n# See the ordering and exit codes\nkubectl describe pod <pod> | sed -n '/Init Containers/,/^Containers/p'\n\n# Typical causes: waiting on a service that never becomes ready,\n# a migration that fails, or missing permissions on a mounted volume",
+    "fix_snippet": "# Name the init container explicitly. Logs default to the app container\nkubectl logs <pod> -c <init-container-name>\nkubectl logs <pod> -c <init-container-name> --previous\n\n# See the ordering and exit codes\nkubectl describe pod <pod> | sed -n '/Init Containers/,/^Containers/p'\n\n# Typical causes: waiting on a service that never becomes ready,\n# a migration that fails, or missing permissions on a mounted volume",
     "sources": [
       "https://kubernetes.io/docs/concepts/workloads/pods/init-containers/"
     ],
@@ -6136,7 +6136,7 @@
   },
   {
     "id": "docker-buildkit-process-did-not-complete",
-    "title": "Docker: failed to solve — process did not complete successfully",
+    "title": "Docker: failed to solve (process did not complete successfully)",
     "category": "Docker",
     "explanation": "A RUN instruction exited non-zero during a BuildKit build. The wrapper message is generic; the real error is in the step output above it, which BuildKit may have collapsed.",
     "fix_snippet": "# Show full output for every step\ndocker build --progress=plain --no-cache -t app .\n\n# Debug interactively from the last good layer\ndocker build --target builder -t debug .\ndocker run --rm -it debug sh\n\n# Keep failed build state for inspection\nBUILDX_EXPERIMENTAL=1 docker buildx debug --invoke /bin/sh build .",
@@ -6158,7 +6158,7 @@
   },
   {
     "id": "docker-oci-runtime-create-failed",
-    "title": "Docker: OCI runtime create failed — executable file not found",
+    "title": "Docker: OCI runtime create failed (executable file not found)",
     "category": "Docker",
     "explanation": "The container was created but runc could not start the entrypoint. The binary named in CMD or ENTRYPOINT does not exist in the image, is not executable, or the script has Windows line endings.",
     "fix_snippet": "# Check the binary exists inside the image\ndocker run --rm --entrypoint sh <image> -c 'ls -l /app/start.sh; which node'\n\n# CRLF line endings break the shebang and produce this exact error\nfile entrypoint.sh          # should not say 'CRLF'\nsed -i 's/\\r$//' entrypoint.sh\n\n# Make sure it is executable in the image\n# Dockerfile: RUN chmod +x /app/entrypoint.sh",
@@ -6183,7 +6183,7 @@
     "title": "git: refusing to merge unrelated histories",
     "category": "Git",
     "explanation": "The two branches have no common ancestor. This normally means a local repository was initialised separately from the remote, or the remote was recreated.",
-    "fix_snippet": "# Understand first — this is often a sign you cloned the wrong thing\ngit log --oneline -5 HEAD\ngit log --oneline -5 origin/main\n\n# If merging really is correct\ngit pull origin main --allow-unrelated-histories\n\n# Usually cleaner: clone the remote and copy your work in\ngit clone <remote> fresh && cp -r old/src fresh/src",
+    "fix_snippet": "# Understand first. This is often a sign you cloned the wrong thing\ngit log --oneline -5 HEAD\ngit log --oneline -5 origin/main\n\n# If merging really is correct\ngit pull origin main --allow-unrelated-histories\n\n# Usually cleaner: clone the remote and copy your work in\ngit clone <remote> fresh && cp -r old/src fresh/src",
     "sources": [
       "https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---allow-unrelated-histories"
     ],
@@ -6193,7 +6193,7 @@
     "id": "git-rpc-failed-http-400",
     "title": "git: RPC failed; HTTP 400 curl 22 / the remote end hung up unexpectedly",
     "category": "Git",
-    "explanation": "The push exceeded a size limit somewhere in the chain — the HTTP post buffer, a reverse proxy body limit, or the server's own cap. Large binary files and long histories are the usual triggers.",
+    "explanation": "The push exceeded a size limit somewhere in the chain: the HTTP post buffer, a reverse proxy body limit, or the server's own cap. Large binary files and long histories are the usual triggers.",
     "fix_snippet": "# Raise the client-side buffer (500 MB)\ngit config --global http.postBuffer 524288000\n\n# Push in smaller batches instead of one huge push\ngit push origin HEAD~500:refs/heads/main\ngit push origin main\n\n# Use SSH, which is not subject to HTTP body limits\ngit remote set-url origin git@github.com:org/repo.git\n\n# For large binaries, move them to Git LFS",
     "sources": [
       "https://git-scm.com/docs/git-config#Documentation/git-config.txt-httppostBuffer"
@@ -6216,7 +6216,7 @@
     "title": "428 Precondition Required",
     "category": "HTTP",
     "explanation": "The server requires the request to be conditional. It is telling the client to send If-Match or If-Unmodified-Since so that concurrent updates cannot silently overwrite one another (the lost update problem).",
-    "fix_snippet": "# 1. GET the resource and keep its ETag\ncurl -sD - https://api.example.com/items/42 -o item.json | grep -i etag\n# ETag: \"a1b2c3\"\n\n# 2. Send it back on the write\ncurl -X PUT https://api.example.com/items/42 \\\n  -H 'If-Match: \"a1b2c3\"' \\\n  -H 'Content-Type: application/json' \\\n  -d @item.json\n\n# A 412 in reply means someone else changed it first — re-read and retry.",
+    "fix_snippet": "# 1. GET the resource and keep its ETag\ncurl -sD - https://api.example.com/items/42 -o item.json | grep -i etag\n# ETag: \"a1b2c3\"\n\n# 2. Send it back on the write\ncurl -X PUT https://api.example.com/items/42 \\\n  -H 'If-Match: \"a1b2c3\"' \\\n  -H 'Content-Type: application/json' \\\n  -d @item.json\n\n# A 412 in reply means someone else changed it first. Re-read and retry.",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/428"
     ],
@@ -6238,7 +6238,7 @@
     "title": "402 Payment Required",
     "category": "HTTP",
     "explanation": "Reserved in the original HTTP specification and now used by many SaaS APIs to signal that the account is unpaid, out of credit, or over its plan limit. The response body carries the vendor-specific detail.",
-    "fix_snippet": "# Always read the body — the status alone tells you nothing actionable\ncurl -i https://api.example.com/v1/resource\n\n# Handle it as non-retryable in client code\nif (res.status === 402) {\n  // do not retry; alert billing, surface to the user\n}\n\n# Add a low-balance alert on the provider side before it hits production",
+    "fix_snippet": "# Always read the body. The status alone tells you nothing actionable\ncurl -i https://api.example.com/v1/resource\n\n# Handle it as non-retryable in client code\nif (res.status === 402) {\n  // do not retry; alert billing, surface to the user\n}\n\n# Add a low-balance alert on the provider side before it hits production",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402"
     ],
@@ -6248,7 +6248,7 @@
     "id": "http-511-network-authentication-required",
     "title": "511 Network Authentication Required",
     "category": "HTTP",
-    "explanation": "A captive portal — hotel, airport or corporate guest Wi-Fi — is intercepting traffic and requires sign-in. The response comes from the network, not from the server you addressed.",
+    "explanation": "A captive portal (hotel, airport or corporate guest Wi-Fi) is intercepting traffic and requires sign-in. The response comes from the network, not from the server you addressed.",
     "fix_snippet": "# Confirm it is interception, not the origin\ncurl -sI http://neverssl.com | head -3\ncurl -sI https://example.com | head -3   # HTTPS usually fails to connect instead\n\n# Open the portal\n# macOS/iOS: connect and wait for the captive portal sheet\n# Linux:     xdg-open http://captive.apple.com\n\n# Applications should treat 511 as 'not my server' and not cache the response.",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/511"
@@ -6271,7 +6271,7 @@
     "title": "TLS: SSL_ERROR_SYSCALL / connection reset during handshake",
     "category": "TLS",
     "explanation": "The TCP connection was torn down mid-handshake, so TLS never got a protocol-level alert to report. Typically a middlebox, a firewall doing SNI inspection, or a server rejecting the client's protocol version without a clean alert.",
-    "fix_snippet": "# Pin down which side and which stage\nopenssl s_client -connect host:443 -servername host -tls1_2 </dev/null\nopenssl s_client -connect host:443 -servername host -tls1_3 </dev/null\n\n# Watch the wire — a RST right after ClientHello means a middlebox\nsudo tcpdump -ni any host <ip> and port 443\n\n# Test without SNI to detect SNI-based filtering\nopenssl s_client -connect host:443 -noservername </dev/null",
+    "fix_snippet": "# Pin down which side and which stage\nopenssl s_client -connect host:443 -servername host -tls1_2 </dev/null\nopenssl s_client -connect host:443 -servername host -tls1_3 </dev/null\n\n# Watch the wire. A RST right after ClientHello means a middlebox\nsudo tcpdump -ni any host <ip> and port 443\n\n# Test without SNI to detect SNI-based filtering\nopenssl s_client -connect host:443 -noservername </dev/null",
     "sources": [
       "https://www.openssl.org/docs/man3.5/man3/SSL_get_error.html"
     ],
@@ -6281,8 +6281,8 @@
     "id": "aws-expired-token",
     "title": "AWS: ExpiredToken / The security token included in the request is expired",
     "category": "Cloud",
-    "explanation": "Temporary credentials from STS, IAM Identity Center (SSO) or an assumed role have passed their expiry. Sessions are short-lived by design — one hour by default for an assumed role.",
-    "fix_snippet": "# Who am I and is the session still valid?\naws sts get-caller-identity\n\n# Refresh SSO\naws sso login --profile <profile>\n\n# Re-assume a role\naws sts assume-role --role-arn arn:aws:iam::123456789012:role/Deploy \\\n  --role-session-name local --duration-seconds 3600\n\n# In code, let the SDK's credential provider refresh automatically —\n# never copy static values from `aws configure export-credentials`.",
+    "explanation": "Temporary credentials from STS, IAM Identity Center (SSO) or an assumed role have passed their expiry. Sessions are short-lived by design: one hour by default for an assumed role.",
+    "fix_snippet": "# Who am I and is the session still valid?\naws sts get-caller-identity\n\n# Refresh SSO\naws sso login --profile <profile>\n\n# Re-assume a role\naws sts assume-role --role-arn arn:aws:iam::123456789012:role/Deploy \\\n  --role-session-name local --duration-seconds 3600\n\n# In code, let the SDK's credential provider refresh automatically:\n# never copy static values from `aws configure export-credentials`.",
     "sources": [
       "https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html"
     ],
@@ -6301,7 +6301,7 @@
   },
   {
     "id": "gcp-service-disabled",
-    "title": "GCP: SERVICE_DISABLED — API has not been used in project before",
+    "title": "GCP: SERVICE_DISABLED (API has not been used in project before)",
     "category": "Cloud",
     "explanation": "Google Cloud APIs are disabled by default per project. The first call to a service fails until the API is enabled, and there is a short propagation delay after enabling it.",
     "fix_snippet": "# The error names the service; enable it\ngcloud services enable run.googleapis.com --project <project-id>\n\n# List what is already enabled\ngcloud services list --enabled --project <project-id>\n\n# In Terraform, enable it as a resource so it is reproducible\nresource \"google_project_service\" \"run\" {\n  service            = \"run.googleapis.com\"\n  disable_on_destroy = false\n}",
@@ -6312,7 +6312,7 @@
   },
   {
     "id": "azure-subscription-not-registered",
-    "title": "Azure: MissingSubscriptionRegistration — resource provider not registered",
+    "title": "Azure: MissingSubscriptionRegistration (resource provider not registered)",
     "category": "Cloud",
     "explanation": "Azure requires each resource provider namespace to be registered on the subscription before resources of that type can be created. New subscriptions have only a small default set registered.",
     "fix_snippet": "# The error names the namespace, e.g. Microsoft.ContainerService\naz provider register --namespace Microsoft.ContainerService\n\n# Watch until it reports Registered (can take a few minutes)\naz provider show -n Microsoft.ContainerService --query registrationState -o tsv\n\n# List everything not yet registered\naz provider list --query \"[?registrationState!='Registered'].namespace\" -o table",
@@ -6326,7 +6326,7 @@
     "title": "Terraform: Provider produced inconsistent final plan",
     "category": "Terraform",
     "explanation": "The provider returned a value after apply that differs from what it promised at plan time. This is a provider bug or a case where the cloud API normalises a value (case, ordering, defaults) behind Terraform's back.",
-    "fix_snippet": "# 1. Upgrade the provider — most of these are fixed upstream\nterraform init -upgrade\n\n# 2. Normalise the input yourself to match what the API returns\n#    (lowercase names, sorted lists, explicit defaults)\n\n# 3. If the attribute is genuinely server-managed, ignore it\nlifecycle {\n  ignore_changes = [tags[\"LastModified\"]]\n}\n\n# 4. Capture detail for a bug report\nTF_LOG=TRACE TF_LOG_PATH=tf.log terraform apply",
+    "fix_snippet": "# 1. Upgrade the provider. Most of these are fixed upstream\nterraform init -upgrade\n\n# 2. Normalise the input yourself to match what the API returns\n#    (lowercase names, sorted lists, explicit defaults)\n\n# 3. If the attribute is genuinely server-managed, ignore it\nlifecycle {\n  ignore_changes = [tags[\"LastModified\"]]\n}\n\n# 4. Capture detail for a bug report\nTF_LOG=TRACE TF_LOG_PATH=tf.log terraform apply",
     "sources": [
       "https://developer.hashicorp.com/terraform/language/resources/behavior"
     ],
@@ -6336,8 +6336,8 @@
     "id": "terraform-inconsistent-lock-file",
     "title": "Terraform: Inconsistent dependency lock file",
     "category": "Terraform",
-    "explanation": "The provider versions or platform hashes recorded in .terraform.lock.hcl do not cover what this run needs — commonly because the lock was generated on a different OS or architecture than the CI runner.",
-    "fix_snippet": "# Add hashes for every platform you build on, then commit the lock\nterraform providers lock \\\n  -platform=linux_amd64 \\\n  -platform=linux_arm64 \\\n  -platform=darwin_arm64\n\n# After changing version constraints\nterraform init -upgrade\n\n# Never delete the lock file to 'fix' this — it is your supply-chain pin.",
+    "explanation": "The provider versions or platform hashes recorded in .terraform.lock.hcl do not cover what this run needs, commonly because the lock was generated on a different OS or architecture than the CI runner.",
+    "fix_snippet": "# Add hashes for every platform you build on, then commit the lock\nterraform providers lock \\\n  -platform=linux_amd64 \\\n  -platform=linux_arm64 \\\n  -platform=darwin_arm64\n\n# After changing version constraints\nterraform init -upgrade\n\n# Never delete the lock file to 'fix' this. It is your supply-chain pin.",
     "sources": [
       "https://developer.hashicorp.com/terraform/language/files/dependency-lock"
     ],
@@ -6345,7 +6345,7 @@
   },
   {
     "id": "terraform-invalid-count-argument",
-    "title": "Terraform: Invalid count argument — value depends on resource attributes",
+    "title": "Terraform: Invalid count argument (value depends on resource attributes)",
     "category": "Terraform",
     "explanation": "Terraform must know how many instances a resource has before it can build the plan graph. A count derived from an attribute of a resource that does not yet exist is unknowable at plan time.",
     "fix_snippet": "# Wrong: count depends on something created in the same apply\ncount = length(aws_subnet.this[*].id)\n\n# Right: derive it from static input\ncount = length(var.subnet_cidrs)\n\n# Or split into two applies when it genuinely cannot be known\nterraform apply -target=aws_vpc.main\nterraform apply\n\n# for_each has the same rule: the KEYS must be known at plan time,\n# the values may be unknown.",
@@ -6369,7 +6369,7 @@
     "id": "pg-statement-timeout",
     "title": "PostgreSQL: canceling statement due to statement timeout",
     "category": "Database",
-    "explanation": "The query ran longer than statement_timeout and was cancelled by the server. This is a guardrail doing its job — the interesting question is why the query is slow, not how to raise the limit.",
+    "explanation": "The query ran longer than statement_timeout and was cancelled by the server. This is a guardrail doing its job. The interesting question is why the query is slow, not how to raise the limit.",
     "fix_snippet": "-- What is the limit, and at which level is it set?\nSHOW statement_timeout;\nSELECT rolname, rolconfig FROM pg_roles WHERE rolname = current_user;\n\n-- Find the plan\nEXPLAIN (ANALYZE, BUFFERS) SELECT ...;\n\n-- Raise it only for one known-long statement\nSET LOCAL statement_timeout = '5min';\n\n-- Usually the real fix is an index or a smaller batch\nCREATE INDEX CONCURRENTLY idx_events_created ON events (created_at);",
     "sources": [
       "https://www.postgresql.org/docs/current/runtime-config-client.html"
@@ -6380,7 +6380,7 @@
     "id": "pg-could-not-serialize-access",
     "title": "PostgreSQL: could not serialize access due to concurrent update",
     "category": "Database",
-    "explanation": "Two transactions running at REPEATABLE READ or SERIALIZABLE touched the same rows and PostgreSQL aborted one to preserve isolation. This is expected behaviour, not corruption — the application is required to retry.",
+    "explanation": "Two transactions running at REPEATABLE READ or SERIALIZABLE touched the same rows and PostgreSQL aborted one to preserve isolation. This is expected behaviour, not corruption. The application is required to retry.",
     "fix_snippet": "-- Retry on SQLSTATE 40001 with backoff\n-- Python example\nfor attempt in range(5):\n    try:\n        with conn.transaction():\n            do_work()\n        break\n    except psycopg.errors.SerializationFailure:\n        time.sleep(0.05 * 2 ** attempt)\n\n-- Reduce the window: keep transactions short, and take an explicit\n-- lock ordering if the same rows are always contended\nSELECT * FROM accounts WHERE id = $1 FOR UPDATE;",
     "sources": [
       "https://www.postgresql.org/docs/current/transaction-iso.html"
@@ -6391,7 +6391,7 @@
     "id": "mysql-incorrect-string-value",
     "title": "MySQL: Incorrect string value (utf8mb4 / emoji)",
     "category": "Database",
-    "explanation": "A four-byte UTF-8 character — most often an emoji — was inserted into a column using MySQL's legacy three-byte 'utf8' (utf8mb3) charset. The value cannot be represented, so the insert fails.",
+    "explanation": "A four-byte UTF-8 character, most often an emoji, was inserted into a column using MySQL's legacy three-byte 'utf8' (utf8mb3) charset. The value cannot be represented, so the insert fails.",
     "fix_snippet": "-- Check what you have\nSELECT table_name, column_name, character_set_name\nFROM information_schema.columns\nWHERE table_schema = DATABASE() AND character_set_name = 'utf8mb3';\n\n-- Convert\nALTER DATABASE mydb CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;\nALTER TABLE posts CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;\n\n-- And the connection must also be utf8mb4\n-- DSN: ?charset=utf8mb4",
     "sources": [
       "https://dev.mysql.com/doc/refman/8.4/en/charset-unicode-utf8mb4.html"
@@ -6403,7 +6403,7 @@
     "title": "Redis: NOAUTH Authentication required",
     "category": "Database",
     "explanation": "The server has requirepass or ACL users configured and the client sent a command before authenticating. Managed Redis and Valkey services enable auth by default.",
-    "fix_snippet": "# CLI\nredis-cli -h host -p 6379 -a \"$REDIS_PASSWORD\" --no-auth-warning PING\n\n# ACL user (Redis 6+)\nredis-cli -h host --user appuser --pass \"$PW\" PING\n\n# In a client library, pass credentials in the URL\n# redis://appuser:password@host:6379/0\n# rediss:// for TLS\n\n# Note: after a reconnect the client must re-authenticate —\n# use the library's built-in auth rather than sending AUTH manually.",
+    "fix_snippet": "# CLI\nredis-cli -h host -p 6379 -a \"$REDIS_PASSWORD\" --no-auth-warning PING\n\n# ACL user (Redis 6+)\nredis-cli -h host --user appuser --pass \"$PW\" PING\n\n# In a client library, pass credentials in the URL\n# redis://appuser:password@host:6379/0\n# rediss:// for TLS\n\n# Note: after a reconnect the client must re-authenticate:\n# use the library's built-in auth rather than sending AUTH manually.",
     "sources": [
       "https://redis.io/docs/latest/commands/auth/"
     ],
@@ -6413,7 +6413,7 @@
     "id": "redis-misconf-rdb-snapshot",
     "title": "Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist",
     "category": "Caching",
-    "explanation": "A background save failed — usually the disk is full, the dump directory is not writable, or the fork ran out of memory — and Redis then refuses writes to avoid silently losing data.",
+    "explanation": "A background save failed, usually because the disk is full, the dump directory is not writable, or the fork ran out of memory. Redis then refuses writes to avoid silently losing data.",
     "fix_snippet": "redis-cli info persistence | grep -E 'rdb_last_bgsave_status|rdb_last_error'\n\n# Check the disk and the dump directory\ndf -h /var/lib/redis\nls -ld /var/lib/redis\n\n# Free space, then force a save to clear the flag\nredis-cli bgsave\n\n# If you genuinely do not need persistence (pure cache)\nredis-cli config set save \"\"\n# and set stop-writes-on-bgsave-error no",
     "sources": [
       "https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"
@@ -6455,7 +6455,7 @@
   },
   {
     "id": "bedrock-access-denied-model",
-    "title": "AWS Bedrock: AccessDeniedException — you don't have access to the model",
+    "title": "AWS Bedrock: AccessDeniedException (no access to the model)",
     "category": "AI",
     "explanation": "Bedrock foundation models must be explicitly enabled per account and per region before they can be invoked, in addition to the usual IAM permissions.",
     "fix_snippet": "# Which models are enabled in this region?\naws bedrock list-foundation-models --region us-east-1 \\\n  --query 'modelSummaries[].modelId' --output text\n\n# Request access: Bedrock console -> Model access -> Manage model access\n\n# Then confirm IAM allows the call\n# Action: bedrock:InvokeModel / bedrock:InvokeModelWithResponseStream\n# Resource: arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-*\n\naws sts get-caller-identity   # make sure it is the principal you expect",
@@ -6480,7 +6480,7 @@
     "title": "MCP: server connection failed / failed to start",
     "category": "AI",
     "explanation": "A Model Context Protocol client could not start or speak to a server. For stdio servers the command is usually wrong or not on PATH; for HTTP servers it is a URL, TLS or auth problem. Anything the server writes to stdout that is not JSON-RPC corrupts the stream.",
-    "fix_snippet": "# Run the server command by hand exactly as configured\nnpx -y @modelcontextprotocol/server-filesystem /tmp\n\n# stdio servers must keep stdout clean — log to stderr only\nconsole.error('debug');   // correct\nconsole.log('debug');     // corrupts the JSON-RPC stream\n\n# Use absolute paths in the client config; the client may not inherit your PATH\n{ \"command\": \"/usr/local/bin/node\", \"args\": [\"/srv/mcp/index.js\"] }\n\n# Inspect interactively\nnpx @modelcontextprotocol/inspector",
+    "fix_snippet": "# Run the server command by hand exactly as configured\nnpx -y @modelcontextprotocol/server-filesystem /tmp\n\n# stdio servers must keep stdout clean. Log to stderr only\nconsole.error('debug');   // correct\nconsole.log('debug');     // corrupts the JSON-RPC stream\n\n# Use absolute paths in the client config; the client may not inherit your PATH\n{ \"command\": \"/usr/local/bin/node\", \"args\": [\"/srv/mcp/index.js\"] }\n\n# Inspect interactively\nnpx @modelcontextprotocol/inspector",
     "sources": [
       "https://modelcontextprotocol.io/docs/develop/build-server"
     ],
@@ -6491,7 +6491,7 @@
     "title": "CUDA: driver version is insufficient for CUDA runtime version",
     "category": "AI",
     "explanation": "The installed NVIDIA driver is older than the CUDA runtime the framework was built against. Drivers are backwards compatible with older runtimes but never forwards compatible with newer ones.",
-    "fix_snippet": "# Driver's maximum supported CUDA version (top-right of the table)\nnvidia-smi\n# Runtime the framework wants\npython -c 'import torch; print(torch.version.cuda, torch.cuda.is_available())'\n\n# Option 1: upgrade the driver (host, and on the host of any container)\n# Option 2: install a build matched to the driver\npip install torch --index-url https://download.pytorch.org/whl/cu121\n\n# In containers, the driver comes from the host —\n# use --gpus all with the NVIDIA Container Toolkit.",
+    "fix_snippet": "# Driver's maximum supported CUDA version (top-right of the table)\nnvidia-smi\n# Runtime the framework wants\npython -c 'import torch; print(torch.version.cuda, torch.cuda.is_available())'\n\n# Option 1: upgrade the driver (host, and on the host of any container)\n# Option 2: install a build matched to the driver\npip install torch --index-url https://download.pytorch.org/whl/cu121\n\n# In containers, the driver comes from the host:\n# use --gpus all with the NVIDIA Container Toolkit.",
     "sources": [
       "https://docs.nvidia.com/deploy/cuda-compatibility/"
     ],
@@ -6524,7 +6524,7 @@
     "title": "LLM: structured output does not match the requested JSON schema",
     "category": "AI",
     "explanation": "The model returned prose, a truncated object, or JSON that violates the schema. Usually the response hit the token limit mid-object, or the schema uses features the provider's constrained decoding does not support.",
-    "fix_snippet": "# 1. Check the stop reason before parsing — truncation is the top cause\n# stop_reason == 'max_tokens'  ->  raise max_tokens, do not retry blindly\n\n# 2. Use the provider's strict/structured mode rather than prompt instructions\n# OpenAI:    response_format: { type: 'json_schema', json_schema: {..., strict: true} }\n# Anthropic: define a tool whose input_schema is your schema and force tool use\n\n# 3. Strict modes usually require every property in `required`\n#    and \"additionalProperties\": false\n\n# 4. Validate on receipt and retry once with the validation error appended",
+    "fix_snippet": "# 1. Check the stop reason before parsing. Truncation is the top cause\n# stop_reason == 'max_tokens'  ->  raise max_tokens, do not retry blindly\n\n# 2. Use the provider's strict/structured mode rather than prompt instructions\n# OpenAI:    response_format: { type: 'json_schema', json_schema: {..., strict: true} }\n# Anthropic: define a tool whose input_schema is your schema and force tool use\n\n# 3. Strict modes usually require every property in `required`\n#    and \"additionalProperties\": false\n\n# 4. Validate on receipt and retry once with the validation error appended",
     "sources": [
       "https://platform.openai.com/docs/guides/structured-outputs"
     ],
@@ -6534,7 +6534,7 @@
     "id": "go-missing-go-sum-entry",
     "title": "Go: missing go.sum entry for module",
     "category": "Go",
-    "explanation": "A module is required by go.mod but has no checksum recorded in go.sum. Go refuses to build rather than fetching an unverified module — this is the supply-chain check working.",
+    "explanation": "A module is required by go.mod but has no checksum recorded in go.sum. Go refuses to build rather than fetching an unverified module. This is the supply-chain check working.",
     "fix_snippet": "# Add the missing entries\ngo mod tidy\n# or, for one module\ngo mod download github.com/some/module\n\n# In CI, verify rather than regenerate\ngo mod verify\ngo build ./...   # will fail loudly if go.sum is incomplete\n\n# Always commit go.sum alongside go.mod.",
     "sources": [
       "https://go.dev/ref/mod#go-sum-files"
@@ -6543,10 +6543,10 @@
   },
   {
     "id": "go-checksum-mismatch",
-    "title": "Go: checksum mismatch — SECURITY ERROR",
+    "title": "Go: checksum mismatch (SECURITY ERROR)",
     "category": "Go",
     "explanation": "The downloaded module's hash does not match go.sum or the public checksum database. This can mean a tampered proxy, but far more often it means an upstream author force-pushed a tag or a private module is being checked against the public sum database.",
-    "fix_snippet": "# Do not blindly delete go.sum. First find out which module and why.\ngo clean -modcache\ngo mod download <module>\n\n# For private modules, exclude them from the public checksum DB\nexport GOPRIVATE=github.com/myorg/*\nexport GONOSUMDB=github.com/myorg/*\n\n# If an upstream tag was genuinely re-pushed, pin the new pseudo-version\n# deliberately after reviewing the diff — treat it as a security event.",
+    "fix_snippet": "# Do not blindly delete go.sum. First find out which module and why.\ngo clean -modcache\ngo mod download <module>\n\n# For private modules, exclude them from the public checksum DB\nexport GOPRIVATE=github.com/myorg/*\nexport GONOSUMDB=github.com/myorg/*\n\n# If an upstream tag was genuinely re-pushed, pin the new pseudo-version\n# deliberately after reviewing the diff. Treat it as a security event.",
     "sources": [
       "https://go.dev/ref/mod#authenticating"
     ],
@@ -6568,7 +6568,7 @@
     "title": "Rust: linking with `cc` failed",
     "category": "Rust",
     "explanation": "Compilation succeeded but linking did not. Almost always a missing system library that a -sys crate needs, a missing linker, or an architecture mismatch when cross-compiling.",
-    "fix_snippet": "# Read the actual linker error — cargo prints it after the summary\ncargo build 2>&1 | grep -A5 'undefined reference\\|cannot find -l'\n\n# Typical missing dev packages\nsudo apt-get install -y build-essential pkg-config libssl-dev\n\n# musl / cross builds need a matching linker\ncargo install cross\ncross build --target x86_64-unknown-linux-musl\n\n# Avoid native OpenSSL entirely where possible\n# Cargo.toml: reqwest = { version = \"*\", features = [\"rustls-tls\"], default-features = false }",
+    "fix_snippet": "# Read the actual linker error. Cargo prints it after the summary\ncargo build 2>&1 | grep -A5 'undefined reference\\|cannot find -l'\n\n# Typical missing dev packages\nsudo apt-get install -y build-essential pkg-config libssl-dev\n\n# musl / cross builds need a matching linker\ncargo install cross\ncross build --target x86_64-unknown-linux-musl\n\n# Avoid native OpenSSL entirely where possible\n# Cargo.toml: reqwest = { version = \"*\", features = [\"rustls-tls\"], default-features = false }",
     "sources": [
       "https://doc.rust-lang.org/cargo/reference/build-scripts.html"
     ],
@@ -6576,9 +6576,9 @@
   },
   {
     "id": "rust-could-not-compile-sigkill",
-    "title": "Rust: could not compile — process didn't exit successfully (signal: 9, SIGKILL)",
+    "title": "Rust: could not compile, process didn't exit successfully (signal: 9, SIGKILL)",
     "category": "Rust",
-    "explanation": "The compiler was killed by the operating system, essentially always the OOM killer. rustc is memory-hungry, and heavy generics, large match arms or full LTO can exceed the memory available on a small CI runner or container.",
+    "explanation": "The compiler was killed by the operating system, almost always the OOM killer. rustc is memory-hungry, and heavy generics, large match arms or full LTO can exceed the memory available on a small CI runner or container.",
     "fix_snippet": "# Confirm it was the OOM killer\ndmesg -T | grep -i 'killed process' | tail\n\n# Reduce peak memory\ncargo build -j 1                       # fewer parallel codegen units\nexport CARGO_PROFILE_RELEASE_LTO=thin  # instead of 'fat'\nexport CARGO_PROFILE_RELEASE_CODEGEN_UNITS=16\n\n# Add swap on a small runner\nsudo fallocate -l 4G /swapfile && sudo chmod 600 /swapfile\nsudo mkswap /swapfile && sudo swapon /swapfile",
     "sources": [
       "https://doc.rust-lang.org/cargo/reference/profiles.html"
@@ -6587,10 +6587,10 @@
   },
   {
     "id": "spring-failed-to-configure-datasource",
-    "title": "Spring Boot: Failed to configure a DataSource — 'url' attribute is not specified",
+    "title": "Spring Boot: Failed to configure a DataSource ('url' attribute is not specified)",
     "category": "Java",
     "explanation": "Spring Boot detected a database driver on the classpath and tried to auto-configure a DataSource, but found no connection URL. Either the configuration is not being loaded, or a driver was pulled in transitively and is not actually wanted.",
-    "fix_snippet": "# 1. Supply the URL\nspring.datasource.url=jdbc:postgresql://localhost:5432/app\nspring.datasource.username=app\nspring.datasource.password=${DB_PASSWORD}\n\n# 2. Confirm the profile that is active — properties in an inactive profile are ignored\njava -jar app.jar --spring.profiles.active=local\n\n# 3. If you genuinely do not need a database, exclude the auto-configuration\n@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })",
+    "fix_snippet": "# 1. Supply the URL\nspring.datasource.url=jdbc:postgresql://localhost:5432/app\nspring.datasource.username=app\nspring.datasource.password=${DB_PASSWORD}\n\n# 2. Confirm the profile that is active. Properties in an inactive profile are ignored\njava -jar app.jar --spring.profiles.active=local\n\n# 3. If you genuinely do not need a database, exclude the auto-configuration\n@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })",
     "sources": [
       "https://docs.spring.io/spring-boot/reference/data/sql.html"
     ],
@@ -6598,7 +6598,7 @@
   },
   {
     "id": "spring-port-already-in-use",
-    "title": "Spring Boot: Web server failed to start — port 8080 was already in use",
+    "title": "Spring Boot: Web server failed to start (port 8080 was already in use)",
     "category": "Java",
     "explanation": "Another process holds the port. Usually a previous run of the same application that did not shut down, or a second service configured for the same port.",
     "fix_snippet": "# Find the holder\nss -tulpn | grep :8080\n# or\nlsof -i :8080\n\n# Stop it, or move this app\njava -jar app.jar --server.port=8081\n# application.properties: server.port=0  -> random free port (useful in tests)\n\n# In tests, prefer @SpringBootTest(webEnvironment = RANDOM_PORT)",
@@ -6631,10 +6631,10 @@
   },
   {
     "id": "systemd-unit-is-masked",
-    "title": "systemd: Failed to start — unit is masked",
+    "title": "systemd: Failed to start (unit is masked)",
     "category": "System",
     "explanation": "The unit is symlinked to /dev/null, which makes it impossible to start by any means including as a dependency. Masking is stronger than disabling and is usually done deliberately to prevent a conflicting service from running.",
-    "fix_snippet": "systemctl status <unit>\nsystemctl list-unit-files --state=masked\n\n# Unmask, then enable and start\nsudo systemctl unmask <unit>\nsudo systemctl enable --now <unit>\n\n# Find out WHY it was masked before undoing it — commonly a package\n# manager masked it because a replacement service is in use\n# (e.g. systemd-resolved vs a separate resolver).",
+    "fix_snippet": "systemctl status <unit>\nsystemctl list-unit-files --state=masked\n\n# Unmask, then enable and start\nsudo systemctl unmask <unit>\nsudo systemctl enable --now <unit>\n\n# Find out WHY it was masked before undoing it, commonly a package\n# manager masked it because a replacement service is in use\n# (e.g. systemd-resolved vs a separate resolver).",
     "sources": [
       "https://www.freedesktop.org/software/systemd/man/latest/systemctl.html"
     ],
@@ -6645,7 +6645,7 @@
     "title": "Linux: Read-only file system",
     "category": "System",
     "explanation": "The filesystem was mounted read-only, either intentionally or because the kernel remounted it after detecting I/O errors. The second case means the underlying disk is failing and is urgent.",
-    "fix_snippet": "# Is it intentional or an error remount?\nmount | grep ' / '\ndmesg -T | grep -i -E 'remount|I/O error|EXT4-fs error' | tail\n\n# If the disk errored, check it before remounting\nsudo smartctl -H /dev/sda\nsudo fsck -f /dev/sda1        # unmounted only\n\n# If it is intentional (immutable image, container)\nsudo mount -o remount,rw /\n\n# Containers: the root filesystem may be read-only by policy —\n# mount an emptyDir/volume for paths that need writes.",
+    "fix_snippet": "# Is it intentional or an error remount?\nmount | grep ' / '\ndmesg -T | grep -i -E 'remount|I/O error|EXT4-fs error' | tail\n\n# If the disk errored, check it before remounting\nsudo smartctl -H /dev/sda\nsudo fsck -f /dev/sda1        # unmounted only\n\n# If it is intentional (immutable image, container)\nsudo mount -o remount,rw /\n\n# Containers: the root filesystem may be read-only by policy:\n# mount an emptyDir/volume for paths that need writes.",
     "sources": [
       "https://man7.org/linux/man-pages/man8/mount.8.html"
     ],
@@ -6664,7 +6664,7 @@
   },
   {
     "id": "gha-cache-reserve-failed",
-    "title": "GitHub Actions: Failed to save cache — Unable to reserve cache",
+    "title": "GitHub Actions: Failed to save cache (unable to reserve cache)",
     "category": "CI/CD",
     "explanation": "Two concurrent jobs tried to save the same cache key, or the repository is at its 10 GB cache limit. Cache save failures are warnings by design and do not fail the build.",
     "fix_snippet": "# Make keys unique per job/OS/lockfile\n- uses: actions/cache@v4\n  with:\n    path: ~/.npm\n    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}\n    restore-keys: ${{ runner.os }}-node-\n\n# Inspect and prune usage\ngh cache list --limit 50\ngh cache delete --all\n\n# Save the cache from one job only, and restore in the rest\n# (actions/cache/restore + actions/cache/save)",
@@ -6689,7 +6689,7 @@
     "title": "nginx: upstream sent too big header while reading response header",
     "category": "Proxy",
     "explanation": "The backend's response headers exceeded nginx's proxy buffer, so nginx discarded the response and returned 502. Large Set-Cookie headers and verbose auth headers are the usual cause.",
-    "fix_snippet": "# Increase the header buffers for proxied responses\nproxy_buffer_size    16k;\nproxy_buffers        8 16k;\nproxy_busy_buffers_size 32k;\n\n# For FastCGI backends\nfastcgi_buffer_size 32k;\nfastcgi_buffers     8 32k;\n\nnginx -t && systemctl reload nginx\n\n# Then find out why the headers are that large — usually cookie bloat.",
+    "fix_snippet": "# Increase the header buffers for proxied responses\nproxy_buffer_size    16k;\nproxy_buffers        8 16k;\nproxy_busy_buffers_size 32k;\n\n# For FastCGI backends\nfastcgi_buffer_size 32k;\nfastcgi_buffers     8 32k;\n\nnginx -t && systemctl reload nginx\n\n# Then find out why the headers are that large, usually cookie bloat.",
     "sources": [
       "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size"
     ],
@@ -6699,7 +6699,7 @@
     "id": "cloudflare-520-unknown-error",
     "title": "Cloudflare 520: Web server returns an unknown error",
     "category": "Proxy",
-    "explanation": "Cloudflare reached the origin but received a response it could not parse — an empty reply, a connection reset mid-response, oversized headers, or a violation of the HTTP specification.",
+    "explanation": "Cloudflare reached the origin but received a response it could not parse: an empty reply, a connection reset mid-response, oversized headers, or a violation of the HTTP specification.",
     "fix_snippet": "# Test the origin directly, bypassing Cloudflare\ncurl -svo /dev/null --resolve example.com:443:<ORIGIN_IP> https://example.com/\n\n# Check the origin's error log at the same timestamp\ntail -f /var/log/nginx/error.log\n\n# Common origin causes\n# - the app crashed mid-response (check for OOM in dmesg)\n# - headers over the origin's limit\n# - a keep-alive timeout shorter than Cloudflare's (raise to >= 900s)\n\n# Include the cf-ray id from the error page when contacting support.",
     "sources": [
       "https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-5xx-errors/"
@@ -6711,7 +6711,7 @@
     "title": "AWS S3: SignatureDoesNotMatch",
     "category": "Storage",
     "explanation": "The SigV4 signature computed by the client differs from the one S3 computed. Causes: wrong secret key, clock skew beyond five minutes, the wrong region in the signing scope, or a proxy that altered headers after signing.",
-    "fix_snippet": "# 1. Clock skew — the most common and least obvious cause\ndate -u && timedatectl status\nsudo chronyc makestep   # or: sudo ntpdate -u pool.ntp.org\n\n# 2. Region must match the bucket's region\naws s3api get-bucket-location --bucket my-bucket\nexport AWS_REGION=eu-west-1\n\n# 3. Whitespace/newline in the secret from an env file\nprintf '%s' \"$AWS_SECRET_ACCESS_KEY\" | wc -c   # should be 40\n\n# 4. Anything rewriting headers between signing and S3 breaks the signature.",
+    "fix_snippet": "# 1. Clock skew: the most common and least obvious cause\ndate -u && timedatectl status\nsudo chronyc makestep   # or: sudo ntpdate -u pool.ntp.org\n\n# 2. Region must match the bucket's region\naws s3api get-bucket-location --bucket my-bucket\nexport AWS_REGION=eu-west-1\n\n# 3. Whitespace/newline in the secret from an env file\nprintf '%s' \"$AWS_SECRET_ACCESS_KEY\" | wc -c   # should be 40\n\n# 4. Anything rewriting headers between signing and S3 breaks the signature.",
     "sources": [
       "https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html"
     ],
@@ -6733,7 +6733,7 @@
     "title": "AWS Lambda: Runtime exited with error: signal: killed",
     "category": "Serverless",
     "explanation": "The function process was killed for exceeding its memory allocation. Lambda reports this rather than an application-level OOM, so the stack trace is absent.",
-    "fix_snippet": "# Confirm from the REPORT line in CloudWatch Logs\n# 'Max Memory Used' at or near 'Memory Size' is the signature\naws logs filter-log-events --log-group-name /aws/lambda/<fn> \\\n  --filter-pattern 'REPORT' --limit 20\n\n# Raise memory (which also raises CPU proportionally)\naws lambda update-function-configuration --function-name <fn> --memory-size 1024\n\n# Or stream instead of buffering — reading a whole S3 object into\n# memory is the usual cause.",
+    "fix_snippet": "# Confirm from the REPORT line in CloudWatch Logs\n# 'Max Memory Used' at or near 'Memory Size' is the signature\naws logs filter-log-events --log-group-name /aws/lambda/<fn> \\\n  --filter-pattern 'REPORT' --limit 20\n\n# Raise memory (which also raises CPU proportionally)\naws lambda update-function-configuration --function-name <fn> --memory-size 1024\n\n# Or stream instead of buffering. Reading a whole S3 object into\n# memory is the usual cause.",
     "sources": [
       "https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html"
     ],
@@ -6741,10 +6741,10 @@
   },
   {
     "id": "entra-aadsts50011-redirect-uri",
-    "title": "Microsoft Entra ID: AADSTS50011 — redirect URI mismatch",
+    "title": "Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)",
     "category": "Auth",
     "explanation": "The redirect_uri sent in the authorisation request is not registered on the app registration. Entra requires an exact match including scheme, host, port, path and case, and the platform type must match too.",
-    "fix_snippet": "# The error message contains the URI that was actually sent — copy it verbatim.\n# Entra portal -> App registrations -> Authentication -> Redirect URIs\n\n# Register it under the correct platform:\n# - 'Web' for confidential clients (server-side)\n# - 'Single-page application' for PKCE/SPA flows\n# - 'Mobile and desktop' for native apps\n\n# Via CLI\naz ad app update --id <app-id> \\\n  --web-redirect-uris https://app.example.com/auth/callback",
+    "fix_snippet": "# The error message contains the URI that was actually sent. Copy it verbatim.\n# Entra portal -> App registrations -> Authentication -> Redirect URIs\n\n# Register it under the correct platform:\n# - 'Web' for confidential clients (server-side)\n# - 'Single-page application' for PKCE/SPA flows\n# - 'Mobile and desktop' for native apps\n\n# Via CLI\naz ad app update --id <app-id> \\\n  --web-redirect-uris https://app.example.com/auth/callback",
     "sources": [
       "https://learn.microsoft.com/en-us/entra/identity-platform/reply-url"
     ],
@@ -6752,10 +6752,10 @@
   },
   {
     "id": "oauth-pkce-code-verifier-mismatch",
-    "title": "OAuth 2: invalid_grant — PKCE code_verifier does not match",
+    "title": "OAuth 2: invalid_grant (PKCE code_verifier does not match)",
     "category": "Auth",
     "explanation": "The code_verifier sent to the token endpoint does not hash to the code_challenge sent to the authorisation endpoint. Usually the verifier was regenerated, lost across a page navigation, or encoded incorrectly.",
-    "fix_snippet": "# The verifier must be stored across the redirect and reused exactly.\n// Generate once, persist, reuse\nconst verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));\nsessionStorage.setItem('pkce_verifier', verifier);\nconst challenge = base64url(await crypto.subtle.digest('SHA-256', enc.encode(verifier)));\n\n# Rules that catch most bugs:\n# - base64url without padding, not standard base64\n# - challenge = BASE64URL(SHA256(ASCII(verifier))) — hash the string, not bytes of a hash\n# - code_challenge_method must be S256, and match on both requests",
+    "fix_snippet": "# The verifier must be stored across the redirect and reused exactly.\n// Generate once, persist, reuse\nconst verifier = base64url(crypto.getRandomValues(new Uint8Array(32)));\nsessionStorage.setItem('pkce_verifier', verifier);\nconst challenge = base64url(await crypto.subtle.digest('SHA-256', enc.encode(verifier)));\n\n# Rules that catch most bugs:\n# - base64url without padding, not standard base64\n# - challenge = BASE64URL(SHA256(ASCII(verifier))): hash the string, not bytes of a hash\n# - code_challenge_method must be S256, and match on both requests",
     "sources": [
       "https://datatracker.ietf.org/doc/html/rfc7636"
     ],
@@ -6763,10 +6763,10 @@
   },
   {
     "id": "playwright-executable-doesnt-exist",
-    "title": "Playwright: browserType.launch — Executable doesn't exist",
+    "title": "Playwright: browserType.launch (executable doesn't exist)",
     "category": "Testing",
     "explanation": "The Playwright npm package is installed but the browser binaries are not. They are downloaded by a separate step, which is easy to miss in Docker images and CI caches.",
-    "fix_snippet": "# Install browsers (and Linux system dependencies)\nnpx playwright install --with-deps\n\n# Only what you need\nnpx playwright install chromium --with-deps\n\n# In Docker, use the official image so versions always match\nFROM mcr.microsoft.com/playwright:v1.50.0-noble\n\n# Browsers live outside node_modules — cache this path in CI\n# ~/.cache/ms-playwright",
+    "fix_snippet": "# Install browsers (and Linux system dependencies)\nnpx playwright install --with-deps\n\n# Only what you need\nnpx playwright install chromium --with-deps\n\n# In Docker, use the official image so versions always match\nFROM mcr.microsoft.com/playwright:v1.50.0-noble\n\n# Browsers live outside node_modules. Cache this path in CI\n# ~/.cache/ms-playwright",
     "sources": [
       "https://playwright.dev/docs/browsers"
     ],
@@ -6788,7 +6788,7 @@
     "title": "Kafka: UNKNOWN_TOPIC_OR_PARTITION",
     "category": "MessageQueue",
     "explanation": "The client asked for a topic the broker does not know about. Either the topic genuinely does not exist, auto-creation is disabled, the client is pointed at the wrong cluster, or the ACLs hide it from this principal.",
-    "fix_snippet": "# Does it exist on the cluster you are actually connected to?\nkafka-topics.sh --bootstrap-server broker:9092 --list | grep my-topic\n\n# Create explicitly (auto-create is off in most production clusters)\nkafka-topics.sh --bootstrap-server broker:9092 \\\n  --create --topic my-topic --partitions 6 --replication-factor 3\n\n# Note: a principal without Describe permission sees the same error\n# as a missing topic — check ACLs before assuming it is absent.\nkafka-acls.sh --bootstrap-server broker:9092 --list --topic my-topic",
+    "fix_snippet": "# Does it exist on the cluster you are actually connected to?\nkafka-topics.sh --bootstrap-server broker:9092 --list | grep my-topic\n\n# Create explicitly (auto-create is off in most production clusters)\nkafka-topics.sh --bootstrap-server broker:9092 \\\n  --create --topic my-topic --partitions 6 --replication-factor 3\n\n# Note: a principal without Describe permission sees the same error\n# as a missing topic. Check ACLs before assuming it is absent.\nkafka-acls.sh --bootstrap-server broker:9092 --list --topic my-topic",
     "sources": [
       "https://kafka.apache.org/documentation/#basic_ops_add_topic"
     ],
@@ -6798,8 +6798,8 @@
     "id": "rabbitmq-precondition-failed-inequivalent-arg",
     "title": "RabbitMQ: PRECONDITION_FAILED - inequivalent arg for queue",
     "category": "MessageQueue",
-    "explanation": "The queue already exists with different properties than the ones being declared — durability, TTL, dead-letter routing or queue type. RabbitMQ will not silently redefine an existing queue.",
-    "fix_snippet": "# See the current definition\nrabbitmqctl list_queues name durable auto_delete arguments\n\n# Options:\n# 1. Declare with the same arguments as the existing queue\n# 2. Delete and recreate (drains messages — do this deliberately)\nrabbitmqctl delete_queue my-queue\n\n# 3. Version the name so old and new coexist during a rollout\n#    my-queue.v2\n\n# Prefer policies over per-declaration arguments for TTL and DLX,\n# so they can be changed without redeclaring queues.",
+    "explanation": "The queue already exists with different properties than the ones being declared: durability, TTL, dead-letter routing or queue type. RabbitMQ will not silently redefine an existing queue.",
+    "fix_snippet": "# See the current definition\nrabbitmqctl list_queues name durable auto_delete arguments\n\n# Options:\n# 1. Declare with the same arguments as the existing queue\n# 2. Delete and recreate (drains messages, so do this deliberately)\nrabbitmqctl delete_queue my-queue\n\n# 3. Version the name so old and new coexist during a rollout\n#    my-queue.v2\n\n# Prefer policies over per-declaration arguments for TTL and DLX,\n# so they can be changed without redeclaring queues.",
     "sources": [
       "https://www.rabbitmq.com/docs/queues"
     ],
@@ -6809,8 +6809,8 @@
     "id": "graphql-persisted-query-not-found",
     "title": "GraphQL: PersistedQueryNotFound",
     "category": "GraphQL",
-    "explanation": "With automatic persisted queries the client first sends only a hash. If the server has not seen that query before — a cold cache, a new deploy, or a multi-instance server without a shared cache — it responds with PersistedQueryNotFound and the client must resend the full query.",
-    "fix_snippet": "# This is expected once per query; the client should retry with the full text.\n# Apollo Client does this automatically with createPersistedQueryLink.\n\n# If it happens on every request:\n# 1. The server's APQ cache is not shared across instances — use Redis\n# 2. The hash algorithm differs (must be sha256 of the exact query string)\n# 3. A CDN is caching the GET but not the POST fallback\n\n# Consider build-time persisted queries instead, which remove the\n# round trip and let you reject unregistered operations.",
+    "explanation": "With automatic persisted queries the client first sends only a hash. If the server has not seen that query before (a cold cache, a new deploy, or a multi-instance server without a shared cache) it responds with PersistedQueryNotFound and the client must resend the full query.",
+    "fix_snippet": "# This is expected once per query; the client should retry with the full text.\n# Apollo Client does this automatically with createPersistedQueryLink.\n\n# If it happens on every request:\n# 1. The server's APQ cache is not shared across instances. Use Redis\n# 2. The hash algorithm differs (must be sha256 of the exact query string)\n# 3. A CDN is caching the GET but not the POST fallback\n\n# Consider build-time persisted queries instead, which remove the\n# round trip and let you reject unregistered operations.",
     "sources": [
       "https://www.apollographql.com/docs/apollo-server/performance/apq"
     ],
@@ -6821,7 +6821,7 @@
     "title": "cert-manager: Order is pending / challenge failed to propagate",
     "category": "Ingress",
     "explanation": "cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT record has not propagated or the credentials lack permission.",
-    "fix_snippet": "# Walk the chain: Certificate -> CertificateRequest -> Order -> Challenge\nkubectl describe certificate <name>\nkubectl get challenges -A\nkubectl describe challenge <name>\n\n# HTTP-01: the solver path must be reachable publicly\ncurl -v http://example.com/.well-known/acme-challenge/test\n# A redirect to HTTPS or an auth middleware in front will break it.\n\n# DNS-01: check the TXT record from an external resolver\ndig +short TXT _acme-challenge.example.com @1.1.1.1\n\n# Use the staging issuer while debugging — production has strict rate limits.",
+    "fix_snippet": "# Walk the chain: Certificate -> CertificateRequest -> Order -> Challenge\nkubectl describe certificate <name>\nkubectl get challenges -A\nkubectl describe challenge <name>\n\n# HTTP-01: the solver path must be reachable publicly\ncurl -v http://example.com/.well-known/acme-challenge/test\n# A redirect to HTTPS or an auth middleware in front will break it.\n\n# DNS-01: check the TXT record from an external resolver\ndig +short TXT _acme-challenge.example.com @1.1.1.1\n\n# Use the staging issuer while debugging. Production has strict rate limits.",
     "sources": [
       "https://cert-manager.io/docs/troubleshooting/acme/"
     ],
@@ -6851,10 +6851,10 @@
   },
   {
     "id": "expo-eas-build-failed",
-    "title": "Expo EAS: build failed — Gradle/Xcode step exited with non-zero code",
+    "title": "Expo EAS: build failed (Gradle/Xcode step exited with non-zero code)",
     "category": "Mobile",
     "explanation": "EAS Build failed during the native compile step. The wrapper message is generic; the real cause is in the build phase log, and is usually a config plugin conflict, an SDK version mismatch, or a native dependency incompatible with the Expo SDK in use.",
-    "fix_snippet": "# Read the actual phase log, not the summary\neas build:view <build-id>\n\n# Check dependency alignment first — this catches most failures\nnpx expo-doctor\nnpx expo install --check\n\n# Reproduce locally with the same runner image\neas build --platform android --local\n\n# Pin the image and resource class in eas.json so builds are reproducible\n# { \"build\": { \"production\": { \"android\": { \"image\": \"latest\" } } } }",
+    "fix_snippet": "# Read the actual phase log, not the summary\neas build:view <build-id>\n\n# Check dependency alignment first. This catches most failures\nnpx expo-doctor\nnpx expo install --check\n\n# Reproduce locally with the same runner image\neas build --platform android --local\n\n# Pin the image and resource class in eas.json so builds are reproducible\n# { \"build\": { \"production\": { \"android\": { \"image\": \"latest\" } } } }",
     "sources": [
       "https://docs.expo.dev/build-reference/troubleshooting/"
     ],
@@ -6887,7 +6887,7 @@
     "title": "CSP: Refused to execute inline script because it violates the policy",
     "category": "Security",
     "explanation": "Content-Security-Policy blocked an inline <script> or an inline event handler. This is the policy preventing the main injection vector for XSS, so the fix is to make the script legitimate rather than to weaken the policy.",
-    "fix_snippet": "# Preferred: move the code to an external file and drop inline handlers\n# <button onclick=\"go()\">  ->  addEventListener in a .js file\n\n# If inline is unavoidable, use a per-response nonce\n# Content-Security-Policy: script-src 'self' 'nonce-r4nd0m'\n# <script nonce=\"r4nd0m\"> ... </script>\n# The nonce MUST be regenerated for every response.\n\n# Or a hash for static inline blocks\nprintf '%s' \"console.log(1)\" | openssl dgst -sha256 -binary | openssl base64\n# script-src 'sha256-...'\n\n# Avoid 'unsafe-inline' — it disables the protection entirely.",
+    "fix_snippet": "# Preferred: move the code to an external file and drop inline handlers\n# <button onclick=\"go()\">  ->  addEventListener in a .js file\n\n# If inline is unavoidable, use a per-response nonce\n# Content-Security-Policy: script-src 'self' 'nonce-r4nd0m'\n# <script nonce=\"r4nd0m\"> ... </script>\n# The nonce MUST be regenerated for every response.\n\n# Or a hash for static inline blocks\nprintf '%s' \"console.log(1)\" | openssl dgst -sha256 -binary | openssl base64\n# script-src 'sha256-...'\n\n# Avoid 'unsafe-inline'. It disables the protection entirely.",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src"
     ],
@@ -6898,7 +6898,7 @@
     "title": "Cookie: SameSite=None requires the Secure attribute",
     "category": "Security",
     "explanation": "Browsers reject a cookie that declares SameSite=None without Secure. Cross-site cookies must be sent over HTTPS only, so the pair is mandatory. The cookie is silently dropped, which usually shows up as a session that never persists.",
-    "fix_snippet": "Set-Cookie: sid=abc; SameSite=None; Secure; HttpOnly; Path=/\n\n// Express\nres.cookie('sid', v, { sameSite: 'none', secure: true, httpOnly: true });\n\n# For local development over http://localhost, browsers treat localhost\n# as a secure context — but a plain-HTTP LAN IP will still reject it.\n# Use a local HTTPS certificate (mkcert) rather than dropping SameSite.",
+    "fix_snippet": "Set-Cookie: sid=abc; SameSite=None; Secure; HttpOnly; Path=/\n\n// Express\nres.cookie('sid', v, { sameSite: 'none', secure: true, httpOnly: true });\n\n# For local development over http://localhost, browsers treat localhost\n# as a secure context, but a plain-HTTP LAN IP will still reject it.\n# Use a local HTTPS certificate (mkcert) rather than dropping SameSite.",
     "sources": [
       "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite"
     ],
@@ -6952,7 +6952,7 @@
     "id": "macos-operation-not-permitted-tcc",
     "title": "macOS: Operation not permitted (Full Disk Access / TCC)",
     "category": "Apple",
-    "explanation": "macOS privacy protection blocked access to a protected location — Desktop, Documents, Downloads, or another application's data — even for a process running as root. The permission is granted to the parent application, so a script run from Terminal needs Terminal to hold it.",
+    "explanation": "macOS privacy protection blocked access to a protected location such as Desktop, Documents, Downloads, or another application's data, even for a process running as root. The permission is granted to the parent application, so a script run from Terminal needs Terminal to hold it.",
     "fix_snippet": "# Confirm it is TCC and not POSIX permissions\nls -le ~/Documents        # extended ACLs\nls -lO ~/Documents        # file flags\n\n# Grant to the app that launches your process:\n# System Settings -> Privacy & Security -> Full Disk Access\n# add Terminal / iTerm / your IDE, then fully quit and relaunch it\n\n# Check what was denied\nlog show --predicate 'subsystem == \"com.apple.TCC\"' --last 10m",
     "sources": [
       "https://support.apple.com/en-gb/guide/mac-help/mchld5a35146/mac"
@@ -6961,7 +6961,7 @@
   },
   {
     "id": "wasm-mime-type-incorrect",
-    "title": "WebAssembly: incorrect response MIME type — expected application/wasm",
+    "title": "WebAssembly: incorrect response MIME type (expected application/wasm)",
     "category": "WebAssembly",
     "explanation": "instantiateStreaming requires the response to be served as application/wasm. Servers that do not know the extension send application/octet-stream or, on a 404, text/html.",
     "fix_snippet": "# Check what the server sends\ncurl -sI https://example.com/app.wasm | grep -i content-type\n\n# nginx\ntypes { application/wasm wasm; }\n\n# Express\napp.use(express.static('public', {\n  setHeaders: (res, p) => { if (p.endsWith('.wasm')) res.type('application/wasm'); }\n}));\n\n// Fallback that works regardless of MIME type\nconst bytes = await (await fetch('app.wasm')).arrayBuffer();\nconst { instance } = await WebAssembly.instantiate(bytes, imports);",
@@ -6974,8 +6974,8 @@
     "id": "web3-intrinsic-gas-too-low",
     "title": "Web3: intrinsic gas too low",
     "category": "Web3",
-    "explanation": "The gas limit on the transaction is below the minimum the EVM charges before executing any contract code — 21,000 for a plain transfer plus a per-byte cost for calldata.",
-    "fix_snippet": "// Estimate rather than hard-coding\nconst gas = await provider.estimateGas(tx);\ntx.gasLimit = gas * 120n / 100n;   // 20% headroom\n\n# From the CLI\ncast estimate <to> 'transfer(address,uint256)' <addr> <amount>\n\n# Note: estimateGas simulates against the current state. If the\n# transaction's cost depends on state that changes before it is mined,\n# the estimate can be too low — hence the headroom.",
+    "explanation": "The gas limit on the transaction is below the minimum the EVM charges before executing any contract code: 21,000 for a plain transfer plus a per-byte cost for calldata.",
+    "fix_snippet": "// Estimate rather than hard-coding\nconst gas = await provider.estimateGas(tx);\ntx.gasLimit = gas * 120n / 100n;   // 20% headroom\n\n# From the CLI\ncast estimate <to> 'transfer(address,uint256)' <addr> <amount>\n\n# Note: estimateGas simulates against the current state. If the\n# transaction's cost depends on state that changes before it is mined,\n# the estimate can be too low, hence the headroom.",
     "sources": [
       "https://ethereum.org/en/developers/docs/gas/"
     ],
@@ -6983,7 +6983,7 @@
   },
   {
     "id": "dbt-compilation-error",
-    "title": "dbt: Compilation Error — model depends on a node that was not found",
+    "title": "dbt: Compilation Error (model depends on a node that was not found)",
     "category": "BigData",
     "explanation": "A ref() or source() points at something dbt cannot resolve: a misspelled model name, a source not declared in a .yml file, or a model excluded by the current selector.",
     "fix_snippet": "# Resolve the graph and see what dbt knows about\ndbt parse\ndbt ls --select my_model+\n\n# ref() takes the model NAME (the filename without .sql), not the table name\n# source() requires a matching entry in a schema .yml\n\nsources:\n  - name: raw\n    tables:\n      - name: orders\n\n# Build a model and everything it needs\ndbt build --select +my_model",
@@ -6994,10 +6994,10 @@
   },
   {
     "id": "elixir-phoenix-check-origin",
-    "title": "Phoenix: WebSocket connection rejected — check_origin",
+    "title": "Phoenix: WebSocket connection rejected by check_origin",
     "category": "Elixir",
     "explanation": "Phoenix rejects socket connections whose Origin header is not in the allowed list. Behind a reverse proxy the origin often arrives as the internal hostname unless forwarded headers are honoured.",
-    "fix_snippet": "# config/runtime.exs\nconfig :my_app, MyAppWeb.Endpoint,\n  check_origin: [\"https://app.example.com\", \"//*.example.com\"]\n\n# Make sure the proxy forwards the scheme and host\n# nginx:\n#   proxy_set_header Host $host;\n#   proxy_set_header X-Forwarded-Proto $scheme;\n\n# and the endpoint trusts them\nplug Plug.RewriteOn, [:x_forwarded_proto, :x_forwarded_host]\n\n# check_origin: false disables the protection — do not ship that.",
+    "fix_snippet": "# config/runtime.exs\nconfig :my_app, MyAppWeb.Endpoint,\n  check_origin: [\"https://app.example.com\", \"//*.example.com\"]\n\n# Make sure the proxy forwards the scheme and host\n# nginx:\n#   proxy_set_header Host $host;\n#   proxy_set_header X-Forwarded-Proto $scheme;\n\n# and the endpoint trusts them\nplug Plug.RewriteOn, [:x_forwarded_proto, :x_forwarded_host]\n\n# check_origin: false disables the protection. Do not ship that.",
     "sources": [
       "https://hexdocs.pm/phoenix/Phoenix.Endpoint.html"
     ],
@@ -7007,8 +7007,8 @@
     "id": "svelte-5-rune-outside-component",
     "title": "Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file",
     "category": "Svelte",
-    "explanation": "Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or .svelte.ts extension.",
-    "fix_snippet": "// Wrong: store.js\nexport const count = $state(0);\n\n// Right: rename to store.svelte.js\nexport const counter = $state({ value: 0 });\n\n// Import and mutate the object, not a reassigned primitive\nimport { counter } from './store.svelte.js';\ncounter.value += 1;\n\n// Reassigning an imported binding will not propagate —\n// keep reactive state inside an object or class.",
+    "explanation": "Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or .svelte.ts extension.",
+    "fix_snippet": "// Wrong: store.js\nexport const count = $state(0);\n\n// Right: rename to store.svelte.js\nexport const counter = $state({ value: 0 });\n\n// Import and mutate the object, not a reassigned primitive\nimport { counter } from './store.svelte.js';\ncounter.value += 1;\n\n// Reassigning an imported binding will not propagate:\n// keep reactive state inside an object or class.",
     "sources": [
       "https://svelte.dev/docs/svelte/what-are-runes"
     ],
@@ -7062,7 +7062,7 @@
     "id": "ruby-3-4-frozen-string-literal",
     "title": "Ruby: can't modify frozen String",
     "category": "Ruby",
-    "explanation": "The string is frozen — either by a `# frozen_string_literal: true` magic comment, by Ruby's chilled-string deprecation path, or because it came from a frozen source such as an environment constant.",
+    "explanation": "The string is frozen, either by a `# frozen_string_literal: true` magic comment, by Ruby's chilled-string deprecation path, or because it came from a frozen source such as an environment constant.",
     "fix_snippet": "# Duplicate before mutating\nbuf = +''            # unary plus returns an unfrozen copy\nbuf = String.new     # equivalent\nname = value.dup\nname << 'suffix'\n\n# Better: build with immutable operations\nname = \"#{value}suffix\"\nparts.join(', ')\n\n# See where the freeze came from\nputs str.frozen?\n# Run with warnings to catch chilled-string mutations\nruby -W:deprecated app.rb",
     "sources": [
       "https://docs.ruby-lang.org/en/master/syntax/comments_rdoc.html"
@@ -7107,7 +7107,7 @@
     "title": "Loki: entry too far behind / out of order",
     "category": "Logging",
     "explanation": "Loki rejected log lines whose timestamps are older than the accepted window for that stream. Usually a backfill, a clock-skewed host, or two producers writing to one stream with different clocks.",
-    "fix_snippet": "# Check clock sync on the sending hosts\ntimedatectl status | grep -E 'synchronized|NTP'\n\n# Give each producer a distinct stream via labels\n# (labels define the stream; identical labels from two clocks collide)\n\n# Widen the accepted window in Loki if backfill is intentional\nlimits_config:\n  reject_old_samples: true\n  reject_old_samples_max_age: 168h\n\n# Avoid high-cardinality labels while doing this — they multiply streams.",
+    "fix_snippet": "# Check clock sync on the sending hosts\ntimedatectl status | grep -E 'synchronized|NTP'\n\n# Give each producer a distinct stream via labels\n# (labels define the stream; identical labels from two clocks collide)\n\n# Widen the accepted window in Loki if backfill is intentional\nlimits_config:\n  reject_old_samples: true\n  reject_old_samples_max_age: 168h\n\n# Avoid high-cardinality labels while doing this. They multiply streams.",
     "sources": [
       "https://grafana.com/docs/loki/latest/configure/"
     ],
@@ -7151,7 +7151,7 @@
     "id": "bun-frozen-lockfile-changed",
     "title": "bun install: lockfile had changes, but lockfile is frozen",
     "category": "JavaScript",
-    "explanation": "CI runs bun install --frozen-lockfile so a build can never silently resolve different versions. The error means package.json and bun.lock disagree — usually because a dependency was edited by hand without re-running install locally.",
+    "explanation": "CI runs bun install --frozen-lockfile so a build can never silently resolve different versions. The error means package.json and bun.lock disagree, usually because a dependency was edited by hand without re-running install locally.",
     "fix_snippet": "# Locally: refresh and commit the lockfile\nbun install\ngit add bun.lock package.json\ngit commit -m 'Update lockfile'\n\n# Verify the way CI does\nbun install --frozen-lockfile",
     "sources": [
       "https://bun.sh/docs/cli/install"
@@ -7182,7 +7182,7 @@
   },
   {
     "id": "react-useformstate-renamed-useactionstate",
-    "title": "React 19: useFormState is deprecated — use useActionState",
+    "title": "React 19: useFormState is deprecated, use useActionState",
     "category": "Frontend",
     "explanation": "React 19 moved the form-action state hook out of react-dom and renamed it. Code importing useFormState from react-dom warns, and in newer builds the import is simply missing.",
     "fix_snippet": "// React 18 canary\nimport { useFormState } from 'react-dom';\nconst [state, action] = useFormState(fn, initial);\n\n// React 19\nimport { useActionState } from 'react';\nconst [state, action, isPending] = useActionState(fn, initial);",
@@ -7195,7 +7195,7 @@
     "id": "vite-cjs-node-api-deprecated",
     "title": "Vite: the CJS build of Vite's Node API is deprecated",
     "category": "Frontend",
-    "explanation": "Something loaded Vite through require() instead of an ES import — usually a vite.config.js in a package without \"type\": \"module\", or a plugin that still uses CommonJS. It is a warning in Vite 5 and an error once the CJS build is removed.",
+    "explanation": "Something loaded Vite through require() instead of an ES import, usually a vite.config.js in a package without \"type\": \"module\", or a plugin that still uses CommonJS. It is a warning in Vite 5 and an error once the CJS build is removed.",
     "fix_snippet": "# Mark the package as ESM\n# package.json\n{ \"type\": \"module\" }\n\n# Or rename the config so its format is explicit\nmv vite.config.js vite.config.mjs\n\n# Find the offending require()\nDEBUG='vite:*' npx vite build",
     "sources": [
       "https://vite.dev/guide/troubleshooting"
@@ -7259,7 +7259,7 @@
   },
   {
     "id": "playwright-strict-mode-violation",
-    "title": "Playwright: strict mode violation — locator resolved to multiple elements",
+    "title": "Playwright: strict mode violation (locator resolved to multiple elements)",
     "category": "Testing",
     "explanation": "Playwright locators are strict by design: if a selector matches more than one element it refuses to act rather than silently picking the first. The message lists every element that matched.",
     "fix_snippet": "// Narrow the locator instead of indexing blindly\nawait page.getByRole('button', { name: 'Save', exact: true }).click();\n\n// Scope it to a region\nawait page.getByTestId('toolbar').getByRole('button').click();\n\n// Only when duplicates are genuinely expected\nawait page.getByRole('listitem').first().click();",
@@ -7272,7 +7272,7 @@
     "id": "pytest-async-def-not-supported",
     "title": "pytest: async def functions are not natively supported",
     "category": "Testing",
-    "explanation": "pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.",
+    "explanation": "pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.",
     "fix_snippet": "pip install pytest-asyncio\n\n# pyproject.toml\n[tool.pytest.ini_options]\nasyncio_mode = \"auto\"\n\n# Or mark each test explicitly\nimport pytest\n\n@pytest.mark.asyncio\nasync def test_fetch():\n    assert await fetch() == 200",
     "sources": [
       "https://pytest-asyncio.readthedocs.io/en/latest/"
@@ -7327,7 +7327,7 @@
     "id": "k8s-podsecurity-violates-restricted",
     "title": "Kubernetes: violates PodSecurity restricted:latest",
     "category": "Kubernetes",
-    "explanation": "Pod Security Admission is enforcing the restricted profile on the namespace and the pod spec does not meet it — typically because it runs as root, allows privilege escalation, or does not drop all capabilities.",
+    "explanation": "Pod Security Admission is enforcing the restricted profile on the namespace and the pod spec does not meet it, typically because it runs as root, allows privilege escalation, or does not drop all capabilities.",
     "fix_snippet": "securityContext:\n  runAsNonRoot: true\n  runAsUser: 10001\n  seccompProfile: { type: RuntimeDefault }\ncontainers:\n  - name: app\n    securityContext:\n      allowPrivilegeEscalation: false\n      capabilities: { drop: [\"ALL\"] }\n\n# See what a namespace would reject before you apply\nkubectl label ns prod pod-security.kubernetes.io/warn=restricted",
     "sources": [
       "https://kubernetes.io/docs/concepts/security/pod-security-standards/"
@@ -7336,7 +7336,7 @@
   },
   {
     "id": "k8s-no-matches-for-kind-removed-api",
-    "title": "Kubernetes: no matches for kind in version — removed API",
+    "title": "Kubernetes: no matches for kind in version (removed API)",
     "category": "Kubernetes",
     "explanation": "The manifest uses an apiVersion the cluster no longer serves. Kubernetes removes beta APIs on a published schedule, so a chart or manifest that worked on an older cluster stops applying after an upgrade.",
     "fix_snippet": "# What the cluster actually serves\nkubectl api-resources | grep -i ingress\nkubectl api-versions\n\n# Find manifests still on removed APIs before upgrading\nkubectl get --raw /metrics | grep apiserver_requested_deprecated_apis\n\n# Update the manifest, e.g.\n# apiVersion: extensions/v1beta1  ->  networking.k8s.io/v1",
@@ -7349,7 +7349,7 @@
     "id": "k8s-exceeded-quota",
     "title": "Kubernetes: exceeded quota in namespace",
     "category": "Kubernetes",
-    "explanation": "A ResourceQuota caps what the namespace may request in aggregate. The create is rejected at admission time, so a Deployment can exist while its ReplicaSet never produces pods — the reason only appears in the ReplicaSet events.",
+    "explanation": "A ResourceQuota caps what the namespace may request in aggregate. The create is rejected at admission time, so a Deployment can exist while its ReplicaSet never produces pods. The reason only appears in the ReplicaSet events.",
     "fix_snippet": "# Where the ceiling is and what is used\nkubectl describe quota -n team-a\n\n# Why no pods appeared\nkubectl describe rs -n team-a my-app\n\n# Every container needs requests when a quota covers them\nresources:\n  requests: { cpu: 100m, memory: 128Mi }\n  limits:   { cpu: 500m, memory: 512Mi }",
     "sources": [
       "https://kubernetes.io/docs/concepts/policy/resource-quotas/"
@@ -7369,7 +7369,7 @@
   },
   {
     "id": "terraform-cycle-error",
-    "title": "Terraform: Cycle — resources depend on each other",
+    "title": "Terraform: Cycle (resources depend on each other)",
     "category": "Terraform",
     "explanation": "Terraform builds a dependency graph from references and cannot order a cycle. Two resources referencing each other's attributes, or a badly placed depends_on, makes the plan impossible rather than merely slow.",
     "fix_snippet": "# See the cycle\nterraform graph | grep -A3 'cycle'\n\n# Common fix: break the loop with a separate association resource\nresource \"aws_security_group\" \"a\" { name = \"a\" }\nresource \"aws_security_group\" \"b\" { name = \"b\" }\n\nresource \"aws_security_group_rule\" \"a_to_b\" {\n  type                     = \"ingress\"\n  security_group_id        = aws_security_group.a.id\n  source_security_group_id = aws_security_group.b.id\n  from_port = 443\n  to_port   = 443\n  protocol  = \"tcp\"\n}",
@@ -7426,7 +7426,7 @@
     "id": "linux-inotify-watch-limit-reached",
     "title": "ENOSPC: System limit for number of file watchers reached",
     "category": "System",
-    "explanation": "A dev server or file watcher exhausted the per-user inotify watch limit. Despite the ENOSPC name there is no disk problem — each watched directory consumes one kernel watch and large node_modules trees run through the default allowance quickly.",
+    "explanation": "A dev server or file watcher exhausted the per-user inotify watch limit. Despite the ENOSPC name there is no disk problem. Each watched directory consumes one kernel watch, and large node_modules trees run through the default allowance quickly.",
     "fix_snippet": "# Current limit and usage\ncat /proc/sys/fs/inotify/max_user_watches\n\n# Raise it persistently\necho 'fs.inotify.max_user_watches=524288' | sudo tee /etc/sysctl.d/99-inotify.conf\nsudo sysctl --system\n\n# Also worth excluding build output from the watcher config",
     "sources": [
       "https://man7.org/linux/man-pages/man7/inotify.7.html"
@@ -7437,7 +7437,7 @@
     "id": "systemd-start-request-repeated-too-quickly",
     "title": "systemd: start request repeated too quickly, refusing to start",
     "category": "System",
-    "explanation": "The unit crashed and restarted more times than StartLimitBurst allows within StartLimitIntervalSec, so systemd stopped trying. The rate limit is a symptom — the real failure is whatever made the service exit, and it is in the journal.",
+    "explanation": "The unit crashed and restarted more times than StartLimitBurst allows within StartLimitIntervalSec, so systemd stopped trying. The rate limit is a symptom. The real failure is whatever made the service exit, and it is in the journal.",
     "fix_snippet": "# The actual crash, not the rate limit\njournalctl -u myapp.service -n 100 --no-pager\n\n# Clear the limit and try once\nsudo systemctl reset-failed myapp.service\nsudo systemctl start myapp.service\n\n# Give a slow dependency room, in the unit file\n[Service]\nRestart=on-failure\nRestartSec=5s\nStartLimitBurst=5\nStartLimitIntervalSec=60s",
     "sources": [
       "https://www.freedesktop.org/software/systemd/man/latest/systemd.service.html"
@@ -7470,7 +7470,7 @@
     "id": "rust-cargo-lock-version-unsupported",
     "title": "Cargo: lock file version requires a newer version of Cargo",
     "category": "Rust",
-    "explanation": "Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot parse — typically a contributor or CI image on a newer Rust than the pinned one.",
+    "explanation": "Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot parse, typically a contributor or CI image on a newer Rust than the pinned one.",
     "fix_snippet": "# Agree on a toolchain, checked in\n# rust-toolchain.toml\n[toolchain]\nchannel = \"1.85.0\"\n\n# Then re-resolve with it\nrustup toolchain install 1.85.0\ncargo +1.85.0 generate-lockfile\n\n# Or upgrade the machine that failed\nrustup update stable",
     "sources": [
       "https://doc.rust-lang.org/cargo/reference/lockfile.html"
@@ -7479,7 +7479,7 @@
   },
   {
     "id": "helm-cannot-patch-field-immutable",
-    "title": "Helm: cannot patch — field is immutable",
+    "title": "Helm: cannot patch (field is immutable)",
     "category": "Kubernetes",
     "explanation": "An upgrade changed a field Kubernetes does not allow to be updated in place, such as a Deployment's selector, a Job's template, or a PVC's storage size downward. Helm's patch is rejected by the API server.",
     "fix_snippet": "# See exactly what would change\nhelm diff upgrade myrel ./chart\n\n# Immutable field changes need a replace, not a patch\nkubectl delete deployment myapp --cascade=orphan\nhelm upgrade myrel ./chart\n\n# Selectors should be stable; set them once and leave them\n# selector: { matchLabels: { app.kubernetes.io/name: myapp } }",
@@ -7490,7 +7490,7 @@
   },
   {
     "id": "github-actions-oidc-not-authorized",
-    "title": "GitHub Actions: OIDC token request failed — not authorized",
+    "title": "GitHub Actions: OIDC token request failed (not authorized)",
     "category": "CI/CD",
     "explanation": "The workflow tried to exchange a GitHub OIDC token for cloud credentials but was refused. Either the job did not request the id-token permission, or the trust policy's subject condition does not match this repository, branch or environment.",
     "fix_snippet": "permissions:\n  id-token: write\n  contents: read\n\nsteps:\n  - uses: aws-actions/configure-aws-credentials@v4\n    with:\n      role-to-assume: arn:aws:iam::111122223333:role/gha\n      aws-region: eu-west-1\n\n# The trust policy subject must match the ref exactly, e.g.\n# \"repo:org/repo:ref:refs/heads/main\"\n# \"repo:org/repo:environment:production\"",

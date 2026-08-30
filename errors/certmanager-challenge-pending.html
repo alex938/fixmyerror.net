@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/certmanager-challenge-pending.html">
-    <meta property="og:title" content="cert-manager: Order is pending / challenge failed to propagate – cause and fix">
+    <meta property="og:title" content="cert-manager: Order is pending / challenge failed to propagate: cause and fix">
     <meta property="og:description" content="cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="cert-manager: Order is pending / challenge failed to propagate – cause and fix">
+    <meta name="twitter:title" content="cert-manager: Order is pending / challenge failed to propagate: cause and fix">
     <meta name="twitter:description" content="cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"cert-manager: Order is pending / challenge failed to propagate","name":"cert-manager: Order is pending / challenge failed to propagate","description":"cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT…","url":"https://fixmyerror.net/errors/certmanager-challenge-pending.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/certmanager-challenge-pending.html"},"inLanguage":"en-GB","articleSection":"Ingress","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://cert-manager.io/docs/troubleshooting/acme/"]}</script>
@@ -88,14 +88,14 @@ curl -v http://example.com/.well-known/acme-challenge/test
 # DNS-01: check the TXT record from an external resolver
 dig +short TXT _acme-challenge.example.com @1.1.1.1
 
-# Use the staging issuer while debugging — production has strict rate limits.</code></pre>
+# Use the staging issuer while debugging. Production has strict rate limits.</code></pre>
                 </div>
             </section>
 
             <section class="block">
                 <h2>How to diagnose Ingress errors</h2>
                 <p>An Ingress failure is a routing failure, and there are only a few places it can break: the <strong>IngressClass</strong> is missing so no controller claims the resource, the <strong>path or host does not match</strong>, the <strong>backing Service has no endpoints</strong>, or the <strong>TLS secret is absent or in the wrong namespace</strong>. The "default backend - 404" page is the controller saying it received the request but found no rule for it.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Work backwards from the pod: <code>kubectl get endpoints &lt;service&gt;</code>. If it is empty, the Service selector does not match any ready pod and no Ingress configuration will help.</li>
                     <li>Check that a controller has claimed the Ingress: <code>kubectl describe ingress &lt;name&gt;</code> should show events and an assigned address. No address means no controller is watching that IngressClass.</li>
@@ -115,7 +115,7 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://cert-manager.io/docs/troubleshooting/acme/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> cert-manager.io</a></p>
         </section>
 
@@ -152,7 +152,7 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20cert-manager%3A%20Order%20is%20pending%20%2F%20challenge%20failed%20to%20propagate">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20cert-manager%3A%20Order%20is%20pending%20%2F%20challenge%20failed%20to%20propagate">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -166,7 +166,7 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -194,7 +194,7 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

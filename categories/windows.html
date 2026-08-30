@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Errors – 7 Fixes | FixMyError.net</title>
+    <title>Windows Errors: 7 Fixes | FixMyError.net</title>
     <meta name="description" content="7 documented Windows errors with copy-paste fixes. Installer failures, missing runtimes, update errors and permission problems.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/categories/windows.html">
@@ -19,7 +19,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
@@ -31,7 +31,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Windows Errors","description":"7 documented Windows errors with copy-paste fixes. Installer failures, missing runtimes, update errors and permission problems.","url":"https://fixmyerror.net/categories/windows.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":7,"itemListElement":[{"@type":"ListItem","position":1,"name":"Windows Update: error 0x80070643","url":"https://fixmyerror.net/errors/windows-update-0x80070643.html"},{"@type":"ListItem","position":2,"name":"Windows: 0xc000007b application unable to start correctly","url":"https://fixmyerror.net/errors/windows-0xc000007b.html"},{"@type":"ListItem","position":3,"name":"Windows: Access is denied (error 5)","url":"https://fixmyerror.net/errors/windows-access-denied-5.html"},{"@type":"ListItem","position":4,"name":"Windows: corrupted system files / component store","url":"https://fixmyerror.net/errors/windows-system-file-corruption.html"},{"@type":"ListItem","position":5,"name":"Windows: RDP can't connect (CredSSP encryption oracle remediation)","url":"https://fixmyerror.net/errors/windows-rdp-credssp.html"},{"@type":"ListItem","position":6,"name":"Windows: The specified path, file name, or both are too long (MAX_PATH)","url":"https://fixmyerror.net/errors/windows-long-path-limit.html"},{"@type":"ListItem","position":7,"name":"Windows: VCRUNTIME140.dll was not found","url":"https://fixmyerror.net/errors/windows-vcruntime140-missing.html"}]}}</script>
@@ -79,7 +79,7 @@
                 <h2>How to debug Windows errors</h2>
                 <ol>
                     <li>Read Event Viewer under Windows Logs → Application and System, filtered to the time of the failure. The numeric code in the dialog maps to a detailed entry there.</li>
-                    <li>For MSI failures, install with verbose logging: <code>msiexec /i package.msi /l*v install.log</code>, then search the log for "Return value 3" — the lines just above name the failing action.</li>
+                    <li>For MSI failures, install with verbose logging: <code>msiexec /i package.msi /l*v install.log</code>, then search the log for "Return value 3". The lines just above name the failing action.</li>
                     <li>For missing DLLs, install the matching Visual C++ Redistributable and confirm the architecture matches the application (x64 versus x86).</li>
                     <li>Repair system corruption with <code>sfc /scannow</code> followed by <code>DISM /Online /Cleanup-Image /RestoreHealth</code>, in that order.</li>
                     <li>For access-denied errors, check both NTFS permissions and whether the process needs elevation; UAC virtualisation can make writes appear to succeed while landing elsewhere.</li>
@@ -119,7 +119,7 @@
                     <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
                     <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
                     <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
-                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI: permissions, runners and…</span></a></li>
                     <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
@@ -139,7 +139,7 @@
                     <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">32</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">25</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
                     <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
-                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery: lag, rebalancing and poison messages.</span></a></li>
                     <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
                     <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">10</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
@@ -158,13 +158,13 @@
                     <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">22</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">15</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
-                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright: fixtures, snapshots and timeouts.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
                     <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
                     <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
                     <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
                     <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
-                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy: binding, permissions, rewrites and TLS.</span></a></li>
                 </ul>
             </section>
         </article>
@@ -179,7 +179,7 @@
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -207,7 +207,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>docker-compose: command not found – Cause and Fix | FixMyError.net</title>
+    <title>docker-compose: command not found: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="Compose V1, the standalone Python binary invoked as docker-compose, reached end of life and is no longer installed. Compose is now a Docker CLI plugin…">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html">
-    <meta property="og:title" content="docker-compose: command not found – cause and fix">
+    <meta property="og:title" content="docker-compose: command not found: cause and fix">
     <meta property="og:description" content="Compose V1, the standalone Python binary invoked as docker-compose, reached end of life and is no longer installed. Compose is now a Docker CLI plugin…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="docker-compose: command not found – cause and fix">
+    <meta name="twitter:title" content="docker-compose: command not found: cause and fix">
     <meta name="twitter:description" content="Compose V1, the standalone Python binary invoked as docker-compose, reached end of life and is no longer installed. Compose is now a Docker CLI plugin…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"docker-compose: command not found","name":"docker-compose: command not found","description":"Compose V1, the standalone Python binary invoked as docker-compose, reached end of life and is no longer installed. Compose is now a Docker CLI plugin…","url":"https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html"},"inLanguage":"en-GB","articleSection":"Docker","proficiencyLevel":"Expert","datePublished":"2026-08-30","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.docker.com/compose/releases/migrate/"]}</script>
@@ -90,8 +90,8 @@ sudo apt-get install docker-compose-plugin</code></pre>
 
             <section class="block">
                 <h2>How to diagnose Docker errors</h2>
-                <p>Docker errors are usually about <strong>the daemon</strong> (not running, or not reachable by your user), <strong>the host</strong> (disk full, port already bound), or <strong>the image</strong> (wrong architecture, rate-limited pull, missing credentials). Apple Silicon and ARM cloud instances made architecture mismatches far more common — <code>exec format error</code> is the signature, and it means an amd64 binary is being run on arm64 or vice versa.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Docker errors are usually about <strong>the daemon</strong> (not running, or not reachable by your user), <strong>the host</strong> (disk full, port already bound), or <strong>the image</strong> (wrong architecture, rate-limited pull, missing credentials). Apple Silicon and ARM cloud instances made architecture mismatches far more common. <code>exec format error</code> is the signature, and it means an amd64 binary is being run on arm64 or vice versa.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Check the daemon before anything else: <code>docker info</code>. A "cannot connect to the Docker daemon" error is a socket permission or service problem, never an image problem.</li>
                     <li>Reclaim space deliberately with <code>docker system df</code> to see where it went, then <code>docker system prune</code>. Build cache and dangling volumes are usually the bulk of it.</li>
@@ -111,7 +111,7 @@ sudo apt-get install docker-compose-plugin</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://docs.docker.com/compose/releases/migrate/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> docs.docker.com</a></p>
         </section>
 
@@ -150,7 +150,7 @@ sudo apt-get install docker-compose-plugin</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20docker-compose%3A%20command%20not%20found">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20docker-compose%3A%20command%20not%20found">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -164,7 +164,7 @@ sudo apt-get install docker-compose-plugin</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -192,7 +192,7 @@ sudo apt-get install docker-compose-plugin</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

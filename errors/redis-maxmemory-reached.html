@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/redis-maxmemory-reached.html">
-    <meta property="og:title" content="Redis: OOM command not allowed when used memory &gt; &#039;maxmemory&#039; – cause and fix">
+    <meta property="og:title" content="Redis: OOM command not allowed when used memory &gt; &#039;maxmemory&#039;: cause and fix">
     <meta property="og:description" content="Redis has reached maximum memory limit and cannot accept write operations. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Redis: OOM command not allowed when used memory &gt; &#039;maxmemory&#039; – cause and fix">
+    <meta name="twitter:title" content="Redis: OOM command not allowed when used memory &gt; &#039;maxmemory&#039;: cause and fix">
     <meta name="twitter:description" content="Redis has reached maximum memory limit and cannot accept write operations. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Redis: OOM command not allowed when used memory \u003e 'maxmemory'","name":"Redis: OOM command not allowed when used memory \u003e 'maxmemory'","description":"Redis has reached maximum memory limit and cannot accept write operations. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/redis-maxmemory-reached.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/redis-maxmemory-reached.html"},"inLanguage":"en-GB","articleSection":"Database","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://redis.io/topics/lru-cache"]}</script>
@@ -91,11 +91,11 @@ redis-cli --stat</code></pre>
 
             <section class="block">
                 <h2>How to diagnose Database errors</h2>
-                <p>Database errors group into <strong>connection exhaustion</strong>, <strong>lock contention and deadlocks</strong>, <strong>constraint violations</strong>, and <strong>resource limits</strong>. Connection errors under load are the most misdiagnosed: "too many connections" is almost never fixed by raising <code>max_connections</code>, because each connection costs memory — it is fixed by putting a pooler in front and finding the code path that leaks connections.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Database errors group into <strong>connection exhaustion</strong>, <strong>lock contention and deadlocks</strong>, <strong>constraint violations</strong>, and <strong>resource limits</strong>. Connection errors under load are the most misdiagnosed: "too many connections" is almost never fixed by raising <code>max_connections</code>, because each connection costs memory. It is fixed by putting a pooler in front and finding the code path that leaks connections.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Look at what the server currently sees: <code>SELECT * FROM pg_stat_activity</code> in PostgreSQL, <code>SHOW FULL PROCESSLIST</code> in MySQL. Sessions sitting in <code>idle in transaction</code> are the usual culprit behind connection exhaustion.</li>
-                    <li>For deadlocks, read the deadlock report the database logs — it names both transactions and the exact lock order. The fix is nearly always to make all code paths acquire locks in the same order.</li>
+                    <li>For deadlocks, read the deadlock report the database logs. It names both transactions and the exact lock order. The fix is nearly always to make all code paths acquire locks in the same order.</li>
                     <li>Check whether the error is from the database or from a pooler. PgBouncer, ProxySQL and RDS Proxy return their own errors that look database-native but need pooler-side fixes.</li>
                     <li>Run <code>EXPLAIN (ANALYZE, BUFFERS)</code> on slow queries. Lock-wait timeouts are often just very slow queries holding locks longer than they should.</li>
                     <li>Verify you are connected to the writer, not a read replica. <code>READONLY</code> and "cannot execute in a read-only transaction" errors mean traffic is reaching the wrong endpoint.</li>
@@ -112,7 +112,7 @@ redis-cli --stat</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://redis.io/topics/lru-cache" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> redis.io</a></p>
         </section>
 
@@ -151,7 +151,7 @@ redis-cli --stat</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Redis%3A%20OOM%20command%20not%20allowed%20when%20used%20memory%20%3E%20'maxmemory'">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Redis%3A%20OOM%20command%20not%20allowed%20when%20used%20memory%20%3E%20'maxmemory'">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -165,7 +165,7 @@ redis-cli --stat</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -193,7 +193,7 @@ redis-cli --stat</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -1,7 +1,7 @@
 # fixmyerror.net
 
 A searchable reference of **731 developer and infrastructure error messages**, each with a
-plain-English explanation, a copy-paste fix, and a link to the authoritative documentation —
+plain-English explanation, a copy-paste fix, and a link to the authoritative documentation,
 across **56 categories** from HTTP status codes and TLS to Kubernetes, databases, AI/LLM APIs,
 and every mainstream language runtime.
 
@@ -17,22 +17,22 @@ database and no third-party JavaScript.
 | URL | What it is |
 | --- | --- |
 | `/` | The search app. Loads the whole dataset and searches it client-side with Fuse.js. |
-| `/errors/<id>.html` | One indexable page per error — explanation, fix, category debugging guide, related errors, sources. |
+| `/errors/<id>.html` | One indexable page per error: explanation, fix, category debugging guide, related errors, sources. |
 | `/categories/<slug>.html` | One hub page per category, with an authored guide to debugging that class of error. |
 | `/categories.html` | Directory of all 56 categories. |
-| `/all-errors.html` | Full A–Z index of every error. |
+| `/all-errors.html` | Full A-Z index of every error. |
 | `/about.html` | How entries are written and how to use the site. |
 | `/sitemap.xml`, `/feed.xml` | Crawl and subscription surfaces, both generated. |
 
 Every error used to live only behind a URL fragment (`/#some-error`), which search engines
-collapse into the homepage — so the site had one indexable URL for hundreds of pieces of
+collapse into the homepage, so the site had one indexable URL for hundreds of pieces of
 content. The generator exists to give each entry a real page.
 
 ## Working on it
 
 ```bash
 npm install        # dev dependencies (jsdom, for the tests)
-npm run check      # build + validate + test — run this before committing
+npm run check      # build + validate + test, run this before committing
 ```
 
 Individual steps:
@@ -59,7 +59,7 @@ and committed, because deployment is a plain file sync.
 
 ```jsonc
 {
-  "id": "kebab-case-id",              // becomes /errors/<id>.html — must be unique
+  "id": "kebab-case-id",              // becomes /errors/<id>.html, must be unique
   "title": "The literal error text",  // what people paste into a search engine
   "category": "Kubernetes",           // must have a guide in data/categories.json
   "explanation": "What the message actually means, and why it happens.",
@@ -72,7 +72,7 @@ and committed, because deployment is a plain file sync.
 
 ### `data/categories.json`
 
-One authored guide per category — the tagline, an introduction to that class of error, the
+One authored guide per category: the tagline, an introduction to that class of error, the
 debugging steps that apply to all of them, and the tools worth reaching for. This is what
 makes the category hubs and error pages worth reading rather than a list of commands.
 
@@ -80,13 +80,13 @@ makes the category hubs and error pages worth reading rather than a list of comm
 
 1. Add an entry to `data/errors.json` with today's date in `dateAdded`.
 2. If it introduces a new category, add a guide for it in `data/categories.json`.
-3. Run `npm run check` — it will refuse anything with a duplicate id or title, a non-HTTPS
+3. Run `npm run check`. It will refuse anything with a duplicate id or title, a non-HTTPS
    source, a category with no guide, or a broken internal link.
 4. Commit the generated output alongside the data change.
 
 ## Contributing
 
-Corrections are welcome, particularly for entries that have gone stale — email
+Corrections are welcome, particularly for entries that have gone stale. Email
 [alex@slash-root.com](mailto:alex@slash-root.com) with the error title and what should change.
 
 New entries are most useful with the exact message text, a reproducible cause, and a link to

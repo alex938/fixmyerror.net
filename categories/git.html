@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Errors – 15 Fixes | FixMyError.net</title>
+    <title>Git Errors: 15 Fixes | FixMyError.net</title>
     <meta name="description" content="15 documented Git errors with copy-paste fixes. Merge conflicts, rejected pushes, detached HEAD, LFS and repository corruption.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/categories/git.html">
@@ -19,7 +19,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
@@ -31,7 +31,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Git Errors","description":"15 documented Git errors with copy-paste fixes. Merge conflicts, rejected pushes, detached HEAD, LFS and repository corruption.","url":"https://fixmyerror.net/categories/git.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":15,"itemListElement":[{"@type":"ListItem","position":1,"name":"git cherry-pick: conflict","url":"https://fixmyerror.net/errors/git-cherry-pick-conflict.html"},{"@type":"ListItem","position":2,"name":"Git LFS: missing objects","url":"https://fixmyerror.net/errors/git-lfs-missing-objects.html"},{"@type":"ListItem","position":3,"name":"git: cannot lock ref","url":"https://fixmyerror.net/errors/git-cannot-lock-ref.html"},{"@type":"ListItem","position":4,"name":"Git: CONFLICT during rebase","url":"https://fixmyerror.net/errors/git-rebase-conflict.html"},{"@type":"ListItem","position":5,"name":"Git: Could not apply stash","url":"https://fixmyerror.net/errors/git-stash-apply-conflict.html"},{"@type":"ListItem","position":6,"name":"git: detected dubious ownership in repository","url":"https://fixmyerror.net/errors/git-dubious-ownership.html"},{"@type":"ListItem","position":7,"name":"Git: failed to push some refs to ... (non-fast-forward)","url":"https://fixmyerror.net/errors/git-push-rejected-non-fast-forward.html"},{"@type":"ListItem","position":8,"name":"Git: File size exceeds limit","url":"https://fixmyerror.net/errors/git-large-file-rejected.html"},{"@type":"ListItem","position":9,"name":"Git: Merge conflict","url":"https://fixmyerror.net/errors/git-merge-conflict.html"},{"@type":"ListItem","position":10,"name":"git: object file is empty / loose object is corrupt","url":"https://fixmyerror.net/errors/git-repository-corrupted.html"},{"@type":"ListItem","position":11,"name":"git: refusing to merge unrelated histories","url":"https://fixmyerror.net/errors/git-refusing-unrelated-histories.html"},{"@type":"ListItem","position":12,"name":"Git: remote rejected (protected branch)","url":"https://fixmyerror.net/errors/git-remote-rejected-protected.html"},{"@type":"ListItem","position":13,"name":"git: RPC failed; HTTP 400 curl 22 / the remote end hung up unexpectedly","url":"https://fixmyerror.net/errors/git-rpc-failed-http-400.html"},{"@type":"ListItem","position":14,"name":"Git: Submodule path not initialized","url":"https://fixmyerror.net/errors/git-submodule-not-initialized.html"},{"@type":"ListItem","position":15,"name":"Git: You are in 'detached HEAD' state","url":"https://fixmyerror.net/errors/git-detached-head.html"}]}}</script>
@@ -78,7 +78,7 @@
             <section class="block">
                 <h2>How to debug Git errors</h2>
                 <ol>
-                    <li>Run <code>git status</code> and read it fully — it tells you the current state and usually names the exact command to move forward or abort.</li>
+                    <li>Run <code>git status</code> and read it fully. It tells you the current state and usually names the exact command to move forward or abort.</li>
                     <li>Use <code>git reflog</code> to find any commit you think you have lost, then <code>git reset --hard &lt;hash&gt;</code> or <code>git branch recovery &lt;hash&gt;</code> to get it back.</li>
                     <li>For a rejected push, run <code>git fetch</code> then <code>git log --oneline HEAD..@{u}</code> to see exactly what is on the remote that you do not have. Prefer <code>--force-with-lease</code> over <code>--force</code>, which refuses to overwrite work you have not seen.</li>
                     <li>Abort rather than improvise when a merge or rebase goes wrong: <code>git merge --abort</code>, <code>git rebase --abort</code>, <code>git cherry-pick --abort</code>.</li>
@@ -109,7 +109,7 @@
                     <li><a href="../errors/git-repository-corrupted.html">git: object file is empty / loose object is corrupt<span class="sub">A Git object under .git/objects is unreadable, commonly after a crash, cloud-sync conflict, or filesystem issue.</span></a></li>
                     <li><a href="../errors/git-refusing-unrelated-histories.html">git: refusing to merge unrelated histories <span class="badge badge-new">New</span><span class="sub">The two branches have no common ancestor. This normally means a local repository was initialised separately from the…</span></a></li>
                     <li><a href="../errors/git-remote-rejected-protected.html">Git: remote rejected (protected branch)<span class="sub">Direct push to a protected branch was rejected. The branch requires pull requests or specific permissions.</span></a></li>
-                    <li><a href="../errors/git-rpc-failed-http-400.html">git: RPC failed; HTTP 400 curl 22 / the remote end hung up unexpectedly <span class="badge badge-new">New</span><span class="sub">The push exceeded a size limit somewhere in the chain — the HTTP post buffer, a reverse proxy body limit, or the…</span></a></li>
+                    <li><a href="../errors/git-rpc-failed-http-400.html">git: RPC failed; HTTP 400 curl 22 / the remote end hung up unexpectedly <span class="badge badge-new">New</span><span class="sub">The push exceeded a size limit somewhere in the chain: the HTTP post buffer, a reverse proxy body limit, or the…</span></a></li>
                     <li><a href="../errors/git-submodule-not-initialized.html">Git: Submodule path not initialized<span class="sub">A git submodule was not initialised or updated after cloning. The submodule directory is empty.</span></a></li>
                     <li><a href="../errors/git-detached-head.html">Git: You are in &#039;detached HEAD&#039; state<span class="sub">Checked out a specific commit directly instead of a branch. New commits will not be associated with any branch and may…</span></a></li>
                 </ul>
@@ -127,7 +127,7 @@
                     <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
                     <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
                     <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
-                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI: permissions, runners and…</span></a></li>
                     <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
@@ -146,7 +146,7 @@
                     <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">32</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">25</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
                     <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
-                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery: lag, rebalancing and poison messages.</span></a></li>
                     <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
                     <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">10</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
@@ -165,13 +165,13 @@
                     <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">22</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">15</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
-                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright: fixtures, snapshots and timeouts.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
                     <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
                     <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
                     <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
                     <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
-                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy: binding, permissions, rewrites and TLS.</span></a></li>
                     <li><a href="../categories/windows.html"><span class="card-title">Windows <span class="card-count">7</span></span><span class="card-desc">Installer failures, missing runtimes, update errors and permission problems.</span></a></li>
                 </ul>
             </section>
@@ -187,7 +187,7 @@
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -215,7 +215,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -79,6 +79,29 @@ for (const name of Object.keys(guides)) {
     if (!usedCategories.has(name)) warn(`category guide "${name}" has no errors`);
 }
 
+/* House style: no em or en dashes. They are the loudest tell that copy was
+   machine-written, and the site is hand-maintained. Use a comma, colon, full
+   stop or brackets instead. */
+{
+    const DASHES = /[–—]/;
+    for (const e of errors) {
+        for (const field of ['title', 'explanation', 'fix_snippet', 'fix_snippet_windows']) {
+            if (typeof e[field] === 'string' && DASHES.test(e[field])) {
+                fail(`error "${e.id}" uses an em/en dash in ${field}; use a comma, colon or full stop`);
+            }
+        }
+    }
+    for (const [name, g] of Object.entries(guides)) {
+        for (const [key, val] of Object.entries(g)) {
+            for (const s of (Array.isArray(val) ? val : [val])) {
+                if (typeof s === 'string' && DASHES.test(s)) {
+                    fail(`category "${name}" uses an em/en dash in ${key}; use a comma, colon or full stop`);
+                }
+            }
+        }
+    }
+}
+
 /* The hand-written files quote the dataset size in prose. The build rewrites
    those numbers; this proves none of them was missed, so the title bar can
    never claim a different total from the page body. */

@@ -172,7 +172,7 @@ const errorHref = (id, depth) => `${'../'.repeat(depth)}errors/${id}.html`;
  * Link back to the search page (the site root).
  *
  * At depth 0 the naive `'../'.repeat(0)` is an empty string, and an empty href
- * resolves to *the current page* — which is why the header brand and the
+ * resolves to *the current page*, which is why the header brand and the
  * "Search" nav link used to do nothing on categories.html, all-errors.html and
  * about.html. "./" resolves to the directory index in every case.
  */
@@ -211,7 +211,7 @@ function layout(o) {
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="${SITE_NAME}">
     <meta property="og:locale" content="en_GB">
 
@@ -223,7 +223,7 @@ function layout(o) {
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="${rel}apple-touch-icon.png">
     <link rel="manifest" href="${rel}manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="${SITE_NAME} – Recently Added Errors" href="${rel}feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="${SITE_NAME}: Recently Added Errors" href="${rel}feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="${rel}assets/site.css">
 ${structured}
@@ -262,7 +262,7 @@ ${o.body}
                     <ul>
                         <li><a href="${homeHref(o.depth)}">Search all errors</a></li>
                         <li><a href="${rel}categories.html">Categories</a></li>
-                        <li><a href="${rel}all-errors.html">Full A–Z index</a></li>
+                        <li><a href="${rel}all-errors.html">Full A-Z index</a></li>
                         <li><a href="${rel}feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -289,7 +289,7 @@ ${['HTTP', 'Kubernetes', 'Docker', 'TLS', 'Database']
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>${SITE_NAME} — ${errors.length} documented errors across ${categories.length} categories. Last updated ${esc(humanDate(BUILD_DATE))}.</p>
+                <p>${SITE_NAME} has ${errors.length} documented errors across ${categories.length} categories. Last updated ${esc(humanDate(BUILD_DATE))}.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
@@ -351,7 +351,7 @@ function codeBlock(code, label, id) {
  * rather than pushing the distinctive part out of the search result.
  */
 function errorPageTitle(title) {
-    if (title.length <= 40) return `${title} – Cause and Fix | ${SITE_NAME}`;
+    if (title.length <= 40) return `${title}: Cause and Fix | ${SITE_NAME}`;
     if (title.length <= 58) return `${title} | ${SITE_NAME}`;
     return title;
 }
@@ -396,7 +396,7 @@ ${related.map(r => `                <li><a href="${errorHref(r.id, depth)}">${es
     const sourcesBlock = sources.length === 0 ? '' : `
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p>${sources.map(s => `<a class="source-link" href="${esc(s)}" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> ${esc(new URL(s).hostname.replace(/^www\./, ''))}</a>`).join(' ')}</p>
         </section>`;
 
@@ -425,7 +425,7 @@ ${related.map(r => `                <li><a href="${errorHref(r.id, depth)}">${es
             <section class="block">
                 <h2>How to diagnose ${esc(err.category)} errors</h2>
                 <p>${meta.intro}</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
 ${meta.howToDebug.map(step => `                    <li>${step}</li>`).join('\n')}
                 </ol>
@@ -449,7 +449,7 @@ ${otherCategories.map(c => {
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:${CONTACT}?subject=${encodeURIComponent(`FixMyError.net – ${err.title}`)}">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:${CONTACT}?subject=${encodeURIComponent(`FixMyError.net: ${err.title}`)}">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>`;
@@ -481,7 +481,7 @@ ${otherCategories.map(c => {
     return layout({
         depth,
         title: errorPageTitle(err.title),
-        ogTitle: `${err.title} – cause and fix`,
+        ogTitle: `${err.title}: cause and fix`,
         description,
         canonical,
         structuredData: [article, breadcrumbLd(trail)],
@@ -573,7 +573,7 @@ ${others.map(c => {
 
     return layout({
         depth,
-        title: `${meta.title} – ${list.length} Fixes | ${SITE_NAME}`,
+        title: `${meta.title}: ${list.length} Fixes | ${SITE_NAME}`,
         ogTitle: meta.title,
         description,
         canonical,
@@ -610,13 +610,13 @@ ${categories.map(c => {
 
             <section class="block">
                 <h2>Looking for something specific?</h2>
-                <p><a href="./">Search the full database</a> or browse the <a href="all-errors.html">complete A–Z index</a>.</p>
+                <p><a href="./">Search the full database</a> or browse the <a href="all-errors.html">complete A-Z index</a>.</p>
             </section>
         </div>`;
 
     return layout({
         depth,
-        title: `Error Categories – ${categories.length} Topics | ${SITE_NAME}`,
+        title: `Error Categories: ${categories.length} Topics | ${SITE_NAME}`,
         ogTitle: 'Error categories',
         description,
         canonical,
@@ -670,7 +670,7 @@ ${byCategory.get(c).map(e => `                    <li><a href="${errorHref(e.id,
 
     return layout({
         depth,
-        title: `All ${errors.length} Documented Errors – A–Z Index | ${SITE_NAME}`,
+        title: `All ${errors.length} Documented Errors: A-Z Index | ${SITE_NAME}`,
         ogTitle: `All ${errors.length} documented errors`,
         description,
         canonical,
@@ -698,13 +698,13 @@ function renderAbout() {
             <section class="block">
                 <h2>What this site is for</h2>
                 <p>When you paste an error message into a search engine you usually get a forum thread from 2017 with three contradictory answers and no explanation of <em>why</em> any of them work. This site exists to be the other thing: a short, current, checkable answer that tells you what the message actually means before it tells you what to type.</p>
-                <p>Every entry has the same shape — what the error means, a fix you can copy, and where to read more. Every category also has a debugging guide, because the most valuable thing is rarely the one command; it is knowing how to narrow down that whole class of problem next time.</p>
+                <p>Every entry has the same shape: what the error means, a fix you can copy, and where to read more. Every category also has a debugging guide, because the most valuable thing is rarely the one command; it is knowing how to narrow down that whole class of problem next time.</p>
             </section>
 
             <section class="block">
                 <h2>How to use it well</h2>
                 <ul>
-                    <li><strong>Search the literal message.</strong> The search is fuzzy, so paste the distinctive part of the error rather than a description of it — <code>x509: certificate signed by unknown authority</code> rather than "ssl broken".</li>
+                    <li><strong>Search the literal message.</strong> The search is fuzzy, so paste the distinctive part of the error rather than a description of it: <code>x509: certificate signed by unknown authority</code> rather than "ssl broken".</li>
                     <li><strong>Read the explanation before the fix.</strong> Most errors have several causes; the explanation tells you which one you are looking at.</li>
                     <li><strong>Use the category guide.</strong> If the quick fix does not apply, the "how to diagnose" section on each page works for the whole class of error.</li>
                     <li><strong>Star what you use.</strong> Favourites are stored in your browser and can be exported as JSON from the toolbar.</li>
@@ -714,7 +714,7 @@ function renderAbout() {
 
             <section class="block">
                 <h2>How entries are written</h2>
-                <p>Entries are written by hand, not generated in bulk. Each one is checked against primary documentation — the vendor's own docs, an RFC, or the project's issue tracker — and that source is linked on the page so you can verify it yourself rather than trusting this site.</p>
+                <p>Entries are written by hand, not generated in bulk. Each one is checked against primary documentation (the vendor's own docs, an RFC, or the project's issue tracker) and that source is linked on the page so you can verify it yourself rather than trusting this site.</p>
                 <div class="callout">
                     <strong>Please read commands before running them.</strong> Fixes are starting points written without knowledge of your environment. Anything that restarts a service, changes permissions, deletes data or disables a security control deserves a careful read and a non-production test first. Commands marked as development-only should never reach production.
                 </div>
@@ -742,7 +742,7 @@ ${newest.map(e => `                    <li><a href="${errorHref(e.id, depth)}">$
 
     return layout({
         depth,
-        title: `About – How This Error Database Works | ${SITE_NAME}`,
+        title: `About: How This Error Database Works | ${SITE_NAME}`,
         ogTitle: 'About FixMyError.net',
         description,
         canonical,
@@ -755,14 +755,14 @@ ${newest.map(e => `                    <li><a href="${errorHref(e.id, depth)}">$
 function render404() {
     const depth = 0;
     const body = `        <div class="container">
-            <h1 class="page-title">404 – page not found</h1>
+            <h1 class="page-title">404: page not found</h1>
             <p class="page-lede">That page does not exist. It may have been renamed, or the link may be from an older version of this site.</p>
             <section class="block">
                 <h2>Try one of these</h2>
                 <ul class="link-list">
                     <li><a href="/">Search all ${errors.length} errors<span class="sub">Fuzzy search across every error message and fix</span></a></li>
                     <li><a href="/categories.html">Browse ${categories.length} categories<span class="sub">Each with a guide to debugging that class of error</span></a></li>
-                    <li><a href="/all-errors.html">Full A–Z index<span class="sub">Every documented error on one page</span></a></li>
+                    <li><a href="/all-errors.html">Full A-Z index<span class="sub">Every documented error on one page</span></a></li>
                 </ul>
             </section>
         </div>`;

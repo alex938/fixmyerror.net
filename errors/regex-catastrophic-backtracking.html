@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Regex: Catastrophic backtracking (ReDoS) – Cause and Fix | FixMyError.net</title>
+    <title>Regex: Catastrophic backtracking (ReDoS): Cause and Fix | FixMyError.net</title>
     <meta name="description" content="A regular expression takes exponential time on certain inputs due to nested quantifiers or overlapping alternations. Can freeze applications or be exploited…">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/regex-catastrophic-backtracking.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/regex-catastrophic-backtracking.html">
-    <meta property="og:title" content="Regex: Catastrophic backtracking (ReDoS) – cause and fix">
+    <meta property="og:title" content="Regex: Catastrophic backtracking (ReDoS): cause and fix">
     <meta property="og:description" content="A regular expression takes exponential time on certain inputs due to nested quantifiers or overlapping alternations. Can freeze applications or be exploited…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Regex: Catastrophic backtracking (ReDoS) – cause and fix">
+    <meta name="twitter:title" content="Regex: Catastrophic backtracking (ReDoS): cause and fix">
     <meta name="twitter:description" content="A regular expression takes exponential time on certain inputs due to nested quantifiers or overlapping alternations. Can freeze applications or be exploited…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Regex: Catastrophic backtracking (ReDoS)","name":"Regex: Catastrophic backtracking (ReDoS)","description":"A regular expression takes exponential time on certain inputs due to nested quantifiers or overlapping alternations. Can freeze applications or be exploited…","url":"https://fixmyerror.net/errors/regex-catastrophic-backtracking.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/regex-catastrophic-backtracking.html"},"inLanguage":"en-GB","articleSection":"Regex","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS"]}</script>
@@ -88,10 +88,10 @@
 
             <section class="block">
                 <h2>How to diagnose Regex errors</h2>
-                <p>Regex problems come in two flavours: <strong>it does not match what you expect</strong> (usually escaping, greediness, or an engine feature difference) and <strong>it matches but takes forever</strong>. The second is catastrophic backtracking — a genuine denial-of-service vector known as ReDoS — caused by nested quantifiers over overlapping character classes, such as <code>(a+)+b</code>. Any regex applied to untrusted input should be checked for it.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Regex problems come in two flavours: <strong>it does not match what you expect</strong> (usually escaping, greediness, or an engine feature difference) and <strong>it matches but takes forever</strong>. The second is catastrophic backtracking, a genuine denial-of-service vector known as ReDoS, caused by nested quantifiers over overlapping character classes, such as <code>(a+)+b</code>. Any regex applied to untrusted input should be checked for it.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
-                    <li>Test against a visualiser that shows backtracking steps, and always test with input that <em>fails</em> to match — that is where catastrophic backtracking appears, not on successful matches.</li>
+                    <li>Test against a visualiser that shows backtracking steps, and always test with input that <em>fails</em> to match. That is where catastrophic backtracking appears, not on successful matches.</li>
                     <li>Eliminate nested quantifiers over overlapping classes. Rewrite <code>(a+)+</code> as <code>a+</code>, and prefer possessive quantifiers or atomic groups where the engine supports them.</li>
                     <li>Know your engine: lookbehind, named groups and Unicode property escapes differ between PCRE, RE2, JavaScript, Python and Go. RE2 (used by Go) deliberately has no backtracking and rejects some patterns outright.</li>
                     <li>Anchor patterns with <code>^</code> and <code>$</code> where you mean a whole-string match. Unanchored patterns silently match substrings.</li>
@@ -109,7 +109,7 @@
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> owasp.org</a></p>
         </section>
 
@@ -144,7 +144,7 @@
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Regex%3A%20Catastrophic%20backtracking%20(ReDoS)">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Regex%3A%20Catastrophic%20backtracking%20(ReDoS)">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -158,7 +158,7 @@
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -186,7 +186,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

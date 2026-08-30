@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>504 Gateway Timeout – Cause and Fix | FixMyError.net</title>
+    <title>504 Gateway Timeout: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="The server didn&#039;t receive a timely response from an upstream server while acting as a gateway or proxy. Includes a copy-paste fix and how to diagnose it.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/504-gateway-timeout.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/504-gateway-timeout.html">
-    <meta property="og:title" content="504 Gateway Timeout – cause and fix">
+    <meta property="og:title" content="504 Gateway Timeout: cause and fix">
     <meta property="og:description" content="The server didn&#039;t receive a timely response from an upstream server while acting as a gateway or proxy. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="504 Gateway Timeout – cause and fix">
+    <meta name="twitter:title" content="504 Gateway Timeout: cause and fix">
     <meta name="twitter:description" content="The server didn&#039;t receive a timely response from an upstream server while acting as a gateway or proxy. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"504 Gateway Timeout","name":"504 Gateway Timeout","description":"The server didn't receive a timely response from an upstream server while acting as a gateway or proxy. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/504-gateway-timeout.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/504-gateway-timeout.html"},"inLanguage":"en-GB","articleSection":"HTTP","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504"]}</script>
@@ -86,8 +86,8 @@ ProxyTimeout 300</code></pre>
 
             <section class="block">
                 <h2>How to diagnose HTTP errors</h2>
-                <p>HTTP status codes are a first classification, not a diagnosis. The essential split: <strong>4xx means the request was wrong</strong> (fix the client), <strong>5xx means the server failed to fulfil a valid request</strong> (fix the server). The subtlety is that reverse proxies and CDNs generate their own 5xx responses — a 502 or 504 from nginx tells you about nginx's relationship with the upstream, not about your application code.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>HTTP status codes are a first classification, not a diagnosis. The essential split: <strong>4xx means the request was wrong</strong> (fix the client), <strong>5xx means the server failed to fulfil a valid request</strong> (fix the server). The subtlety is that reverse proxies and CDNs generate their own 5xx responses. A 502 or 504 from nginx tells you about nginx's relationship with the upstream, not about your application code.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Capture the full exchange with <code>curl -v</code> or <code>curl -sD - -o /dev/null</code>. Response headers frequently name the component that generated the error (<code>Server:</code>, <code>Via:</code>, <code>X-Cache:</code>).</li>
                     <li>Determine whether the response came from your application or from something in front of it. Add a unique header in your app and check whether it survives; if it is missing, a proxy answered.</li>
@@ -107,7 +107,7 @@ ProxyTimeout 300</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> developer.mozilla.org</a></p>
         </section>
 
@@ -146,7 +146,7 @@ ProxyTimeout 300</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20504%20Gateway%20Timeout">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20504%20Gateway%20Timeout">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -160,7 +160,7 @@ ProxyTimeout 300</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -188,7 +188,7 @@ ProxyTimeout 300</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

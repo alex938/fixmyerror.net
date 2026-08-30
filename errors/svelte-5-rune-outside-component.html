@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file</title>
-    <meta name="description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or…">
+    <meta name="description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or…">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/svelte-5-rune-outside-component.html">
 
@@ -13,28 +13,28 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/svelte-5-rune-outside-component.html">
-    <meta property="og:title" content="Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file – cause and fix">
-    <meta property="og:description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or…">
+    <meta property="og:title" content="Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file: cause and fix">
+    <meta property="og:description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file – cause and fix">
-    <meta name="twitter:description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or…">
+    <meta name="twitter:title" content="Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file: cause and fix">
+    <meta name="twitter:description" content="Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file","name":"Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file","description":"Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or…","url":"https://fixmyerror.net/errors/svelte-5-rune-outside-component.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/svelte-5-rune-outside-component.html"},"inLanguage":"en-GB","articleSection":"Svelte","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://svelte.dev/docs/svelte/what-are-runes"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file","name":"Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file","description":"Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or…","url":"https://fixmyerror.net/errors/svelte-5-rune-outside-component.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/svelte-5-rune-outside-component.html"},"inLanguage":"en-GB","articleSection":"Svelte","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://svelte.dev/docs/svelte/what-are-runes"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Svelte errors","item":"https://fixmyerror.net/categories/svelte.html"},{"@type":"ListItem","position":3,"name":"Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file","item":"https://fixmyerror.net/errors/svelte-5-rune-outside-component.html"}]}</script>
 </head>
 <body>
@@ -69,7 +69,7 @@
                 <span class="badge badge-muted">Added 28 August 2026</span>
             </div>
             <h1 class="page-title">Svelte 5: $state / $derived can only be used inside a .svelte or .svelte.js file</h1>
-            <p class="page-lede">Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes — components, and modules using the .svelte.js or .svelte.ts extension.</p>
+            <p class="page-lede">Runes are compiler features, not runtime functions. They only work in files the Svelte compiler processes: components, and modules using the .svelte.js or .svelte.ts extension.</p>
 
             <section class="block">
                 <h2>Quick fix</h2>
@@ -86,7 +86,7 @@ export const counter = $state({ value: 0 });
 import { counter } from &#039;./store.svelte.js&#039;;
 counter.value += 1;
 
-// Reassigning an imported binding will not propagate —
+// Reassigning an imported binding will not propagate:
 // keep reactive state inside an object or class.</code></pre>
                 </div>
             </section>
@@ -94,10 +94,10 @@ counter.value += 1;
             <section class="block">
                 <h2>How to diagnose Svelte errors</h2>
                 <p>Svelte errors mostly arise at the <strong>compiler's boundaries</strong>: the <code>$</code> store prefix only works on real stores in component context, and SvelteKit's <code>load</code> functions run in two different environments with different capabilities. A 500 from a load function usually means server-only code (a database client, a secret, <code>fs</code>) reached a universal load that also runs in the browser.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Check whether the file is a universal load (<code>+page.js</code>) or a server-only load (<code>+page.server.js</code>). Anything touching secrets or the filesystem belongs in the latter.</li>
-                    <li>Read the full server-side stack trace in the terminal, not just the browser's 500 page — SvelteKit hides details in production for security.</li>
+                    <li>Read the full server-side stack trace in the terminal, not just the browser's 500 page: SvelteKit hides details in production for security.</li>
                     <li>For <code>$</code> prefix errors, confirm the value is an actual store with a <code>subscribe</code> method and that you are inside a component, not a plain module.</li>
                     <li>Use <code>$env/static/private</code> and <code>$env/dynamic/private</code> for secrets so the compiler enforces the server-only boundary for you.</li>
                     <li>Reproduce with <code>vite build &amp;&amp; vite preview</code>; dev-mode behaviour differs meaningfully from the production build.</li>
@@ -113,7 +113,7 @@ counter.value += 1;
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://svelte.dev/docs/svelte/what-are-runes" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> svelte.dev</a></p>
         </section>
 
@@ -146,7 +146,7 @@ counter.value += 1;
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Svelte%205%3A%20%24state%20%2F%20%24derived%20can%20only%20be%20used%20inside%20a%20.svelte%20or%20.svelte.js%20file">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Svelte%205%3A%20%24state%20%2F%20%24derived%20can%20only%20be%20used%20inside%20a%20.svelte%20or%20.svelte.js%20file">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -160,7 +160,7 @@ counter.value += 1;
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -188,7 +188,7 @@ counter.value += 1;
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

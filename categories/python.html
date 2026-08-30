@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Errors – 23 Fixes | FixMyError.net</title>
+    <title>Python Errors: 23 Fixes | FixMyError.net</title>
     <meta name="description" content="23 documented Python errors with copy-paste fixes. Imports, virtual environments, encoding, concurrency and dependency conflicts.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/categories/python.html">
@@ -19,7 +19,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
@@ -31,7 +31,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Python Errors","description":"23 documented Python errors with copy-paste fixes. Imports, virtual environments, encoding, concurrency and dependency conflicts.","url":"https://fixmyerror.net/categories/python.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":23,"itemListElement":[{"@type":"ListItem","position":1,"name":"Django: ImproperlyConfigured: setting is not configured","url":"https://fixmyerror.net/errors/django-improperlyconfigured.html"},{"@type":"ListItem","position":2,"name":"FastAPI: ResponseValidationError","url":"https://fixmyerror.net/errors/fastapi-response-validation-error.html"},{"@type":"ListItem","position":3,"name":"pip: SSL Certificate Verify Failed","url":"https://fixmyerror.net/errors/pip-ssl-certificate-verify-failed.html"},{"@type":"ListItem","position":4,"name":"Poetry: pyproject.toml changed significantly since poetry.lock was generated","url":"https://fixmyerror.net/errors/poetry-lock-out-of-date.html"},{"@type":"ListItem","position":5,"name":"Pydantic v2: ValidationError after upgrade from v1","url":"https://fixmyerror.net/errors/pydantic-v2-validation-error.html"},{"@type":"ListItem","position":6,"name":"Python 3.12: ModuleNotFoundError: No module named 'distutils'","url":"https://fixmyerror.net/errors/python-312-missing-distutils.html"},{"@type":"ListItem","position":7,"name":"Python pandas: Memory error loading large CSV","url":"https://fixmyerror.net/errors/python-pandas-memory-error.html"},{"@type":"ListItem","position":8,"name":"Python: AttributeError: 'NoneType' object has no attribute 'X'","url":"https://fixmyerror.net/errors/python-attribute-error.html"},{"@type":"ListItem","position":9,"name":"Python: Cannot pickle local object in multiprocessing","url":"https://fixmyerror.net/errors/python-multiprocessing-pickle-error.html"},{"@type":"ListItem","position":10,"name":"Python: Circular import detected","url":"https://fixmyerror.net/errors/python-import-circular.html"},{"@type":"ListItem","position":11,"name":"Python: Deadlock with threading and GIL","url":"https://fixmyerror.net/errors/python-gil-deadlock.html"},{"@type":"ListItem","position":12,"name":"Python: error: externally-managed-environment","url":"https://fixmyerror.net/errors/python-externally-managed-env.html"},{"@type":"ListItem","position":13,"name":"Python: Event loop is closed","url":"https://fixmyerror.net/errors/python-asyncio-loop-closed.html"},{"@type":"ListItem","position":14,"name":"Python: GIL causing performance bottleneck","url":"https://fixmyerror.net/errors/python-gil-bottleneck.html"},{"@type":"ListItem","position":15,"name":"Python: KeyError on dict access","url":"https://fixmyerror.net/errors/python-keyerror.html"},{"@type":"ListItem","position":16,"name":"Python: module compiled with NumPy 1.x cannot be run in NumPy 2.x","url":"https://fixmyerror.net/errors/numpy-2-abi-mismatch.html"},{"@type":"ListItem","position":17,"name":"Python: Package version conflict","url":"https://fixmyerror.net/errors/python-package-conflict.html"},{"@type":"ListItem","position":18,"name":"Python: RecursionError: maximum recursion depth exceeded","url":"https://fixmyerror.net/errors/python-recursion-limit.html"},{"@type":"ListItem","position":19,"name":"Python: RuntimeError: no running event loop","url":"https://fixmyerror.net/errors/python-no-running-event-loop.html"},{"@type":"ListItem","position":20,"name":"Python: UnicodeDecodeError: 'utf-8' codec can't decode byte","url":"https://fixmyerror.net/errors/python-utf8-decode-error.html"},{"@type":"ListItem","position":21,"name":"Python: Unpickling error - module not found","url":"https://fixmyerror.net/errors/python-pickle-unpickling-error.html"},{"@type":"ListItem","position":22,"name":"uv: No solution found when resolving dependencies","url":"https://fixmyerror.net/errors/uv-no-solution-found.html"},{"@type":"ListItem","position":23,"name":"uv: the lockfile is out of date","url":"https://fixmyerror.net/errors/uv-lockfile-out-of-date.html"}]}}</script>
@@ -81,7 +81,7 @@
                     <li>Identify the interpreter and its paths: <code>python -c "import sys; print(sys.executable); print(sys.path)"</code>. This resolves most import errors immediately.</li>
                     <li>Install into the interpreter you are running, not the one on PATH: <code>python -m pip install …</code> rather than bare <code>pip</code>.</li>
                     <li>Read tracebacks bottom-up. The last line is the exception; the frames above show the call chain, and the relevant frame is usually your code, not the library's.</li>
-                    <li>For encoding errors, name the encoding explicitly and decide on an error policy — <code>open(path, encoding='utf-8', errors='replace')</code> — rather than relying on the locale default.</li>
+                    <li>For encoding errors, name the encoding explicitly and decide on an error policy, such as <code>open(path, encoding='utf-8', errors='replace')</code>, rather than relying on the locale default.</li>
                     <li>For multiprocessing pickling errors, move the target function to module level. Closures, lambdas and locally defined classes cannot be pickled.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
@@ -115,7 +115,7 @@
                     <li><a href="../errors/numpy-2-abi-mismatch.html">Python: module compiled with NumPy 1.x cannot be run in NumPy 2.x <span class="badge badge-new">New</span><span class="sub">NumPy 2.0 changed the C ABI. Any extension module (pandas, scipy, opencv, torch) built against NumPy 1.x crashes or…</span></a></li>
                     <li><a href="../errors/python-package-conflict.html">Python: Package version conflict<span class="sub">pip cannot install package due to conflicting dependency versions.</span></a></li>
                     <li><a href="../errors/python-recursion-limit.html">Python: RecursionError: maximum recursion depth exceeded<span class="sub">A function recursed beyond Python&#039;s recursion limit. Usually caused by a missing base case, cyclical data, or using…</span></a></li>
-                    <li><a href="../errors/python-no-running-event-loop.html">Python: RuntimeError: no running event loop <span class="badge badge-new">New</span><span class="sub">An asyncio API that requires an active loop — asyncio.create_task, asyncio.get_running_loop, or awaiting from sync…</span></a></li>
+                    <li><a href="../errors/python-no-running-event-loop.html">Python: RuntimeError: no running event loop <span class="badge badge-new">New</span><span class="sub">An asyncio API that requires an active loop (asyncio.create_task, asyncio.get_running_loop, or awaiting from sync…</span></a></li>
                     <li><a href="../errors/python-utf8-decode-error.html">Python: UnicodeDecodeError: &#039;utf-8&#039; codec can&#039;t decode byte<span class="sub">Bytes were decoded as UTF-8 but the source uses another encoding such as CP1252, Latin-1, or UTF-16.</span></a></li>
                     <li><a href="../errors/python-pickle-unpickling-error.html">Python: Unpickling error - module not found<span class="sub">Cannot unpickle object because module or class definition changed or missing.</span></a></li>
                     <li><a href="../errors/uv-no-solution-found.html">uv: No solution found when resolving dependencies <span class="badge badge-new">New</span><span class="sub">uv resolves the whole dependency graph at once and reports the exact conflicting constraints rather than installing…</span></a></li>
@@ -135,7 +135,7 @@
                     <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
                     <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
                     <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
-                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI: permissions, runners and…</span></a></li>
                     <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
@@ -155,7 +155,7 @@
                     <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">32</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">25</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
                     <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
-                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery: lag, rebalancing and poison messages.</span></a></li>
                     <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
                     <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">10</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
@@ -173,13 +173,13 @@
                     <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">22</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">15</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
-                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright: fixtures, snapshots and timeouts.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
                     <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
                     <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
                     <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
                     <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
-                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy: binding, permissions, rewrites and TLS.</span></a></li>
                     <li><a href="../categories/windows.html"><span class="card-title">Windows <span class="card-count">7</span></span><span class="card-desc">Installer failures, missing runtimes, update errors and permission problems.</span></a></li>
                 </ul>
             </section>
@@ -195,7 +195,7 @@
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -223,7 +223,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

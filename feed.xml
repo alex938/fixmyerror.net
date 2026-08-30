@@ -14,7 +14,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/bun-frozen-lockfile-changed.html</guid>
       <category>JavaScript</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>CI runs bun install --frozen-lockfile so a build can never silently resolve different versions. The error means package.json and bun.lock disagree — usually because a dependency was edited by hand without re-running install locally.</description>
+      <description>CI runs bun install --frozen-lockfile so a build can never silently resolve different versions. The error means package.json and bun.lock disagree, usually because a dependency was edited by hand without re-running install locally.</description>
     </item>
     <item>
       <title>Cargo: lock file version requires a newer version of Cargo</title>
@@ -22,7 +22,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/rust-cargo-lock-version-unsupported.html</guid>
       <category>Rust</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot parse — typically a contributor or CI image on a newer Rust than the pinned one.</description>
+      <description>Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot parse, typically a contributor or CI image on a newer Rust than the pinned one.</description>
     </item>
     <item>
       <title>CORS: credentialed request cannot use a wildcard origin</title>
@@ -62,7 +62,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/linux-inotify-watch-limit-reached.html</guid>
       <category>System</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A dev server or file watcher exhausted the per-user inotify watch limit. Despite the ENOSPC name there is no disk problem — each watched directory consumes one kernel watch and large node_modules trees run through the default allowance quickly.</description>
+      <description>A dev server or file watcher exhausted the per-user inotify watch limit. Despite the ENOSPC name there is no disk problem. Each watched directory consumes one kernel watch, and large node_modules trees run through the default allowance quickly.</description>
     </item>
     <item>
       <title>ESLint: could not find an eslint.config.js file</title>
@@ -81,7 +81,7 @@
       <description>The handler returned data that does not match its response_model. Unlike a request validation error this is a 500, because the fault is on the server: FastAPI will not serialise a response that breaks the documented schema.</description>
     </item>
     <item>
-      <title>GitHub Actions: OIDC token request failed — not authorized</title>
+      <title>GitHub Actions: OIDC token request failed (not authorized)</title>
       <link>https://fixmyerror.net/errors/github-actions-oidc-not-authorized.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-oidc-not-authorized.html</guid>
       <category>CI/CD</category>
@@ -97,7 +97,7 @@
       <description>Since Go 1.21 a go.mod may name a newer toolchain than the installed one. Go normally downloads it, but with GOTOOLCHAIN=local, no network, or a restricted proxy it cannot, and the build stops.</description>
     </item>
     <item>
-      <title>Helm: cannot patch — field is immutable</title>
+      <title>Helm: cannot patch (field is immutable)</title>
       <link>https://fixmyerror.net/errors/helm-cannot-patch-field-immutable.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/helm-cannot-patch-field-immutable.html</guid>
       <category>Kubernetes</category>
@@ -118,10 +118,10 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-exceeded-quota.html</guid>
       <category>Kubernetes</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A ResourceQuota caps what the namespace may request in aggregate. The create is rejected at admission time, so a Deployment can exist while its ReplicaSet never produces pods — the reason only appears in the ReplicaSet events.</description>
+      <description>A ResourceQuota caps what the namespace may request in aggregate. The create is rejected at admission time, so a Deployment can exist while its ReplicaSet never produces pods. The reason only appears in the ReplicaSet events.</description>
     </item>
     <item>
-      <title>Kubernetes: no matches for kind in version — removed API</title>
+      <title>Kubernetes: no matches for kind in version (removed API)</title>
       <link>https://fixmyerror.net/errors/k8s-no-matches-for-kind-removed-api.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-no-matches-for-kind-removed-api.html</guid>
       <category>Kubernetes</category>
@@ -134,7 +134,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-podsecurity-violates-restricted.html</guid>
       <category>Kubernetes</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Pod Security Admission is enforcing the restricted profile on the namespace and the pod spec does not meet it — typically because it runs as root, allows privilege escalation, or does not drop all capabilities.</description>
+      <description>Pod Security Admission is enforcing the restricted profile on the namespace and the pod spec does not meet it, typically because it runs as root, allows privilege escalation, or does not drop all capabilities.</description>
     </item>
     <item>
       <title>MySQL: Authentication plugin &apos;caching_sha2_password&apos; cannot be loaded</title>
@@ -185,7 +185,7 @@
       <description>In transaction pooling mode a client can land on a different server connection each transaction. A driver that caches server-side prepared statements then re-prepares a name that already exists on that backend.</description>
     </item>
     <item>
-      <title>Playwright: strict mode violation — locator resolved to multiple elements</title>
+      <title>Playwright: strict mode violation (locator resolved to multiple elements)</title>
       <link>https://fixmyerror.net/errors/playwright-strict-mode-violation.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/playwright-strict-mode-violation.html</guid>
       <category>Testing</category>
@@ -222,7 +222,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/pytest-async-def-not-supported.html</guid>
       <category>Testing</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.</description>
+      <description>pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.</description>
     </item>
     <item>
       <title>Python 3.12: ModuleNotFoundError: No module named &apos;distutils&apos;</title>
@@ -233,7 +233,7 @@
       <description>distutils was deprecated in 3.10 and removed from the standard library in Python 3.12. Any package whose setup.py or runtime code imports it fails immediately on a 3.12+ interpreter.</description>
     </item>
     <item>
-      <title>React 19: useFormState is deprecated — use useActionState</title>
+      <title>React 19: useFormState is deprecated, use useActionState</title>
       <link>https://fixmyerror.net/errors/react-useformstate-renamed-useactionstate.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/react-useformstate-renamed-useactionstate.html</guid>
       <category>Frontend</category>
@@ -246,7 +246,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-start-request-repeated-too-quickly.html</guid>
       <category>System</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The unit crashed and restarted more times than StartLimitBurst allows within StartLimitIntervalSec, so systemd stopped trying. The rate limit is a symptom — the real failure is whatever made the service exit, and it is in the journal.</description>
+      <description>The unit crashed and restarted more times than StartLimitBurst allows within StartLimitIntervalSec, so systemd stopped trying. The rate limit is a symptom. The real failure is whatever made the service exit, and it is in the journal.</description>
     </item>
     <item>
       <title>Tailwind CSS v4: unknown at-rule @tailwind</title>
@@ -257,7 +257,7 @@
       <description>Tailwind v4 replaced the three @tailwind directives with a single @import, and moved PostCSS support into a separate package. A v3 stylesheet or PostCSS config left in place stops producing any utilities.</description>
     </item>
     <item>
-      <title>Terraform: Cycle — resources depend on each other</title>
+      <title>Terraform: Cycle (resources depend on each other)</title>
       <link>https://fixmyerror.net/errors/terraform-cycle-error.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-cycle-error.html</guid>
       <category>Terraform</category>
@@ -286,7 +286,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/vite-cjs-node-api-deprecated.html</guid>
       <category>Frontend</category>
       <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Something loaded Vite through require() instead of an ES import — usually a vite.config.js in a package without &quot;type&quot;: &quot;module&quot;, or a plugin that still uses CommonJS. It is a warning in Vite 5 and an error once the CJS build is removed.</description>
+      <description>Something loaded Vite through require() instead of an ES import, usually a vite.config.js in a package without &quot;type&quot;: &quot;module&quot;, or a plugin that still uses CommonJS. It is a warning in Vite 5 and an error once the CJS build is removed.</description>
     </item>
     <item>
       <title>Vitest: No test suite found in file</title>
@@ -342,7 +342,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/http-511-network-authentication-required.html</guid>
       <category>HTTP</category>
       <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A captive portal — hotel, airport or corporate guest Wi-Fi — is intercepting traffic and requires sign-in. The response comes from the network, not from the server you addressed.</description>
+      <description>A captive portal (hotel, airport or corporate guest Wi-Fi) is intercepting traffic and requires sign-in. The response comes from the network, not from the server you addressed.</description>
     </item>
     <item>
       <title>Android: Duplicate class found in modules</title>
@@ -361,7 +361,7 @@
       <description>Tool calling requires strict message pairing: every assistant tool_use block must be answered by a user message containing a tool_result with the matching tool_use_id, in the immediately following turn.</description>
     </item>
     <item>
-      <title>AWS Bedrock: AccessDeniedException — you don&apos;t have access to the model</title>
+      <title>AWS Bedrock: AccessDeniedException (no access to the model)</title>
       <link>https://fixmyerror.net/errors/bedrock-access-denied-model.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/bedrock-access-denied-model.html</guid>
       <category>AI</category>
@@ -406,7 +406,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/aws-expired-token.html</guid>
       <category>Cloud</category>
       <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Temporary credentials from STS, IAM Identity Center (SSO) or an assumed role have passed their expiry. Sessions are short-lived by design — one hour by default for an assumed role.</description>
+      <description>Temporary credentials from STS, IAM Identity Center (SSO) or an assumed role have passed their expiry. Sessions are short-lived by design: one hour by default for an assumed role.</description>
     </item>
     <item>
       <title>Azure OpenAI: DeploymentNotFound</title>
@@ -417,7 +417,7 @@
       <description>Azure OpenAI addresses a *deployment name* you chose, not the underlying model name. Passing &apos;gpt-4o&apos; when the deployment is called &apos;prod-gpt4o&apos; returns 404 DeploymentNotFound.</description>
     </item>
     <item>
-      <title>Azure: MissingSubscriptionRegistration — resource provider not registered</title>
+      <title>Azure: MissingSubscriptionRegistration (resource provider not registered)</title>
       <link>https://fixmyerror.net/errors/azure-subscription-not-registered.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/azure-subscription-not-registered.html</guid>
       <category>Cloud</category>
@@ -470,7 +470,7 @@
       <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-520-unknown-error.html</guid>
       <category>Proxy</category>
       <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Cloudflare reached the origin but received a response it could not parse — an empty reply, a connection reset mid-response, oversized headers, or a violation of the HTTP specification.</description>
+      <description>Cloudflare reached the origin but received a response it could not parse: an empty reply, a connection reset mid-response, oversized headers, or a violation of the HTTP specification.</description>
     </item>
     <item>
       <title>Cookie: SameSite=None requires the Secure attribute</title>

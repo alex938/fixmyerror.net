@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruby &amp; Rails Errors – 9 Fixes | FixMyError.net</title>
+    <title>Ruby &amp; Rails Errors: 9 Fixes | FixMyError.net</title>
     <meta name="description" content="9 documented Ruby errors with copy-paste fixes. Bundler, migrations, native extensions, encoding and asset compilation.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/categories/ruby.html">
@@ -19,7 +19,7 @@
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
@@ -31,7 +31,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Ruby \u0026 Rails Errors","description":"9 documented Ruby errors with copy-paste fixes. Bundler, migrations, native extensions, encoding and asset compilation.","url":"https://fixmyerror.net/categories/ruby.html","inLanguage":"en-GB","isPartOf":{"@type":"WebSite","name":"FixMyError.net","url":"https://fixmyerror.net/"},"mainEntity":{"@type":"ItemList","numberOfItems":9,"itemListElement":[{"@type":"ListItem","position":1,"name":"Bundler: Could not find gem","url":"https://fixmyerror.net/errors/bundler-gem-not-found.html"},{"@type":"ListItem","position":2,"name":"Encoding::InvalidByteSequenceError","url":"https://fixmyerror.net/errors/ruby-encoding-error.html"},{"@type":"ListItem","position":3,"name":"LoadError: cannot load such file","url":"https://fixmyerror.net/errors/ruby-load-error.html"},{"@type":"ListItem","position":4,"name":"Rails: Asset not precompiled","url":"https://fixmyerror.net/errors/rails-asset-not-precompiled.html"},{"@type":"ListItem","position":5,"name":"Rails: No route matches","url":"https://fixmyerror.net/errors/rails-routing-error.html"},{"@type":"ListItem","position":6,"name":"Rails: PendingMigrationError","url":"https://fixmyerror.net/errors/rails-pending-migrations.html"},{"@type":"ListItem","position":7,"name":"Ruby: can't modify frozen String","url":"https://fixmyerror.net/errors/ruby-3-4-frozen-string-literal.html"},{"@type":"ListItem","position":8,"name":"Ruby: Failed to build gem native extension","url":"https://fixmyerror.net/errors/ruby-gem-native-extension-error.html"},{"@type":"ListItem","position":9,"name":"Ruby: syntax error, unexpected end-of-input","url":"https://fixmyerror.net/errors/ruby-syntax-error.html"}]}}</script>
@@ -79,7 +79,7 @@
                 <h2>How to debug Ruby errors</h2>
                 <ol>
                     <li>Run <code>bundle install</code> with verbose output and read which gem fails and why. Native extension failures name the missing header in the mkmf log.</li>
-                    <li>Check the mkmf log path the error prints — it contains the actual compiler error, which the Bundler summary truncates.</li>
+                    <li>Check the mkmf log path the error prints. It contains the actual compiler error, which the Bundler summary truncates.</li>
                     <li>For Rails migration errors, run <code>rails db:migrate:status</code> to see exactly which migrations the database has recorded.</li>
                     <li>For asset errors in production, confirm <code>rails assets:precompile</code> ran during deployment and that the manifest is present in <code>public/assets</code>.</li>
                     <li>Verify the Ruby version matches <code>.ruby-version</code> and the Gemfile. Version managers silently switch, producing gem-not-found errors for gems that are installed elsewhere.</li>
@@ -103,7 +103,7 @@
                     <li><a href="../errors/rails-asset-not-precompiled.html">Rails: Asset not precompiled<span class="sub">A referenced asset (CSS, JS, image) was not included in the precompiled asset list for production.</span></a></li>
                     <li><a href="../errors/rails-routing-error.html">Rails: No route matches<span class="sub">The requested URL does not match any route defined in config/routes.rb.</span></a></li>
                     <li><a href="../errors/rails-pending-migrations.html">Rails: PendingMigrationError<span class="sub">Database schema migrations have not been applied to the database.</span></a></li>
-                    <li><a href="../errors/ruby-3-4-frozen-string-literal.html">Ruby: can&#039;t modify frozen String <span class="badge badge-new">New</span><span class="sub">The string is frozen — either by a `# frozen_string_literal: true` magic comment, by Ruby&#039;s chilled-string deprecation…</span></a></li>
+                    <li><a href="../errors/ruby-3-4-frozen-string-literal.html">Ruby: can&#039;t modify frozen String <span class="badge badge-new">New</span><span class="sub">The string is frozen, either by a `# frozen_string_literal: true` magic comment, by Ruby&#039;s chilled-string deprecation…</span></a></li>
                     <li><a href="../errors/ruby-gem-native-extension-error.html">Ruby: Failed to build gem native extension<span class="sub">A gem with C extensions failed to compile because system libraries or development headers are missing.</span></a></li>
                     <li><a href="../errors/ruby-syntax-error.html">Ruby: syntax error, unexpected end-of-input<span class="sub">Ruby parser reached end of file but expected more code. Often missing &#039;end&#039; keyword for a block.</span></a></li>
                 </ul>
@@ -121,7 +121,7 @@
                     <li><a href="../categories/c-sharp.html"><span class="card-title">C# <span class="card-count">9</span></span><span class="card-desc">NuGet restore, null references, EF Core migrations, async deadlocks and Blazor…</span></a></li>
                     <li><a href="../categories/c-plus-plus.html"><span class="card-title">C++ <span class="card-count">8</span></span><span class="card-desc">Segfaults, linker errors, memory corruption and template deduction failures.</span></a></li>
                     <li><a href="../categories/caching.html"><span class="card-title">Caching <span class="card-count">7</span></span><span class="card-desc">Cache stampedes, stale content, Varnish and CloudFront failures.</span></a></li>
-                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI — permissions, runners and…</span></a></li>
+                    <li><a href="../categories/ci-cd.html"><span class="card-title">CI/CD <span class="card-count">14</span></span><span class="card-desc">GitHub Actions, GitLab CI, Jenkins, CircleCI: permissions, runners and…</span></a></li>
                     <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">18</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/dart.html"><span class="card-title">Dart <span class="card-count">3</span></span><span class="card-desc">Null safety, pub version solving and build toolchain problems.</span></a></li>
@@ -141,7 +141,7 @@
                     <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">32</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">25</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
                     <li><a href="../categories/logging.html"><span class="card-title">Logging <span class="card-count">6</span></span><span class="card-desc">Log4j, Logback, Fluentd, Logstash and CloudWatch ingestion problems.</span></a></li>
-                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery — lag, rebalancing and poison messages.</span></a></li>
+                    <li><a href="../categories/messagequeue.html"><span class="card-title">MessageQueue <span class="card-count">12</span></span><span class="card-desc">Kafka, RabbitMQ, SQS, NATS and Celery: lag, rebalancing and poison messages.</span></a></li>
                     <li><a href="../categories/mobile.html"><span class="card-title">Mobile <span class="card-count">12</span></span><span class="card-desc">Gradle, CocoaPods, Xcode signing, Metro bundler and toolchain mismatches.</span></a></li>
                     <li><a href="../categories/monitoring.html"><span class="card-title">Monitoring <span class="card-count">10</span></span><span class="card-desc">Prometheus scrapes, Grafana data sources, OpenTelemetry exporters and agent…</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
@@ -159,13 +159,13 @@
                     <li><a href="../categories/svelte.html"><span class="card-title">Svelte <span class="card-count">3</span></span><span class="card-desc">Store subscriptions, load functions and server/client boundaries.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">22</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/terraform.html"><span class="card-title">Terraform <span class="card-count">15</span></span><span class="card-desc">State locks, provider auth, drift, dependency cycles and plan-time unknowns.</span></a></li>
-                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright — fixtures, snapshots and timeouts.</span></a></li>
+                    <li><a href="../categories/testing.html"><span class="card-title">Testing <span class="card-count">12</span></span><span class="card-desc">Jest, pytest, JUnit, Cypress and Playwright: fixtures, snapshots and timeouts.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
                     <li><a href="../categories/typescript.html"><span class="card-title">TypeScript <span class="card-count">9</span></span><span class="card-desc">Assignability, missing declarations, strict null checks and generic constraints.</span></a></li>
                     <li><a href="../categories/virtualization.html"><span class="card-title">Virtualization <span class="card-count">8</span></span><span class="card-desc">VirtualBox, VMware, Hyper-V, WSL, KVM and hypervisor conflicts.</span></a></li>
                     <li><a href="../categories/web3.html"><span class="card-title">Web3 <span class="card-count">4</span></span><span class="card-desc">Gas estimation, nonce management and reverted transactions.</span></a></li>
                     <li><a href="../categories/webassembly.html"><span class="card-title">WebAssembly <span class="card-count">3</span></span><span class="card-desc">Compile errors, memory bounds and host binding mismatches.</span></a></li>
-                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy — binding, permissions, rewrites and TLS.</span></a></li>
+                    <li><a href="../categories/webserver.html"><span class="card-title">WebServer <span class="card-count">8</span></span><span class="card-desc">nginx, Apache, IIS and Caddy: binding, permissions, rewrites and TLS.</span></a></li>
                     <li><a href="../categories/windows.html"><span class="card-title">Windows <span class="card-count">7</span></span><span class="card-desc">Installer failures, missing runtimes, update errors and permission problems.</span></a></li>
                 </ul>
             </section>
@@ -181,7 +181,7 @@
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -209,7 +209,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

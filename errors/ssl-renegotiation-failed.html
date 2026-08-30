@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSL renegotiation failed – Cause and Fix | FixMyError.net</title>
+    <title>SSL renegotiation failed: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="SSL/TLS renegotiation process failed, often due to security policies or implementation bugs. Includes a copy-paste fix and how to diagnose it.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/ssl-renegotiation-failed.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/ssl-renegotiation-failed.html">
-    <meta property="og:title" content="SSL renegotiation failed – cause and fix">
+    <meta property="og:title" content="SSL renegotiation failed: cause and fix">
     <meta property="og:description" content="SSL/TLS renegotiation process failed, often due to security policies or implementation bugs. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SSL renegotiation failed – cause and fix">
+    <meta name="twitter:title" content="SSL renegotiation failed: cause and fix">
     <meta name="twitter:description" content="SSL/TLS renegotiation process failed, often due to security policies or implementation bugs. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"SSL renegotiation failed","name":"SSL renegotiation failed","description":"SSL/TLS renegotiation process failed, often due to security policies or implementation bugs. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/ssl-renegotiation-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ssl-renegotiation-failed.html"},"inLanguage":"en-GB","articleSection":"TLS","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_options.html"]}</script>
@@ -86,10 +86,10 @@ curl --no-ssl-allow-beast https://example.com</code></pre>
             <section class="block">
                 <h2>How to diagnose TLS errors</h2>
                 <p>TLS errors have a small number of root causes: the certificate is <strong>expired</strong>, the <strong>hostname does not match</strong> any SAN entry, the <strong>chain is incomplete</strong> (the server did not send its intermediates), the <strong>issuing CA is not trusted</strong> by this client, or the two sides <strong>share no cipher or protocol version</strong>. The incomplete-chain case is the most deceptive, because browsers often paper over it with cached intermediates while curl, Java and Go fail.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Inspect the live handshake: <code>openssl s_client -connect host:443 -servername host -showcerts</code>. It shows the full chain the server actually sends.</li>
-                    <li>Check dates and SANs: <code>openssl x509 -noout -dates -subject -ext subjectAltName</code>. The Common Name is ignored by modern clients — only SANs matter.</li>
+                    <li>Check dates and SANs: <code>openssl x509 -noout -dates -subject -ext subjectAltName</code>. The Common Name is ignored by modern clients: only SANs matter.</li>
                     <li>If browsers work but curl or your language runtime does not, suspect a missing intermediate. Browsers cache intermediates; other clients do not.</li>
                     <li>Verify the trust store the failing client uses. Containers frequently ship without <code>ca-certificates</code> installed, and Java, Node and Python each have their own store.</li>
                     <li>For protocol or cipher errors, check the negotiated version and the server's supported list. TLS 1.0 and 1.1 are disabled by default in current clients.</li>
@@ -106,7 +106,7 @@ curl --no-ssl-allow-beast https://example.com</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://www.openssl.org/docs/man1.1.1/man3/SSL_CTX_set_options.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> openssl.org</a></p>
         </section>
 
@@ -145,7 +145,7 @@ curl --no-ssl-allow-beast https://example.com</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20SSL%20renegotiation%20failed">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20SSL%20renegotiation%20failed">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -159,7 +159,7 @@ curl --no-ssl-allow-beast https://example.com</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -187,7 +187,7 @@ curl --no-ssl-allow-beast https://example.com</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

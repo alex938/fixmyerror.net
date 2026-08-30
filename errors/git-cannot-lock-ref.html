@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>git: cannot lock ref – Cause and Fix | FixMyError.net</title>
+    <title>git: cannot lock ref: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="Another Git process is holding a ref lock or a stale .lock file remains from a crashed Git process. Includes a copy-paste fix and how to diagnose it.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/git-cannot-lock-ref.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/git-cannot-lock-ref.html">
-    <meta property="og:title" content="git: cannot lock ref – cause and fix">
+    <meta property="og:title" content="git: cannot lock ref: cause and fix">
     <meta property="og:description" content="Another Git process is holding a ref lock or a stale .lock file remains from a crashed Git process. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="git: cannot lock ref – cause and fix">
+    <meta name="twitter:title" content="git: cannot lock ref: cause and fix">
     <meta name="twitter:description" content="Another Git process is holding a ref lock or a stale .lock file remains from a crashed Git process. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"git: cannot lock ref","name":"git: cannot lock ref","description":"Another Git process is holding a ref lock or a stale .lock file remains from a crashed Git process. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/git-cannot-lock-ref.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/git-cannot-lock-ref.html"},"inLanguage":"en-GB","articleSection":"Git","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://git-scm.com/docs/git-pack-refs"]}</script>
@@ -87,9 +87,9 @@ git gc --prune=now</code></pre>
             <section class="block">
                 <h2>How to diagnose Git errors</h2>
                 <p>Git errors are frightening mostly because the messages describe internal state rather than what to do. The reassuring fact is that almost nothing is lost: <code>git reflog</code> records every position HEAD has held, so a bad rebase, a hard reset or a deleted branch is nearly always recoverable. Before running any destructive command, note the current commit hash.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
-                    <li>Run <code>git status</code> and read it fully — it tells you the current state and usually names the exact command to move forward or abort.</li>
+                    <li>Run <code>git status</code> and read it fully. It tells you the current state and usually names the exact command to move forward or abort.</li>
                     <li>Use <code>git reflog</code> to find any commit you think you have lost, then <code>git reset --hard &lt;hash&gt;</code> or <code>git branch recovery &lt;hash&gt;</code> to get it back.</li>
                     <li>For a rejected push, run <code>git fetch</code> then <code>git log --oneline HEAD..@{u}</code> to see exactly what is on the remote that you do not have. Prefer <code>--force-with-lease</code> over <code>--force</code>, which refuses to overwrite work you have not seen.</li>
                     <li>Abort rather than improvise when a merge or rebase goes wrong: <code>git merge --abort</code>, <code>git rebase --abort</code>, <code>git cherry-pick --abort</code>.</li>
@@ -107,7 +107,7 @@ git gc --prune=now</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://git-scm.com/docs/git-pack-refs" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> git-scm.com</a></p>
         </section>
 
@@ -146,7 +146,7 @@ git gc --prune=now</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20git%3A%20cannot%20lock%20ref">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20git%3A%20cannot%20lock%20ref">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -160,7 +160,7 @@ git gc --prune=now</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -188,7 +188,7 @@ git gc --prune=now</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nginx: Upstream request timeout – Cause and Fix | FixMyError.net</title>
+    <title>Nginx: Upstream request timeout: Cause and Fix | FixMyError.net</title>
     <meta name="description" content="Nginx timed out waiting for response from upstream server. Backend processing too slow or unresponsive. Includes a copy-paste fix and how to diagnose it.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/nginx-upstream-timeout.html">
@@ -13,25 +13,25 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/nginx-upstream-timeout.html">
-    <meta property="og:title" content="Nginx: Upstream request timeout – cause and fix">
+    <meta property="og:title" content="Nginx: Upstream request timeout: cause and fix">
     <meta property="og:description" content="Nginx timed out waiting for response from upstream server. Backend processing too slow or unresponsive. Includes a copy-paste fix and how to diagnose it.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nginx: Upstream request timeout – cause and fix">
+    <meta name="twitter:title" content="Nginx: Upstream request timeout: cause and fix">
     <meta name="twitter:description" content="Nginx timed out waiting for response from upstream server. Backend processing too slow or unresponsive. Includes a copy-paste fix and how to diagnose it.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Nginx: Upstream request timeout","name":"Nginx: Upstream request timeout","description":"Nginx timed out waiting for response from upstream server. Backend processing too slow or unresponsive. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/nginx-upstream-timeout.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/nginx-upstream-timeout.html"},"inLanguage":"en-GB","articleSection":"Proxy","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://nginx.org/en/docs/http/ngx_http_proxy_module.html"]}</script>
@@ -90,12 +90,12 @@ tail -f /var/log/nginx/error.log</code></pre>
             <section class="block">
                 <h2>How to diagnose Proxy errors</h2>
                 <p>A proxy error tells you about <strong>the proxy's relationship with the upstream</strong>, not about the upstream's business logic. nginx's 502 means it could not get a valid response; 504 means the upstream did not answer in time; Envoy's flag codes (<code>UH</code> no healthy upstream, <code>UF</code> upstream connection failure, <code>NR</code> no route) are far more precise than the status code. Reading those flags is the fastest path to a diagnosis.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
-                    <li>Include upstream detail in the access log format — <code>$upstream_addr</code>, <code>$upstream_status</code> and <code>$upstream_response_time</code> in nginx turn a generic 502 into a specific one.</li>
+                    <li>Include upstream detail in the access log format: <code>$upstream_addr</code>, <code>$upstream_status</code> and <code>$upstream_response_time</code> in nginx turn a generic 502 into a specific one.</li>
                     <li>Bypass the proxy and call the upstream directly from the proxy host. If that works, the issue is proxy configuration: timeouts, buffers, DNS caching or TLS to the backend.</li>
                     <li>For Envoy, read the response flags in the access log rather than the status code. <code>UH</code>, <code>UF</code>, <code>UO</code> and <code>NR</code> each have distinct fixes.</li>
-                    <li>Check that the proxy re-resolves DNS. nginx caches upstream IPs at startup by default, which breaks when backends move — use a <code>resolver</code> directive with a variable upstream.</li>
+                    <li>Check that the proxy re-resolves DNS. nginx caches upstream IPs at startup by default, which breaks when backends move. Use a <code>resolver</code> directive with a variable upstream.</li>
                     <li>For header-size and body-size errors, raise the limit at every layer; CDN, load balancer and origin each enforce their own.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
@@ -110,7 +110,7 @@ tail -f /var/log/nginx/error.log</code></pre>
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://nginx.org/en/docs/http/ngx_http_proxy_module.html" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> nginx.org</a></p>
         </section>
 
@@ -118,7 +118,7 @@ tail -f /var/log/nginx/error.log</code></pre>
             <h2>Related Proxy errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/caddy-upstream-error.html">Caddy upstream error<span class="sub">Caddy web server failed to connect to or receive response from upstream server.</span></a></li>
-                <li><a href="../errors/cloudflare-520-unknown-error.html">Cloudflare 520: Web server returns an unknown error<span class="sub">Cloudflare reached the origin but received a response it could not parse — an empty reply, a…</span></a></li>
+                <li><a href="../errors/cloudflare-520-unknown-error.html">Cloudflare 520: Web server returns an unknown error<span class="sub">Cloudflare reached the origin but received a response it could not parse: an empty reply, a…</span></a></li>
                 <li><a href="../errors/cloudflare-522-origin-connection.html">Cloudflare 522: Connection timed out<span class="sub">Cloudflare edge could not establish TCP handshake to your origin. Origin offline, blocked by…</span></a></li>
                 <li><a href="../errors/cloudflare-error.html">Cloudflare error<span class="sub">Cloudflare CDN encountered an error, often related to origin server connectivity or SSL issues.</span></a></li>
                 <li><a href="../errors/cloudflare-worker-1101-runtime-error.html">Cloudflare Worker 1101 runtime error<span class="sub">Worker script threw an exception during execution. Common causes: undefined variables, failed…</span></a></li>
@@ -149,7 +149,7 @@ tail -f /var/log/nginx/error.log</code></pre>
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20Nginx%3A%20Upstream%20request%20timeout">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20Nginx%3A%20Upstream%20request%20timeout">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -163,7 +163,7 @@ tail -f /var/log/nginx/error.log</code></pre>
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -191,7 +191,7 @@ tail -f /var/log/nginx/error.log</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

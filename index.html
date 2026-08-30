@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FixMyError.net – 731 Developer Error Fixes, Searchable</title>
+    <title>FixMyError.net: 731 Developer Error Fixes, Searchable</title>
     <meta name="description" content="Search 731 developer and DevOps errors across 56 categories. Plain-English explanations, copy-paste fixes and links to the official docs. Free, no sign-up.">
     <meta name="author" content="FixMyError.net">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -17,7 +17,7 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://fixmyerror.net/">
-    <meta property="og:title" content="FixMyError.net – the developer's error encyclopedia">
+    <meta property="og:title" content="FixMyError.net: the developer's error encyclopedia">
     <meta property="og:description" content="731 developer and DevOps errors with plain-English explanations, copy-paste fixes and links to the official docs.">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
@@ -30,7 +30,7 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://fixmyerror.net/">
-    <meta name="twitter:title" content="FixMyError.net – the developer's error encyclopedia">
+    <meta name="twitter:title" content="FixMyError.net: the developer's error encyclopedia">
     <meta name="twitter:description" content="731 developer and DevOps errors with plain-English explanations, copy-paste fixes and links to the official docs.">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
     <meta name="twitter:image:alt" content="FixMyError.net - instant developer error solutions">
@@ -39,7 +39,7 @@
 
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="feed.xml">
     <meta name="theme-color" content="#1a1a1a">
 
     <!-- Structured data. Per-error TechArticle markup lives on the generated
@@ -1253,7 +1253,7 @@
                     <h1><span aria-hidden="true">🚀</span> FixMyError.net</h1>
                     <nav class="top-nav" aria-label="Primary">
                         <a href="categories.html">Browse categories</a>
-                        <a href="all-errors.html">All errors A–Z</a>
+                        <a href="all-errors.html">All errors A-Z</a>
                         <a href="about.html">About</a>
                         <a href="feed.xml">RSS</a>
                     </nav>
@@ -1772,7 +1772,7 @@
                     if (linkBtn) {
                         e.stopPropagation();
                         // Copy the canonical permalink, not a fragment on the
-                        // search page — the error page is the indexable URL.
+                        // search page; the error page is the indexable URL.
                         this.copyText(this.permalinkFor(linkBtn.dataset.id), 'Permalink copied to clipboard');
                         return;
                     }
@@ -2417,7 +2417,7 @@
                     body = [
                         '# FixMyError.net favourites',
                         '',
-                        `Exported ${new Date().toISOString().split('T')[0]} — ${favoriteErrors.length} entries.`,
+                        `Exported ${new Date().toISOString().split('T')[0]}, ${favoriteErrors.length} entries.`,
                         ''
                     ].concat(favoriteErrors.map(e => this.toMarkdown(e))).join('\n\n---\n\n');
                     type = 'text/markdown';
@@ -2505,7 +2505,7 @@
                 const params = new URLSearchParams(window.location.search);
                 const hash = window.location.hash.substring(1);
 
-                // Set both pieces of state first, then search once — doing it
+                // Set both pieces of state first, then search once, because doing it
                 // per-parameter rendered the whole grid twice.
                 const query = params.get('search');
                 if (query) {
@@ -2589,7 +2589,7 @@
                         if (!installing) return;
                         installing.addEventListener('statechange', () => {
                             if (installing.state === 'installed' && navigator.serviceWorker.controller) {
-                                this.showToast('Site updated in the background — reload for the latest content', 'success');
+                                this.showToast('Site updated in the background. Reload for the latest content', 'success');
                             }
                         });
                     });

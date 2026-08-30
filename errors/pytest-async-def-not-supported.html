@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pytest: async def functions are not natively supported | FixMyError.net</title>
-    <meta name="description" content="pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin…">
+    <meta name="description" content="pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin…">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/pytest-async-def-not-supported.html">
 
@@ -13,28 +13,28 @@
 
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/pytest-async-def-not-supported.html">
-    <meta property="og:title" content="pytest: async def functions are not natively supported – cause and fix">
-    <meta property="og:description" content="pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin…">
+    <meta property="og:title" content="pytest: async def functions are not natively supported: cause and fix">
+    <meta property="og:description" content="pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="FixMyError.net – instant developer error solutions">
+    <meta property="og:image:alt" content="FixMyError.net: instant developer error solutions">
     <meta property="og:site_name" content="FixMyError.net">
     <meta property="og:locale" content="en_GB">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="pytest: async def functions are not natively supported – cause and fix">
-    <meta name="twitter:description" content="pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin…">
+    <meta name="twitter:title" content="pytest: async def functions are not natively supported: cause and fix">
+    <meta name="twitter:description" content="pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png">
     <link rel="manifest" href="../manifest.json">
-    <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
+    <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"pytest: async def functions are not natively supported","name":"pytest: async def functions are not natively supported","description":"pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin…","url":"https://fixmyerror.net/errors/pytest-async-def-not-supported.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/pytest-async-def-not-supported.html"},"inLanguage":"en-GB","articleSection":"Testing","proficiencyLevel":"Expert","datePublished":"2026-08-30","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://pytest-asyncio.readthedocs.io/en/latest/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"pytest: async def functions are not natively supported","name":"pytest: async def functions are not natively supported","description":"pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin…","url":"https://fixmyerror.net/errors/pytest-async-def-not-supported.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/pytest-async-def-not-supported.html"},"inLanguage":"en-GB","articleSection":"Testing","proficiencyLevel":"Expert","datePublished":"2026-08-30","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://pytest-asyncio.readthedocs.io/en/latest/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Testing errors","item":"https://fixmyerror.net/categories/testing.html"},{"@type":"ListItem","position":3,"name":"pytest: async def functions are not natively supported","item":"https://fixmyerror.net/errors/pytest-async-def-not-supported.html"}]}</script>
 </head>
 <body>
@@ -69,7 +69,7 @@
                 <span class="badge badge-muted">Added 30 August 2026</span>
             </div>
             <h1 class="page-title">pytest: async def functions are not natively supported</h1>
-            <p class="page-lede">pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.</p>
+            <p class="page-lede">pytest collects an async test, has no event loop to run it in, and skips the body, so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.</p>
 
             <section class="block">
                 <h2>Quick fix</h2>
@@ -93,14 +93,14 @@ async def test_fetch():
 
             <section class="block">
                 <h2>How to diagnose Testing errors</h2>
-                <p>Test errors divide into <strong>infrastructure</strong> problems (the framework cannot find or load your tests, fixtures or modules) and <strong>flakiness</strong>, which is the more expensive category. End-to-end timeouts are almost always a race between the test and the application, and the durable fix is to wait for a condition — an element, a network response, a state change — rather than for a duration.</p>
-                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message — which is usually what saves the time.</p>
+                <p>Test errors divide into <strong>infrastructure</strong> problems (the framework cannot find or load your tests, fixtures or modules) and <strong>flakiness</strong>, which is the more expensive category. End-to-end timeouts are almost always a race between the test and the application, and the durable fix is to wait for a condition (an element, a network response, a state change) rather than for a duration.</p>
+                <p>If the quick fix above does not resolve it, work through these steps. They apply to this whole class of error, not just to this one message, which is usually what saves the time.</p>
                 <ol>
                     <li>Run a single failing test in isolation. If it passes alone but fails in the suite, you have shared state or test ordering dependence.</li>
                     <li>For Cypress and Playwright timeouts, use the trace viewer or video to see what the page actually showed. The element usually exists but is covered, detached, or not yet interactive.</li>
                     <li>Replace fixed waits with condition-based waits. <code>waitForSelector</code> and auto-retrying assertions eliminate an entire class of flakiness.</li>
                     <li>For collection and module-resolution errors, check the framework's rootDir/testPaths configuration and the presence of <code>__init__.py</code> or <code>conftest.py</code> where the framework expects it.</li>
-                    <li>Review snapshot diffs rather than updating them reflexively — a changed snapshot is sometimes a real regression.</li>
+                    <li>Review snapshot diffs rather than updating them reflexively. A changed snapshot is sometimes a real regression.</li>
                 </ol>
                 <h3>Tools worth reaching for</h3>
                 <ul class="tool-list">
@@ -114,7 +114,7 @@ async def test_fetch():
 
         <section class="block">
             <h2>Authoritative references</h2>
-            <p>Primary documentation for this error — worth reading before applying any fix in production.</p>
+            <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
             <p><a class="source-link" href="https://pytest-asyncio.readthedocs.io/en/latest/" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> pytest-asyncio.readthedocs.io</a></p>
         </section>
 
@@ -126,8 +126,8 @@ async def test_fetch():
                 <li><a href="../errors/jest-snapshot-mismatch.html">Jest: Snapshot does not match stored snapshot<span class="sub">The component output has changed since the snapshot was last recorded. This may be an…</span></a></li>
                 <li><a href="../errors/jest-import-after-teardown.html">Jest: You are trying to import a file after the Jest environment has been torn down<span class="sub">Asynchronous work outlived the test that started it. When Jest tears down the environment, a…</span></a></li>
                 <li><a href="../errors/junit-no-runnable-methods.html">JUnit: No runnable methods<span class="sub">JUnit found no test methods in the class. Methods may be missing the @Test annotation or the…</span></a></li>
-                <li><a href="../errors/playwright-executable-doesnt-exist.html">Playwright: browserType.launch — Executable doesn&#039;t exist<span class="sub">The Playwright npm package is installed but the browser binaries are not. They are downloaded…</span></a></li>
-                <li><a href="../errors/playwright-strict-mode-violation.html">Playwright: strict mode violation — locator resolved to multiple elements<span class="sub">Playwright locators are strict by design: if a selector matches more than one element it…</span></a></li>
+                <li><a href="../errors/playwright-executable-doesnt-exist.html">Playwright: browserType.launch (executable doesn&#039;t exist)<span class="sub">The Playwright npm package is installed but the browser binaries are not. They are downloaded…</span></a></li>
+                <li><a href="../errors/playwright-strict-mode-violation.html">Playwright: strict mode violation (locator resolved to multiple elements)<span class="sub">Playwright locators are strict by design: if a selector matches more than one element it…</span></a></li>
                 <li><a href="../errors/playwright-timeout.html">Playwright: Timeout exceeded waiting for element<span class="sub">Playwright&#039;s auto-waiting timed out because the element did not become actionable (visible…</span></a></li>
             </ul>
             <p style="margin-top:14px"><a href="../categories/testing.html">See all 12 Testing errors →</a></p>
@@ -153,7 +153,7 @@ async def test_fetch():
 
             <section class="block">
                 <h2>Something missing or wrong?</h2>
-                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20pytest%3A%20async%20def%20functions%20are%20not%20natively%20supported">email a correction</a> and it will be reviewed.</p>
+                <p>This entry is maintained by hand. If the fix is out of date, incomplete, or you have a better one, <a href="mailto:alex@slash-root.com?subject=FixMyError.net%3A%20pytest%3A%20async%20def%20functions%20are%20not%20natively%20supported">email a correction</a> and it will be reviewed.</p>
             </section>
         </article>
         </div>
@@ -167,7 +167,7 @@ async def test_fetch():
                     <ul>
                         <li><a href="../">Search all errors</a></li>
                         <li><a href="../categories.html">Categories</a></li>
-                        <li><a href="../all-errors.html">Full A–Z index</a></li>
+                        <li><a href="../all-errors.html">Full A-Z index</a></li>
                         <li><a href="../feed.xml">RSS feed</a></li>
                     </ul>
                 </div>
@@ -195,7 +195,7 @@ async def test_fetch():
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
+                <p>FixMyError.net has 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
