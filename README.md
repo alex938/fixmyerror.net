@@ -7,7 +7,7 @@ and every mainstream language runtime.
 
 Live at **<https://fixmyerror.net>**.
 
-<img width="1376" height="1037" alt="image" src="https://github.com/user-attachments/assets/f6407a23-399b-4f98-b8c3-5ec29057ab56" />
+<img width="900" alt="fixmyerror.net overview" src="og-animated.gif" />
 
 ## How the site is put together
 
