@@ -263,6 +263,11 @@ pre.code-block {
 .footer-cols ul { list-style: none; }
 .footer-cols li { margin-bottom: 5px; }
 .footer-bottom { border-top: 1px solid var(--border-muted); padding-top: 16px; color: var(--text-muted); font-size: 0.82rem; }
+.footer-contact {
+    margin-top: 10px; font-size: 0.82rem; color: var(--text-muted);
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+}
+.footer-contact span { color: var(--text-secondary); font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); }
 
 .safety-warning {
     background: linear-gradient(135deg, #da3633, #f85149); color: #fff;

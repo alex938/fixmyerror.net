@@ -48,9 +48,9 @@
 
     <header class="site-header">
         <div class="site-header-inner">
-            <a class="site-brand" href=""><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <a class="site-brand" href="./"><span aria-hidden="true">🚀</span> FixMyError.net</a>
             <nav class="site-nav" aria-label="Primary">
-                <a href="#searchInput">Search</a>
+                <a href="./#searchInput">Search</a>
                 <a href="categories.html">Categories</a>
                 <a href="all-errors.html">All errors</a>
                 <a href="about.html">About</a>
@@ -59,10 +59,10 @@
     </header>
 
     <main id="main">
-        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="">Home</a></li><li aria-current="page">About</li></ol></nav>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><div class="container"><ol><li><a href="./">Home</a></li><li aria-current="page">About</li></ol></div></nav>
         <div class="container">
             <h1 class="page-title">About FixMyError.net</h1>
-            <p class="page-lede">A hand-maintained reference of 694 error messages across 56 categories, each with a plain-English explanation, a copy-paste fix, and a link to the authoritative documentation.</p>
+            <p class="page-lede">A hand-maintained reference of 731 error messages across 56 categories, each with a plain-English explanation, a copy-paste fix, and a link to the authoritative documentation.</p>
 
             <section class="block">
                 <h2>What this site is for</h2>
@@ -91,15 +91,15 @@
 
             <section class="block">
                 <h2>Keeping it current</h2>
-                <p>Software changes and fixes rot. Entries carry the date they were added, recent additions are flagged, and the <a href="feed.xml">RSS feed</a> lists new entries as they are published. The database was last rebuilt on 28 August 2026.</p>
+                <p>Software changes and fixes rot. Entries carry the date they were added, recent additions are flagged, and the <a href="feed.xml">RSS feed</a> lists new entries as they are published. The database was last rebuilt on 30 August 2026.</p>
                 <h3>Recently added</h3>
                 <ul class="link-list">
-                    <li><a href="errors/node-err-require-esm.html">Node.js: ERR_REQUIRE_ESM<span class="sub">JavaScript · added 28 August 2026</span></a></li>
-                    <li><a href="errors/node-err-module-not-found-extension.html">Node.js: ERR_MODULE_NOT_FOUND (missing file extension)<span class="sub">JavaScript · added 28 August 2026</span></a></li>
-                    <li><a href="errors/node-err-unsupported-dir-import.html">Node.js: ERR_UNSUPPORTED_DIR_IMPORT<span class="sub">JavaScript · added 28 August 2026</span></a></li>
-                    <li><a href="errors/npm-ci-lockfile-out-of-sync.html">npm ci: package.json and package-lock.json are not in sync<span class="sub">JavaScript · added 28 August 2026</span></a></li>
-                    <li><a href="errors/npm-ebadengine.html">npm: EBADENGINE Unsupported engine<span class="sub">JavaScript · added 28 August 2026</span></a></li>
-                    <li><a href="errors/failed-to-fetch-dynamically-imported-module.html">Failed to fetch dynamically imported module<span class="sub">Client · added 28 August 2026</span></a></li>
+                    <li><a href="errors/eslint-flat-config-required.html">ESLint: could not find an eslint.config.js file<span class="sub">JavaScript · added 30 August 2026</span></a></li>
+                    <li><a href="errors/node-openssl-evp-unsupported.html">Node.js: error:0308010C:digital envelope routines::unsupported<span class="sub">JavaScript · added 30 August 2026</span></a></li>
+                    <li><a href="errors/yarn-pnp-undeclared-dependency.html">Yarn PnP: a package tried to access an undeclared dependency<span class="sub">JavaScript · added 30 August 2026</span></a></li>
+                    <li><a href="errors/bun-frozen-lockfile-changed.html">bun install: lockfile had changes, but lockfile is frozen<span class="sub">JavaScript · added 30 August 2026</span></a></li>
+                    <li><a href="errors/tailwind-v4-unknown-at-rule.html">Tailwind CSS v4: unknown at-rule @tailwind<span class="sub">Frontend · added 30 August 2026</span></a></li>
+                    <li><a href="errors/nextjs-event-handlers-client-component.html">Next.js: Event handlers cannot be passed to Client Component props<span class="sub">Frontend · added 30 August 2026</span></a></li>
                 </ul>
             </section>
 
@@ -121,7 +121,7 @@
                 <div>
                     <h2>Browse</h2>
                     <ul>
-                        <li><a href="">Search all errors</a></li>
+                        <li><a href="./">Search all errors</a></li>
                         <li><a href="categories.html">Categories</a></li>
                         <li><a href="all-errors.html">Full A–Z index</a></li>
                         <li><a href="feed.xml">RSS feed</a></li>
@@ -144,10 +144,14 @@
                         <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
                         <li><a href="about.html">About this site</a></li>
                     </ul>
+                    <!-- A mailto: link does nothing at all when the browser has no
+                         mail handler registered, so the address is always shown in
+                         full and can be copied without one. -->
+                    <p class="footer-contact">Or email <span id="footerEmail">alex@slash-root.com</span><button class="copy-button" type="button" data-copy-target="footerEmail">Copy</button></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

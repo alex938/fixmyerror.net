@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net – Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Sentry: Rate limit exceeded","name":"Sentry: Rate limit exceeded","description":"The project has exceeded its Sentry event quota. New error events are being dropped. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/sentry-rate-limit-exceeded.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/sentry-rate-limit-exceeded.html"},"inLanguage":"en-GB","articleSection":"Monitoring","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-28","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.sentry.io/product/accounts/quotas/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Sentry: Rate limit exceeded","name":"Sentry: Rate limit exceeded","description":"The project has exceeded its Sentry event quota. New error events are being dropped. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/sentry-rate-limit-exceeded.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/sentry-rate-limit-exceeded.html"},"inLanguage":"en-GB","articleSection":"Monitoring","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-08-30","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.sentry.io/product/accounts/quotas/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Monitoring errors","item":"https://fixmyerror.net/categories/monitoring.html"},{"@type":"ListItem","position":3,"name":"Sentry: Rate limit exceeded","item":"https://fixmyerror.net/errors/sentry-rate-limit-exceeded.html"}]}</script>
 </head>
 <body>
@@ -60,7 +60,7 @@
     </header>
 
     <main id="main">
-        <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="../">Home</a></li><li><a href="../categories/monitoring.html">Monitoring errors</a></li><li aria-current="page">Sentry: Rate limit exceeded</li></ol></nav>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><div class="container"><ol><li><a href="../">Home</a></li><li><a href="../categories/monitoring.html">Monitoring errors</a></li><li aria-current="page">Sentry: Rate limit exceeded</li></ol></div></nav>
         <div class="container">
         <article>
             <div class="meta-row">
@@ -122,28 +122,28 @@ Sentry.init({
                 <li><a href="../errors/grafana-datasource-error.html">Grafana: Data source connection error<span class="sub">Grafana cannot connect to data source. Wrong URL, authentication failed, or data source…</span></a></li>
                 <li><a href="../errors/jaeger-span-dropped.html">Jaeger: spans dropped<span class="sub">The Jaeger collector is dropping spans because its internal queue is full. The collector…</span></a></li>
                 <li><a href="../errors/otel-exporter-queue-full.html">OpenTelemetry Collector: exporter queue is full<span class="sub">Exporter queue/batch processor dropped spans/metrics because downstream endpoint too slow or…</span></a></li>
+                <li><a href="../errors/otel-collector-connection-refused-4317.html">OpenTelemetry: connection refused exporting to the collector<span class="sub">The SDK could not reach an OTLP endpoint. Almost always the port or protocol is wrong: 4317…</span></a></li>
                 <li><a href="../errors/prometheus-scrape-timeout.html">Prometheus: context deadline exceeded (scrape)<span class="sub">Prometheus timed out while scraping a target. The target is too slow to respond within the…</span></a></li>
                 <li><a href="../errors/prometheus-out-of-order-sample.html">Prometheus: out-of-order sample / duplicate sample for timestamp<span class="sub">A sample arrived with a timestamp older than the last one stored for that series. Common when…</span></a></li>
-                <li><a href="../errors/prometheus-target-down.html">Prometheus: Target down<span class="sub">Prometheus cannot scrape metrics from target endpoint. Service down, network issue, or wrong…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/monitoring.html">See all 9 Monitoring errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/monitoring.html">See all 10 Monitoring errors →</a></p>
         </section>
 
             <section class="block">
                 <h2>Browse other categories</h2>
                 <ul class="card-grid">
                     <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">32</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">32</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">31</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
-                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">29</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
-                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">28</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">27</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">25</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
                     <li><a href="../categories/icmp.html"><span class="card-title">ICMP <span class="card-count">23</span></span><span class="card-desc">Destination unreachable, time exceeded, fragmentation needed and redirects.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">23</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">22</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">22</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
                     <li><a href="../categories/client.html"><span class="card-title">Client <span class="card-count">21</span></span><span class="card-desc">CORS, mixed content, module resolution, memory limits and framework runtime…</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">21</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">20</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
-                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">19</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
-                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">19</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">20</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
                 </ul>
             </section>
 
@@ -184,10 +184,14 @@ Sentry.init({
                         <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
                         <li><a href="../about.html">About this site</a></li>
                     </ul>
+                    <!-- A mailto: link does nothing at all when the browser has no
+                         mail handler registered, so the address is always shown in
+                         full and can be copied without one. -->
+                    <p class="footer-contact">Or email <span id="footerEmail">alex@slash-root.com</span><button class="copy-button" type="button" data-copy-target="footerEmail">Copy</button></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

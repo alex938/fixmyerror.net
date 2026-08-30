@@ -242,6 +242,43 @@ const K8S = errors.filter(e => e.category === 'Kubernetes').length;
     check('404 uses root-relative links so it works at any depth', !/(href|src)="(?!https?:|mailto:|data:|#|\/)/.test(html));
 }
 
+/* Navigation chrome. An empty href resolves to the *current* page, so every one
+   of these used to be a no-op on the depth-0 pages. */
+{
+    const pages = [
+        ['categories.html', 'container-wide'],
+        ['all-errors.html', 'container-wide'],
+        ['about.html', 'container'],
+        ['errors/http-400-bad-request.html', 'container'],
+        ['categories/kubernetes.html', 'container']
+    ];
+
+    for (const [rel, container] of pages) {
+        const d = loadPage(rel).document;
+
+        const brand = d.querySelector('.site-brand');
+        check(`${rel}: brand links home`, brand && brand.getAttribute('href') !== '' && /^(\.\/|(\.\.\/)+)$/.test(brand.getAttribute('href')), brand?.getAttribute('href'));
+
+        const search = [...d.querySelectorAll('.site-nav a')].find(a => a.textContent.trim() === 'Search');
+        check(`${rel}: Search link targets the search page`, search && /^(\.\/|(\.\.\/)+)#searchInput$/.test(search.getAttribute('href')), search?.getAttribute('href'));
+
+        const home = d.querySelector('.breadcrumb a');
+        check(`${rel}: breadcrumb Home links home`, home && home.textContent.trim() === 'Home' && /^(\.\/|(\.\.\/)+)$/.test(home.getAttribute('href')), home?.getAttribute('href'));
+
+        check(`${rel}: breadcrumb aligns with the content column`, !!d.querySelector(`.breadcrumb > .${container}`), container);
+    }
+}
+
+/* A mailto: link is silently inert when no mail handler is registered, so the
+   address itself must always be readable and copyable. */
+{
+    const d = loadPage('about.html').document;
+    const email = d.getElementById('footerEmail');
+    const copy = d.querySelector('.footer-contact .copy-button');
+    check('footer shows the contact address as text', email && email.textContent.includes('@'), email?.textContent);
+    check('footer address has a copy button', copy && copy.dataset.copyTarget === 'footerEmail');
+}
+
 /* -------------------------------------------------------------------- report */
 
 let failed = 0;

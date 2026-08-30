@@ -1,6 +1,6 @@
 # fixmyerror.net
 
-A searchable reference of **694 developer and infrastructure error messages**, each with a
+A searchable reference of **731 developer and infrastructure error messages**, each with a
 plain-English explanation, a copy-paste fix, and a link to the authoritative documentation —
 across **56 categories** from HTTP status codes and TLS to Kubernetes, databases, AI/LLM APIs,
 and every mainstream language runtime.

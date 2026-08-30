@@ -48,9 +48,9 @@
 
     <header class="site-header">
         <div class="site-header-inner">
-            <a class="site-brand" href="/"><span aria-hidden="true">🚀</span> FixMyError.net</a>
+            <a class="site-brand" href="/./"><span aria-hidden="true">🚀</span> FixMyError.net</a>
             <nav class="site-nav" aria-label="Primary">
-                <a href="#searchInput">Search</a>
+                <a href="/./#searchInput">Search</a>
                 <a href="/categories.html">Categories</a>
                 <a href="/all-errors.html">All errors</a>
                 <a href="/about.html">About</a>
@@ -65,7 +65,7 @@
             <section class="block">
                 <h2>Try one of these</h2>
                 <ul class="link-list">
-                    <li><a href="/">Search all 694 errors<span class="sub">Fuzzy search across every error message and fix</span></a></li>
+                    <li><a href="/">Search all 731 errors<span class="sub">Fuzzy search across every error message and fix</span></a></li>
                     <li><a href="/categories.html">Browse 56 categories<span class="sub">Each with a guide to debugging that class of error</span></a></li>
                     <li><a href="/all-errors.html">Full A–Z index<span class="sub">Every documented error on one page</span></a></li>
                 </ul>
@@ -79,7 +79,7 @@
                 <div>
                     <h2>Browse</h2>
                     <ul>
-                        <li><a href="/">Search all errors</a></li>
+                        <li><a href="/./">Search all errors</a></li>
                         <li><a href="/categories.html">Categories</a></li>
                         <li><a href="/all-errors.html">Full A–Z index</a></li>
                         <li><a href="/feed.xml">RSS feed</a></li>
@@ -102,10 +102,14 @@
                         <li><a href="mailto:alex@slash-root.com?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
                         <li><a href="/about.html">About this site</a></li>
                     </ul>
+                    <!-- A mailto: link does nothing at all when the browser has no
+                         mail handler registered, so the address is always shown in
+                         full and can be copied without one. -->
+                    <p class="footer-contact">Or email <span id="footerEmail">alex@slash-root.com</span><button class="copy-button" type="button" data-copy-target="footerEmail">Copy</button></p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net — 694 documented errors across 56 categories. Last updated 28 August 2026.</p>
+                <p>FixMyError.net — 731 documented errors across 56 categories. Last updated 30 August 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

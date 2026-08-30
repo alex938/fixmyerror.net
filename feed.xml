@@ -6,8 +6,304 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 28 Aug 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 30 Aug 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>bun install: lockfile had changes, but lockfile is frozen</title>
+      <link>https://fixmyerror.net/errors/bun-frozen-lockfile-changed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bun-frozen-lockfile-changed.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>CI runs bun install --frozen-lockfile so a build can never silently resolve different versions. The error means package.json and bun.lock disagree — usually because a dependency was edited by hand without re-running install locally.</description>
+    </item>
+    <item>
+      <title>Cargo: lock file version requires a newer version of Cargo</title>
+      <link>https://fixmyerror.net/errors/rust-cargo-lock-version-unsupported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-cargo-lock-version-unsupported.html</guid>
+      <category>Rust</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Cargo.lock carries a format version. A newer toolchain wrote a version this Cargo cannot parse — typically a contributor or CI image on a newer Rust than the pinned one.</description>
+    </item>
+    <item>
+      <title>CORS: credentialed request cannot use a wildcard origin</title>
+      <link>https://fixmyerror.net/errors/cors-credentials-wildcard-origin.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cors-credentials-wildcard-origin.html</guid>
+      <category>Security</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>When a request sends cookies or an Authorization header, the browser requires Access-Control-Allow-Origin to name one exact origin. A wildcard is rejected, and Access-Control-Allow-Credentials must be true as well.</description>
+    </item>
+    <item>
+      <title>docker buildx: no builder instance found</title>
+      <link>https://fixmyerror.net/errors/docker-buildx-no-builder-instance.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-buildx-no-builder-instance.html</guid>
+      <category>Docker</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>buildx needs a builder backed by BuildKit. On a fresh install, in CI, or after docker context switching there may be no builder configured, so any buildx build or multi-platform build fails before it starts.</description>
+    </item>
+    <item>
+      <title>docker-compose: command not found</title>
+      <link>https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-compose-v1-command-not-found.html</guid>
+      <category>Docker</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Compose V1, the standalone Python binary invoked as docker-compose, reached end of life and is no longer installed. Compose is now a Docker CLI plugin invoked as docker compose, with a space.</description>
+    </item>
+    <item>
+      <title>docker: manifest unknown</title>
+      <link>https://fixmyerror.net/errors/docker-manifest-unknown.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-manifest-unknown.html</guid>
+      <category>Docker</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The registry has the repository but not the tag or digest you asked for. Common causes are a typo, a tag that was never pushed for your architecture, or an image whose tags were pruned by a retention policy.</description>
+    </item>
+    <item>
+      <title>ENOSPC: System limit for number of file watchers reached</title>
+      <link>https://fixmyerror.net/errors/linux-inotify-watch-limit-reached.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-inotify-watch-limit-reached.html</guid>
+      <category>System</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>A dev server or file watcher exhausted the per-user inotify watch limit. Despite the ENOSPC name there is no disk problem — each watched directory consumes one kernel watch and large node_modules trees run through the default allowance quickly.</description>
+    </item>
+    <item>
+      <title>ESLint: could not find an eslint.config.js file</title>
+      <link>https://fixmyerror.net/errors/eslint-flat-config-required.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/eslint-flat-config-required.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>ESLint v9 reads flat config (eslint.config.js) by default and no longer looks for .eslintrc.*. An existing project that only has .eslintrc.json therefore looks unconfigured to the new binary.</description>
+    </item>
+    <item>
+      <title>FastAPI: ResponseValidationError</title>
+      <link>https://fixmyerror.net/errors/fastapi-response-validation-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/fastapi-response-validation-error.html</guid>
+      <category>Python</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The handler returned data that does not match its response_model. Unlike a request validation error this is a 500, because the fault is on the server: FastAPI will not serialise a response that breaks the documented schema.</description>
+    </item>
+    <item>
+      <title>GitHub Actions: OIDC token request failed — not authorized</title>
+      <link>https://fixmyerror.net/errors/github-actions-oidc-not-authorized.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-oidc-not-authorized.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The workflow tried to exchange a GitHub OIDC token for cloud credentials but was refused. Either the job did not request the id-token permission, or the trust policy&apos;s subject condition does not match this repository, branch or environment.</description>
+    </item>
+    <item>
+      <title>go: toolchain not available</title>
+      <link>https://fixmyerror.net/errors/go-toolchain-not-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-toolchain-not-available.html</guid>
+      <category>Go</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Since Go 1.21 a go.mod may name a newer toolchain than the installed one. Go normally downloads it, but with GOTOOLCHAIN=local, no network, or a restricted proxy it cannot, and the build stops.</description>
+    </item>
+    <item>
+      <title>Helm: cannot patch — field is immutable</title>
+      <link>https://fixmyerror.net/errors/helm-cannot-patch-field-immutable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/helm-cannot-patch-field-immutable.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>An upgrade changed a field Kubernetes does not allow to be updated in place, such as a Deployment&apos;s selector, a Job&apos;s template, or a PVC&apos;s storage size downward. Helm&apos;s patch is rejected by the API server.</description>
+    </item>
+    <item>
+      <title>JWT: token used before issued / not valid yet</title>
+      <link>https://fixmyerror.net/errors/jwt-token-used-before-issued-clock-skew.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jwt-token-used-before-issued-clock-skew.html</guid>
+      <category>Auth</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Validation compared the token&apos;s iat or nbf claim against the verifier&apos;s clock and decided the token is from the future. The token is fine; the two machines&apos; clocks disagree, often by seconds in a container without NTP.</description>
+    </item>
+    <item>
+      <title>Kubernetes: exceeded quota in namespace</title>
+      <link>https://fixmyerror.net/errors/k8s-exceeded-quota.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-exceeded-quota.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>A ResourceQuota caps what the namespace may request in aggregate. The create is rejected at admission time, so a Deployment can exist while its ReplicaSet never produces pods — the reason only appears in the ReplicaSet events.</description>
+    </item>
+    <item>
+      <title>Kubernetes: no matches for kind in version — removed API</title>
+      <link>https://fixmyerror.net/errors/k8s-no-matches-for-kind-removed-api.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-no-matches-for-kind-removed-api.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The manifest uses an apiVersion the cluster no longer serves. Kubernetes removes beta APIs on a published schedule, so a chart or manifest that worked on an older cluster stops applying after an upgrade.</description>
+    </item>
+    <item>
+      <title>Kubernetes: violates PodSecurity restricted:latest</title>
+      <link>https://fixmyerror.net/errors/k8s-podsecurity-violates-restricted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-podsecurity-violates-restricted.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Pod Security Admission is enforcing the restricted profile on the namespace and the pod spec does not meet it — typically because it runs as root, allows privilege escalation, or does not drop all capabilities.</description>
+    </item>
+    <item>
+      <title>MySQL: Authentication plugin &apos;caching_sha2_password&apos; cannot be loaded</title>
+      <link>https://fixmyerror.net/errors/mysql-caching-sha2-password-cannot-be-loaded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-caching-sha2-password-cannot-be-loaded.html</guid>
+      <category>Database</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>MySQL 8 made caching_sha2_password the default authentication plugin. An older client library that only implements mysql_native_password cannot complete the handshake.</description>
+    </item>
+    <item>
+      <title>Next.js: Event handlers cannot be passed to Client Component props</title>
+      <link>https://fixmyerror.net/errors/nextjs-event-handlers-client-component.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-event-handlers-client-component.html</guid>
+      <category>Frontend</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>A Server Component tried to pass a function (onClick, onChange) across the server/client boundary. Functions cannot be serialised into the RSC payload, so the render fails.</description>
+    </item>
+    <item>
+      <title>Node.js: error:0308010C:digital envelope routines::unsupported</title>
+      <link>https://fixmyerror.net/errors/node-openssl-evp-unsupported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/node-openssl-evp-unsupported.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Node 17+ links OpenSSL 3, which refuses the legacy MD4 hash that older Webpack 4 builds use for chunk names. The build breaks even though nothing in your code changed.</description>
+    </item>
+    <item>
+      <title>OpenTelemetry: connection refused exporting to the collector</title>
+      <link>https://fixmyerror.net/errors/otel-collector-connection-refused-4317.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/otel-collector-connection-refused-4317.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The SDK could not reach an OTLP endpoint. Almost always the port or protocol is wrong: 4317 is OTLP/gRPC and 4318 is OTLP/HTTP, and the HTTP exporter needs the /v1/traces path unless the SDK appends it.</description>
+    </item>
+    <item>
+      <title>OpenTofu: state is encrypted but no key provider is configured</title>
+      <link>https://fixmyerror.net/errors/opentofu-state-encryption-key-missing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/opentofu-state-encryption-key-missing.html</guid>
+      <category>Terraform</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>OpenTofu can encrypt state and plan files at rest. Once a state has been written encrypted, every later run needs the same key provider configured, or the state cannot be read back.</description>
+    </item>
+    <item>
+      <title>PgBouncer: prepared statement already exists</title>
+      <link>https://fixmyerror.net/errors/pgbouncer-prepared-statement-already-exists.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pgbouncer-prepared-statement-already-exists.html</guid>
+      <category>Database</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>In transaction pooling mode a client can land on a different server connection each transaction. A driver that caches server-side prepared statements then re-prepares a name that already exists on that backend.</description>
+    </item>
+    <item>
+      <title>Playwright: strict mode violation — locator resolved to multiple elements</title>
+      <link>https://fixmyerror.net/errors/playwright-strict-mode-violation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/playwright-strict-mode-violation.html</guid>
+      <category>Testing</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Playwright locators are strict by design: if a selector matches more than one element it refuses to act rather than silently picking the first. The message lists every element that matched.</description>
+    </item>
+    <item>
+      <title>Podman: short-name did not resolve to an alias</title>
+      <link>https://fixmyerror.net/errors/podman-short-name-did-not-resolve.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/podman-short-name-did-not-resolve.html</guid>
+      <category>Docker</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Unlike Docker, Podman does not assume Docker Hub for an unqualified image name. In non-interactive mode it refuses to guess which registry &quot;nginx&quot; means, because that choice is a security decision.</description>
+    </item>
+    <item>
+      <title>Poetry: pyproject.toml changed significantly since poetry.lock was generated</title>
+      <link>https://fixmyerror.net/errors/poetry-lock-out-of-date.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/poetry-lock-out-of-date.html</guid>
+      <category>Python</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Poetry stores a hash of the dependency section in the lock file. Editing pyproject.toml by hand invalidates it, and Poetry refuses to install rather than guess which versions you meant.</description>
+    </item>
+    <item>
+      <title>PostgreSQL: canceling statement due to lock timeout</title>
+      <link>https://fixmyerror.net/errors/postgres-canceling-statement-lock-timeout.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postgres-canceling-statement-lock-timeout.html</guid>
+      <category>Database</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The statement waited longer than lock_timeout for a lock another transaction held. This is usually a migration queuing behind a long-running query, and the cancellation is protecting you from an unbounded stall.</description>
+    </item>
+    <item>
+      <title>pytest: async def functions are not natively supported</title>
+      <link>https://fixmyerror.net/errors/pytest-async-def-not-supported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pytest-async-def-not-supported.html</guid>
+      <category>Testing</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>pytest collects an async test, has no event loop to run it in, and skips the body — so the test reports as passed or warns while asserting nothing. A plugin has to drive the coroutine.</description>
+    </item>
+    <item>
+      <title>Python 3.12: ModuleNotFoundError: No module named &apos;distutils&apos;</title>
+      <link>https://fixmyerror.net/errors/python-312-missing-distutils.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-312-missing-distutils.html</guid>
+      <category>Python</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>distutils was deprecated in 3.10 and removed from the standard library in Python 3.12. Any package whose setup.py or runtime code imports it fails immediately on a 3.12+ interpreter.</description>
+    </item>
+    <item>
+      <title>React 19: useFormState is deprecated — use useActionState</title>
+      <link>https://fixmyerror.net/errors/react-useformstate-renamed-useactionstate.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-useformstate-renamed-useactionstate.html</guid>
+      <category>Frontend</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>React 19 moved the form-action state hook out of react-dom and renamed it. Code importing useFormState from react-dom warns, and in newer builds the import is simply missing.</description>
+    </item>
+    <item>
+      <title>systemd: start request repeated too quickly, refusing to start</title>
+      <link>https://fixmyerror.net/errors/systemd-start-request-repeated-too-quickly.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-start-request-repeated-too-quickly.html</guid>
+      <category>System</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The unit crashed and restarted more times than StartLimitBurst allows within StartLimitIntervalSec, so systemd stopped trying. The rate limit is a symptom — the real failure is whatever made the service exit, and it is in the journal.</description>
+    </item>
+    <item>
+      <title>Tailwind CSS v4: unknown at-rule @tailwind</title>
+      <link>https://fixmyerror.net/errors/tailwind-v4-unknown-at-rule.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/tailwind-v4-unknown-at-rule.html</guid>
+      <category>Frontend</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Tailwind v4 replaced the three @tailwind directives with a single @import, and moved PostCSS support into a separate package. A v3 stylesheet or PostCSS config left in place stops producing any utilities.</description>
+    </item>
+    <item>
+      <title>Terraform: Cycle — resources depend on each other</title>
+      <link>https://fixmyerror.net/errors/terraform-cycle-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-cycle-error.html</guid>
+      <category>Terraform</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Terraform builds a dependency graph from references and cannot order a cycle. Two resources referencing each other&apos;s attributes, or a badly placed depends_on, makes the plan impossible rather than merely slow.</description>
+    </item>
+    <item>
+      <title>Terraform: provider checksum list has no SHA-256 hash</title>
+      <link>https://fixmyerror.net/errors/terraform-provider-checksum-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-provider-checksum-mismatch.html</guid>
+      <category>Terraform</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>The dependency lock file records provider hashes per platform. When it was generated on one OS and CI runs on another, the recorded hashes do not cover the platform being installed and Terraform refuses to proceed.</description>
+    </item>
+    <item>
+      <title>uv: No solution found when resolving dependencies</title>
+      <link>https://fixmyerror.net/errors/uv-no-solution-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/uv-no-solution-found.html</guid>
+      <category>Python</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>uv resolves the whole dependency graph at once and reports the exact conflicting constraints rather than installing something that half works. The message names the two requirements that cannot both be satisfied.</description>
+    </item>
+    <item>
+      <title>Vite: the CJS build of Vite&apos;s Node API is deprecated</title>
+      <link>https://fixmyerror.net/errors/vite-cjs-node-api-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vite-cjs-node-api-deprecated.html</guid>
+      <category>Frontend</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Something loaded Vite through require() instead of an ES import — usually a vite.config.js in a package without &quot;type&quot;: &quot;module&quot;, or a plugin that still uses CommonJS. It is a warning in Vite 5 and an error once the CJS build is removed.</description>
+    </item>
+    <item>
+      <title>Vitest: No test suite found in file</title>
+      <link>https://fixmyerror.net/errors/vitest-no-test-suite-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vitest-no-test-suite-found.html</guid>
+      <category>Testing</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Vitest loaded the file but it registered no test() or describe() calls. Usually the suite is inside a conditional, the file was matched by the include glob but is really a helper, or an import threw before the tests were registered.</description>
+    </item>
+    <item>
+      <title>Yarn PnP: a package tried to access an undeclared dependency</title>
+      <link>https://fixmyerror.net/errors/yarn-pnp-undeclared-dependency.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/yarn-pnp-undeclared-dependency.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Sun, 30 Aug 2026 00:00:00 GMT</pubDate>
+      <description>Plug&apos;n&apos;Play enforces the dependency graph strictly: a package may only require what it declares. Code that relied on a hoisted node_modules layout breaks because the transitive package is no longer reachable.</description>
+    </item>
     <item>
       <title>402 Payment Required</title>
       <link>https://fixmyerror.net/errors/http-402-payment-required.html</link>
@@ -191,302 +487,6 @@
       <category>Security</category>
       <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
       <description>Content-Security-Policy blocked an inline or an inline event handler. This is the policy preventing the main injection vector for XSS, so the fix is to make the script legitimate rather than to weaken the policy.</description>
-    </item>
-    <item>
-      <title>CUDA: driver version is insufficient for CUDA runtime version</title>
-      <link>https://fixmyerror.net/errors/cuda-driver-version-insufficient.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cuda-driver-version-insufficient.html</guid>
-      <category>AI</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The installed NVIDIA driver is older than the CUDA runtime the framework was built against. Drivers are backwards compatible with older runtimes but never forwards compatible with newer ones.</description>
-    </item>
-    <item>
-      <title>dbt: Compilation Error — model depends on a node that was not found</title>
-      <link>https://fixmyerror.net/errors/dbt-compilation-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dbt-compilation-error.html</guid>
-      <category>BigData</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A ref() or source() points at something dbt cannot resolve: a misspelled model name, a source not declared in a .yml file, or a model excluded by the current selector.</description>
-    </item>
-    <item>
-      <title>Docker: failed to solve — process did not complete successfully</title>
-      <link>https://fixmyerror.net/errors/docker-buildkit-process-did-not-complete.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-buildkit-process-did-not-complete.html</guid>
-      <category>Docker</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A RUN instruction exited non-zero during a BuildKit build. The wrapper message is generic; the real error is in the step output above it, which BuildKit may have collapsed.</description>
-    </item>
-    <item>
-      <title>Docker: no matching manifest for linux/arm64</title>
-      <link>https://fixmyerror.net/errors/docker-no-matching-manifest.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-no-matching-manifest.html</guid>
-      <category>Docker</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The image exists but was never published for your CPU architecture. This is routine on Apple Silicon and on ARM cloud instances pulling older images.</description>
-    </item>
-    <item>
-      <title>Docker: OCI runtime create failed — executable file not found</title>
-      <link>https://fixmyerror.net/errors/docker-oci-runtime-create-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-oci-runtime-create-failed.html</guid>
-      <category>Docker</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The container was created but runc could not start the entrypoint. The binary named in CMD or ENTRYPOINT does not exist in the image, is not executable, or the script has Windows line endings.</description>
-    </item>
-    <item>
-      <title>Expo EAS: build failed — Gradle/Xcode step exited with non-zero code</title>
-      <link>https://fixmyerror.net/errors/expo-eas-build-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/expo-eas-build-failed.html</guid>
-      <category>Mobile</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>EAS Build failed during the native compile step. The wrapper message is generic; the real cause is in the build phase log, and is usually a config plugin conflict, an SDK version mismatch, or a native dependency incompatible with the Expo SDK in use.</description>
-    </item>
-    <item>
-      <title>Failed to fetch dynamically imported module</title>
-      <link>https://fixmyerror.net/errors/failed-to-fetch-dynamically-imported-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/failed-to-fetch-dynamically-imported-module.html</guid>
-      <category>Client</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A single-page app that was loaded before a deployment tried to lazy-load a chunk whose hashed filename no longer exists on the server. The user&apos;s open tab is running the previous build.</description>
-    </item>
-    <item>
-      <title>Failed to load module script: expected a JavaScript module but got text/html</title>
-      <link>https://fixmyerror.net/errors/mime-type-text-html-module-script.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mime-type-text-html-module-script.html</guid>
-      <category>Frontend</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The browser requested a .js module and the server returned an HTML page — almost always a 404 handled by an SPA fallback rewriting every unknown path to index.html. The path or base URL is wrong, not the JavaScript.</description>
-    </item>
-    <item>
-      <title>Flutter: the current Dart SDK version is X but package requires Y</title>
-      <link>https://fixmyerror.net/errors/dart-flutter-sdk-version-solving.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-flutter-sdk-version-solving.html</guid>
-      <category>Dart</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A package&apos;s environment constraint in pubspec.yaml excludes the Dart SDK bundled with your Flutter version. Dart and Flutter SDK versions are coupled, so the fix is usually to move the Flutter channel rather than the Dart version.</description>
-    </item>
-    <item>
-      <title>GCP: SERVICE_DISABLED — API has not been used in project before</title>
-      <link>https://fixmyerror.net/errors/gcp-service-disabled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gcp-service-disabled.html</guid>
-      <category>Cloud</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Google Cloud APIs are disabled by default per project. The first call to a service fails until the API is enabled, and there is a short propagation delay after enabling it.</description>
-    </item>
-    <item>
-      <title>git: detected dubious ownership in repository</title>
-      <link>https://fixmyerror.net/errors/git-dubious-ownership.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-dubious-ownership.html</guid>
-      <category>Git</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Git refuses to operate on a repository owned by a different user than the one running git. This safety check blocks a privilege-escalation attack via a malicious repo config, and commonly appears in containers and CI.</description>
-    </item>
-    <item>
-      <title>git: refusing to merge unrelated histories</title>
-      <link>https://fixmyerror.net/errors/git-refusing-unrelated-histories.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-refusing-unrelated-histories.html</guid>
-      <category>Git</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The two branches have no common ancestor. This normally means a local repository was initialised separately from the remote, or the remote was recreated.</description>
-    </item>
-    <item>
-      <title>git: RPC failed; HTTP 400 curl 22 / the remote end hung up unexpectedly</title>
-      <link>https://fixmyerror.net/errors/git-rpc-failed-http-400.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-rpc-failed-http-400.html</guid>
-      <category>Git</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The push exceeded a size limit somewhere in the chain — the HTTP post buffer, a reverse proxy body limit, or the server&apos;s own cap. Large binary files and long histories are the usual triggers.</description>
-    </item>
-    <item>
-      <title>GitHub Actions: Failed to save cache — Unable to reserve cache</title>
-      <link>https://fixmyerror.net/errors/gha-cache-reserve-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gha-cache-reserve-failed.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Two concurrent jobs tried to save the same cache key, or the repository is at its 10 GB cache limit. Cache save failures are warnings by design and do not fail the build.</description>
-    </item>
-    <item>
-      <title>GitHub Actions: this action uses a deprecated Node version</title>
-      <link>https://fixmyerror.net/errors/gha-node-action-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gha-node-action-deprecated.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>GitHub retires the Node runtimes that JavaScript actions execute on. An action pinned to an old major continues to run with a warning until the runtime is removed, at which point it fails outright.</description>
-    </item>
-    <item>
-      <title>GitHub API: You have exceeded a secondary rate limit</title>
-      <link>https://fixmyerror.net/errors/github-secondary-rate-limit.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/github-secondary-rate-limit.html</guid>
-      <category>API</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Separate from the hourly primary quota, GitHub applies secondary limits on burst concurrency, content-creating requests, and expensive queries. They are not exposed in the x-ratelimit headers.</description>
-    </item>
-    <item>
-      <title>Go: checksum mismatch — SECURITY ERROR</title>
-      <link>https://fixmyerror.net/errors/go-checksum-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-checksum-mismatch.html</guid>
-      <category>Go</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The downloaded module&apos;s hash does not match go.sum or the public checksum database. This can mean a tampered proxy, but far more often it means an upstream author force-pushed a tag or a private module is being checked against the public sum database.</description>
-    </item>
-    <item>
-      <title>Go: missing go.sum entry for module</title>
-      <link>https://fixmyerror.net/errors/go-missing-go-sum-entry.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-missing-go-sum-entry.html</guid>
-      <category>Go</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A module is required by go.mod but has no checksum recorded in go.sum. Go refuses to build rather than fetching an unverified module — this is the supply-chain check working.</description>
-    </item>
-    <item>
-      <title>Go: module requires go &gt;= 1.x (running go 1.y)</title>
-      <link>https://fixmyerror.net/errors/go-mod-requires-newer-go.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-mod-requires-newer-go.html</guid>
-      <category>Go</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A dependency&apos;s go.mod declares a language version newer than your toolchain. Since Go 1.21 the toolchain directive can auto-download a newer Go, but that is disabled in many locked-down CI environments.</description>
-    </item>
-    <item>
-      <title>GraphQL: PersistedQueryNotFound</title>
-      <link>https://fixmyerror.net/errors/graphql-persisted-query-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-persisted-query-not-found.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>With automatic persisted queries the client first sends only a hash. If the server has not seen that query before — a cold cache, a new deploy, or a multi-instance server without a shared cache — it responds with PersistedQueryNotFound and the client must resend the full query.</description>
-    </item>
-    <item>
-      <title>Jest: You are trying to import a file after the Jest environment has been torn down</title>
-      <link>https://fixmyerror.net/errors/jest-import-after-teardown.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-import-after-teardown.html</guid>
-      <category>Testing</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Asynchronous work outlived the test that started it. When Jest tears down the environment, a still-pending promise, timer or open handle tries to touch module state that no longer exists.</description>
-    </item>
-    <item>
-      <title>Kafka: UNKNOWN_TOPIC_OR_PARTITION</title>
-      <link>https://fixmyerror.net/errors/kafka-unknown-topic-or-partition.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-unknown-topic-or-partition.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The client asked for a topic the broker does not know about. Either the topic genuinely does not exist, auto-creation is disabled, the client is pointed at the wrong cluster, or the ACLs hide it from this principal.</description>
-    </item>
-    <item>
-      <title>kubectl: The connection to the server localhost:8080 was refused</title>
-      <link>https://fixmyerror.net/errors/kubectl-connection-localhost-8080-refused.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-connection-localhost-8080-refused.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>kubectl found no kubeconfig at all, so it fell back to its built-in default of localhost:8080. This is a client configuration problem, not a cluster outage.</description>
-    </item>
-    <item>
-      <title>Kubernetes: 0/N nodes are available — node(s) had untolerated taint</title>
-      <link>https://fixmyerror.net/errors/k8s-untolerated-taint.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-untolerated-taint.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The scheduler found no node willing to accept the pod because every candidate carries a taint the pod does not tolerate. Control-plane nodes, GPU pools and nodes under pressure are all tainted by default.</description>
-    </item>
-    <item>
-      <title>Kubernetes: admission webhook denied the request</title>
-      <link>https://fixmyerror.net/errors/k8s-admission-webhook-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-admission-webhook-denied.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A validating or mutating admission webhook rejected the object. This is policy enforcement — Kyverno, Gatekeeper, cert-manager, an Ingress controller or a service mesh — not an API server fault.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Deployment exceeded its progress deadline</title>
-      <link>https://fixmyerror.net/errors/k8s-progress-deadline-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-progress-deadline-exceeded.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A rollout did not reach the required number of available replicas within progressDeadlineSeconds (600 by default). The Deployment is reporting that the new pods never became ready — the underlying failure is on the pods.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Failed to create pod sandbox</title>
-      <link>https://fixmyerror.net/errors/k8s-failed-create-pod-sandbox.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-failed-create-pod-sandbox.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The container runtime could not set up the pod&apos;s network namespace. This is a CNI-level failure: the plugin is missing or crashed, the node has exhausted its pod IP range, or the runtime cannot pull the pause image.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Init:CrashLoopBackOff</title>
-      <link>https://fixmyerror.net/errors/k8s-init-crashloopbackoff.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-init-crashloopbackoff.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>An init container is failing, so the main containers never start. Init containers run sequentially to completion, and any non-zero exit blocks the whole pod.</description>
-    </item>
-    <item>
-      <title>Linux: Read-only file system</title>
-      <link>https://fixmyerror.net/errors/linux-read-only-file-system.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-read-only-file-system.html</guid>
-      <category>System</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The filesystem was mounted read-only, either intentionally or because the kernel remounted it after detecting I/O errors. The second case means the underlying disk is failing and is urgent.</description>
-    </item>
-    <item>
-      <title>LLM: structured output does not match the requested JSON schema</title>
-      <link>https://fixmyerror.net/errors/llm-structured-output-schema-refusal.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/llm-structured-output-schema-refusal.html</guid>
-      <category>AI</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The model returned prose, a truncated object, or JSON that violates the schema. Usually the response hit the token limit mid-object, or the schema uses features the provider&apos;s constrained decoding does not support.</description>
-    </item>
-    <item>
-      <title>Loki: entry too far behind / out of order</title>
-      <link>https://fixmyerror.net/errors/loki-entry-too-far-behind.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-entry-too-far-behind.html</guid>
-      <category>Logging</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>Loki rejected log lines whose timestamps are older than the accepted window for that stream. Usually a backfill, a clock-skewed host, or two producers writing to one stream with different clocks.</description>
-    </item>
-    <item>
-      <title>macOS: Operation not permitted (Full Disk Access / TCC)</title>
-      <link>https://fixmyerror.net/errors/macos-operation-not-permitted-tcc.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-operation-not-permitted-tcc.html</guid>
-      <category>Apple</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>macOS privacy protection blocked access to a protected location — Desktop, Documents, Downloads, or another application&apos;s data — even for a process running as root. The permission is granted to the parent application, so a script run from Terminal needs Terminal to hold it.</description>
-    </item>
-    <item>
-      <title>MCP: server connection failed / failed to start</title>
-      <link>https://fixmyerror.net/errors/mcp-server-connection-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mcp-server-connection-failed.html</guid>
-      <category>AI</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A Model Context Protocol client could not start or speak to a server. For stdio servers the command is usually wrong or not on PATH; for HTTP servers it is a URL, TLS or auth problem. Anything the server writes to stdout that is not JSON-RPC corrupts the stream.</description>
-    </item>
-    <item>
-      <title>Microsoft Entra ID: AADSTS50011 — redirect URI mismatch</title>
-      <link>https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html</guid>
-      <category>Auth</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The redirect_uri sent in the authorisation request is not registered on the app registration. Entra requires an exact match including scheme, host, port, path and case, and the platform type must match too.</description>
-    </item>
-    <item>
-      <title>MongoDB: Server selection timed out</title>
-      <link>https://fixmyerror.net/errors/mongodb-server-selection-timeout.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mongodb-server-selection-timeout.html</guid>
-      <category>Database</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>The driver could not find a suitable server within serverSelectionTimeoutMS. With Atlas this is nearly always IP access list or DNS/SRV resolution rather than the database being down.</description>
-    </item>
-    <item>
-      <title>MySQL: Incorrect string value (utf8mb4 / emoji)</title>
-      <link>https://fixmyerror.net/errors/mysql-incorrect-string-value.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-incorrect-string-value.html</guid>
-      <category>Database</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A four-byte UTF-8 character — most often an emoji — was inserted into a column using MySQL&apos;s legacy three-byte &apos;utf8&apos; (utf8mb3) charset. The value cannot be represented, so the insert fails.</description>
-    </item>
-    <item>
-      <title>Next.js: Dynamic server usage — route couldn&apos;t be rendered statically</title>
-      <link>https://fixmyerror.net/errors/nextjs-dynamic-server-usage.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-dynamic-server-usage.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Fri, 28 Aug 2026 00:00:00 GMT</pubDate>
-      <description>A route Next.js wanted to prerender at build time used a request-scoped API such as cookies(), headers() or searchParams. Those values do not exist during a static build.</description>
     </item>
   </channel>
 </rss>

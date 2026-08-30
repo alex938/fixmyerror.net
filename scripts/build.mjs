@@ -167,6 +167,16 @@ for (const list of byCategory.values()) list.sort((a, b) => a.title.localeCompar
 const errorUrl = (id) => `${ORIGIN}/errors/${id}.html`;
 const errorHref = (id, depth) => `${'../'.repeat(depth)}errors/${id}.html`;
 
+/**
+ * Link back to the search page (the site root).
+ *
+ * At depth 0 the naive `'../'.repeat(0)` is an empty string, and an empty href
+ * resolves to *the current page* — which is why the header brand and the
+ * "Search" nav link used to do nothing on categories.html, all-errors.html and
+ * about.html. "./" resolves to the directory index in every case.
+ */
+const homeHref = (depth) => (depth === 0 ? './' : '../'.repeat(depth));
+
 /* ------------------------------------------------------------------ shell */
 
 /**
@@ -229,9 +239,9 @@ ${structured}
 
     <header class="site-header">
         <div class="site-header-inner">
-            <a class="site-brand" href="${rel}"><span aria-hidden="true">🚀</span> ${SITE_NAME}</a>
+            <a class="site-brand" href="${homeHref(o.depth)}"><span aria-hidden="true">🚀</span> ${SITE_NAME}</a>
             <nav class="site-nav" aria-label="Primary">
-                <a href="${rel}#searchInput">Search</a>
+                <a href="${homeHref(o.depth)}#searchInput">Search</a>
                 <a href="${rel}categories.html">Categories</a>
                 <a href="${rel}all-errors.html">All errors</a>
                 <a href="${rel}about.html">About</a>
@@ -249,7 +259,7 @@ ${o.body}
                 <div>
                     <h2>Browse</h2>
                     <ul>
-                        <li><a href="${rel}">Search all errors</a></li>
+                        <li><a href="${homeHref(o.depth)}">Search all errors</a></li>
                         <li><a href="${rel}categories.html">Categories</a></li>
                         <li><a href="${rel}all-errors.html">Full A–Z index</a></li>
                         <li><a href="${rel}feed.xml">RSS feed</a></li>
@@ -271,6 +281,10 @@ ${['HTTP', 'Kubernetes', 'Docker', 'TLS', 'Database']
                         <li><a href="mailto:${CONTACT}?subject=FixMyError.net%20%E2%80%93%20correction">Report a correction</a></li>
                         <li><a href="${rel}about.html">About this site</a></li>
                     </ul>
+                    <!-- A mailto: link does nothing at all when the browser has no
+                         mail handler registered, so the address is always shown in
+                         full and can be copied without one. -->
+                    <p class="footer-contact">Or email <span id="footerEmail">${CONTACT}</span><button class="copy-button" type="button" data-copy-target="footerEmail">Copy</button></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -288,16 +302,24 @@ ${['HTTP', 'Kubernetes', 'Docker', 'TLS', 'Database']
 `;
 }
 
-function breadcrumb(trail, depth) {
+/**
+ * @param {string} container  the same wrapper class the page body uses, so the
+ *                            crumbs line up with the text block beneath them
+ *                            instead of sitting flush against the viewport.
+ */
+function breadcrumb(trail, depth, container = 'container') {
     const rel = '../'.repeat(depth);
     const items = trail.map((t, i) => {
         const last = i === trail.length - 1;
         const label = esc(t.label);
+        // An empty href means "the site root": resolve it properly rather than
+        // producing href="" , which points back at the current page.
+        const target = t.href ? `${rel}${t.href}` : homeHref(depth);
         return last
             ? `<li aria-current="page">${label}</li>`
-            : `<li><a href="${rel}${t.href}">${label}</a></li>`;
+            : `<li><a href="${target}">${label}</a></li>`;
     }).join('');
-    return `        <nav class="breadcrumb" aria-label="Breadcrumb"><ol>${items}</ol></nav>`;
+    return `        <nav class="breadcrumb" aria-label="Breadcrumb"><div class="${container}"><ol>${items}</ol></div></nav>`;
 }
 
 function breadcrumbLd(trail) {
@@ -571,7 +593,7 @@ function renderCategoriesIndex() {
     ];
     const description = `All ${categories.length} error categories on ${SITE_NAME}, from HTTP status codes and TLS to Kubernetes, databases, AI APIs and Windows.`;
 
-    const body = `${breadcrumb(trail, depth)}
+    const body = `${breadcrumb(trail, depth, 'container-wide')}
         <div class="container-wide">
             <h1 class="page-title">Error categories</h1>
             <p class="page-lede">${errors.length} documented errors grouped into ${categories.length} categories. Each category page includes an authored guide to debugging that whole class of problem.</p>
@@ -628,7 +650,7 @@ function renderAllErrors() {
     ];
     const description = `Complete index of all ${errors.length} error messages documented on ${SITE_NAME}, grouped by category with a fix for each.`;
 
-    const body = `${breadcrumb(trail, depth)}
+    const body = `${breadcrumb(trail, depth, 'container-wide')}
         <div class="container-wide">
             <h1 class="page-title">All ${errors.length} errors</h1>
             <p class="page-lede">Every documented error, grouped by category. Use <a href="./">the search page</a> if you know the message you are looking for.</p>
