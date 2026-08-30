@@ -23,6 +23,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COUNT_RULES, countPattern } from './counts.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const ORIGIN = 'https://fixmyerror.net';
@@ -868,6 +869,37 @@ Sitemap: ${ORIGIN}/sitemap.xml
 `;
 }
 
+/**
+ * Rewrite the error and category counts quoted in the hand-written files, so
+ * the title bar can never disagree with the page body again. Every rule must
+ * still match something: if it does not, the copy was reworded and the rule in
+ * scripts/counts.mjs needs updating rather than being quietly skipped.
+ */
+function syncCounts() {
+    const value = { errors: String(errors.length), categories: String(categories.length) };
+    const byFile = new Map();
+    for (const rule of COUNT_RULES) {
+        if (!byFile.has(rule.file)) byFile.set(rule.file, []);
+        byFile.get(rule.file).push(rule);
+    }
+
+    let changed = 0;
+    for (const [file, rules] of byFile) {
+        const full = path.join(ROOT, file);
+        const before = fs.readFileSync(full, 'utf8');
+        let after = before;
+        for (const rule of rules) {
+            let hits = 0;
+            after = after.replace(countPattern(rule), () => { hits++; return value[rule.kind]; });
+            if (hits === 0) {
+                throw new Error(`Count rule for "${file}" no longer matches: "…${rule.phrase}". Update scripts/counts.mjs.`);
+            }
+        }
+        if (after !== before) { fs.writeFileSync(full, after); changed++; }
+    }
+    return changed;
+}
+
 /* ------------------------------------------------------------------- main */
 
 function clean(dir) {
@@ -893,6 +925,9 @@ write('sitemap.xml', renderSitemap());
 write('feed.xml', renderFeed());
 write('robots.txt', renderRobots());
 
+const countFilesChanged = syncCounts();
+
 console.log(`Built ${errors.length} error pages, ${categories.length} category pages`);
+if (countFilesChanged) console.log(`Synced quoted counts in ${countFilesChanged} hand-written file(s)`);
 console.log(`Indexable URLs in sitemap: ${errors.length + categories.length + 4}`);
 console.log(`Build date: ${BUILD_DATE}`);

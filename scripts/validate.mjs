@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COUNT_RULES, countPattern } from './counts.mjs';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const ORIGIN = 'https://fixmyerror.net';
@@ -76,6 +77,26 @@ for (const [name, g] of Object.entries(guides)) {
 const usedCategories = new Set(errors.map(e => e.category));
 for (const name of Object.keys(guides)) {
     if (!usedCategories.has(name)) warn(`category guide "${name}" has no errors`);
+}
+
+/* The hand-written files quote the dataset size in prose. The build rewrites
+   those numbers; this proves none of them was missed, so the title bar can
+   never claim a different total from the page body. */
+{
+    const expected = { errors: String(errors.length), categories: String(usedCategories.size) };
+    for (const rule of COUNT_RULES) {
+        const text = read(rule.file);
+        const found = text.match(countPattern(rule)) || [];
+        if (found.length === 0) {
+            fail(`count rule for "${rule.file}" no longer matches: "…${rule.phrase}"`);
+            continue;
+        }
+        for (const value of new Set(found)) {
+            if (value !== expected[rule.kind]) {
+                fail(`${rule.file} says "${value}${rule.phrase}" but there are ${expected[rule.kind]}`);
+            }
+        }
+    }
 }
 
 /* -------------------------------------------------------------- pages ---- */
