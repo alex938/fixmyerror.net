@@ -388,6 +388,27 @@
       "delve (dlv)"
     ]
   },
+  "gRPC": {
+    "title": "gRPC Status Code Errors",
+    "tagline": "Status codes, deadlines, message limits, TLS and HTTP/2 transport failures.",
+    "intro": "Every gRPC call ends with a status code, and the code tells you which layer failed. <strong>UNAVAILABLE</strong> and <strong>INTERNAL</strong> are transport: the connection, the proxy or the HTTP/2 stream, not your handler. <strong>UNAUTHENTICATED</strong>, <strong>PERMISSION_DENIED</strong> and <strong>UNIMPLEMENTED</strong> mean the request arrived and was rejected before your logic ran. <strong>INVALID_ARGUMENT</strong>, <strong>FAILED_PRECONDITION</strong> and <strong>ABORTED</strong> are your service answering deliberately. The distinction matters most for retries: UNAVAILABLE and ABORTED are safe to retry, FAILED_PRECONDITION and INVALID_ARGUMENT never are, and retrying them turns one bad request into a storm.",
+    "howToDebug": [
+      "Read the code and the message together. <code>grpcurl -vv</code> prints the status, the message and any <code>google.rpc</code> error details the server attached, which is far more than most client libraries surface by default.",
+      "Establish whether the call reached your handler at all. Log at the first line of the method: if nothing appears, the failure is in the transport, the proxy or an interceptor, and reading your business logic is wasted effort.",
+      "Enable the runtime's own transport logging. <code>GRPC_GO_LOG_SEVERITY_LEVEL=info GRPC_GO_LOG_VERBOSITY_LEVEL=2</code> for Go, or <code>GRPC_VERBOSITY=debug GRPC_TRACE=http,call_error</code> for the C based implementations, exposes HTTP/2 resets and name resolution that the status code hides.",
+      "Check that HTTP/2 survives the whole path. Any load balancer that terminates at layer 7 without HTTP/2 support, or an idle timeout shorter than your keepalive, produces stream resets that surface as INTERNAL or UNAVAILABLE on a service that is perfectly healthy.",
+      "Confirm both sides were generated from the same .proto. A method rename, a package change or a stale generated file gives UNIMPLEMENTED, and <code>grpcurl list</code> against a server with reflection enabled settles it in one command.",
+      "For anything size or time related, remember the limits are enforced per side: the 4 MB receive limit, the client deadline and the server's max connection age each belong to one peer, so raising one alone often just moves the failure."
+    ],
+    "tools": [
+      "grpcurl",
+      "grpc_health_probe",
+      "GRPC_GO_LOG_SEVERITY_LEVEL / GRPC_TRACE",
+      "buf lint && buf breaking",
+      "Wireshark or tcpdump with HTTP/2 decoding",
+      "Envoy access logs"
+    ]
+  },
   "GraphQL": {
     "title": "GraphQL Errors",
     "tagline": "Validation, depth limits, N+1 queries and fragment problems.",

@@ -1,8 +1,8 @@
 # fixmyerror.net
 
-A searchable reference of **731 developer and infrastructure error messages**, each with a
+A searchable reference of **850 developer and infrastructure error messages**, each with a
 plain-English explanation, a copy-paste fix, and a link to the authoritative documentation,
-across **56 categories** from HTTP status codes and TLS to Kubernetes, databases, AI/LLM APIs,
+across **57 categories** from HTTP status codes and TLS to Kubernetes, databases, AI/LLM APIs,
 and every mainstream language runtime.
 
 Live at **<https://fixmyerror.net>**.
@@ -19,7 +19,7 @@ database and no third-party JavaScript.
 | `/` | The search app. Loads the whole dataset and searches it client-side with Fuse.js. |
 | `/errors/<id>.html` | One indexable page per error: explanation, fix, category debugging guide, related errors, sources. |
 | `/categories/<slug>.html` | One hub page per category, with an authored guide to debugging that class of error. |
-| `/categories.html` | Directory of all 56 categories. |
+| `/categories.html` | Directory of all 57 categories. |
 | `/all-errors.html` | Full A-Z index of every error. |
 | `/about.html` | How entries are written and how to use the site. |
 | `/sitemap.xml`, `/feed.xml` | Crawl and subscription surfaces, both generated. |
@@ -42,6 +42,13 @@ npm run build      # regenerate every page, the dataset, the sitemap and the fee
 npm run validate   # data integrity, broken links, duplicate titles/canonicals, JSON-LD
 npm test           # behavioural tests against the app and the generated pages
 npm run og         # regenerate og-image.png (needs Python + Pillow)
+```
+
+Sources rot faster than the content does, so there is a separate network-bound pass:
+
+```bash
+npm run check:sources                          # every source URL in the dataset
+npm run check:sources -- --since 2026-09-01    # only recently added entries
 ```
 
 Preview locally with any static server:

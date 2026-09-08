@@ -9,7 +9,8 @@
     "og": "python3 scripts/make-og-image.py",
     "validate": "node scripts/validate.mjs",
     "test": "node scripts/test-dom.mjs",
-    "check": "npm run build && npm run validate && npm test"
+    "check": "npm run build && npm run validate && npm test",
+    "check:sources": "node scripts/check-sources.mjs"
   },
   "devDependencies": {
     "jsdom": "^25.0.0"
