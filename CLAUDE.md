@@ -125,6 +125,33 @@ part of `npm run check`.
 Also worth doing when asked to refresh the site: correcting entries whose advice has gone
 stale because the tool changed, rather than only adding new ones.
 
+## Backfilling historic dates so the whole catalogue can reach the feed
+
+Around 524 entries predate the `dateAdded` field. They show no date on their page and
+`renderFeed` skips them entirely, so the oldest and most searched part of the site can
+never appear in the RSS feed. The dates are recoverable rather than invented: git history
+records when each id first appeared.
+
+The dataset has lived in two places. From 2026-08-28 onwards it is `data/errors.json`;
+before that it was `embedded-data.js`, which starts `const ERRORS_DATA = [`. Walk the
+commits touching either file oldest first and take the first one whose dataset contains
+the id:
+
+```bash
+git log --reverse --format='%H %ad' --date=short -- data/errors.json embedded-data.js
+git show <commit>:embedded-data.js       # or <commit>:data/errors.json
+```
+
+That places the back catalogue between 2025-10-12 and 2026-05-23. Write the date into the
+entry, change nothing else about it, and rebuild. If git cannot place an entry, fall back
+to 2026-06-25, the origin date `scripts/build.mjs` already uses for JSON-LD.
+
+Two things to know before running it. Every dated entry gains an "Added ..." badge on its
+page, which is a visible change across several hundred pages. And the feed publishes the
+60 newest entries by date, so backfilled entries only surface there once the window
+reaches them: putting the older catalogue in front of subscribers means raising that cap
+in `renderFeed`, which is a template change worth agreeing first.
+
 ## Commands
 
 ```bash
@@ -174,3 +201,7 @@ or the build will fail rather than leave a stale figure behind.
 Commit the data change and the regenerated output in one commit. A build run on a
 different day also rewrites the "Last updated" line in every footer and the `lastmod`
 dates in the sitemap; that noise is expected and belongs in the same commit.
+
+Ensure the writing and text is human relatable.
+
+The RSS feed MUST be kept up to date. It may need historical data/errors added. Always check this.
