@@ -6,8 +6,384 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Tue, 08 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 09 Sep 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>.NET: The framework &apos;Microsoft.NETCore.App&apos;, version &apos;8.0.0&apos; was not found</title>
+      <link>https://fixmyerror.net/errors/dotnet-framework-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-framework-not-found.html</guid>
+      <category>C#</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The published application is framework dependent and the machine has no matching runtime. Roll forward will pick a newer patch of the same major version but never a different major, so an app built for 8.0 will not start on a box that only has 9.0 installed.</description>
+    </item>
+    <item>
+      <title>Angular: NG0100: ExpressionChangedAfterItHasBeenCheckedError</title>
+      <link>https://fixmyerror.net/errors/angular-ng0100-expression-changed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/angular-ng0100-expression-changed.html</guid>
+      <category>Frontend</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A binding produced one value during change detection and a different one when Angular verified the pass in development mode. It normally means a parent reads state that a child mutates while initialising, so the check runs before the value has settled. Production builds skip the verification…</description>
+    </item>
+    <item>
+      <title>Apollo Client: Missing field &apos;x&apos; while writing result to the cache</title>
+      <link>https://fixmyerror.net/errors/apollo-missing-field-writing-result.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-missing-field-writing-result.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The normalised cache stores objects by id and typename, and the response left out a field the cache needed, usually because one query selects a subset that a fragment elsewhere expects. It is only a warning, but the later read returns incomplete data and refetches, which looks like a caching bug…</description>
+    </item>
+    <item>
+      <title>ASP.NET Core: Unable to resolve service for type while activating</title>
+      <link>https://fixmyerror.net/errors/aspnet-unable-to-resolve-service.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aspnet-unable-to-resolve-service.html</guid>
+      <category>C#</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The container was asked for a dependency nobody registered, so the controller or hosted service could not be constructed. The rest of the message names the type that needed it, which is the quickest way to tell whether the missing registration is yours or belongs to a library whose AddSomething…</description>
+    </item>
+    <item>
+      <title>AWS ECS: CannotPullContainerError, pull image manifest has been retried</title>
+      <link>https://fixmyerror.net/errors/ecs-cannot-pull-container-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecs-cannot-pull-container-error.html</guid>
+      <category>Cloud</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The task could not fetch its image, and the reason is far more often networking than permissions: a task in a private subnet with no NAT gateway and no VPC endpoints cannot reach ECR at all. A task in a public subnet still needs assignPublicIp turned on before it has a route out.</description>
+    </item>
+    <item>
+      <title>AWS: The security token included in the request is expired</title>
+      <link>https://fixmyerror.net/errors/aws-security-token-expired.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-security-token-expired.html</guid>
+      <category>Cloud</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The temporary credentials issued by STS have passed their expiry, which is one hour by default for an assumed role. A long build, a laptop resumed from sleep with a stale cache, or a clock that has drifted by more than a few minutes all produce it even though credentials are clearly present.</description>
+    </item>
+    <item>
+      <title>bash: warning: setlocale: LC_ALL: cannot change locale</title>
+      <link>https://fixmyerror.net/errors/bash-setlocale-cannot-change-locale.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-setlocale-cannot-change-locale.html</guid>
+      <category>Shell</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>SSH forwards the client&apos;s locale variables and the server has no such locale generated, so every login prints the warning and programs fall back to the C locale. The fallback is the part that matters: sorting order, date parsing and Unicode handling all change underneath you.</description>
+    </item>
+    <item>
+      <title>Cargo: Blocking waiting for file lock on package cache</title>
+      <link>https://fixmyerror.net/errors/cargo-blocking-waiting-for-file-lock.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cargo-blocking-waiting-for-file-lock.html</guid>
+      <category>Rust</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Cargo takes an exclusive lock on its home directory so two builds cannot corrupt the registry. The message is harmless while another build is genuinely running, but a lock left behind by a killed process, or a cache mounted read only in a container, makes the build wait for ever instead of failing.</description>
+    </item>
+    <item>
+      <title>Django: Forbidden (403) CSRF verification failed. Request aborted.</title>
+      <link>https://fixmyerror.net/errors/django-csrf-verification-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/django-csrf-verification-failed.html</guid>
+      <category>Python</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Django rejected the POST because the CSRF token or the request Origin did not match the session. Behind a reverse proxy the cause is usually not a missing token at all: since Django 4.0 the Origin header is compared against CSRF_TRUSTED_ORIGINS, so a site served over HTTPS whose proxy forwards the…</description>
+    </item>
+    <item>
+      <title>Docker: image&apos;s platform (linux/amd64) does not match the detected host</title>
+      <link>https://fixmyerror.net/errors/docker-platform-mismatch-warning.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-platform-mismatch-warning.html</guid>
+      <category>Docker</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The image has no build for the host architecture, so Docker Desktop runs it under emulation on Apple Silicon. It is a warning rather than an error, but emulated containers are slow and some binaries die with an illegal instruction, which is the failure people actually end up debugging.</description>
+    </item>
+    <item>
+      <title>docker: invalid reference format</title>
+      <link>https://fixmyerror.net/errors/docker-invalid-reference-format.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-invalid-reference-format.html</guid>
+      <category>Docker</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Docker could not parse the image name. The usual causes are an uppercase letter in the repository part, a shell variable that expanded to nothing, or an unquoted path in a volume flag containing a space, which pushes the rest of the command into the position where the image name should be.</description>
+    </item>
+    <item>
+      <title>DOMException: play() failed because the user didn&apos;t interact with the document</title>
+      <link>https://fixmyerror.net/errors/autoplay-play-failed-no-user-interaction.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/autoplay-play-failed-no-user-interaction.html</guid>
+      <category>Frontend</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Browsers block audible autoplay until the page has received a user gesture. play() returns a promise that rejects rather than throwing, so an unhandled rejection in the console is the only clue and the video simply sits there. Muted playback is still allowed, which is why the same code works on…</description>
+    </item>
+    <item>
+      <title>EF Core: another instance with the same key value is already being tracked</title>
+      <link>https://fixmyerror.net/errors/efcore-instance-already-tracked.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/efcore-instance-already-tracked.html</guid>
+      <category>C#</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The change tracker already holds an entity with that primary key and Attach or Update tried to add a second copy. It normally follows a tracked read earlier in the request, then an update built from the request body. The first query is the cause even though the second call is what throws.</description>
+    </item>
+    <item>
+      <title>git: You have divergent branches and need to specify how to reconcile them</title>
+      <link>https://fixmyerror.net/errors/git-divergent-branches-reconcile.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-divergent-branches-reconcile.html</guid>
+      <category>Git</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Local and remote have both moved on, and since Git 2.27 pull refuses to guess between merging and rebasing. The hint offers three settings without recommending one, which is why it is so often answered with a global config that then surprises everyone in the next repository.</description>
+    </item>
+    <item>
+      <title>git: Your local changes to the following files would be overwritten by merge</title>
+      <link>https://fixmyerror.net/errors/git-local-changes-would-be-overwritten.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-local-changes-would-be-overwritten.html</guid>
+      <category>Git</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Git is protecting uncommitted work in files the incoming commits also touch, so nothing has been merged yet. When the listed files are ones you never edited, the cause is usually a line ending or file mode difference the working tree recorded on checkout rather than an edit of yours.</description>
+    </item>
+    <item>
+      <title>Go: module declares its path as X but was required as Y</title>
+      <link>https://fixmyerror.net/errors/go-module-path-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-module-path-mismatch.html</guid>
+      <category>Go</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The module line inside the dependency&apos;s go.mod does not match the import path you asked for. It shows up after a repository is renamed or forked, and after a v2 release that omitted the /v2 suffix, because Go treats the major version as part of the import path rather than as metadata.</description>
+    </item>
+    <item>
+      <title>Go: panic: send on closed channel</title>
+      <link>https://fixmyerror.net/errors/go-send-on-closed-channel.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-send-on-closed-channel.html</guid>
+      <category>Go</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A goroutine wrote to a channel another goroutine had already closed. The convention is that the sender closes and the receiver never does, and with several producers no single one of them has a safe moment to close. The panic surfaces in a producer even though the bug belongs to whoever closed…</description>
+    </item>
+    <item>
+      <title>GraphQL: Cannot return null for non-nullable field</title>
+      <link>https://fixmyerror.net/errors/graphql-cannot-return-null-for-non-nullable-field.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-return-null-for-non-nullable-field.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A resolver returned null where the schema promised a value. GraphQL then propagates the failure upward until it reaches a nullable field, so one missing value can blank out a whole branch of the response. The field that actually returned null is in the error path, not in the message text.</description>
+    </item>
+    <item>
+      <title>Java: error: invalid target release: 21</title>
+      <link>https://fixmyerror.net/errors/maven-invalid-target-release.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/maven-invalid-target-release.html</guid>
+      <category>Java</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The build asked javac for a release the JDK on PATH cannot produce, which means the compiler running the build is older than the version the project targets. IDEs keep their own JDK setting, so the same project often compiles in the IDE and fails from the command line or in CI.</description>
+    </item>
+    <item>
+      <title>Java: java.lang.OutOfMemoryError: Metaspace</title>
+      <link>https://fixmyerror.net/errors/java-outofmemoryerror-metaspace.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-outofmemoryerror-metaspace.html</guid>
+      <category>Java</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Metaspace holds class metadata rather than objects, so raising the heap changes nothing. It fills when an application keeps loading classes: repeated hot redeploys inside one JVM, a proxy or scripting library generating a class per request, or a classloader kept alive by a single stray reference.</description>
+    </item>
+    <item>
+      <title>Kubernetes: node(s) didn&apos;t match Pod&apos;s node affinity/selector</title>
+      <link>https://fixmyerror.net/errors/k8s-node-affinity-selector-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-node-affinity-selector-mismatch.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>No node carries the labels the pod insists on, so the scheduler rejects every candidate. It turns up after an upgrade that replaced nodes with a different label set, and in multi zone clusters where a pod is pinned to the zone of a volume it can no longer be placed near.</description>
+    </item>
+    <item>
+      <title>Kubernetes: pod has unbound immediate PersistentVolumeClaims</title>
+      <link>https://fixmyerror.net/errors/k8s-unbound-persistent-volume-claims.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-unbound-persistent-volume-claims.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The scheduler will not place the pod because its claim has no volume yet. With WaitForFirstConsumer binding a moment of this is normal, so it only matters when it persists: then the storage class is missing, the provisioner is unhealthy, or the claim asks for an access mode the driver does not…</description>
+    </item>
+    <item>
+      <title>Laravel: 419 Page Expired</title>
+      <link>https://fixmyerror.net/errors/laravel-419-page-expired.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-419-page-expired.html</guid>
+      <category>PHP</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The CSRF token sent with the form did not match the session, and Laravel answers with 419 rather than 403. Most of the time the session was never stored at all: a session driver pointing at an unreachable Redis, a SESSION_DOMAIN that does not match the host, or a load balancer spreading requests…</description>
+    </item>
+    <item>
+      <title>macOS: cannot be opened because the developer cannot be verified</title>
+      <link>https://fixmyerror.net/errors/macos-developer-cannot-be-verified.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-developer-cannot-be-verified.html</guid>
+      <category>Apple</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Gatekeeper blocked something that carries the quarantine attribute and is not notarised. Anything a browser downloads gets that attribute, while the same file fetched with curl does not, which is why one copy of a binary runs and another refuses.</description>
+    </item>
+    <item>
+      <title>MySQL: Table &apos;db.Users&apos; doesn&apos;t exist</title>
+      <link>https://fixmyerror.net/errors/mysql-table-case-sensitivity.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-table-case-sensitivity.html</guid>
+      <category>Database</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>On Linux, table names are case sensitive because they are filenames, while macOS and Windows are not. Code that writes Users against a schema that created users therefore works everywhere except production. lower_case_table_names is fixed when the data directory is initialised, so it cannot be…</description>
+    </item>
+    <item>
+      <title>PHP-FPM: server reached pm.max_children setting, consider raising it</title>
+      <link>https://fixmyerror.net/errors/php-fpm-max-children-reached.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-fpm-max-children-reached.html</guid>
+      <category>PHP</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every worker in the pool is busy, so new requests sit in the listen backlog until Nginx gives up with a 502 or 504. Raising max_children only helps if there is memory to back it: the real cause is usually workers blocked on a slow query or an outbound HTTP call that has no timeout.</description>
+    </item>
+    <item>
+      <title>PHP: Fatal error: Call to a member function x() on null</title>
+      <link>https://fixmyerror.net/errors/php-call-to-member-function-on-null.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-call-to-member-function-on-null.html</guid>
+      <category>PHP</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A method was called on a variable holding null, which PHP 8 treats as a fatal Error rather than a warning. The null is nearly always the result of a lookup that found nothing: a find() with no row, an unloaded relation, or a dependency that was never injected because the container quietly fell…</description>
+    </item>
+    <item>
+      <title>PostgreSQL: could not resize shared memory segment, No space left on device</title>
+      <link>https://fixmyerror.net/errors/postgres-could-not-resize-shared-memory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postgres-could-not-resize-shared-memory.html</guid>
+      <category>Database</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Postgres allocates workspace for parallel queries in /dev/shm, and containers default that mount to 64 MB. The disk is not full: the message is about the shared memory filesystem, which is why the same query runs happily on a host and fails inside Docker or Kubernetes.</description>
+    </item>
+    <item>
+      <title>Python: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</title>
+      <link>https://fixmyerror.net/errors/python-json-decode-expecting-value.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-json-decode-expecting-value.html</guid>
+      <category>Python</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>What was handed to json.loads was not JSON at all, most often an empty body, an HTML error or login page, or a compressed payload nobody decoded. Line 1 column 1 means the very first character was already wrong, so the thing to inspect is the response, not the parsing code.</description>
+    </item>
+    <item>
+      <title>Python: SyntaxWarning: invalid escape sequence &apos;\d&apos;</title>
+      <link>https://fixmyerror.net/errors/python-syntaxwarning-invalid-escape-sequence.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-syntaxwarning-invalid-escape-sequence.html</guid>
+      <category>Python</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A backslash inside an ordinary string starts an escape sequence, and \d is not one of them. Python 3.12 promoted this from a hidden DeprecationWarning to a SyntaxWarning that prints by default, which is why code that was quiet for years started complaining after an upgrade. It is scheduled to…</description>
+    </item>
+    <item>
+      <title>Python: TypeError: Object of type datetime is not JSON serializable</title>
+      <link>https://fixmyerror.net/errors/python-object-not-json-serializable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-object-not-json-serializable.html</guid>
+      <category>Python</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>json.dumps only understands the built in types, so a datetime, Decimal, UUID, set or dataclass stops it. The value is usually buried in a structure assembled somewhere else, which is why the traceback points at the dumps call rather than at the code that produced it.</description>
+    </item>
+    <item>
+      <title>Rails: ActionController::InvalidAuthenticityToken</title>
+      <link>https://fixmyerror.net/errors/rails-invalid-authenticity-token.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-invalid-authenticity-token.html</guid>
+      <category>Ruby</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The CSRF token in the request did not match the one in the session. Rails keeps the session in a cookie signed with secret_key_base, so a deploy that rotated the secret, servers that disagree about it, or a form page cached by a CDN all produce this for people who were part way through a session.</description>
+    </item>
+    <item>
+      <title>React: Rendered more hooks than during the previous render</title>
+      <link>https://fixmyerror.net/errors/react-rendered-more-hooks.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-rendered-more-hooks.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A hook ran on this render that did not run on the last one, which happens when a hook sits after an early return or inside a condition or a loop. React matches hooks by call order, so the mismatch is reported on the render after the one that actually broke the rule.</description>
+    </item>
+    <item>
+      <title>Redis: LOADING Redis is loading the dataset in memory</title>
+      <link>https://fixmyerror.net/errors/redis-loading-dataset-in-memory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-loading-dataset-in-memory.html</guid>
+      <category>Caching</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server is replaying its RDB or AOF file after a restart and refuses commands until it finishes. On a large dataset that takes minutes, and a replica that keeps falling back to a full resync will return it again and again, which reads as an outage rather than as a cold start.</description>
+    </item>
+    <item>
+      <title>Redis: WRONGTYPE Operation against a key holding the wrong kind of value</title>
+      <link>https://fixmyerror.net/errors/redis-wrongtype-operation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-wrongtype-operation.html</guid>
+      <category>Database</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The key exists but holds a different type from the one the command expects, for instance GET against a hash. In practice it means two parts of the system disagree about the shape of a key, usually because a prefix is missing and two features have collided on the same name.</description>
+    </item>
+    <item>
+      <title>ReferenceError: window is not defined</title>
+      <link>https://fixmyerror.net/errors/window-is-not-defined-ssr.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/window-is-not-defined-ssr.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The module ran on the server, where there is no DOM. Next.js, Nuxt, SvelteKit and Remix all execute components and everything they import during the build or on each request, so a library that touches window at import time fails long before a browser is involved.</description>
+    </item>
+    <item>
+      <title>Ruby: Your Ruby version is 3.3.5, but your Gemfile specified 3.2.2</title>
+      <link>https://fixmyerror.net/errors/ruby-version-gemfile-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-version-gemfile-mismatch.html</guid>
+      <category>Ruby</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Bundler compares the running interpreter with the ruby directive in the Gemfile and refuses to go further. A version manager that did not switch, a system Ruby picked up by cron or a deploy user, or a .ruby-version file updated without the Gemfile are the usual explanations.</description>
+    </item>
+    <item>
+      <title>Rust: error: linker `link.exe` not found</title>
+      <link>https://fixmyerror.net/errors/rust-linker-link-exe-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-linker-link-exe-not-found.html</guid>
+      <category>Rust</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The default Windows toolchain is msvc, which uses Microsoft&apos;s linker rather than shipping one of its own. Rustup installs the compiler but not the Visual Studio build tools, so the failure arrives at the very end of the first build, after everything has already compiled.</description>
+    </item>
+    <item>
+      <title>Spring Boot: IllegalStateException: Failed to load ApplicationContext</title>
+      <link>https://fixmyerror.net/errors/spring-failed-to-load-applicationcontext.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-failed-to-load-applicationcontext.html</guid>
+      <category>Java</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A test could not build its context, and the message that matters is further down the caused by chain rather than on the first line. The usual reasons are a bean the test slice does not scan, a property that only exists in the production profile, and a mock that was removed while the test still…</description>
+    </item>
+    <item>
+      <title>ssh: Received disconnect: Too many authentication failures</title>
+      <link>https://fixmyerror.net/errors/ssh-too-many-authentication-failures.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-too-many-authentication-failures.html</guid>
+      <category>Security</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server closed the connection after the client offered more keys than MaxAuthTries allows. The agent presents every key it holds before reaching the one that would work, so a laptop with a dozen keys fails against a host that permits six attempts while a fresh machine connects first time.</description>
+    </item>
+    <item>
+      <title>Temporary failure in name resolution (EAI_AGAIN)</title>
+      <link>https://fixmyerror.net/errors/temporary-failure-in-name-resolution.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/temporary-failure-in-name-resolution.html</guid>
+      <category>DNS</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The resolver received no usable answer at all, rather than a negative one, so the problem is the path to the resolver rather than the record. An empty or wrong /etc/resolv.conf, a container that inherited a host only nameserver, and UDP 53 dropped by a firewall all look like this while everything…</description>
+    </item>
+    <item>
+      <title>TypeScript: Cannot find module &apos;./x.js&apos; or its corresponding type declarations</title>
+      <link>https://fixmyerror.net/errors/ts-cannot-find-module-js-extension.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-cannot-find-module-js-extension.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>With module set to node16 or nodenext, TypeScript resolves imports exactly as Node does at runtime, so a relative ESM import has to carry the .js extension even though the file on disk is .ts. The same code compiles under the bundler resolution, which is why this appears the day a project changes…</description>
+    </item>
+    <item>
+      <title>TypeScript: Cannot redeclare block-scoped variable &apos;name&apos;</title>
+      <link>https://fixmyerror.net/errors/ts-cannot-redeclare-block-scoped-variable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-cannot-redeclare-block-scoped-variable.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A file with no import or export is treated as a script, not a module, so its top level declarations land in the global scope and collide with the DOM library or with another file. The name in the message is usually something like name, event or status that already exists on window.</description>
+    </item>
+    <item>
+      <title>Vue: [Vue warn]: Failed to resolve component</title>
+      <link>https://fixmyerror.net/errors/vue-failed-to-resolve-component.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vue-failed-to-resolve-component.html</guid>
+      <category>Frontend</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Vue looked up a tag used in a template and found nothing registered under that name. With script setup an import is the registration, so the causes are a missing import, a name that does not match the file&apos;s PascalCase form, or a component registered on a different app instance from the one…</description>
+    </item>
+    <item>
+      <title>Windows: &apos;x&apos; is not recognized as an internal or external command</title>
+      <link>https://fixmyerror.net/errors/windows-not-recognized-command.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-not-recognized-command.html</guid>
+      <category>Windows</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>cmd searched PATH and found nothing by that name. An already open terminal keeps the environment it started with, so a program installed a minute ago looks missing until a new shell is opened. The other frequent cause is a per user installation while the shell runs as a different account.</description>
+    </item>
+    <item>
+      <title>Windows: The process cannot access the file because it is being used</title>
+      <link>https://fixmyerror.net/errors/windows-file-used-by-another-process.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-file-used-by-another-process.html</guid>
+      <category>Windows</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Windows takes mandatory file locks, so a handle held anywhere blocks a delete or rename that would simply succeed on Linux. The holder is often not the obvious application: an antivirus scanner, the search indexer or an Explorer preview pane can keep a handle open long enough to break a build&apos;s…</description>
+    </item>
+    <item>
+      <title>Xcode: Command PhaseScriptExecution failed with a nonzero exit code</title>
+      <link>https://fixmyerror.net/errors/xcode-phasescriptexecution-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-phasescriptexecution-failed.html</guid>
+      <category>Apple</category>
+      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A Run Script build phase exited non zero, and Xcode reports its own wrapper rather than the script&apos;s message, which is buried higher up the log. Scripts that work in a terminal fail here because the build environment has a trimmed PATH and never loads an interactive shell profile.</description>
+    </item>
     <item>
       <title>Android: INSTALL_FAILED_UPDATE_INCOMPATIBLE</title>
       <link>https://fixmyerror.net/errors/android-install-failed-update-incompatible.html</link>
@@ -111,382 +487,6 @@
       <category>System</category>
       <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
       <description>The kernel refused to create another process because a limit was reached: the per user process count, the cgroup&apos;s pids.max, or the system wide thread maximum. The shell cannot even fork the command that would diagnose it, which is what makes it feel like the machine has locked up.</description>
-    </item>
-    <item>
-      <title>Blocked aria-hidden on an element because its descendant retained focus</title>
-      <link>https://fixmyerror.net/errors/blocked-aria-hidden-descendant-focus.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/blocked-aria-hidden-descendant-focus.html</guid>
-      <category>Frontend</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Chrome refuses to hide a subtree from assistive technology while the focused element is inside it. It appears when a modal library marks the page behind it aria-hidden before moving focus, leaving a screen reader user focused on something that officially does not exist.</description>
-    </item>
-    <item>
-      <title>chrony/NTP: clock not synchronised (Leap status: Not synchronised)</title>
-      <link>https://fixmyerror.net/errors/ntp-clock-not-synchronised.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ntp-clock-not-synchronised.html</guid>
-      <category>Network</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The host&apos;s clock is free running because it cannot reach a time source or has rejected the ones it has. Skew breaks far more than logs: TLS certificate validity, Kerberos tickets, JWT nbf checks and TOTP codes all fail once the drift exceeds their tolerance.</description>
-    </item>
-    <item>
-      <title>Cloudflare 524: A timeout occurred</title>
-      <link>https://fixmyerror.net/errors/cloudflare-524-timeout-occurred.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-524-timeout-occurred.html</guid>
-      <category>Proxy</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Cloudflare connected to the origin but no response arrived within the proxy read timeout, 100 seconds on most plans. The origin is not down: it is doing work that takes longer than the edge will wait, typically a report, an export or an upload handled synchronously.</description>
-    </item>
-    <item>
-      <title>CSS: @import rules must precede all other rules</title>
-      <link>https://fixmyerror.net/errors/css-import-must-precede-all-other-rules.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/css-import-must-precede-all-other-rules.html</guid>
-      <category>Frontend</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The CSS specification only allows @import at the top of a stylesheet, after @charset and @layer. Bundlers concatenate files in dependency order, so an @import that was first in your source can end up in the middle of the output and is then silently dropped by the browser.</description>
-    </item>
-    <item>
-      <title>CUDA: no kernel image is available for execution on the device</title>
-      <link>https://fixmyerror.net/errors/cuda-no-kernel-image.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cuda-no-kernel-image.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The binary contains no compiled code for your GPU&apos;s compute capability. It happens with a wheel built for older architectures running on a newer card, or with a locally built extension whose arch list did not include the target, and the error appears at the first kernel launch rather than at import.</description>
-    </item>
-    <item>
-      <title>Cypress: Cypress detected a cross origin error</title>
-      <link>https://fixmyerror.net/errors/cypress-cross-origin-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cypress-cross-origin-error.html</guid>
-      <category>Testing</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The test navigated to a different origin. Cypress runs in the same browser context as the application, so it can only automate one superdomain at a time unless the visit is wrapped in cy.origin, which is what breaks tests that go through a hosted login page.</description>
-    </item>
-    <item>
-      <title>Django: OperationalError: no such table</title>
-      <link>https://fixmyerror.net/errors/django-operationalerror-no-such-table.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/django-operationalerror-no-such-table.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The model exists in code but not in the database. Either migrations were never applied to this database, the app was added without makemigrations, or the process is pointed at a different database file or schema from the one you migrated.</description>
-    </item>
-    <item>
-      <title>Docker build: failed to compute cache key, not found</title>
-      <link>https://fixmyerror.net/errors/docker-failed-to-compute-cache-key.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-failed-to-compute-cache-key.html</guid>
-      <category>Docker</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A COPY or ADD source does not exist in the build context. The context is the directory sent to the daemon, not your shell&apos;s working directory, so a path outside it, or one excluded by .dockerignore, is invisible to the build even though it exists on disk.</description>
-    </item>
-    <item>
-      <title>Docker Compose: dependency failed to start: container is unhealthy</title>
-      <link>https://fixmyerror.net/errors/docker-compose-dependency-failed-unhealthy.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-compose-dependency-failed-unhealthy.html</guid>
-      <category>Docker</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A service waited on another with condition service_healthy and that container&apos;s healthcheck never passed. The container itself may be running fine: the check often uses a tool the image does not ship, or tests a port before the service finished starting.</description>
-    </item>
-    <item>
-      <title>docker push: unauthorized: authentication required</title>
-      <link>https://fixmyerror.net/errors/docker-push-unauthorized-authentication-required.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-push-unauthorized-authentication-required.html</guid>
-      <category>Docker</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The registry refused the push. Either you are not logged in to that registry host, the token has expired, or the image is tagged for a repository your account cannot write to. Note that pulls often succeed anonymously, so the first failure appears at push time.</description>
-    </item>
-    <item>
-      <title>Docker: could not find an available, non-overlapping IPv4 address pool</title>
-      <link>https://fixmyerror.net/errors/docker-no-non-overlapping-address-pool.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-no-non-overlapping-address-pool.html</guid>
-      <category>Docker</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Docker ran out of private subnets to hand to a new bridge network. Either dozens of stale Compose networks are still defined, or the default 172.16/12 pools collide with a corporate VPN route, so Docker refuses to create a network it knows would break routing.</description>
-    </item>
-    <item>
-      <title>Docker: exec /app/entrypoint.sh: permission denied</title>
-      <link>https://fixmyerror.net/errors/docker-entrypoint-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-entrypoint-permission-denied.html</guid>
-      <category>Docker</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The entrypoint script is not executable inside the image. Git records only one permission bit, so a script committed without the execute bit, or copied from a Windows checkout, lands in the image as mode 644 and the runtime refuses to exec it.</description>
-    </item>
-    <item>
-      <title>Elasticsearch: mapper_parsing_exception, failed to parse field</title>
-      <link>https://fixmyerror.net/errors/elasticsearch-mapper-parsing-exception.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elasticsearch-mapper-parsing-exception.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A document&apos;s value does not fit the field&apos;s mapped type. Dynamic mapping fixes a type from the first document it sees, so an id that arrived as a number becomes a long and every later string id is rejected. Mappings cannot be changed in place.</description>
-    </item>
-    <item>
-      <title>GCP: does not have permission to act as the service account</title>
-      <link>https://fixmyerror.net/errors/gcp-service-account-actas-permission.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gcp-service-account-actas-permission.html</guid>
-      <category>Cloud</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Deploying a resource that runs as a service account requires iam.serviceAccounts.actAs on that account, which is separate from permission to deploy. It stops someone with limited rights from borrowing a more privileged identity, and it is the usual reason a Cloud Run or Cloud Function deploy fails…</description>
-    </item>
-    <item>
-      <title>git: error: pathspec &apos;x&apos; did not match any file(s) known to git</title>
-      <link>https://fixmyerror.net/errors/git-pathspec-did-not-match.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-pathspec-did-not-match.html</guid>
-      <category>Git</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Git could not resolve the argument as a file, branch or commit. With checkout it usually means the branch exists only on the remote and has not been fetched; with add it means the path is ignored, misspelled, or outside the repository.</description>
-    </item>
-    <item>
-      <title>git: fatal: Authentication failed for &apos;https://github.com/...&apos;</title>
-      <link>https://fixmyerror.net/errors/git-authentication-failed-https-password.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-authentication-failed-https-password.html</guid>
-      <category>Git</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>GitHub removed password authentication for Git over HTTPS in 2021, and most hosts have followed. A cached account password in the credential helper keeps being replayed and rejected, so the prompt reappears even after you type the right password.</description>
-    </item>
-    <item>
-      <title>git: SSL certificate problem: unable to get local issuer certificate</title>
-      <link>https://fixmyerror.net/errors/git-ssl-certificate-problem-local-issuer.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-ssl-certificate-problem-local-issuer.html</guid>
-      <category>Git</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Git could not build a trust chain to the server&apos;s certificate, almost always because a corporate proxy re-signs TLS with a private CA that the machine trusts but Git&apos;s bundled certificate store does not.</description>
-    </item>
-    <item>
-      <title>GitHub Actions: Invalid workflow file, unexpected value</title>
-      <link>https://fixmyerror.net/errors/github-actions-invalid-workflow-file.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-invalid-workflow-file.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The workflow failed schema validation before any job started. Usually an indentation slip that nests a key under the wrong parent, a typo such as step instead of steps, or an expression written outside the ${{ }} delimiters where a literal string was expected.</description>
-    </item>
-    <item>
-      <title>GitHub Actions: refusing to allow an OAuth App to create or update workflow</title>
-      <link>https://fixmyerror.net/errors/github-actions-workflow-scope-refused.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-workflow-scope-refused.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A push that adds or edits anything under .github/workflows was rejected because the token lacks the workflow scope. It is a deliberate guard: a token that could edit workflows could run arbitrary code with the repository&apos;s secrets.</description>
-    </item>
-    <item>
-      <title>GitHub Actions: The runner has received a shutdown signal</title>
-      <link>https://fixmyerror.net/errors/github-actions-runner-lost-communication.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-runner-lost-communication.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The job died with the machine under it rather than failing. On hosted runners it usually means the process exhausted memory or disk and the host reclaimed it; on self hosted runners it means a spot instance was reclaimed or the autoscaler removed the node mid job.</description>
-    </item>
-    <item>
-      <title>GitHub: push declined due to repository rule violations, secret detected</title>
-      <link>https://fixmyerror.net/errors/github-push-protection-secret-detected.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/github-push-protection-secret-detected.html</guid>
-      <category>Security</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Push protection found a recognisable credential in a commit and blocked the push. The secret is in history, not just the working tree, so deleting the line and committing again will not clear it. Treat any secret that reached a shared branch as compromised.</description>
-    </item>
-    <item>
-      <title>GitLab CI: jobs config should contain at least one visible job</title>
-      <link>https://fixmyerror.net/errors/gitlab-ci-config-invalid.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gitlab-ci-config-invalid.html</guid>
-      <category>CI/CD</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every job in the pipeline is hidden or excluded. Names starting with a dot are templates rather than jobs, and rules or workflow conditions that match nothing remove the rest, so the pipeline has nothing left to run and is rejected outright.</description>
-    </item>
-    <item>
-      <title>Go: build constraints exclude all Go files in ...</title>
-      <link>https://fixmyerror.net/errors/go-build-constraints-exclude-all-go-files.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-build-constraints-exclude-all-go-files.html</guid>
-      <category>Go</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every file in the package was filtered out by build tags or by the filename suffix convention. Cross compiling to Linux from macOS with a package whose only implementation is in a _darwin.go file produces this, as does a mistyped //go:build line.</description>
-    </item>
-    <item>
-      <title>Go: declared and not used</title>
-      <link>https://fixmyerror.net/errors/go-declared-and-not-used.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-declared-and-not-used.html</guid>
-      <category>Go</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Go treats an unused local variable as a compile error, not a warning, on the grounds that it is usually a mistake such as a shadowed assignment or a line left behind after an edit. Unused imports fail the same way; unused package level variables do not.</description>
-    </item>
-    <item>
-      <title>Go: http: superfluous response.WriteHeader call</title>
-      <link>https://fixmyerror.net/errors/go-superfluous-response-writeheader.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-superfluous-response-writeheader.html</guid>
-      <category>Go</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The handler tried to set the status code after the response had already started. Writing a body sends 200 implicitly, so a later error path that calls http.Error logs this and the client keeps the original status, which is how a failed request ends up looking successful.</description>
-    </item>
-    <item>
-      <title>Google OAuth: Error 403: access_denied, app is in testing</title>
-      <link>https://fixmyerror.net/errors/google-oauth-access-denied-testing.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/google-oauth-access-denied-testing.html</guid>
-      <category>Auth</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The OAuth consent screen is in Testing mode, which only allows the accounts explicitly listed as test users. Refresh tokens issued in that mode also expire after seven days, so an integration that worked all week fails on the eighth day.</description>
-    </item>
-    <item>
-      <title>Grafana: Panel plugin not found</title>
-      <link>https://fixmyerror.net/errors/grafana-panel-plugin-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-panel-plugin-not-found.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A dashboard references a panel type this Grafana does not have installed. It happens when a dashboard JSON is imported from elsewhere, or after an upgrade removed an angular based panel that is no longer supported.</description>
-    </item>
-    <item>
-      <title>gRPC-Web: response missing grpc-status trailer</title>
-      <link>https://fixmyerror.net/errors/grpc-web-missing-trailers.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-web-missing-trailers.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Browsers cannot speak native gRPC, so gRPC-Web encodes trailers in the response body and needs a proxy to translate. When the request reaches a plain gRPC server, or a CORS layer strips the exposed headers, the browser client sees a response with no grpc-status and reports a transport error.</description>
-    </item>
-    <item>
-      <title>gRPC: ABORTED (code 10)</title>
-      <link>https://fixmyerror.net/errors/grpc-aborted-transaction-conflict.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-aborted-transaction-conflict.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The operation was aborted because of a concurrency conflict, typically a failed compare and swap or a transaction that lost a race. It is explicitly retryable at a higher level, unlike FAILED_PRECONDITION, but retrying the same stale read will simply abort again.</description>
-    </item>
-    <item>
-      <title>gRPC: DEADLINE_EXCEEDED (code 4)</title>
-      <link>https://fixmyerror.net/errors/grpc-deadline-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-deadline-exceeded.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The client set a deadline on the call and the server did not finish in time. gRPC deadlines are absolute, and they propagate: a slow dependency deep in the chain consumes the budget of every caller above it, so the failure often surfaces on a service that is itself healthy.</description>
-    </item>
-    <item>
-      <title>gRPC: FAILED_PRECONDITION (code 9)</title>
-      <link>https://fixmyerror.net/errors/grpc-failed-precondition.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-failed-precondition.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The request was valid but the system is in a state that cannot serve it, for example a resource that must exist first or a database that has not finished a migration. It means do not retry until something changes, which is what separates it from UNAVAILABLE and ABORTED.</description>
-    </item>
-    <item>
-      <title>gRPC: INTERNAL, received RST_STREAM with error code 2</title>
-      <link>https://fixmyerror.net/errors/grpc-internal-rst-stream.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-internal-rst-stream.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The HTTP/2 stream was reset by the peer or by something in the middle. It is rarely a bug in your handler: a proxy idle timeout, a load balancer that does not speak HTTP/2 end to end, or a server that exceeded its max connection age will all reset streams that the client then reports as INTERNAL.</description>
-    </item>
-    <item>
-      <title>gRPC: INVALID_ARGUMENT (code 3)</title>
-      <link>https://fixmyerror.net/errors/grpc-invalid-argument.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-invalid-argument.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server understood the request and rejected the field values. Because protobuf 3 has no required fields and unset scalars deserialise to zero values, a client that forgot to set a field sends a syntactically valid message that fails validation on arrival.</description>
-    </item>
-    <item>
-      <title>gRPC: PERMISSION_DENIED (code 7)</title>
-      <link>https://fixmyerror.net/errors/grpc-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-permission-denied.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The caller was identified but is not allowed to invoke this method. Unlike UNAUTHENTICATED this is an authorization decision, so retrying with the same identity will never succeed. In a mesh it is often the sidecar&apos;s authorization policy answering, not your application code.</description>
-    </item>
-    <item>
-      <title>gRPC: RESOURCE_EXHAUSTED, received message larger than max</title>
-      <link>https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A message exceeded the receiver&apos;s size limit, which defaults to 4 MB inbound in most gRPC implementations. The limit is enforced by whichever side is receiving, so raising it on the server alone will not fix a large response arriving at the client.</description>
-    </item>
-    <item>
-      <title>gRPC: UNAUTHENTICATED (code 16)</title>
-      <link>https://fixmyerror.net/errors/grpc-unauthenticated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unauthenticated.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server rejected the call because credentials were missing, malformed or expired. gRPC carries them in metadata, conventionally the authorization header, and per-RPC credentials are only sent over a secure channel: an insecure channel silently drops them in several implementations.</description>
-    </item>
-    <item>
-      <title>gRPC: UNIMPLEMENTED (code 12)</title>
-      <link>https://fixmyerror.net/errors/grpc-unimplemented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unimplemented.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server has no handler registered for the fully qualified method the client called. Usually the client and server were generated from different versions of the .proto, the service was never registered on the server, or the request reached a proxy that terminated it before the real backend.</description>
-    </item>
-    <item>
-      <title>Hugging Face: 401 Cannot access gated repo</title>
-      <link>https://fixmyerror.net/errors/huggingface-gated-repo-401.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/huggingface-gated-repo-401.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The model or dataset requires you to accept its licence and authenticate. Anonymous downloads that worked for other checkpoints fail here, and in CI the token is often simply absent from the environment rather than wrong.</description>
-    </item>
-    <item>
-      <title>Java: NoSuchMethodError</title>
-      <link>https://fixmyerror.net/errors/java-nosuchmethoderror.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-nosuchmethoderror.html</guid>
-      <category>Java</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A method that existed when the class was compiled is missing at runtime. It means two versions of a library are on the classpath and the wrong one won, which is why it appears after adding an unrelated dependency that pulled an older transitive copy.</description>
-    </item>
-    <item>
-      <title>Java: PKIX path building failed, unable to find valid certification path</title>
-      <link>https://fixmyerror.net/errors/java-pkix-path-building-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-pkix-path-building-failed.html</guid>
-      <category>Java</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The JVM could not build a trust chain to the server&apos;s certificate. Java keeps its own truststore rather than using the operating system&apos;s, so a private or corporate CA that curl accepts is unknown to Java until it is imported.</description>
-    </item>
-    <item>
-      <title>Jest: SyntaxError: Cannot use import statement outside a module</title>
-      <link>https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</guid>
-      <category>Testing</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Jest ran a file containing ES module syntax through a CommonJS pipeline. Either the transform does not cover that file, or it lives in node_modules, which Jest deliberately does not transform, and modern packages increasingly ship ESM only.</description>
-    </item>
-    <item>
-      <title>Kafka: RecordTooLargeException</title>
-      <link>https://fixmyerror.net/errors/kafka-record-too-large.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-record-too-large.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A message exceeded a size limit. Three separate limits must agree: the producer&apos;s max.request.size, the broker or topic&apos;s max.message.bytes, and the consumer&apos;s fetch size, so raising one alone moves the failure rather than fixing it.</description>
-    </item>
-    <item>
-      <title>kubectl apply: metadata.annotations: Too long</title>
-      <link>https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>kubectl apply stores the whole previous manifest in the last-applied-configuration annotation, and annotations are capped at 256 kB in total. Large ConfigMaps and CRDs with big schemas blow the limit, so create works and apply fails.</description>
-    </item>
-    <item>
-      <title>kubectl: error: You must be logged in to the server (Unauthorized)</title>
-      <link>https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The API server rejected the credentials in your kubeconfig. Typically an expired token or client certificate, a cloud auth plugin that can no longer refresh, or a context pointing at a cluster your current identity has no access to.</description>
-    </item>
-    <item>
-      <title>Kubernetes: CreateContainerConfigError</title>
-      <link>https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The kubelet pulled the image but could not build the container&apos;s configuration, almost always because a referenced Secret or ConfigMap key does not exist in that namespace. The pod stays in this state indefinitely rather than crash looping, because nothing ever started.</description>
-    </item>
-    <item>
-      <title>Kubernetes: HorizontalPodAutoscaler unable to get metrics for resource cpu</title>
-      <link>https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The HPA has no metrics to scale on. Either metrics-server is not installed or not serving, or the pods have no CPU or memory requests: utilisation is a percentage of the request, so without one there is nothing to compute.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Readiness probe failed, endpoints never become ready</title>
-      <link>https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The container is running but its readiness probe never succeeds, so the Service keeps it out of the endpoint list and traffic goes nowhere. Common causes are a probe pointed at the wrong port or path, an app that binds to loopback only, or a startup slower than the probe&apos;s tolerance.</description>
     </item>
   </channel>
 </rss>

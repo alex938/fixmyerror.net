@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Allowed memory size exhausted","name":"Allowed memory size exhausted","description":"The PHP script exceeded the configured memory_limit. Usually caused by loading large datasets, infinite loops, or memory leaks. Includes a copy-paste fix…","url":"https://fixmyerror.net/errors/php-allowed-memory-size.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/php-allowed-memory-size.html"},"inLanguage":"en-GB","articleSection":"PHP","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-09-08","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.php.net/manual/en/ini.core.php#ini.memory-limit"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Allowed memory size exhausted","name":"Allowed memory size exhausted","description":"The PHP script exceeded the configured memory_limit. Usually caused by loading large datasets, infinite loops, or memory leaks. Includes a copy-paste fix…","url":"https://fixmyerror.net/errors/php-allowed-memory-size.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/php-allowed-memory-size.html"},"inLanguage":"en-GB","articleSection":"PHP","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-09-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.php.net/manual/en/ini.core.php#ini.memory-limit"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"PHP errors","item":"https://fixmyerror.net/categories/php.html"},{"@type":"ListItem","position":3,"name":"Allowed memory size exhausted","item":"https://fixmyerror.net/errors/php-allowed-memory-size.html"}]}</script>
 </head>
 <body>
@@ -118,31 +118,32 @@ foreach (array_chunk($data, 1000) as $chunk) {
             <h2>Related PHP errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/php-class-not-found.html">Class &#039;X&#039; not found<span class="sub">PHP cannot find the specified class. Usually caused by a missing use statement, incorrect…</span></a></li>
+                <li><a href="../errors/laravel-419-page-expired.html">Laravel: 419 Page Expired<span class="sub">The CSRF token sent with the form did not match the session, and Laravel answers with 419…</span></a></li>
                 <li><a href="../errors/laravel-target-class-not-exist.html">Laravel: Target class [X] does not exist<span class="sub">Laravel container cannot resolve the class. Usually due to missing &#039;use&#039; statement, typo, or…</span></a></li>
                 <li><a href="../errors/php-max-execution-time.html">Maximum execution time exceeded<span class="sub">The PHP script ran longer than the max_execution_time setting allows. Default is usually 30…</span></a></li>
                 <li><a href="../errors/php-8-deprecated-nullable-parameter.html">PHP 8.4: Implicitly marking parameter as nullable is deprecated<span class="sub">Declaring a typed parameter with a null default used to imply a nullable type. PHP 8.4…</span></a></li>
+                <li><a href="../errors/php-fpm-max-children-reached.html">PHP-FPM: server reached pm.max_children setting, consider raising it<span class="sub">Every worker in the pool is busy, so new requests sit in the listen backlog until Nginx gives…</span></a></li>
+                <li><a href="../errors/php-call-to-member-function-on-null.html">PHP: Fatal error: Call to a member function x() on null<span class="sub">A method was called on a variable holding null, which PHP 8 treats as a fatal Error rather…</span></a></li>
                 <li><a href="../errors/php-pdo-connection-failed.html">SQLSTATE[HY000]: Connection refused<span class="sub">PDO cannot connect to the database server. The database may be down, credentials wrong, or…</span></a></li>
-                <li><a href="../errors/php-undefined-index.html">Undefined index / Undefined array key<span class="sub">Accessing an array key that does not exist. In PHP 8+ this is a warning; in older versions it…</span></a></li>
-                <li><a href="../errors/php-composer-dependency-conflict.html">Your requirements could not be resolved to an installable set of packages<span class="sub">Composer cannot find compatible versions for all dependencies. Two or more packages require…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/php.html">See all 8 PHP errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/php.html">See all 11 PHP errors →</a></p>
         </section>
 
             <section class="block">
                 <h2>Browse other categories</h2>
                 <ul class="card-grid">
                     <li><a href="../categories/http.html"><span class="card-title">HTTP <span class="card-count">49</span></span><span class="card-desc">4xx client errors, 5xx server errors, redirects, headers and protocol problems.</span></a></li>
-                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">40</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
-                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">38</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
+                    <li><a href="../categories/javascript.html"><span class="card-title">JavaScript <span class="card-count">42</span></span><span class="card-desc">npm resolution, async pitfalls, hydration, memory limits and runtime type…</span></a></li>
+                    <li><a href="../categories/database.html"><span class="card-title">Database <span class="card-count">41</span></span><span class="card-desc">Connections, deadlocks, constraints, replication and memory limits.</span></a></li>
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">35</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">35</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">31</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">31</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">35</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">33</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">26</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
-                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">24</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
-                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">24</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
+                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
+                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">24</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
-                    <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">23</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                 </ul>
             </section>
 
@@ -190,7 +191,7 @@ foreach (array_chunk($data, 1000) as $chunk) {
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 850 documented errors across 57 categories. Last updated 8 September 2026.</p>
+                <p>FixMyError.net has 897 documented errors across 57 categories. Last updated 9 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
