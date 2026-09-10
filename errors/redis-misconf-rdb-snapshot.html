@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist","name":"Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist","description":"A background save failed, usually because the disk is full, the dump directory is not writable, or the fork ran out of memory. Redis then refuses writes to…","url":"https://fixmyerror.net/errors/redis-misconf-rdb-snapshot.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/redis-misconf-rdb-snapshot.html"},"inLanguage":"en-GB","articleSection":"Caching","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-09-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist","name":"Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist","description":"A background save failed, usually because the disk is full, the dump directory is not writable, or the fork ran out of memory. Redis then refuses writes to…","url":"https://fixmyerror.net/errors/redis-misconf-rdb-snapshot.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/redis-misconf-rdb-snapshot.html"},"inLanguage":"en-GB","articleSection":"Caching","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-09-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://redis.io/docs/latest/operate/oss_and_stack/management/persistence/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Caching errors","item":"https://fixmyerror.net/categories/caching.html"},{"@type":"ListItem","position":3,"name":"Redis: MISCONF Redis is configured to save RDB snapshots but is unable to persist","item":"https://fixmyerror.net/errors/redis-misconf-rdb-snapshot.html"}]}</script>
 </head>
 <body>
@@ -124,11 +124,12 @@ redis-cli config set save &quot;&quot;
                 <li><a href="../errors/cache-stampede.html">Cache stampede / thundering herd<span class="sub">Multiple processes simultaneously attempt to rebuild the same expired cache entry…</span></a></li>
                 <li><a href="../errors/cdn-cache-miss-high.html">CDN: High cache miss ratio<span class="sub">The CDN is not caching responses effectively. Most requests are hitting the origin server…</span></a></li>
                 <li><a href="../errors/cloudfront-403-access-denied.html">CloudFront: 403 Access Denied<span class="sub">CloudFront cannot access the S3 origin, usually because the bucket policy or Origin Access…</span></a></li>
+                <li><a href="../errors/memcached-object-too-large-for-cache.html">Memcached: SERVER_ERROR object too large for cache<span class="sub">The item exceeded the maximum item size, one megabyte by default, so it was refused rather…</span></a></li>
                 <li><a href="../errors/memcached-slab-oom.html">Memcached: SERVER_ERROR out of memory<span class="sub">Memcached cannot allocate memory for new items. The memory limit has been reached and no…</span></a></li>
                 <li><a href="../errors/redis-loading-dataset-in-memory.html">Redis: LOADING Redis is loading the dataset in memory<span class="sub">The server is replaying its RDB or AOF file after a restart and refuses commands until it…</span></a></li>
-                <li><a href="../errors/varnish-503-backend-fetch-failed.html">Varnish: 503 Backend fetch failed<span class="sub">Varnish cannot fetch content from the origin server. The backend may be down, too slow, or…</span></a></li>
+                <li><a href="../errors/redis-noscript-no-matching-script.html">Redis: NOSCRIPT No matching script. Please use EVAL.<span class="sub">EVALSHA runs a script the server has already cached by hash, and that cache is not persisted…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/caching.html">See all 8 Caching errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/caching.html">See all 10 Caching errors →</a></p>
         </section>
 
             <section class="block">
@@ -193,7 +194,7 @@ redis-cli config set save &quot;&quot;
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 897 documented errors across 57 categories. Last updated 9 September 2026.</p>
+                <p>FixMyError.net has 942 documented errors across 57 categories. Last updated 10 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

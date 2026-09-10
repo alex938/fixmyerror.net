@@ -6,8 +6,368 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Wed, 09 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 10 Sep 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Android: Manifest merger failed with multiple errors, see logs</title>
+      <link>https://fixmyerror.net/errors/android-manifest-merger-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-manifest-merger-failed.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Gradle merges your manifest with every library manifest, and two of them disagree: usually a minSdkVersion lower than a dependency allows, or the same attribute declared with different values. The build log line above this one names the attribute; the merged result and its blame report say which…</description>
+    </item>
+    <item>
+      <title>Android: SDK location not found. Define a valid SDK location</title>
+      <link>https://fixmyerror.net/errors/android-sdk-location-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-sdk-location-not-found.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Gradle looks for sdk.dir in local.properties, then for the ANDROID_HOME environment variable. local.properties is machine specific and is git ignored by every Android template, so this is almost always a build running somewhere the SDK path was never set: CI, a container, or a freshly cloned…</description>
+    </item>
+    <item>
+      <title>Ansible: The conditional check &apos;result.rc == 0&apos; failed</title>
+      <link>https://fixmyerror.net/errors/ansible-conditional-check-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-conditional-check-failed.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The when expression could not be evaluated, usually because the variable it names does not exist on this host: the registering task was skipped, ran on a different host, or the play failed before reaching it. The message continues with the Jinja error, and &apos;dict object&apos; has no attribute is the…</description>
+    </item>
+    <item>
+      <title>Ansible: you must install the sshpass program</title>
+      <link>https://fixmyerror.net/errors/ansible-must-install-sshpass.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-must-install-sshpass.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>OpenSSH refuses to read a password from anything but a terminal, so Ansible shells out to sshpass whenever a connection or become password is supplied rather than a key. The program is not a dependency of Ansible and is missing from most container images, which is why a playbook that runs on a…</description>
+    </item>
+    <item>
+      <title>Apollo Server: POST body missing, invalid Content-Type</title>
+      <link>https://fixmyerror.net/errors/apollo-server-post-body-missing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-server-post-body-missing.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Apollo Server 4 does not parse request bodies itself, so the Express integration needs express.json() mounted before it. The other half of the cases is a client or proxy that sends no content type header, since anything other than application/json or application/graphql-response+json is refused.</description>
+    </item>
+    <item>
+      <title>C++: relocation R_X86_64_32S can not be used when making a shared object</title>
+      <link>https://fixmyerror.net/errors/cpp-relocation-recompile-with-fpic.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-relocation-recompile-with-fpic.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A shared library must be loadable at any address, so every object in it needs position independent code. The object triggering this is nearly always from a static library built without -fPIC and then linked into a .so, which is why the advice to recompile applies to that dependency rather than to…</description>
+    </item>
+    <item>
+      <title>C++: undefined reference to `vtable for X&apos;</title>
+      <link>https://fixmyerror.net/errors/cpp-undefined-reference-to-vtable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-undefined-reference-to-vtable.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>This is not a missing call to the named function. The compiler emits a class&apos;s vtable alongside the definition of its first non inline virtual function, so if that function is declared and never defined, or its translation unit is missing from the link, the vtable is never emitted. A virtual…</description>
+    </item>
+    <item>
+      <title>CMake Error: Could not find a package configuration file provided by X</title>
+      <link>https://fixmyerror.net/errors/cmake-could-not-find-package-configuration-file.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cmake-could-not-find-package-configuration-file.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>find_package looked for a config file the library installs, XConfig.cmake or x-config.cmake, and no directory it searched had one. The library being present in the system is not enough: the runtime package often ships without the config file, which lives in the development package or in a prefix…</description>
+    </item>
+    <item>
+      <title>Dart: LateInitializationError: Field &apos;x&apos; has not been initialized</title>
+      <link>https://fixmyerror.net/errors/dart-late-initialization-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-late-initialization-error.html</guid>
+      <category>Dart</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>late promises the compiler that a non nullable field will hold a value before anything reads it, and that promise was broken. Reading it during initState before the assignment, or on a code path where the assignment is conditional, throws at the point of the read rather than where the field was…</description>
+    </item>
+    <item>
+      <title>Ecto: connection not available and request was dropped from queue</title>
+      <link>https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every connection in the pool was busy for longer than queue_target allowed, so DBConnection gave up rather than queueing indefinitely. Raising pool_size is the reflex and rarely the cure: the pool is usually held by a handful of slow queries, or by processes doing HTTP calls inside a transaction.</description>
+    </item>
+    <item>
+      <title>Elixir: (FunctionClauseError) no function clause matching</title>
+      <link>https://fixmyerror.net/errors/elixir-no-function-clause-matching.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-no-function-clause-matching.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every clause of the function was tried and none matched the arguments, either on the pattern or on a guard. Elixir prints the attempted clauses and the arguments it was given, so the useful comparison is between the two: a nil where a map was expected, a string key where an atom was expected, or a…</description>
+    </item>
+    <item>
+      <title>Flutter: A RenderFlex overflowed by 42 pixels on the right</title>
+      <link>https://fixmyerror.net/errors/flutter-renderflex-overflowed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-renderflex-overflowed.html</guid>
+      <category>Dart</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A Row or Column laid out children that want more space than the parent offered, so the excess is painted as the yellow and black stripes. The number is the overflow, not the required width, and the fix depends on intent: a child that should shrink needs Flexible, one that should scroll needs a…</description>
+    </item>
+    <item>
+      <title>Flutter: setState() called after dispose()</title>
+      <link>https://fixmyerror.net/errors/flutter-setstate-called-after-dispose.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-setstate-called-after-dispose.html</guid>
+      <category>Dart</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An asynchronous callback finished after its widget left the tree, so the State it wants to update no longer exists. The await is the giveaway: the widget can be disposed while the request is in flight, which is why the crash only appears when the user navigates away quickly or the network is slow.</description>
+    </item>
+    <item>
+      <title>go: cannot find main module; see &apos;go help modules&apos;</title>
+      <link>https://fixmyerror.net/errors/go-cannot-find-main-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-cannot-find-main-module.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The command was run outside any module: there is no go.mod in the working directory or any parent. Since Go 1.16 module mode is the default, so a repository that once built from GOPATH, or a Dockerfile that copies sources without go.mod, fails here rather than falling back.</description>
+    </item>
+    <item>
+      <title>Go: panic: runtime error: index out of range [3] with length 3</title>
+      <link>https://fixmyerror.net/errors/go-index-out-of-range-with-length.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-index-out-of-range-with-length.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Go slices are zero indexed, so the valid indexes stop one short of len. The message gives both numbers, and when the index is exactly the length the loop ran one iteration too far; when it is far larger the index came from data, not from the loop, and needs validating before use.</description>
+    </item>
+    <item>
+      <title>go: updates to go.mod needed; to update it: go mod tidy</title>
+      <link>https://fixmyerror.net/errors/go-updates-to-go-mod-needed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-updates-to-go-mod-needed.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Go stopped editing go.mod as a side effect of build commands in 1.16, so a missing or stale requirement is now reported instead of quietly added. It usually appears in CI first, because a local run had already written the change into go.mod that nobody committed.</description>
+    </item>
+    <item>
+      <title>GraphQL: Cannot use GraphQLSchema from another module or realm</title>
+      <link>https://fixmyerror.net/errors/graphql-cannot-use-graphqlschema-from-another-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-use-graphqlschema-from-another-module.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Two copies of the graphql package are installed, so the schema was built with one and validated by the other. graphql-js checks identity with instanceof, which fails across copies even when the versions match, and the message blames the schema rather than the duplicated dependency.</description>
+    </item>
+    <item>
+      <title>GraphQL: Variable &quot;$id&quot; of required type &quot;ID!&quot; was not provided</title>
+      <link>https://fixmyerror.net/errors/graphql-variable-of-required-type-was-not-provided.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-variable-of-required-type-was-not-provided.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Validation rejected the request before any resolver ran, because a non null variable was declared in the document but missing from the variables map. Sending null is not the same as sending nothing for a non null type, and a key that is present but undefined is dropped by JSON.stringify, which is…</description>
+    </item>
+    <item>
+      <title>Ingress: configuration-snippet annotation cannot be used</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-configuration-snippet-cannot-be-used.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-configuration-snippet-cannot-be-used.html</guid>
+      <category>Ingress</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>ingress-nginx 1.9 turned allow-snippet-annotations off by default after snippets were shown to let any namespace inject configuration into the shared nginx process. Manifests that worked for years are rejected by the admission webhook at apply time, so the failure appears during an upgrade rather…</description>
+    </item>
+    <item>
+      <title>Java: Cannot invoke &quot;String.length()&quot; because &quot;s&quot; is null</title>
+      <link>https://fixmyerror.net/errors/java-cannot-invoke-because-is-null.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-cannot-invoke-because-is-null.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>This is a helpful NullPointerException message, on by default since Java 15, and it names the exact expression that was null rather than just the line. When the name reads as or a synthetic name, the class was compiled without debug information, so recompiling with -g restores the real variable…</description>
+    </item>
+    <item>
+      <title>Java: java.lang.OutOfMemoryError: Java heap space</title>
+      <link>https://fixmyerror.net/errors/java-outofmemoryerror-java-heap-space.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-outofmemoryerror-java-heap-space.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The heap could not satisfy an allocation after a full collection. Raising -Xmx only helps when the working set genuinely grew; if the cause is a leak, a bigger heap moves the crash later and makes the pauses worse. A heap dump taken at the moment of failure tells the two apart.</description>
+    </item>
+    <item>
+      <title>Java: NoClassDefFoundError: Could not initialize class X</title>
+      <link>https://fixmyerror.net/errors/java-noclassdeffounderror-could-not-initialize-class.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-noclassdeffounderror-could-not-initialize-class.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>This is not a missing class. The class was found, its static initialiser ran and threw, and every later use reports this instead. The real exception appears only the first time, often much earlier in the log, and is usually a missing config value, a failing static block or an incompatible…</description>
+    </item>
+    <item>
+      <title>Jest: Exceeded timeout of 5000 ms for a test</title>
+      <link>https://fixmyerror.net/errors/jest-exceeded-timeout-of-5000-ms.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-exceeded-timeout-of-5000-ms.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The test returned a promise that never settled within the limit. A slow network call is the obvious cause, but the common one is a promise that cannot settle: a missing await, a done callback never called, or fake timers installed so the timer the code is waiting on never advances.</description>
+    </item>
+    <item>
+      <title>Jest: Your test suite must contain at least one test.</title>
+      <link>https://fixmyerror.net/errors/jest-must-contain-at-least-one-test.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-must-contain-at-least-one-test.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A file matched the test pattern but declared no test. Helper files living beside the tests are the usual reason, because the default pattern picks up everything inside a __tests__ directory, not only files named .test.js. A file where every test is skipped or filtered out fails the same way.</description>
+    </item>
+    <item>
+      <title>Memcached: SERVER_ERROR object too large for cache</title>
+      <link>https://fixmyerror.net/errors/memcached-object-too-large-for-cache.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/memcached-object-too-large-for-cache.html</guid>
+      <category>Caching</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The item exceeded the maximum item size, one megabyte by default, so it was refused rather than stored. Because most clients treat a failed set as a cache miss, the symptom is usually a page that is mysteriously slow rather than an error: every request recomputes the same oversized value.</description>
+    </item>
+    <item>
+      <title>React Native: Unable to load script. Make sure you&apos;re running Metro</title>
+      <link>https://fixmyerror.net/errors/react-native-unable-to-load-script.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-native-unable-to-load-script.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The debug build fetches its JavaScript bundle from Metro at runtime, and the device could not reach it. On a physical Android device localhost means the phone itself, so the port has to be forwarded over adb; on a release build the message instead means the bundle was never packaged into the app.</description>
+    </item>
+    <item>
+      <title>Redis: NOSCRIPT No matching script. Please use EVAL.</title>
+      <link>https://fixmyerror.net/errors/redis-noscript-no-matching-script.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-noscript-no-matching-script.html</guid>
+      <category>Caching</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>EVALSHA runs a script the server has already cached by hash, and that cache is not persisted. A restart, a failover to a replica that never saw the script, or a SCRIPT FLUSH empties it, so a client that only ever sends the hash starts failing until it loads the body again.</description>
+    </item>
+    <item>
+      <title>Regex: nothing to repeat at position 0</title>
+      <link>https://fixmyerror.net/errors/regex-nothing-to-repeat.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/regex-nothing-to-repeat.html</guid>
+      <category>Regex</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A quantifier appeared with nothing before it to repeat, so the pattern is invalid rather than merely wrong. It is almost always a pattern built at runtime: user input interpolated into a regex, or a string that already contained a plus or asterisk meant literally.</description>
+    </item>
+    <item>
+      <title>Rust: called `Option::unwrap()` on a `None` value</title>
+      <link>https://fixmyerror.net/errors/rust-unwrap-on-none-value.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-unwrap-on-none-value.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>unwrap says the value is definitely there, and it was not, so the thread panicked at that line. The message names the file and column of the unwrap, not of the code that produced the None, which is why the interesting frame is usually further down the backtrace.</description>
+    </item>
+    <item>
+      <title>Rust: cannot borrow `*self` as mutable because it is also borrowed as immutable</title>
+      <link>https://fixmyerror.net/errors/rust-cannot-borrow-self-as-mutable-also-immutable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-cannot-borrow-self-as-mutable-also-immutable.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The immutable borrow is usually hidden in an argument: self.push(self.len()) borrows self to evaluate the argument while the method call already holds a mutable borrow. Borrows end at their last use under NLL, so the fix is nearly always to finish the read before starting the write rather than to…</description>
+    </item>
+    <item>
+      <title>Rust: recursive type has infinite size (E0072)</title>
+      <link>https://fixmyerror.net/errors/rust-recursive-type-has-infinite-size.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-recursive-type-has-infinite-size.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A struct or enum that contains itself by value would need infinite space, because the compiler lays out every field inline. The fix is not to remove the recursion but to put a pointer in the cycle, which has a known size and moves the child onto the heap.</description>
+    </item>
+    <item>
+      <title>Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps</title>
+      <link>https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html</guid>
+      <category>Scala</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The code compiled against one version of the Scala library and is running against another. Scala guarantees binary compatibility only within a minor series, so a dependency published for 2.12 pulled into a 2.13 build, or two libraries built against different minor versions, produces a method that…</description>
+    </item>
+    <item>
+      <title>Spring Boot: required a bean of type &apos;X&apos; that could not be found</title>
+      <link>https://fixmyerror.net/errors/spring-required-a-bean-that-could-not-be-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-required-a-bean-that-could-not-be-found.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Component scanning starts at the package of the class annotated with @SpringBootApplication and covers only that package and below. A bean in a sibling package, or one whose @Component annotation is missing, is never registered, which is why the same class works in a test that declares it…</description>
+    </item>
+    <item>
+      <title>Svelte 5: `export let` is not allowed in runes mode, use `$props()` instead</title>
+      <link>https://fixmyerror.net/errors/svelte-5-export-let-in-runes-mode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-export-let-in-runes-mode.html</guid>
+      <category>Svelte</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A component is in runes mode, where props arrive through $props() rather than exported let bindings. Runes mode is chosen per component: using any rune anywhere in the file switches it, so adding a single $state to a legacy component makes every remaining export let in it illegal.</description>
+    </item>
+    <item>
+      <title>SvelteKit: Data returned from `load` is not serializable</title>
+      <link>https://fixmyerror.net/errors/sveltekit-data-from-load-not-serializable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-data-from-load-not-serializable.html</guid>
+      <category>Svelte</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Data from a server load function is serialised so the browser can hydrate with it, and the serialiser handles plain objects, arrays, Date, Map, Set and a few more, but not class instances. ORM rows are the usual offender: a Prisma Decimal, a Mongo ObjectId or a Mongoose document looks like a plain…</description>
+    </item>
+    <item>
+      <title>systemd-journald: Suppressed 1234 messages from /system.slice/app.service</title>
+      <link>https://fixmyerror.net/errors/journald-suppressed-messages-rate-limit.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/journald-suppressed-messages-rate-limit.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>journald rate limits each service, discarding the rest of a burst rather than slowing the writer. The lines are gone, not delayed, which makes it look as though the application stopped logging exactly when it got interesting: incidents produce bursts, and the burst is what gets dropped.</description>
+    </item>
+    <item>
+      <title>Tokio: Cannot start a runtime from within a runtime</title>
+      <link>https://fixmyerror.net/errors/tokio-cannot-start-runtime-from-within-runtime.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/tokio-cannot-start-runtime-from-within-runtime.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Something called block_on on a thread that is already driving the async runtime, which would deadlock the worker, so Tokio panics instead. The call is usually not yours: a blocking client such as reqwest::blocking, or a library helper that hides block_on, used from inside an async function.</description>
+    </item>
+    <item>
+      <title>TypeScript: &apos;error&apos; is of type &apos;unknown&apos; (TS18046)</title>
+      <link>https://fixmyerror.net/errors/ts-error-is-of-type-unknown.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-error-is-of-type-unknown.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Since TypeScript 4.4, useUnknownInCatchVariables (part of strict) types the catch binding as unknown rather than any, because JavaScript lets you throw anything, not just an Error. The code did not change; the compiler now insists you prove what you caught before reading a property off it.</description>
+    </item>
+    <item>
+      <title>TypeScript: Module can only be default-imported using the &apos;esModuleInterop&apos; flag</title>
+      <link>https://fixmyerror.net/errors/ts-can-only-be-default-imported-esmoduleinterop.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-can-only-be-default-imported-esmoduleinterop.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The package is CommonJS and sets module.exports directly, so it has no ES default export to bind. esModuleInterop makes the compiler emit a helper that wraps such a module, which is why the same import works in a bundler that already does this and fails in tsc.</description>
+    </item>
+    <item>
+      <title>TypeScript: Option &apos;module&apos; must be set to &apos;NodeNext&apos;</title>
+      <link>https://fixmyerror.net/errors/ts-module-must-be-set-to-nodenext.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-module-must-be-set-to-nodenext.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>moduleResolution and module are not independent: the Node16 and NodeNext resolution modes read package.json exports and the type field, and only the matching module setting emits code that agrees with them. Copying a moduleResolution line from a bundler config into a Node project is the usual way…</description>
+    </item>
+    <item>
+      <title>TypeScript: Parameter &apos;x&apos; implicitly has an &apos;any&apos; type (TS7006)</title>
+      <link>https://fixmyerror.net/errors/ts-parameter-implicitly-any.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-parameter-implicitly-any.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Under noImplicitAny, which strict turns on, TypeScript refuses a parameter it cannot infer. Callback parameters are normally inferred from the function they are passed to, so seeing this on a callback means the surrounding value is untyped: an untyped library, a variable annotated as any, or a…</description>
+    </item>
+    <item>
+      <title>TypeScript: Two different types with this name exist, but they are unrelated</title>
+      <link>https://fixmyerror.net/errors/ts-two-different-types-with-this-name-exist.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-two-different-types-with-this-name-exist.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Two copies of the same type package are installed at different paths, usually @types/react or @types/node pulled in at two versions by different dependencies. The types are structurally identical but nominally distinct, so a value from one tree cannot be assigned to a parameter typed by the other.</description>
+    </item>
+    <item>
+      <title>Vitest: ReferenceError: document is not defined</title>
+      <link>https://fixmyerror.net/errors/vitest-document-is-not-defined.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vitest-document-is-not-defined.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Vitest runs in Node by default, where there is no DOM. The component test needs a browser like environment declared, either for the whole project or per file. Unlike Jest, Vitest does not bundle jsdom, so the package has to be installed as well as configured.</description>
+    </item>
+    <item>
+      <title>WebAssembly: Cannot enlarge memory arrays</title>
+      <link>https://fixmyerror.net/errors/wasm-cannot-enlarge-memory-arrays.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-cannot-enlarge-memory-arrays.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The module asked for more linear memory than it was built to have. Emscripten fixes the heap at INITIAL_MEMORY unless memory growth was enabled at link time, so this is a build setting rather than a browser limit, and the same binary fails identically in Node and in every browser.</description>
+    </item>
+    <item>
+      <title>Xcode: Sandbox: rsync.samba deny(1) file-write-create</title>
+      <link>https://fixmyerror.net/errors/xcode-sandbox-rsync-deny-file-write-create.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-sandbox-rsync-deny-file-write-create.html</guid>
+      <category>Apple</category>
+      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Xcode 15 turned on user script sandboxing for new projects, and a build phase tried to write outside the files it declared. The phase is usually not one you wrote: CocoaPods copies frameworks and resources with rsync, and Flutter and React Native ship similar scripts, so the failure appears after…</description>
+    </item>
     <item>
       <title>.NET: The framework &apos;Microsoft.NETCore.App&apos;, version &apos;8.0.0&apos; was not found</title>
       <link>https://fixmyerror.net/errors/dotnet-framework-not-found.html</link>
@@ -487,6 +847,766 @@
       <category>System</category>
       <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
       <description>The kernel refused to create another process because a limit was reached: the per user process count, the cgroup&apos;s pids.max, or the system wide thread maximum. The shell cannot even fork the command that would diagnose it, which is what makes it feel like the machine has locked up.</description>
+    </item>
+    <item>
+      <title>Blocked aria-hidden on an element because its descendant retained focus</title>
+      <link>https://fixmyerror.net/errors/blocked-aria-hidden-descendant-focus.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/blocked-aria-hidden-descendant-focus.html</guid>
+      <category>Frontend</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Chrome refuses to hide a subtree from assistive technology while the focused element is inside it. It appears when a modal library marks the page behind it aria-hidden before moving focus, leaving a screen reader user focused on something that officially does not exist.</description>
+    </item>
+    <item>
+      <title>chrony/NTP: clock not synchronised (Leap status: Not synchronised)</title>
+      <link>https://fixmyerror.net/errors/ntp-clock-not-synchronised.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ntp-clock-not-synchronised.html</guid>
+      <category>Network</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The host&apos;s clock is free running because it cannot reach a time source or has rejected the ones it has. Skew breaks far more than logs: TLS certificate validity, Kerberos tickets, JWT nbf checks and TOTP codes all fail once the drift exceeds their tolerance.</description>
+    </item>
+    <item>
+      <title>Cloudflare 524: A timeout occurred</title>
+      <link>https://fixmyerror.net/errors/cloudflare-524-timeout-occurred.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-524-timeout-occurred.html</guid>
+      <category>Proxy</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Cloudflare connected to the origin but no response arrived within the proxy read timeout, 100 seconds on most plans. The origin is not down: it is doing work that takes longer than the edge will wait, typically a report, an export or an upload handled synchronously.</description>
+    </item>
+    <item>
+      <title>CSS: @import rules must precede all other rules</title>
+      <link>https://fixmyerror.net/errors/css-import-must-precede-all-other-rules.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/css-import-must-precede-all-other-rules.html</guid>
+      <category>Frontend</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The CSS specification only allows @import at the top of a stylesheet, after @charset and @layer. Bundlers concatenate files in dependency order, so an @import that was first in your source can end up in the middle of the output and is then silently dropped by the browser.</description>
+    </item>
+    <item>
+      <title>CUDA: no kernel image is available for execution on the device</title>
+      <link>https://fixmyerror.net/errors/cuda-no-kernel-image.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cuda-no-kernel-image.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The binary contains no compiled code for your GPU&apos;s compute capability. It happens with a wheel built for older architectures running on a newer card, or with a locally built extension whose arch list did not include the target, and the error appears at the first kernel launch rather than at import.</description>
+    </item>
+    <item>
+      <title>Cypress: Cypress detected a cross origin error</title>
+      <link>https://fixmyerror.net/errors/cypress-cross-origin-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cypress-cross-origin-error.html</guid>
+      <category>Testing</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The test navigated to a different origin. Cypress runs in the same browser context as the application, so it can only automate one superdomain at a time unless the visit is wrapped in cy.origin, which is what breaks tests that go through a hosted login page.</description>
+    </item>
+    <item>
+      <title>Django: OperationalError: no such table</title>
+      <link>https://fixmyerror.net/errors/django-operationalerror-no-such-table.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/django-operationalerror-no-such-table.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The model exists in code but not in the database. Either migrations were never applied to this database, the app was added without makemigrations, or the process is pointed at a different database file or schema from the one you migrated.</description>
+    </item>
+    <item>
+      <title>Docker build: failed to compute cache key, not found</title>
+      <link>https://fixmyerror.net/errors/docker-failed-to-compute-cache-key.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-failed-to-compute-cache-key.html</guid>
+      <category>Docker</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A COPY or ADD source does not exist in the build context. The context is the directory sent to the daemon, not your shell&apos;s working directory, so a path outside it, or one excluded by .dockerignore, is invisible to the build even though it exists on disk.</description>
+    </item>
+    <item>
+      <title>Docker Compose: dependency failed to start: container is unhealthy</title>
+      <link>https://fixmyerror.net/errors/docker-compose-dependency-failed-unhealthy.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-compose-dependency-failed-unhealthy.html</guid>
+      <category>Docker</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A service waited on another with condition service_healthy and that container&apos;s healthcheck never passed. The container itself may be running fine: the check often uses a tool the image does not ship, or tests a port before the service finished starting.</description>
+    </item>
+    <item>
+      <title>docker push: unauthorized: authentication required</title>
+      <link>https://fixmyerror.net/errors/docker-push-unauthorized-authentication-required.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-push-unauthorized-authentication-required.html</guid>
+      <category>Docker</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The registry refused the push. Either you are not logged in to that registry host, the token has expired, or the image is tagged for a repository your account cannot write to. Note that pulls often succeed anonymously, so the first failure appears at push time.</description>
+    </item>
+    <item>
+      <title>Docker: could not find an available, non-overlapping IPv4 address pool</title>
+      <link>https://fixmyerror.net/errors/docker-no-non-overlapping-address-pool.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-no-non-overlapping-address-pool.html</guid>
+      <category>Docker</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Docker ran out of private subnets to hand to a new bridge network. Either dozens of stale Compose networks are still defined, or the default 172.16/12 pools collide with a corporate VPN route, so Docker refuses to create a network it knows would break routing.</description>
+    </item>
+    <item>
+      <title>Docker: exec /app/entrypoint.sh: permission denied</title>
+      <link>https://fixmyerror.net/errors/docker-entrypoint-permission-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-entrypoint-permission-denied.html</guid>
+      <category>Docker</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The entrypoint script is not executable inside the image. Git records only one permission bit, so a script committed without the execute bit, or copied from a Windows checkout, lands in the image as mode 644 and the runtime refuses to exec it.</description>
+    </item>
+    <item>
+      <title>Elasticsearch: mapper_parsing_exception, failed to parse field</title>
+      <link>https://fixmyerror.net/errors/elasticsearch-mapper-parsing-exception.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elasticsearch-mapper-parsing-exception.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A document&apos;s value does not fit the field&apos;s mapped type. Dynamic mapping fixes a type from the first document it sees, so an id that arrived as a number becomes a long and every later string id is rejected. Mappings cannot be changed in place.</description>
+    </item>
+    <item>
+      <title>GCP: does not have permission to act as the service account</title>
+      <link>https://fixmyerror.net/errors/gcp-service-account-actas-permission.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gcp-service-account-actas-permission.html</guid>
+      <category>Cloud</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Deploying a resource that runs as a service account requires iam.serviceAccounts.actAs on that account, which is separate from permission to deploy. It stops someone with limited rights from borrowing a more privileged identity, and it is the usual reason a Cloud Run or Cloud Function deploy fails…</description>
+    </item>
+    <item>
+      <title>git: error: pathspec &apos;x&apos; did not match any file(s) known to git</title>
+      <link>https://fixmyerror.net/errors/git-pathspec-did-not-match.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-pathspec-did-not-match.html</guid>
+      <category>Git</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Git could not resolve the argument as a file, branch or commit. With checkout it usually means the branch exists only on the remote and has not been fetched; with add it means the path is ignored, misspelled, or outside the repository.</description>
+    </item>
+    <item>
+      <title>git: fatal: Authentication failed for &apos;https://github.com/...&apos;</title>
+      <link>https://fixmyerror.net/errors/git-authentication-failed-https-password.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-authentication-failed-https-password.html</guid>
+      <category>Git</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>GitHub removed password authentication for Git over HTTPS in 2021, and most hosts have followed. A cached account password in the credential helper keeps being replayed and rejected, so the prompt reappears even after you type the right password.</description>
+    </item>
+    <item>
+      <title>git: SSL certificate problem: unable to get local issuer certificate</title>
+      <link>https://fixmyerror.net/errors/git-ssl-certificate-problem-local-issuer.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-ssl-certificate-problem-local-issuer.html</guid>
+      <category>Git</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Git could not build a trust chain to the server&apos;s certificate, almost always because a corporate proxy re-signs TLS with a private CA that the machine trusts but Git&apos;s bundled certificate store does not.</description>
+    </item>
+    <item>
+      <title>GitHub Actions: Invalid workflow file, unexpected value</title>
+      <link>https://fixmyerror.net/errors/github-actions-invalid-workflow-file.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-invalid-workflow-file.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The workflow failed schema validation before any job started. Usually an indentation slip that nests a key under the wrong parent, a typo such as step instead of steps, or an expression written outside the ${{ }} delimiters where a literal string was expected.</description>
+    </item>
+    <item>
+      <title>GitHub Actions: refusing to allow an OAuth App to create or update workflow</title>
+      <link>https://fixmyerror.net/errors/github-actions-workflow-scope-refused.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-workflow-scope-refused.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A push that adds or edits anything under .github/workflows was rejected because the token lacks the workflow scope. It is a deliberate guard: a token that could edit workflows could run arbitrary code with the repository&apos;s secrets.</description>
+    </item>
+    <item>
+      <title>GitHub Actions: The runner has received a shutdown signal</title>
+      <link>https://fixmyerror.net/errors/github-actions-runner-lost-communication.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-runner-lost-communication.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The job died with the machine under it rather than failing. On hosted runners it usually means the process exhausted memory or disk and the host reclaimed it; on self hosted runners it means a spot instance was reclaimed or the autoscaler removed the node mid job.</description>
+    </item>
+    <item>
+      <title>GitHub: push declined due to repository rule violations, secret detected</title>
+      <link>https://fixmyerror.net/errors/github-push-protection-secret-detected.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-push-protection-secret-detected.html</guid>
+      <category>Security</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Push protection found a recognisable credential in a commit and blocked the push. The secret is in history, not just the working tree, so deleting the line and committing again will not clear it. Treat any secret that reached a shared branch as compromised.</description>
+    </item>
+    <item>
+      <title>GitLab CI: jobs config should contain at least one visible job</title>
+      <link>https://fixmyerror.net/errors/gitlab-ci-config-invalid.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gitlab-ci-config-invalid.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every job in the pipeline is hidden or excluded. Names starting with a dot are templates rather than jobs, and rules or workflow conditions that match nothing remove the rest, so the pipeline has nothing left to run and is rejected outright.</description>
+    </item>
+    <item>
+      <title>Go: build constraints exclude all Go files in ...</title>
+      <link>https://fixmyerror.net/errors/go-build-constraints-exclude-all-go-files.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-build-constraints-exclude-all-go-files.html</guid>
+      <category>Go</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every file in the package was filtered out by build tags or by the filename suffix convention. Cross compiling to Linux from macOS with a package whose only implementation is in a _darwin.go file produces this, as does a mistyped //go:build line.</description>
+    </item>
+    <item>
+      <title>Go: declared and not used</title>
+      <link>https://fixmyerror.net/errors/go-declared-and-not-used.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-declared-and-not-used.html</guid>
+      <category>Go</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Go treats an unused local variable as a compile error, not a warning, on the grounds that it is usually a mistake such as a shadowed assignment or a line left behind after an edit. Unused imports fail the same way; unused package level variables do not.</description>
+    </item>
+    <item>
+      <title>Go: http: superfluous response.WriteHeader call</title>
+      <link>https://fixmyerror.net/errors/go-superfluous-response-writeheader.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-superfluous-response-writeheader.html</guid>
+      <category>Go</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The handler tried to set the status code after the response had already started. Writing a body sends 200 implicitly, so a later error path that calls http.Error logs this and the client keeps the original status, which is how a failed request ends up looking successful.</description>
+    </item>
+    <item>
+      <title>Google OAuth: Error 403: access_denied, app is in testing</title>
+      <link>https://fixmyerror.net/errors/google-oauth-access-denied-testing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/google-oauth-access-denied-testing.html</guid>
+      <category>Auth</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The OAuth consent screen is in Testing mode, which only allows the accounts explicitly listed as test users. Refresh tokens issued in that mode also expire after seven days, so an integration that worked all week fails on the eighth day.</description>
+    </item>
+    <item>
+      <title>Grafana: Panel plugin not found</title>
+      <link>https://fixmyerror.net/errors/grafana-panel-plugin-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-panel-plugin-not-found.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A dashboard references a panel type this Grafana does not have installed. It happens when a dashboard JSON is imported from elsewhere, or after an upgrade removed an angular based panel that is no longer supported.</description>
+    </item>
+    <item>
+      <title>gRPC-Web: response missing grpc-status trailer</title>
+      <link>https://fixmyerror.net/errors/grpc-web-missing-trailers.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-web-missing-trailers.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Browsers cannot speak native gRPC, so gRPC-Web encodes trailers in the response body and needs a proxy to translate. When the request reaches a plain gRPC server, or a CORS layer strips the exposed headers, the browser client sees a response with no grpc-status and reports a transport error.</description>
+    </item>
+    <item>
+      <title>gRPC: ABORTED (code 10)</title>
+      <link>https://fixmyerror.net/errors/grpc-aborted-transaction-conflict.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-aborted-transaction-conflict.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The operation was aborted because of a concurrency conflict, typically a failed compare and swap or a transaction that lost a race. It is explicitly retryable at a higher level, unlike FAILED_PRECONDITION, but retrying the same stale read will simply abort again.</description>
+    </item>
+    <item>
+      <title>gRPC: DEADLINE_EXCEEDED (code 4)</title>
+      <link>https://fixmyerror.net/errors/grpc-deadline-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-deadline-exceeded.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The client set a deadline on the call and the server did not finish in time. gRPC deadlines are absolute, and they propagate: a slow dependency deep in the chain consumes the budget of every caller above it, so the failure often surfaces on a service that is itself healthy.</description>
+    </item>
+    <item>
+      <title>gRPC: FAILED_PRECONDITION (code 9)</title>
+      <link>https://fixmyerror.net/errors/grpc-failed-precondition.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-failed-precondition.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The request was valid but the system is in a state that cannot serve it, for example a resource that must exist first or a database that has not finished a migration. It means do not retry until something changes, which is what separates it from UNAVAILABLE and ABORTED.</description>
+    </item>
+    <item>
+      <title>gRPC: INTERNAL, received RST_STREAM with error code 2</title>
+      <link>https://fixmyerror.net/errors/grpc-internal-rst-stream.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-internal-rst-stream.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The HTTP/2 stream was reset by the peer or by something in the middle. It is rarely a bug in your handler: a proxy idle timeout, a load balancer that does not speak HTTP/2 end to end, or a server that exceeded its max connection age will all reset streams that the client then reports as INTERNAL.</description>
+    </item>
+    <item>
+      <title>gRPC: INVALID_ARGUMENT (code 3)</title>
+      <link>https://fixmyerror.net/errors/grpc-invalid-argument.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-invalid-argument.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server understood the request and rejected the field values. Because protobuf 3 has no required fields and unset scalars deserialise to zero values, a client that forgot to set a field sends a syntactically valid message that fails validation on arrival.</description>
+    </item>
+    <item>
+      <title>gRPC: PERMISSION_DENIED (code 7)</title>
+      <link>https://fixmyerror.net/errors/grpc-permission-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-permission-denied.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The caller was identified but is not allowed to invoke this method. Unlike UNAUTHENTICATED this is an authorization decision, so retrying with the same identity will never succeed. In a mesh it is often the sidecar&apos;s authorization policy answering, not your application code.</description>
+    </item>
+    <item>
+      <title>gRPC: RESOURCE_EXHAUSTED, received message larger than max</title>
+      <link>https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A message exceeded the receiver&apos;s size limit, which defaults to 4 MB inbound in most gRPC implementations. The limit is enforced by whichever side is receiving, so raising it on the server alone will not fix a large response arriving at the client.</description>
+    </item>
+    <item>
+      <title>gRPC: UNAUTHENTICATED (code 16)</title>
+      <link>https://fixmyerror.net/errors/grpc-unauthenticated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unauthenticated.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server rejected the call because credentials were missing, malformed or expired. gRPC carries them in metadata, conventionally the authorization header, and per-RPC credentials are only sent over a secure channel: an insecure channel silently drops them in several implementations.</description>
+    </item>
+    <item>
+      <title>gRPC: UNIMPLEMENTED (code 12)</title>
+      <link>https://fixmyerror.net/errors/grpc-unimplemented.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unimplemented.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server has no handler registered for the fully qualified method the client called. Usually the client and server were generated from different versions of the .proto, the service was never registered on the server, or the request reached a proxy that terminated it before the real backend.</description>
+    </item>
+    <item>
+      <title>Hugging Face: 401 Cannot access gated repo</title>
+      <link>https://fixmyerror.net/errors/huggingface-gated-repo-401.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/huggingface-gated-repo-401.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The model or dataset requires you to accept its licence and authenticate. Anonymous downloads that worked for other checkpoints fail here, and in CI the token is often simply absent from the environment rather than wrong.</description>
+    </item>
+    <item>
+      <title>Java: NoSuchMethodError</title>
+      <link>https://fixmyerror.net/errors/java-nosuchmethoderror.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-nosuchmethoderror.html</guid>
+      <category>Java</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A method that existed when the class was compiled is missing at runtime. It means two versions of a library are on the classpath and the wrong one won, which is why it appears after adding an unrelated dependency that pulled an older transitive copy.</description>
+    </item>
+    <item>
+      <title>Java: PKIX path building failed, unable to find valid certification path</title>
+      <link>https://fixmyerror.net/errors/java-pkix-path-building-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-pkix-path-building-failed.html</guid>
+      <category>Java</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The JVM could not build a trust chain to the server&apos;s certificate. Java keeps its own truststore rather than using the operating system&apos;s, so a private or corporate CA that curl accepts is unknown to Java until it is imported.</description>
+    </item>
+    <item>
+      <title>Jest: SyntaxError: Cannot use import statement outside a module</title>
+      <link>https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</guid>
+      <category>Testing</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Jest ran a file containing ES module syntax through a CommonJS pipeline. Either the transform does not cover that file, or it lives in node_modules, which Jest deliberately does not transform, and modern packages increasingly ship ESM only.</description>
+    </item>
+    <item>
+      <title>Kafka: RecordTooLargeException</title>
+      <link>https://fixmyerror.net/errors/kafka-record-too-large.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-record-too-large.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A message exceeded a size limit. Three separate limits must agree: the producer&apos;s max.request.size, the broker or topic&apos;s max.message.bytes, and the consumer&apos;s fetch size, so raising one alone moves the failure rather than fixing it.</description>
+    </item>
+    <item>
+      <title>kubectl apply: metadata.annotations: Too long</title>
+      <link>https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>kubectl apply stores the whole previous manifest in the last-applied-configuration annotation, and annotations are capped at 256 kB in total. Large ConfigMaps and CRDs with big schemas blow the limit, so create works and apply fails.</description>
+    </item>
+    <item>
+      <title>kubectl: error: You must be logged in to the server (Unauthorized)</title>
+      <link>https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The API server rejected the credentials in your kubeconfig. Typically an expired token or client certificate, a cloud auth plugin that can no longer refresh, or a context pointing at a cluster your current identity has no access to.</description>
+    </item>
+    <item>
+      <title>Kubernetes: CreateContainerConfigError</title>
+      <link>https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The kubelet pulled the image but could not build the container&apos;s configuration, almost always because a referenced Secret or ConfigMap key does not exist in that namespace. The pod stays in this state indefinitely rather than crash looping, because nothing ever started.</description>
+    </item>
+    <item>
+      <title>Kubernetes: HorizontalPodAutoscaler unable to get metrics for resource cpu</title>
+      <link>https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The HPA has no metrics to scale on. Either metrics-server is not installed or not serving, or the pods have no CPU or memory requests: utilisation is a percentage of the request, so without one there is nothing to compute.</description>
+    </item>
+    <item>
+      <title>Kubernetes: Readiness probe failed, endpoints never become ready</title>
+      <link>https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The container is running but its readiness probe never succeeds, so the Service keeps it out of the endpoint list and traffic goes nowhere. Common causes are a probe pointed at the wrong port or path, an app that binds to loopback only, or a startup slower than the probe&apos;s tolerance.</description>
+    </item>
+    <item>
+      <title>Kubernetes: Unable to attach or mount volumes, timed out</title>
+      <link>https://fixmyerror.net/errors/k8s-unable-to-attach-or-mount-volumes.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-unable-to-attach-or-mount-volumes.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The pod is stuck in ContainerCreating because a volume never attached. With cloud block storage the usual reason is that the disk is still attached to another node, or the volume lives in a zone where the pod cannot be scheduled, since a ReadWriteOnce volume can only be mounted on one node at a…</description>
+    </item>
+    <item>
+      <title>LangChain: OutputParserException, could not parse LLM output</title>
+      <link>https://fixmyerror.net/errors/langchain-output-parser-exception.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/langchain-output-parser-exception.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The parser expected strict JSON or a fixed agent format and the model returned prose, a fenced code block or a trailing explanation. Prompting alone does not guarantee the shape, so a chain that works on nine calls in ten fails on the tenth.</description>
+    </item>
+    <item>
+      <title>Linux: duplicate IPv4 address detected on the network</title>
+      <link>https://fixmyerror.net/errors/arp-duplicate-address-detected.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/arp-duplicate-address-detected.html</guid>
+      <category>Network</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Two hosts answer ARP for the same address, so switches flap the MAC between ports and traffic reaches whichever machine replied last. It is typical of a static address inside a DHCP range, a failed failover where both nodes kept a virtual IP, or a cloned VM.</description>
+    </item>
+    <item>
+      <title>Linux: mount error(13): Permission denied (CIFS/SMB)</title>
+      <link>https://fixmyerror.net/errors/cifs-mount-error-13-permission-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cifs-mount-error-13-permission-denied.html</guid>
+      <category>Storage</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The SMB server rejected the credentials or the requested protocol. Common causes are a domain user given without the domain, a share that requires SMB 3 while the client negotiated SMB 1, or an Azure Files account key that has been rotated.</description>
+    </item>
+    <item>
+      <title>Linux: possible SYN flooding on port X, sending cookies</title>
+      <link>https://fixmyerror.net/errors/linux-syn-flooding-sending-cookies.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-syn-flooding-sending-cookies.html</guid>
+      <category>Network</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The kernel&apos;s accept queue for a listening socket overflowed. Under a real flood that is the defence working, but far more often it is a healthy service whose application accepts connections more slowly than they arrive, and clients see stalls and resets rather than errors in the log.</description>
+    </item>
+    <item>
+      <title>Linux: Too many levels of symbolic links (ELOOP)</title>
+      <link>https://fixmyerror.net/errors/linux-too-many-levels-of-symbolic-links.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-too-many-levels-of-symbolic-links.html</guid>
+      <category>System</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Path resolution followed more than forty symlinks and gave up, which means a loop. The classic case is a link that points at its own directory, or a relative link created from the wrong working directory so it resolves back to itself.</description>
+    </item>
+    <item>
+      <title>Maven: Could not transfer artifact, transfer failed</title>
+      <link>https://fixmyerror.net/errors/maven-could-not-transfer-artifact.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/maven-could-not-transfer-artifact.html</guid>
+      <category>Java</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Maven could not download a dependency. Beyond a plain outage the frequent causes are credentials missing for a private repository, a proxy that intercepts TLS, or a cached failure: Maven remembers a failed lookup and will not retry it until the marker is cleared.</description>
+    </item>
+    <item>
+      <title>MongoDB: Transaction numbers are only allowed on a replica set member or mongos</title>
+      <link>https://fixmyerror.net/errors/mongodb-transaction-numbers-replica-set.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mongodb-transaction-numbers-replica-set.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Retryable writes and multi document transactions need an oplog, which a standalone mongod does not have. The driver enables retryable writes by default, so a perfectly normal insert fails against a single node started without replication.</description>
+    </item>
+    <item>
+      <title>MySQL: Duplicate entry &apos;x&apos; for key &apos;PRIMARY&apos;</title>
+      <link>https://fixmyerror.net/errors/mysql-duplicate-entry-primary.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-duplicate-entry-primary.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An insert collided with an existing row on the primary key or another unique index. Beyond the obvious retry, it commonly means an auto increment counter fell behind after rows were imported with explicit ids, or two writers generated the same application side key.</description>
+    </item>
+    <item>
+      <title>Next.js 15: `params` should be awaited before using its properties</title>
+      <link>https://fixmyerror.net/errors/nextjs-params-should-be-awaited.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-params-should-be-awaited.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Next.js 15 made params, searchParams, cookies() and headers() asynchronous so a page can start rendering before request data is known. Code written for 14 reads them synchronously, which now logs an error in development and throws in production builds.</description>
+    </item>
+    <item>
+      <title>Next.js: Invalid src prop, hostname is not configured under images</title>
+      <link>https://fixmyerror.net/errors/nextjs-image-hostname-not-configured.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-image-hostname-not-configured.html</guid>
+      <category>Frontend</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>next/image optimises remote images on your server, so every external host has to be allowed explicitly. Without the allowlist any URL could be turned into a proxy through your own infrastructure, which is why the component throws rather than falling back to the raw URL.</description>
+    </item>
+    <item>
+      <title>Nginx: could not build server_names_hash, increase the bucket size</title>
+      <link>https://fixmyerror.net/errors/nginx-server-names-hash-bucket-size.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-server-names-hash-bucket-size.html</guid>
+      <category>WebServer</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Nginx sizes a hash table for server names at startup and one of your names is too long for the default bucket, which is tied to the CPU cache line. It stops the configuration from loading entirely, so it usually surfaces on reload after adding a long hostname.</description>
+    </item>
+    <item>
+      <title>Nginx: no live upstreams while connecting to upstream</title>
+      <link>https://fixmyerror.net/errors/nginx-no-live-upstreams.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-no-live-upstreams.html</guid>
+      <category>Proxy</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Every server in the upstream block has been marked down by passive health checks. After max_fails failures within fail_timeout nginx stops sending traffic for that window, so one burst of errors can take out the whole pool and keep it out even after the backends recover.</description>
+    </item>
+    <item>
+      <title>Node.js: DeprecationWarning: The `punycode` module is deprecated</title>
+      <link>https://fixmyerror.net/errors/node-punycode-deprecation-warning.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/node-punycode-deprecation-warning.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Something in the dependency tree still requires Node&apos;s built in punycode. Your own code almost never does: it comes from an old copy of uri-js, tough-cookie or ajv pulled in transitively, and the warning is noise rather than a fault until the module is finally removed.</description>
+    </item>
+    <item>
+      <title>Node.js: MaxListenersExceededWarning: possible EventEmitter memory leak</title>
+      <link>https://fixmyerror.net/errors/node-max-listeners-exceeded-warning.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/node-max-listeners-exceeded-warning.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>More than ten listeners were added to the same event on one emitter. The default is a leak detector, not a limit: it usually means listeners are registered per request or per render and never removed, so the array grows for the life of the process.</description>
+    </item>
+    <item>
+      <title>Node.js: TypeError: fetch failed</title>
+      <link>https://fixmyerror.net/errors/node-fetch-failed-undici.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/node-fetch-failed-undici.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Node&apos;s built in fetch throws a deliberately vague TypeError and hides the real reason in the cause property. Underneath it is usually ECONNREFUSED, a DNS failure, an untrusted corporate TLS certificate, or undici&apos;s 300 second headers timeout on a slow upstream.</description>
+    </item>
+    <item>
+      <title>npm ERR! code E401 on a private registry</title>
+      <link>https://fixmyerror.net/errors/npm-e401-private-registry.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/npm-e401-private-registry.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>npm reached the registry but sent no usable credentials for that scope. The common causes are an .npmrc that authenticates the default registry while the scope points somewhere else, an expired token, or a CI job where the token was never written to a file npm actually reads.</description>
+    </item>
+    <item>
+      <title>npm error code EJSONPARSE</title>
+      <link>https://fixmyerror.net/errors/npm-ejsonparse-package-json.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/npm-ejsonparse-package-json.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>npm could not parse package.json or package-lock.json. Nearly always a trailing comma, a comment, a smart quote pasted from a document, or conflict markers left in the lockfile after a merge, which is why it appears right after a rebase.</description>
+    </item>
+    <item>
+      <title>OIDC: unable to find a signing key that matches the kid</title>
+      <link>https://fixmyerror.net/errors/oidc-unable-to-find-signing-key-kid.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/oidc-unable-to-find-signing-key-kid.html</guid>
+      <category>Auth</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The token was signed with a key the verifier does not have. Identity providers rotate signing keys and publish both old and new in their JWKS, so a service that fetched the key set once at boot and cached it forever starts rejecting every token the moment rotation happens.</description>
+    </item>
+    <item>
+      <title>Ollama: connection refused on localhost:11434</title>
+      <link>https://fixmyerror.net/errors/ollama-connection-refused.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ollama-connection-refused.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The client could not reach the Ollama server. Either the service is not running, or it is running but bound to loopback only, which is what breaks calls from a container or another machine even though the same command works on the host.</description>
+    </item>
+    <item>
+      <title>OpenAI Whisper: Maximum content size limit exceeded</title>
+      <link>https://fixmyerror.net/errors/openai-audio-file-too-large.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/openai-audio-file-too-large.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The transcription endpoint caps uploads at 25 MB. Long recordings have to be split, and because a naive split cuts mid word the usual fix is to segment on silence and stitch the transcripts back together.</description>
+    </item>
+    <item>
+      <title>OpenAI: Unsupported parameter: &apos;max_tokens&apos; is not supported with this model</title>
+      <link>https://fixmyerror.net/errors/openai-max-tokens-not-supported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/openai-max-tokens-not-supported.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Newer OpenAI models reject max_tokens and expect max_completion_tokens, because reasoning tokens are billed and counted separately from the visible answer. Code written against an older model fails the moment the model name is swapped, with a 400 rather than a warning.</description>
+    </item>
+    <item>
+      <title>OpenSSL: unsafe legacy renegotiation disabled</title>
+      <link>https://fixmyerror.net/errors/openssl-unsafe-legacy-renegotiation-disabled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/openssl-unsafe-legacy-renegotiation-disabled.html</guid>
+      <category>TLS</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>OpenSSL 3 refuses to talk to servers that do not support RFC 5746 secure renegotiation. The peer is an old appliance or an unpatched stack, and the failure appears the moment a distribution upgrades OpenSSL rather than after any change on your side.</description>
+    </item>
+    <item>
+      <title>pg_dump: server version mismatch, aborting</title>
+      <link>https://fixmyerror.net/errors/pg-dump-server-version-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pg-dump-server-version-mismatch.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>pg_dump refuses to dump a server newer than itself, because it cannot know about catalog changes made after it was built. It is a client version problem rather than a server one, and it appears the moment a managed database is upgraded while the client machine is not.</description>
+    </item>
+    <item>
+      <title>pip: No matching distribution found for X</title>
+      <link>https://fixmyerror.net/errors/pip-no-matching-distribution.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pip-no-matching-distribution.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The index has the project but nothing that fits this environment: no wheel for your Python version, platform or architecture, or a requires-python floor above your interpreter. On Apple silicon and Alpine it is usually the missing wheel rather than a missing package.</description>
+    </item>
+    <item>
+      <title>PostgreSQL: cannot execute INSERT in a read-only transaction</title>
+      <link>https://fixmyerror.net/errors/postgres-read-only-transaction.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postgres-read-only-transaction.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The connection landed on a standby, or on a primary that has been demoted or put into read only mode. After a failover an application pooling connections keeps writing to the old endpoint until something forces it to reconnect, which is why writes fail while reads look healthy.</description>
+    </item>
+    <item>
+      <title>Prometheus: sample limit exceeded</title>
+      <link>https://fixmyerror.net/errors/prometheus-sample-limit-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-sample-limit-exceeded.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A scrape returned more series than the job&apos;s sample_limit allows, so the whole scrape is dropped and the target goes down. It is nearly always unbounded cardinality: a label carrying a user id, a URL path or a trace id that creates a new series per request.</description>
+    </item>
+    <item>
+      <title>Python 3.13: ModuleNotFoundError: No module named &apos;cgi&apos;</title>
+      <link>https://fixmyerror.net/errors/python-313-removed-stdlib-modules.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-313-removed-stdlib-modules.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Python 3.13 deleted the nineteen dead batteries listed in PEP 594, including cgi, cgitb, imghdr, telnetlib, crypt, pipes and nntplib. Code that imported them stops working the moment the interpreter is upgraded, usually from a dependency rather than your own source.</description>
+    </item>
+    <item>
+      <title>Python: An attempt has been made to start a new process before bootstrapping</title>
+      <link>https://fixmyerror.net/errors/python-multiprocessing-bootstrapping-phase.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-multiprocessing-bootstrapping-phase.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>On Windows and macOS multiprocessing starts children with spawn, which re-imports the main module in each one. If process creation happens at module level, every child starts its own children and the runtime stops the fork bomb before it begins.</description>
+    </item>
+    <item>
+      <title>Python: ImportError: attempted relative import with no known parent package</title>
+      <link>https://fixmyerror.net/errors/python-relative-import-no-parent-package.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-relative-import-no-parent-package.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A module using from . import x was run as a script. Executing a file directly sets its name to __main__, so it has no package context and the relative import has nothing to resolve against, even though importing the same file works.</description>
+    </item>
+    <item>
+      <title>Python: RuntimeError: dictionary changed size during iteration</title>
+      <link>https://fixmyerror.net/errors/python-dictionary-changed-size-during-iteration.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-dictionary-changed-size-during-iteration.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A dict or set was mutated while a loop was walking it. Python detects the structural change and stops rather than skipping entries silently. The same applies to deleting from a list you are iterating, which fails quietly instead.</description>
+    </item>
+    <item>
+      <title>PyTorch: Expected all tensors to be on the same device</title>
+      <link>https://fixmyerror.net/errors/pytorch-tensors-different-devices.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pytorch-tensors-different-devices.html</guid>
+      <category>AI</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An operation received one tensor on the GPU and another on the CPU. Moving the model with .to(device) does not move the inputs, and tensors created inside a forward pass default to CPU unless they are built from an existing tensor or given a device.</description>
+    </item>
+    <item>
+      <title>RabbitMQ: connection blocked by a resource alarm</title>
+      <link>https://fixmyerror.net/errors/rabbitmq-connection-blocked-resource-alarm.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-connection-blocked-resource-alarm.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The broker raised a memory or disk alarm and stopped reading from publishing connections. Consumers keep working, publishers hang without an error, and the queue drains until the alarm clears, which makes it look like a network stall rather than backpressure.</description>
+    </item>
+    <item>
+      <title>React: Cannot update a component while rendering a different component</title>
+      <link>https://fixmyerror.net/errors/react-update-component-while-rendering.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-update-component-while-rendering.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A setState call from one component ran during another component&apos;s render, usually a state update written directly in the body of a function component or in a child&apos;s render path. Render must be pure, so React refuses the update rather than producing an inconsistent tree.</description>
+    </item>
+    <item>
+      <title>React: Each child in a list should have a unique &quot;key&quot; prop</title>
+      <link>https://fixmyerror.net/errors/react-missing-key-prop.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-missing-key-prop.html</guid>
+      <category>JavaScript</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>React uses keys to match elements between renders. Without them, or with the array index as the key, reordering or deleting an item makes React reuse the wrong DOM node, which shows up as input values and focus jumping to the wrong row rather than as a crash.</description>
+    </item>
+    <item>
+      <title>Redis Cluster: CROSSSLOT Keys in request don&apos;t hash to the same slot</title>
+      <link>https://fixmyerror.net/errors/redis-crossslot-keys.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-crossslot-keys.html</guid>
+      <category>Database</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A multi key command touched keys living on different shards. Redis Cluster splits the keyspace into 16384 slots by hashing the key, and commands like MGET, transactions and Lua scripts must stay inside one slot, so code that worked on a single node breaks on a cluster.</description>
+    </item>
+    <item>
+      <title>Rollup: &quot;X&quot; is not exported by &quot;Y&quot;</title>
+      <link>https://fixmyerror.net/errors/rollup-is-not-exported-by.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rollup-is-not-exported-by.html</guid>
+      <category>Frontend</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A named import was taken from a CommonJS module. Rollup and Vite analyse ES module syntax statically, and a CJS file only has a single module.exports object at runtime, so the named binding does not exist at build time even though it works in Node.</description>
+    </item>
+    <item>
+      <title>Rust: future cannot be sent between threads safely</title>
+      <link>https://fixmyerror.net/errors/rust-future-cannot-be-sent-between-threads.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-future-cannot-be-sent-between-threads.html</guid>
+      <category>Rust</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A multi threaded async runtime requires spawned futures to be Send, and something that is not Send was held across an await point. The usual culprits are Rc, RefCell, or a std::sync::MutexGuard kept alive over an await, and the compiler note names the value and the await it survives.</description>
+    </item>
+    <item>
+      <title>Rust: temporary value dropped while borrowed (E0716)</title>
+      <link>https://fixmyerror.net/errors/rust-temporary-value-dropped-while-borrowed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-temporary-value-dropped-while-borrowed.html</guid>
+      <category>Rust</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A reference outlived the temporary it pointed at. The temporary is dropped at the end of the statement that created it, so binding a reference into a longer lived variable, or chaining a method that borrows from a temporary, leaves a dangling reference the borrow checker rejects.</description>
+    </item>
+    <item>
+      <title>Rust: the `?` operator could not convert the error (E0277)</title>
+      <link>https://fixmyerror.net/errors/rust-question-mark-could-not-convert-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-question-mark-could-not-convert-error.html</guid>
+      <category>Rust</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The ? operator converts the error with From, and no such conversion exists between the error you produced and the one your function returns. It is the most common friction point when a function starts touching two libraries with their own error types.</description>
+    </item>
+    <item>
+      <title>sed: -i may not be used with stdin / extra characters after command (macOS)</title>
+      <link>https://fixmyerror.net/errors/sed-i-requires-argument-macos.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sed-i-requires-argument-macos.html</guid>
+      <category>Shell</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>macOS ships BSD sed, where -i takes a mandatory backup suffix argument. A script written against GNU sed passes the expression where BSD sed expects the suffix, so the same command works on Linux and fails or silently creates odd files on a Mac.</description>
+    </item>
+    <item>
+      <title>SQLAlchemy: DetachedInstanceError, parent instance is not bound to a Session</title>
+      <link>https://fixmyerror.net/errors/sqlalchemy-detached-instance-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sqlalchemy-detached-instance-error.html</guid>
+      <category>Python</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A lazily loaded attribute was touched after its session closed. The object still exists, but the relationship it needs to fetch has no connection to load from, which is why serialising an ORM object outside the request scope fails while the same code inside it works.</description>
+    </item>
+    <item>
+      <title>ssh: no matching host key type found. Their offer: ssh-rsa</title>
+      <link>https://fixmyerror.net/errors/ssh-no-matching-host-key-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-no-matching-host-key-type.html</guid>
+      <category>Security</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>OpenSSH 8.8 disabled the SHA-1 ssh-rsa signature algorithm by default. The client and an old server or appliance now have no host key algorithm in common, so the connection fails during negotiation rather than at authentication.</description>
+    </item>
+    <item>
+      <title>SSH: Permissions 0644 for &apos;id_rsa&apos; are too open</title>
+      <link>https://fixmyerror.net/errors/ssh-permissions-too-open-private-key.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-permissions-too-open-private-key.html</guid>
+      <category>Security</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>OpenSSH refuses to use a private key that other users on the machine can read. It appears constantly in CI, where a key written from a secret inherits the default umask, and on keys copied from a filesystem that does not carry Unix permissions.</description>
+    </item>
+    <item>
+      <title>sudo: unable to resolve host</title>
+      <link>https://fixmyerror.net/errors/sudo-unable-to-resolve-host.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sudo-unable-to-resolve-host.html</guid>
+      <category>System</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The hostname in /etc/hostname has no entry in /etc/hosts, so sudo&apos;s lookup fails. It is a warning rather than a failure and the command still runs, but it adds a DNS timeout to every invocation, which is why scripts on a renamed host suddenly crawl.</description>
+    </item>
+    <item>
+      <title>Terraform: An argument named &quot;x&quot; is not expected here</title>
+      <link>https://fixmyerror.net/errors/terraform-argument-not-expected-here.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-argument-not-expected-here.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The configuration uses an argument the provider schema does not have. Usually the provider is older than the documentation you are reading, or the argument belongs to a nested block rather than the resource body, since the lock file pins a version the docs have moved past.</description>
+    </item>
+    <item>
+      <title>Terraform: Failed to install provider, could not query provider registry</title>
+      <link>https://fixmyerror.net/errors/terraform-failed-to-install-provider.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-failed-to-install-provider.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>terraform init could not fetch a provider. Beyond plain network failure the frequent causes are a source address that does not exist, an implicit hashicorp/ namespace assumed for a community provider, or an air gapped runner with no mirror configured.</description>
+    </item>
+    <item>
+      <title>Terraform: Instance cannot be destroyed (prevent_destroy)</title>
+      <link>https://fixmyerror.net/errors/terraform-prevent-destroy.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-prevent-destroy.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The resource carries a lifecycle block with prevent_destroy set, and the plan would destroy it. Terraform refuses at plan time, deliberately, because destroy is frequently implied by a change to an immutable attribute rather than requested outright.</description>
     </item>
   </channel>
 </rss>

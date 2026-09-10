@@ -34,6 +34,8 @@ const CONTACT = 'alex@slash-root.com';
 const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10);
 /** Entries added within this many days get a "New" badge. */
 const NEW_WINDOW_DAYS = 60;
+/** How many of the newest entries the RSS feed carries. */
+const FEED_ITEM_LIMIT = 200;
 
 const errors = readJson('data/errors.json');
 const categoryGuides = readJson('data/categories.json');
@@ -828,11 +830,17 @@ ${urls.map(u => `  <url>
 `;
 }
 
+/**
+ * The feed publishes the newest entries by date. The window is 200 rather than
+ * 60 because every entry now carries a dateAdded: the back catalogue was dated
+ * from git history, and a window this size lets it reach subscribers as the
+ * newer entries age out, without turning the feed into the whole catalogue.
+ */
 function renderFeed() {
     const items = errors
         .filter(e => e.dateAdded)
         .sort((a, b) => (b.dateAdded.localeCompare(a.dateAdded)) || a.title.localeCompare(b.title))
-        .slice(0, 60);
+        .slice(0, FEED_ITEM_LIMIT);
 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
