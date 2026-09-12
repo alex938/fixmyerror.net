@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ecto: connection not available and request was dropped from queue","name":"Ecto: connection not available and request was dropped from queue","description":"Every connection in the pool was busy for longer than queue_target allowed, so DBConnection gave up rather than queueing indefinitely. Raising pool_size is…","url":"https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html"},"inLanguage":"en-GB","articleSection":"Elixir","proficiencyLevel":"Expert","datePublished":"2026-09-10","dateModified":"2026-09-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://hexdocs.pm/db_connection/DBConnection.html"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ecto: connection not available and request was dropped from queue","name":"Ecto: connection not available and request was dropped from queue","description":"Every connection in the pool was busy for longer than queue_target allowed, so DBConnection gave up rather than queueing indefinitely. Raising pool_size is…","url":"https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html"},"inLanguage":"en-GB","articleSection":"Elixir","proficiencyLevel":"Expert","datePublished":"2026-09-10","dateModified":"2026-09-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://hexdocs.pm/db_connection/DBConnection.html"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Elixir errors","item":"https://fixmyerror.net/categories/elixir.html"},{"@type":"ListItem","position":3,"name":"Ecto: connection not available and request was dropped from queue","item":"https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html"}]}</script>
 </head>
 <body>
@@ -129,11 +129,15 @@ config :my_app, MyApp.JobRepo, pool_size: 4</code></pre>
             <h2>Related Elixir errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/elixir-no-function-clause-matching.html">Elixir: (FunctionClauseError) no function clause matching<span class="sub">Every clause of the function was tried and none matched the arguments, either on the pattern…</span></a></li>
+                <li><a href="../errors/elixir-key-not-found-keyerror.html">Elixir: (KeyError) key :name not found in: %{&quot;name&quot; =&gt; &quot;ada&quot;}<span class="sub">Dot access and `Map.fetch!/2` raise rather than returning nil when a key is missing, and the…</span></a></li>
+                <li><a href="../errors/elixir-undefined-function-module-not-available.html">Elixir: function Foo.bar/1 is undefined (module Foo is not available)<span class="sub">The module was never loaded, which in practice means a misspelled alias, a file outside the…</span></a></li>
                 <li><a href="../errors/elixir-genserver-call-timeout.html">Elixir: GenServer call timeout (exited in :gen_server.call)<span class="sub">A GenServer.call did not get a reply within 5000ms (default) because the server is…</span></a></li>
                 <li><a href="../errors/elixir-mix-deps-compile-failed.html">Elixir: Mix could not compile dependency<span class="sub">A dependency failed to compile due to missing native build tools, a version conflict, or…</span></a></li>
+                <li><a href="../errors/elixir-protocol-enumerable-not-implemented.html">Elixir: protocol Enumerable not implemented for nil of type Atom<span class="sub">Something handed `Enum` a nil where a list was expected, and nil has no Enumerable…</span></a></li>
+                <li><a href="../errors/phoenix-no-route-found.html">Phoenix: (Phoenix.Router.NoRouteError) no route found for GET /api/users<span class="sub">No clause in the router matched, so Phoenix raises rather than quietly returning 404 in…</span></a></li>
                 <li><a href="../errors/elixir-phoenix-check-origin.html">Phoenix: WebSocket connection rejected by check_origin<span class="sub">Phoenix rejects socket connections whose Origin header is not in the allowed list. Behind a…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/elixir.html">See all 5 Elixir errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/elixir.html">See all 9 Elixir errors →</a></p>
         </section>
 
             <section class="block">
@@ -145,8 +149,8 @@ config :my_app, MyApp.JobRepo, pool_size: 4</code></pre>
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">35</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">35</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
                     <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">35</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">33</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">26</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">34</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">27</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
@@ -198,7 +202,7 @@ config :my_app, MyApp.JobRepo, pool_size: 4</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 942 documented errors across 57 categories. Last updated 10 September 2026.</p>
+                <p>FixMyError.net has 972 documented errors across 57 categories. Last updated 12 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

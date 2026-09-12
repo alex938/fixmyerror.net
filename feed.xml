@@ -6,8 +6,248 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Thu, 10 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 12 Sep 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Container CPU throttling: nr_throttled rising in cpu.stat</title>
+      <link>https://fixmyerror.net/errors/perf-cpu-cfs-throttling.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/perf-cpu-cfs-throttling.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A CPU limit is enforced as a quota per 100ms period, so a process that spends its quota early is stopped until the period ends. Average utilisation looks comfortable while p99 latency spikes, which is why this gets blamed on the database or the network long before anyone reads cpu.stat.</description>
+    </item>
+    <item>
+      <title>Dart: type &apos;Null&apos; is not a subtype of type &apos;String&apos; in type cast</title>
+      <link>https://fixmyerror.net/errors/dart-type-null-is-not-a-subtype-of-string.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-type-null-is-not-a-subtype-of-string.html</guid>
+      <category>Dart</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A cast met a null at runtime, and with sound null safety the failure lands on the cast rather than on first use. Nearly every occurrence is JSON decoding: `json[&apos;name&apos;] as String` passes in testing and throws the first time the server omits the field or sends null for it.</description>
+    </item>
+    <item>
+      <title>docker: could not select device driver with capabilities: [[gpu]]</title>
+      <link>https://fixmyerror.net/errors/docker-could-not-select-device-driver-gpu.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-could-not-select-device-driver-gpu.html</guid>
+      <category>Docker</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>--gpus needs the NVIDIA container toolkit registered as a runtime with the daemon; having the driver installed on the host is not enough. It also appears after an upgrade, because a package that rewrites /etc/docker/daemon.json can drop the runtime entry while leaving everything else working.</description>
+    </item>
+    <item>
+      <title>Elixir: (KeyError) key :name not found in: %{&quot;name&quot; =&gt; &quot;ada&quot;}</title>
+      <link>https://fixmyerror.net/errors/elixir-key-not-found-keyerror.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-key-not-found-keyerror.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Dot access and `Map.fetch!/2` raise rather than returning nil when a key is missing, and the usual cause is string keys where atom keys were expected. A map decoded from JSON has `&quot;name&quot;`, not `:name`, and the two are different keys in the same map.</description>
+    </item>
+    <item>
+      <title>Elixir: function Foo.bar/1 is undefined (module Foo is not available)</title>
+      <link>https://fixmyerror.net/errors/elixir-undefined-function-module-not-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-undefined-function-module-not-available.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The module was never loaded, which in practice means a misspelled alias, a file outside the compile paths, or a dependency that is in `mix.exs` but whose application was never started. Note the wording: if the module existed and only the function were wrong, the message would name the module as…</description>
+    </item>
+    <item>
+      <title>Elixir: protocol Enumerable not implemented for nil of type Atom</title>
+      <link>https://fixmyerror.net/errors/elixir-protocol-enumerable-not-implemented.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-protocol-enumerable-not-implemented.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Something handed `Enum` a nil where a list was expected, and nil has no Enumerable implementation. The real fault is upstream: an Ecto association that was never preloaded, a `Map.get` that missed, or a function whose error branch returns nil instead of an empty list.</description>
+    </item>
+    <item>
+      <title>Flutter: No Material widget found</title>
+      <link>https://fixmyerror.net/errors/flutter-no-material-widget-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-no-material-widget-found.html</guid>
+      <category>Dart</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Widgets such as TextField, ListTile and InkWell paint ink on the nearest Material ancestor and throw when there is none above them. It appears inside a showDialog builder, a custom PageRoute or a widget test that pumps the widget on its own, because those trees start below the Scaffold.</description>
+    </item>
+    <item>
+      <title>Flutter: setState() or markNeedsBuild() called during build</title>
+      <link>https://fixmyerror.net/errors/flutter-setstate-called-during-build.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-setstate-called-during-build.html</guid>
+      <category>Dart</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Something changed state while the framework was already building the tree, so it is being asked to rebuild a widget it has not finished with. The usual cause is work that belongs in initState or in a callback being run directly inside build: notifying a provider, starting navigation, or showing a…</description>
+    </item>
+    <item>
+      <title>Flutter: Vertical viewport was given unbounded height</title>
+      <link>https://fixmyerror.net/errors/flutter-vertical-viewport-unbounded-height.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-vertical-viewport-unbounded-height.html</guid>
+      <category>Dart</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A scrolling widget was placed somewhere with no height to fill, typically inside a Column or another scrollable, and both want to size themselves to their children. The message names the inner ListView, but the constraint that is missing comes from the parent.</description>
+    </item>
+    <item>
+      <title>java.lang.OutOfMemoryError: GC overhead limit exceeded</title>
+      <link>https://fixmyerror.net/errors/jvm-gc-overhead-limit-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jvm-gc-overhead-limit-exceeded.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The JVM spent over 98 percent of recent time collecting and recovered less than 2 percent of the heap, so it stopped rather than crawling on. The heap need not be full: a cache holding strong references keeps everything reachable, and the collector works harder each cycle for less return.</description>
+    </item>
+    <item>
+      <title>journalctl: No journal files were found</title>
+      <link>https://fixmyerror.net/errors/journalctl-no-journal-files-were-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/journalctl-no-journal-files-were-found.html</guid>
+      <category>Logging</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>journald stores logs in memory when /var/log/journal does not exist, so everything is discarded at reboot. The service was logging normally, but the evidence for the crash you came to investigate went away with the machine, which is why the directory matters more than any retention setting.</description>
+    </item>
+    <item>
+      <title>kubectl top: error: Metrics API not available</title>
+      <link>https://fixmyerror.net/errors/k8s-metrics-api-not-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-metrics-api-not-available.html</guid>
+      <category>Kubernetes</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>kubectl top and every horizontal pod autoscaler read from metrics-server, which no upstream cluster installs by default. The same message appears when it is installed but never becomes ready, usually because it cannot verify the kubelet&apos;s self signed serving certificate.</description>
+    </item>
+    <item>
+      <title>logrotate: skipping because parent directory has insecure permissions</title>
+      <link>https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html</guid>
+      <category>Logging</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>logrotate refuses to rotate a file in a directory that is group or world writable, because doing that work as root would be an escalation path. Nothing else breaks, so rotation just stops and the disk fills a few weeks later, long after the message scrolled past in the timer output.</description>
+    </item>
+    <item>
+      <title>Phoenix: (Phoenix.Router.NoRouteError) no route found for GET /api/users</title>
+      <link>https://fixmyerror.net/errors/phoenix-no-route-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/phoenix-no-route-found.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>No clause in the router matched, so Phoenix raises rather than quietly returning 404 in development. The path is usually right and the verb or the scope is not: a link issuing GET for a delete route, or a route written with the prefix that its enclosing `scope` already adds.</description>
+    </item>
+    <item>
+      <title>Python: re.error: bad escape \d at position 0</title>
+      <link>https://fixmyerror.net/errors/python-re-bad-escape-in-replacement.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-bad-escape-in-replacement.html</guid>
+      <category>Regex</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The replacement argument of re.sub is not a pattern. It understands only group references such as \1 and \g plus the standard string escapes, so a regex fragment or a Windows path pasted into it raises. The same text is perfectly valid as the pattern argument, which makes the message look wrong.</description>
+    </item>
+    <item>
+      <title>Regex: test() returns false every other call with the /g flag</title>
+      <link>https://fixmyerror.net/errors/regex-test-lastindex-global-flag.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/regex-test-lastindex-global-flag.html</guid>
+      <category>Regex</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A regex with the g or y flag keeps lastIndex between calls, so test() resumes from where the previous match ended and alternates between true and false on the same input. It is worst when the regex is a module level constant shared by every request the process handles.</description>
+    </item>
+    <item>
+      <title>Scala: NoClassDefFoundError: scala/collection/IterableOnce</title>
+      <link>https://fixmyerror.net/errors/scala-noclassdeffounderror-iterableonce.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-noclassdeffounderror-iterableonce.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A jar built for a different Scala version is on the classpath. Scala is only binary compatible within a minor version, so a 2.12 artifact loaded by a 2.13 runtime looks for classes that were moved or renamed. It compiles, because the missing class is only resolved when the code first runs.</description>
+    </item>
+    <item>
+      <title>Scala: type mismatch; found: Unit, required: String</title>
+      <link>https://fixmyerror.net/errors/scala-value-discarded-unit-return.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-value-discarded-unit-return.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The last expression in the block is an assignment or a `for` loop, both of which evaluate to Unit, so the block returns nothing useful. It reads as a compiler mistake because the value the author meant to return is two lines up, discarded by whatever came after it.</description>
+    </item>
+    <item>
+      <title>Spark: org.apache.spark.SparkException: Task not serializable</title>
+      <link>https://fixmyerror.net/errors/spark-task-not-serializable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-task-not-serializable.html</guid>
+      <category>BigData</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A closure sent to the executors dragged an unserialisable object along with it. Referencing one field of an enclosing class captures the whole instance, so a lambda that only needs a string can pull in a database connection, a logger or the SparkSession itself.</description>
+    </item>
+    <item>
+      <title>Svelte 5: `$effect` can only be used inside an effect</title>
+      <link>https://fixmyerror.net/errors/svelte-5-effect-orphan.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-effect-orphan.html</guid>
+      <category>Svelte</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Effects have to be created while a component is initialising, so calling `$effect` from a click handler, a `setTimeout` callback or an async function after an `await` throws. The rule usually catches an attempt to start a subscription in response to an event rather than declaring it up front and…</description>
+    </item>
+    <item>
+      <title>Svelte 5: `$props()` can only be used at the top level of components</title>
+      <link>https://fixmyerror.net/errors/svelte-5-props-invalid-placement.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-props-invalid-placement.html</guid>
+      <category>Svelte</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Runes are compiled away rather than called, so `$props()` has to appear exactly once as the initialiser of a top level declaration in a component&apos;s instance script. Destructuring it inside a function, a condition or a `.svelte.js` module looks like an ordinary call but fails to compile.</description>
+    </item>
+    <item>
+      <title>Svelte 5: State referenced in its own scope will never update</title>
+      <link>https://fixmyerror.net/errors/svelte-5-state-referenced-locally.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-state-referenced-locally.html</guid>
+      <category>Svelte</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Reading a `$state` variable into a plain `const`, or passing it to a function, copies the value at that moment instead of keeping the reactive reference. The component still updates when the state changes, but your copy does not, so the page shows a stale number and nothing in the code looks wrong.</description>
+    </item>
+    <item>
+      <title>Svelte 5: Updating state inside a derived is forbidden</title>
+      <link>https://fixmyerror.net/errors/svelte-5-state-unsafe-mutation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-state-unsafe-mutation.html</guid>
+      <category>Svelte</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A `$derived` expression re-runs whenever its inputs change, so writing state from inside one would feed the change back into itself. It almost always appears after a migration, where a `$:` statement that both computed a value and assigned to something else was converted mechanically into a single…</description>
+    </item>
+    <item>
+      <title>SvelteKit: Cannot prerender pages with actions</title>
+      <link>https://fixmyerror.net/errors/sveltekit-cannot-prerender-pages-with-actions.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-cannot-prerender-pages-with-actions.html</guid>
+      <category>Svelte</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Prerendering happens at build time and produces a static file, while a form action needs a server when the request arrives, so one route cannot do both. It usually surfaces because `prerender = true` was set on a root layout months ago and a page underneath it has just gained a form.</description>
+    </item>
+    <item>
+      <title>Web3: gas required exceeds allowance (0)</title>
+      <link>https://fixmyerror.net/errors/web3-gas-required-exceeds-allowance.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-gas-required-exceeds-allowance.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The node simulated the transaction and found the sender cannot cover it, so the allowance it reports is the gas the balance affords, often zero. Despite the wording it is rarely a gas limit problem: the account is empty, or it is the wrong account, or the wrong chain is selected in the wallet.</description>
+    </item>
+    <item>
+      <title>Web3: max fee per gas less than block base fee</title>
+      <link>https://fixmyerror.net/errors/web3-max-fee-per-gas-less-than-block-base-fee.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-max-fee-per-gas-less-than-block-base-fee.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The node rejected the transaction because its maxFeePerGas is below the base fee of the next block. Base fee moves by up to 12.5 percent per block, so a fee read a few seconds earlier, or a value hard coded in a script, is stale by the time the transaction is submitted.</description>
+    </item>
+    <item>
+      <title>Web3: missing revert data in call exception (CALL_EXCEPTION)</title>
+      <link>https://fixmyerror.net/errors/web3-missing-revert-data-call-exception.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-missing-revert-data-call-exception.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The call failed without a reason string, which usually means there is no contract at that address on this chain rather than a failed require. A deployment address from a different network, a proxy that was never initialised, or an ABI that does not match the deployed bytecode all produce it.</description>
+    </item>
+    <item>
+      <title>WebAssembly: null function or function signature mismatch</title>
+      <link>https://fixmyerror.net/errors/wasm-function-signature-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-function-signature-mismatch.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An indirect call went through the function table and found an empty slot, or a function whose type does not match the call site. In Emscripten builds it is a C function pointer cast to the wrong signature, or a JavaScript callback registered with a signature string that does not match what it is…</description>
+    </item>
+    <item>
+      <title>WebAssembly: RuntimeError: unreachable executed</title>
+      <link>https://fixmyerror.net/errors/wasm-unreachable-executed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-unreachable-executed.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The module reached an `unreachable` instruction, which compilers emit wherever the program traps: a Rust panic, an assertion, `abort()`, or a C++ exception in a build compiled without exception support. The JavaScript stack shows a wasm frame and nothing else, so the useful detail is whatever the…</description>
+    </item>
+    <item>
+      <title>WebAssembly: SharedArrayBuffer is not defined</title>
+      <link>https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Threaded builds need shared memory, and browsers only expose SharedArrayBuffer to cross origin isolated pages. The module works on localhost and fails on the deployed site, because isolation comes from response headers that the dev server sets and the CDN in front of production does not.</description>
+    </item>
     <item>
       <title>Android: Manifest merger failed with multiple errors, see logs</title>
       <link>https://fixmyerror.net/errors/android-manifest-merger-failed.html</link>
@@ -1367,246 +1607,6 @@
       <category>JavaScript</category>
       <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
       <description>npm could not parse package.json or package-lock.json. Nearly always a trailing comma, a comment, a smart quote pasted from a document, or conflict markers left in the lockfile after a merge, which is why it appears right after a rebase.</description>
-    </item>
-    <item>
-      <title>OIDC: unable to find a signing key that matches the kid</title>
-      <link>https://fixmyerror.net/errors/oidc-unable-to-find-signing-key-kid.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/oidc-unable-to-find-signing-key-kid.html</guid>
-      <category>Auth</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The token was signed with a key the verifier does not have. Identity providers rotate signing keys and publish both old and new in their JWKS, so a service that fetched the key set once at boot and cached it forever starts rejecting every token the moment rotation happens.</description>
-    </item>
-    <item>
-      <title>Ollama: connection refused on localhost:11434</title>
-      <link>https://fixmyerror.net/errors/ollama-connection-refused.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ollama-connection-refused.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The client could not reach the Ollama server. Either the service is not running, or it is running but bound to loopback only, which is what breaks calls from a container or another machine even though the same command works on the host.</description>
-    </item>
-    <item>
-      <title>OpenAI Whisper: Maximum content size limit exceeded</title>
-      <link>https://fixmyerror.net/errors/openai-audio-file-too-large.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/openai-audio-file-too-large.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The transcription endpoint caps uploads at 25 MB. Long recordings have to be split, and because a naive split cuts mid word the usual fix is to segment on silence and stitch the transcripts back together.</description>
-    </item>
-    <item>
-      <title>OpenAI: Unsupported parameter: &apos;max_tokens&apos; is not supported with this model</title>
-      <link>https://fixmyerror.net/errors/openai-max-tokens-not-supported.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/openai-max-tokens-not-supported.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Newer OpenAI models reject max_tokens and expect max_completion_tokens, because reasoning tokens are billed and counted separately from the visible answer. Code written against an older model fails the moment the model name is swapped, with a 400 rather than a warning.</description>
-    </item>
-    <item>
-      <title>OpenSSL: unsafe legacy renegotiation disabled</title>
-      <link>https://fixmyerror.net/errors/openssl-unsafe-legacy-renegotiation-disabled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/openssl-unsafe-legacy-renegotiation-disabled.html</guid>
-      <category>TLS</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>OpenSSL 3 refuses to talk to servers that do not support RFC 5746 secure renegotiation. The peer is an old appliance or an unpatched stack, and the failure appears the moment a distribution upgrades OpenSSL rather than after any change on your side.</description>
-    </item>
-    <item>
-      <title>pg_dump: server version mismatch, aborting</title>
-      <link>https://fixmyerror.net/errors/pg-dump-server-version-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/pg-dump-server-version-mismatch.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>pg_dump refuses to dump a server newer than itself, because it cannot know about catalog changes made after it was built. It is a client version problem rather than a server one, and it appears the moment a managed database is upgraded while the client machine is not.</description>
-    </item>
-    <item>
-      <title>pip: No matching distribution found for X</title>
-      <link>https://fixmyerror.net/errors/pip-no-matching-distribution.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/pip-no-matching-distribution.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The index has the project but nothing that fits this environment: no wheel for your Python version, platform or architecture, or a requires-python floor above your interpreter. On Apple silicon and Alpine it is usually the missing wheel rather than a missing package.</description>
-    </item>
-    <item>
-      <title>PostgreSQL: cannot execute INSERT in a read-only transaction</title>
-      <link>https://fixmyerror.net/errors/postgres-read-only-transaction.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/postgres-read-only-transaction.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The connection landed on a standby, or on a primary that has been demoted or put into read only mode. After a failover an application pooling connections keeps writing to the old endpoint until something forces it to reconnect, which is why writes fail while reads look healthy.</description>
-    </item>
-    <item>
-      <title>Prometheus: sample limit exceeded</title>
-      <link>https://fixmyerror.net/errors/prometheus-sample-limit-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-sample-limit-exceeded.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A scrape returned more series than the job&apos;s sample_limit allows, so the whole scrape is dropped and the target goes down. It is nearly always unbounded cardinality: a label carrying a user id, a URL path or a trace id that creates a new series per request.</description>
-    </item>
-    <item>
-      <title>Python 3.13: ModuleNotFoundError: No module named &apos;cgi&apos;</title>
-      <link>https://fixmyerror.net/errors/python-313-removed-stdlib-modules.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-313-removed-stdlib-modules.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Python 3.13 deleted the nineteen dead batteries listed in PEP 594, including cgi, cgitb, imghdr, telnetlib, crypt, pipes and nntplib. Code that imported them stops working the moment the interpreter is upgraded, usually from a dependency rather than your own source.</description>
-    </item>
-    <item>
-      <title>Python: An attempt has been made to start a new process before bootstrapping</title>
-      <link>https://fixmyerror.net/errors/python-multiprocessing-bootstrapping-phase.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-multiprocessing-bootstrapping-phase.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>On Windows and macOS multiprocessing starts children with spawn, which re-imports the main module in each one. If process creation happens at module level, every child starts its own children and the runtime stops the fork bomb before it begins.</description>
-    </item>
-    <item>
-      <title>Python: ImportError: attempted relative import with no known parent package</title>
-      <link>https://fixmyerror.net/errors/python-relative-import-no-parent-package.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-relative-import-no-parent-package.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A module using from . import x was run as a script. Executing a file directly sets its name to __main__, so it has no package context and the relative import has nothing to resolve against, even though importing the same file works.</description>
-    </item>
-    <item>
-      <title>Python: RuntimeError: dictionary changed size during iteration</title>
-      <link>https://fixmyerror.net/errors/python-dictionary-changed-size-during-iteration.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-dictionary-changed-size-during-iteration.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A dict or set was mutated while a loop was walking it. Python detects the structural change and stops rather than skipping entries silently. The same applies to deleting from a list you are iterating, which fails quietly instead.</description>
-    </item>
-    <item>
-      <title>PyTorch: Expected all tensors to be on the same device</title>
-      <link>https://fixmyerror.net/errors/pytorch-tensors-different-devices.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/pytorch-tensors-different-devices.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An operation received one tensor on the GPU and another on the CPU. Moving the model with .to(device) does not move the inputs, and tensors created inside a forward pass default to CPU unless they are built from an existing tensor or given a device.</description>
-    </item>
-    <item>
-      <title>RabbitMQ: connection blocked by a resource alarm</title>
-      <link>https://fixmyerror.net/errors/rabbitmq-connection-blocked-resource-alarm.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-connection-blocked-resource-alarm.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The broker raised a memory or disk alarm and stopped reading from publishing connections. Consumers keep working, publishers hang without an error, and the queue drains until the alarm clears, which makes it look like a network stall rather than backpressure.</description>
-    </item>
-    <item>
-      <title>React: Cannot update a component while rendering a different component</title>
-      <link>https://fixmyerror.net/errors/react-update-component-while-rendering.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/react-update-component-while-rendering.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A setState call from one component ran during another component&apos;s render, usually a state update written directly in the body of a function component or in a child&apos;s render path. Render must be pure, so React refuses the update rather than producing an inconsistent tree.</description>
-    </item>
-    <item>
-      <title>React: Each child in a list should have a unique &quot;key&quot; prop</title>
-      <link>https://fixmyerror.net/errors/react-missing-key-prop.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/react-missing-key-prop.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>React uses keys to match elements between renders. Without them, or with the array index as the key, reordering or deleting an item makes React reuse the wrong DOM node, which shows up as input values and focus jumping to the wrong row rather than as a crash.</description>
-    </item>
-    <item>
-      <title>Redis Cluster: CROSSSLOT Keys in request don&apos;t hash to the same slot</title>
-      <link>https://fixmyerror.net/errors/redis-crossslot-keys.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-crossslot-keys.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A multi key command touched keys living on different shards. Redis Cluster splits the keyspace into 16384 slots by hashing the key, and commands like MGET, transactions and Lua scripts must stay inside one slot, so code that worked on a single node breaks on a cluster.</description>
-    </item>
-    <item>
-      <title>Rollup: &quot;X&quot; is not exported by &quot;Y&quot;</title>
-      <link>https://fixmyerror.net/errors/rollup-is-not-exported-by.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rollup-is-not-exported-by.html</guid>
-      <category>Frontend</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A named import was taken from a CommonJS module. Rollup and Vite analyse ES module syntax statically, and a CJS file only has a single module.exports object at runtime, so the named binding does not exist at build time even though it works in Node.</description>
-    </item>
-    <item>
-      <title>Rust: future cannot be sent between threads safely</title>
-      <link>https://fixmyerror.net/errors/rust-future-cannot-be-sent-between-threads.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-future-cannot-be-sent-between-threads.html</guid>
-      <category>Rust</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A multi threaded async runtime requires spawned futures to be Send, and something that is not Send was held across an await point. The usual culprits are Rc, RefCell, or a std::sync::MutexGuard kept alive over an await, and the compiler note names the value and the await it survives.</description>
-    </item>
-    <item>
-      <title>Rust: temporary value dropped while borrowed (E0716)</title>
-      <link>https://fixmyerror.net/errors/rust-temporary-value-dropped-while-borrowed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-temporary-value-dropped-while-borrowed.html</guid>
-      <category>Rust</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A reference outlived the temporary it pointed at. The temporary is dropped at the end of the statement that created it, so binding a reference into a longer lived variable, or chaining a method that borrows from a temporary, leaves a dangling reference the borrow checker rejects.</description>
-    </item>
-    <item>
-      <title>Rust: the `?` operator could not convert the error (E0277)</title>
-      <link>https://fixmyerror.net/errors/rust-question-mark-could-not-convert-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-question-mark-could-not-convert-error.html</guid>
-      <category>Rust</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The ? operator converts the error with From, and no such conversion exists between the error you produced and the one your function returns. It is the most common friction point when a function starts touching two libraries with their own error types.</description>
-    </item>
-    <item>
-      <title>sed: -i may not be used with stdin / extra characters after command (macOS)</title>
-      <link>https://fixmyerror.net/errors/sed-i-requires-argument-macos.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sed-i-requires-argument-macos.html</guid>
-      <category>Shell</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>macOS ships BSD sed, where -i takes a mandatory backup suffix argument. A script written against GNU sed passes the expression where BSD sed expects the suffix, so the same command works on Linux and fails or silently creates odd files on a Mac.</description>
-    </item>
-    <item>
-      <title>SQLAlchemy: DetachedInstanceError, parent instance is not bound to a Session</title>
-      <link>https://fixmyerror.net/errors/sqlalchemy-detached-instance-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sqlalchemy-detached-instance-error.html</guid>
-      <category>Python</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A lazily loaded attribute was touched after its session closed. The object still exists, but the relationship it needs to fetch has no connection to load from, which is why serialising an ORM object outside the request scope fails while the same code inside it works.</description>
-    </item>
-    <item>
-      <title>ssh: no matching host key type found. Their offer: ssh-rsa</title>
-      <link>https://fixmyerror.net/errors/ssh-no-matching-host-key-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-no-matching-host-key-type.html</guid>
-      <category>Security</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>OpenSSH 8.8 disabled the SHA-1 ssh-rsa signature algorithm by default. The client and an old server or appliance now have no host key algorithm in common, so the connection fails during negotiation rather than at authentication.</description>
-    </item>
-    <item>
-      <title>SSH: Permissions 0644 for &apos;id_rsa&apos; are too open</title>
-      <link>https://fixmyerror.net/errors/ssh-permissions-too-open-private-key.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-permissions-too-open-private-key.html</guid>
-      <category>Security</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>OpenSSH refuses to use a private key that other users on the machine can read. It appears constantly in CI, where a key written from a secret inherits the default umask, and on keys copied from a filesystem that does not carry Unix permissions.</description>
-    </item>
-    <item>
-      <title>sudo: unable to resolve host</title>
-      <link>https://fixmyerror.net/errors/sudo-unable-to-resolve-host.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sudo-unable-to-resolve-host.html</guid>
-      <category>System</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The hostname in /etc/hostname has no entry in /etc/hosts, so sudo&apos;s lookup fails. It is a warning rather than a failure and the command still runs, but it adds a DNS timeout to every invocation, which is why scripts on a renamed host suddenly crawl.</description>
-    </item>
-    <item>
-      <title>Terraform: An argument named &quot;x&quot; is not expected here</title>
-      <link>https://fixmyerror.net/errors/terraform-argument-not-expected-here.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-argument-not-expected-here.html</guid>
-      <category>Terraform</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The configuration uses an argument the provider schema does not have. Usually the provider is older than the documentation you are reading, or the argument belongs to a nested block rather than the resource body, since the lock file pins a version the docs have moved past.</description>
-    </item>
-    <item>
-      <title>Terraform: Failed to install provider, could not query provider registry</title>
-      <link>https://fixmyerror.net/errors/terraform-failed-to-install-provider.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-failed-to-install-provider.html</guid>
-      <category>Terraform</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>terraform init could not fetch a provider. Beyond plain network failure the frequent causes are a source address that does not exist, an implicit hashicorp/ namespace assumed for a community provider, or an air gapped runner with no mirror configured.</description>
-    </item>
-    <item>
-      <title>Terraform: Instance cannot be destroyed (prevent_destroy)</title>
-      <link>https://fixmyerror.net/errors/terraform-prevent-destroy.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-prevent-destroy.html</guid>
-      <category>Terraform</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The resource carries a lifecycle block with prevent_destroy set, and the plan would destroy it. Terraform refuses at plan time, deliberately, because destroy is frequently implied by a change to an immutable attribute rather than requested outright.</description>
     </item>
   </channel>
 </rss>

@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Node.js: high latency from synchronous crypto or JSON on the event loop","name":"Node.js: high latency from synchronous crypto or JSON on the event loop","description":"Node runs JavaScript on a single thread. A synchronous bcrypt hash, a large JSON.parse, or a synchronous file read blocks every other request for its full…","url":"https://fixmyerror.net/errors/node-event-loop-blocked-crypto.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/node-event-loop-blocked-crypto.html"},"inLanguage":"en-GB","articleSection":"Performance","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-09-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Node.js: high latency from synchronous crypto or JSON on the event loop","name":"Node.js: high latency from synchronous crypto or JSON on the event loop","description":"Node runs JavaScript on a single thread. A synchronous bcrypt hash, a large JSON.parse, or a synchronous file read blocks every other request for its full…","url":"https://fixmyerror.net/errors/node-event-loop-blocked-crypto.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/node-event-loop-blocked-crypto.html"},"inLanguage":"en-GB","articleSection":"Performance","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-09-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://nodejs.org/en/learn/asynchronous-work/dont-block-the-event-loop"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Performance errors","item":"https://fixmyerror.net/categories/performance.html"},{"@type":"ListItem","position":3,"name":"Node.js: high latency from synchronous crypto or JSON on the event loop","item":"https://fixmyerror.net/errors/node-event-loop-blocked-crypto.html"}]}</script>
 </head>
 <body>
@@ -120,11 +120,13 @@ const { Worker } = require(&#039;node:worker_threads&#039;);
         <section class="block">
             <h2>Related Performance errors</h2>
             <ul class="link-list">
+                <li><a href="../errors/perf-cpu-cfs-throttling.html">Container CPU throttling: nr_throttled rising in cpu.stat<span class="sub">A CPU limit is enforced as a quota per 100ms period, so a process that spends its quota early…</span></a></li>
+                <li><a href="../errors/jvm-gc-overhead-limit-exceeded.html">java.lang.OutOfMemoryError: GC overhead limit exceeded<span class="sub">The JVM spent over 98 percent of recent time collecting and recovered less than 2 percent of…</span></a></li>
                 <li><a href="../errors/perf-gc-pause-too-long.html">Long GC pause / stop-the-world latency spike<span class="sub">A managed runtime paused application threads to collect garbage long enough to violate…</span></a></li>
                 <li><a href="../errors/perf-event-loop-lag.html">Node.js: event loop lag / blocked synchronously<span class="sub">CPU-bound work or sync I/O blocked Node&#039;s single event loop thread, delaying unrelated…</span></a></li>
                 <li><a href="../errors/perf-thread-starvation.html">Thread pool starvation / requests queueing behind blocked threads<span class="sub">All threads in a bounded pool are blocked on I/O, locks, or sync-over-async calls. Latency…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/performance.html">See all 4 Performance errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/performance.html">See all 6 Performance errors →</a></p>
         </section>
 
             <section class="block">
@@ -136,8 +138,8 @@ const { Worker } = require(&#039;node:worker_threads&#039;);
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">35</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">35</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
                     <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">35</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">33</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">26</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">34</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">27</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
@@ -189,7 +191,7 @@ const { Worker } = require(&#039;node:worker_threads&#039;);
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 942 documented errors across 57 categories. Last updated 10 September 2026.</p>
+                <p>FixMyError.net has 972 documented errors across 57 categories. Last updated 12 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Fluentd: Buffer overflow","name":"Fluentd: Buffer overflow","description":"Fluentd's output buffer is full because the destination cannot accept data fast enough. Logs may be dropped. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/fluentd-buffer-overflow.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/fluentd-buffer-overflow.html"},"inLanguage":"en-GB","articleSection":"Logging","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-09-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.fluentd.org/buffer"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Fluentd: Buffer overflow","name":"Fluentd: Buffer overflow","description":"Fluentd's output buffer is full because the destination cannot accept data fast enough. Logs may be dropped. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/fluentd-buffer-overflow.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/fluentd-buffer-overflow.html"},"inLanguage":"en-GB","articleSection":"Logging","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-09-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.fluentd.org/buffer"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Logging errors","item":"https://fixmyerror.net/categories/logging.html"},{"@type":"ListItem","position":3,"name":"Fluentd: Buffer overflow","item":"https://fixmyerror.net/errors/fluentd-buffer-overflow.html"}]}</script>
 </head>
 <body>
@@ -121,13 +121,15 @@ retry_wait 5s</code></pre>
             <h2>Related Logging errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/cloudwatch-logs-throttled.html">CloudWatch Logs: Rate exceeded (ThrottlingException)<span class="sub">PutLogEvents API calls are being throttled by CloudWatch Logs. The account or log group is…</span></a></li>
+                <li><a href="../errors/journalctl-no-journal-files-were-found.html">journalctl: No journal files were found<span class="sub">journald stores logs in memory when /var/log/journal does not exist, so everything is…</span></a></li>
                 <li><a href="../errors/log4j-appender-not-found.html">Log4j: Appender not found<span class="sub">The logging configuration references an appender that is not defined. The log4j2.xml or…</span></a></li>
                 <li><a href="../errors/logback-file-permission-denied.html">Logback: Failed to create log file<span class="sub">Logback cannot create or write to the log file due to filesystem permissions or the directory…</span></a></li>
+                <li><a href="../errors/logrotate-parent-directory-insecure-permissions.html">logrotate: skipping because parent directory has insecure permissions<span class="sub">logrotate refuses to rotate a file in a directory that is group or world writable, because…</span></a></li>
                 <li><a href="../errors/elk-logstash-pipeline-error.html">Logstash: Pipeline error<span class="sub">A Logstash pipeline failed to start or process events, usually due to a bad grok pattern…</span></a></li>
                 <li><a href="../errors/loki-entry-too-far-behind.html">Loki: entry too far behind / out of order<span class="sub">Loki rejected log lines whose timestamps are older than the accepted window for that stream…</span></a></li>
                 <li><a href="../errors/journald-suppressed-messages-rate-limit.html">systemd-journald: Suppressed 1234 messages from /system.slice/app.service<span class="sub">journald rate limits each service, discarding the rest of a burst rather than slowing the…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/logging.html">See all 7 Logging errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/logging.html">See all 9 Logging errors →</a></p>
         </section>
 
             <section class="block">
@@ -139,8 +141,8 @@ retry_wait 5s</code></pre>
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">35</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">35</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
                     <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">35</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">33</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">26</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">34</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">27</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
@@ -192,7 +194,7 @@ retry_wait 5s</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 942 documented errors across 57 categories. Last updated 10 September 2026.</p>
+                <p>FixMyError.net has 972 documented errors across 57 categories. Last updated 12 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

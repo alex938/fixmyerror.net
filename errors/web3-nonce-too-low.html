@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Web3: nonce too low / replacement transaction underpriced","name":"Web3: nonce too low / replacement transaction underpriced","description":"The transaction nonce has already been mined, or a replacement transaction did not increase fees enough to replace the pending transaction. Includes a…","url":"https://fixmyerror.net/errors/web3-nonce-too-low.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/web3-nonce-too-low.html"},"inLanguage":"en-GB","articleSection":"Web3","proficiencyLevel":"Expert","datePublished":"2026-05-23","dateModified":"2026-09-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://ethereum.org/en/developers/docs/transactions/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Web3: nonce too low / replacement transaction underpriced","name":"Web3: nonce too low / replacement transaction underpriced","description":"The transaction nonce has already been mined, or a replacement transaction did not increase fees enough to replace the pending transaction. Includes a…","url":"https://fixmyerror.net/errors/web3-nonce-too-low.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/web3-nonce-too-low.html"},"inLanguage":"en-GB","articleSection":"Web3","proficiencyLevel":"Expert","datePublished":"2026-05-23","dateModified":"2026-09-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://ethereum.org/en/developers/docs/transactions/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Web3 errors","item":"https://fixmyerror.net/categories/web3.html"},{"@type":"ListItem","position":3,"name":"Web3: nonce too low / replacement transaction underpriced","item":"https://fixmyerror.net/errors/web3-nonce-too-low.html"}]}</script>
 </head>
 <body>
@@ -113,10 +113,13 @@ await wallet.sendTransaction({ to, value, nonce });
             <h2>Related Web3 errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/web3-revert-execution.html">Web3: execution reverted<span class="sub">The smart contract reverted. Solidity custom errors or revert strings often explain the exact…</span></a></li>
+                <li><a href="../errors/web3-gas-required-exceeds-allowance.html">Web3: gas required exceeds allowance (0)<span class="sub">The node simulated the transaction and found the sender cannot cover it, so the allowance it…</span></a></li>
                 <li><a href="../errors/web3-insufficient-funds-gas.html">Web3: insufficient funds for gas * price + value<span class="sub">The wallet lacks enough native token to pay transaction value plus gas. This is separate from…</span></a></li>
                 <li><a href="../errors/web3-intrinsic-gas-too-low.html">Web3: intrinsic gas too low<span class="sub">The gas limit on the transaction is below the minimum the EVM charges before executing any…</span></a></li>
+                <li><a href="../errors/web3-max-fee-per-gas-less-than-block-base-fee.html">Web3: max fee per gas less than block base fee<span class="sub">The node rejected the transaction because its maxFeePerGas is below the base fee of the next…</span></a></li>
+                <li><a href="../errors/web3-missing-revert-data-call-exception.html">Web3: missing revert data in call exception (CALL_EXCEPTION)<span class="sub">The call failed without a reason string, which usually means there is no contract at that…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/web3.html">See all 4 Web3 errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/web3.html">See all 7 Web3 errors →</a></p>
         </section>
 
             <section class="block">
@@ -128,8 +131,8 @@ await wallet.sendTransaction({ to, value, nonce });
                     <li><a href="../categories/ai.html"><span class="card-title">AI <span class="card-count">35</span></span><span class="card-desc">Rate limits, context windows, GPU memory and model-serving failures.</span></a></li>
                     <li><a href="../categories/network.html"><span class="card-title">Network <span class="card-count">35</span></span><span class="card-desc">Refused connections, timeouts, resets, MTU problems and port exhaustion.</span></a></li>
                     <li><a href="../categories/python.html"><span class="card-title">Python <span class="card-count">35</span></span><span class="card-desc">Imports, virtual environments, encoding, concurrency and dependency conflicts.</span></a></li>
-                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">33</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
-                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">26</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
+                    <li><a href="../categories/kubernetes.html"><span class="card-title">Kubernetes <span class="card-count">34</span></span><span class="card-desc">CrashLoopBackOff, ImagePullBackOff, OOMKilled, RBAC, scheduling and storage.</span></a></li>
+                    <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">27</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
@@ -181,7 +184,7 @@ await wallet.sendTransaction({ to, value, nonce });
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 942 documented errors across 57 categories. Last updated 10 September 2026.</p>
+                <p>FixMyError.net has 972 documented errors across 57 categories. Last updated 12 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
