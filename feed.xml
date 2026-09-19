@@ -6,8 +6,288 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Sat, 12 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Ansible: Failed to import the required Python library (docker) on host</title>
+      <link>https://fixmyerror.net/errors/ansible-failed-to-import-required-python-library.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-failed-to-import-required-python-library.html</guid>
+      <category>Ansible</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Modules run on the target with the interpreter Ansible discovered there, so a library installed on the control node, or into a different virtualenv, is invisible to them. The message names the interpreter it used, and that path is the part worth reading before installing anything again.</description>
+    </item>
+    <item>
+      <title>Ansible: No inventory was parsed, only implicit localhost is available</title>
+      <link>https://fixmyerror.net/errors/ansible-no-inventory-was-parsed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-no-inventory-was-parsed.html</guid>
+      <category>Ansible</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Ansible found no usable inventory, so every host pattern matches nothing and the run ends with &quot;skipping: no hosts matched&quot; and an exit code of zero. A file that exists but fails to parse produces the same warning as one that is missing, which is why a YAML inventory with the wrong shape looks…</description>
+    </item>
+    <item>
+      <title>Connections hang or reset with ListenOverflows increasing</title>
+      <link>https://fixmyerror.net/errors/linux-tcp-listen-queue-overflow.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-tcp-listen-queue-overflow.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The kernel finished the handshake but the application was too slow to call accept(), so the completed connection queue filled and further connections were dropped silently. Clients see a stall and then a timeout or a reset, and nothing appears in the application log because the connection never…</description>
+    </item>
+    <item>
+      <title>DMARC: dmarc=fail (p=reject) in Authentication-Results</title>
+      <link>https://fixmyerror.net/errors/dmarc-fail-policy-reject.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dmarc-fail-policy-reject.html</guid>
+      <category>Email</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>SPF or DKIM passed on its own but neither aligned with the domain in the From header, and alignment is what DMARC checks. This is why mail sent through a third party can pass SPF against the provider domain and still be rejected as your domain.</description>
+    </item>
+    <item>
+      <title>Elixir: (DBConnection.ConnectionError) tcp recv: closed</title>
+      <link>https://fixmyerror.net/errors/elixir-dbconnection-tcp-recv-closed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-dbconnection-tcp-recv-closed.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The database closed a pooled socket that Ecto still believed was usable, so the checkout succeeded and the query died on the wire. The usual culprit is something between the application and the database with an idle timeout: a pgbouncer server_idle_timeout, an RDS proxy, or a cloud load balancer…</description>
+    </item>
+    <item>
+      <title>Elixir: (MatchError) no match of right hand side value: {:error, :enoent}</title>
+      <link>https://fixmyerror.net/errors/elixir-matcherror-no-match-of-right-hand-side.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-matcherror-no-match-of-right-hand-side.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A pattern match assumed the happy path and the function returned the error tuple instead, so the process crashed at the assignment rather than at the failure. The value in the message is the whole answer: it names both what went wrong and which call produced it.</description>
+    </item>
+    <item>
+      <title>Elixir: protocol String.Chars not implemented for %{} of type Map</title>
+      <link>https://fixmyerror.net/errors/elixir-protocol-string-chars-not-implemented.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-protocol-string-chars-not-implemented.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>String interpolation calls to_string/1, and only a few types implement it: maps, lists, tuples and structs do not. The failure is at runtime rather than compile time, so it usually appears in an error path or a log line that only runs when something else has already gone wrong.</description>
+    </item>
+    <item>
+      <title>Go: error parsing regexp: invalid or unsupported Perl syntax: (?!</title>
+      <link>https://fixmyerror.net/errors/go-regexp-invalid-or-unsupported-perl-syntax.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-regexp-invalid-or-unsupported-perl-syntax.html</guid>
+      <category>Regex</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Go uses RE2, which has no backtracking and therefore no lookahead, no lookbehind and no backreferences. That is a deliberate guarantee of linear time matching rather than a missing feature, so the pattern has to be restructured instead of escaped.</description>
+    </item>
+    <item>
+      <title>gRPC: connection error: desc = transport: Error while dialing</title>
+      <link>https://fixmyerror.net/errors/grpc-go-transport-error-while-dialing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-go-transport-error-while-dialing.html</guid>
+      <category>gRPC</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The channel could not open a TCP or TLS connection, so the RPC fails with UNAVAILABLE and this wrapped cause. Because Dial is lazy in the Go client, the mistake surfaces on the first call rather than at construction, which makes it look like a request problem rather than a target or credentials one.</description>
+    </item>
+    <item>
+      <title>High iowait: load average climbing while the CPU sits idle</title>
+      <link>https://fixmyerror.net/errors/linux-high-iowait-uninterruptible-sleep.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-high-iowait-uninterruptible-sleep.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Linux counts tasks in uninterruptible sleep towards the load average, so processes blocked on a disk or an NFS mount push load into double figures on a box that is 95 per cent idle. The number sends people hunting for a CPU problem that does not exist, when the queue is in front of a device.</description>
+    </item>
+    <item>
+      <title>ingress-nginx: Service does not have any active Endpoint</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-service-does-not-have-any-active-endpoint.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-service-does-not-have-any-active-endpoint.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The controller resolved the Ingress to a Service but the Service selects no ready Pods, so it serves the default backend and returns 404 instead of routing. The Ingress and the Service both look correct in kubectl get, because the gap is between the Service selector and the Pod labels or the…</description>
+    </item>
+    <item>
+      <title>ingress-nginx: upstream timed out (110: Connection timed out)</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-upstream-timed-out-110.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-upstream-timed-out-110.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The controller gave up waiting for the backend and returned 504 after its own timeout, which defaults to 60 seconds and is set on the controller, not on the application. A long report or an upload that works when called directly against the Service will fail through the Ingress for exactly this…</description>
+    </item>
+    <item>
+      <title>Ingress: ADDRESS column stays empty and the host never resolves</title>
+      <link>https://fixmyerror.net/errors/ingress-address-field-stays-empty.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-address-field-stays-empty.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>kubectl get ingress shows no address because no controller has claimed the object, so nothing ever programmes a load balancer or writes the status back. The Ingress itself is valid, which is why it is accepted without complaint and then does nothing at all.</description>
+    </item>
+    <item>
+      <title>Java: PatternSyntaxException: Illegal repetition</title>
+      <link>https://fixmyerror.net/errors/java-patternsyntaxexception-illegal-repetition.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-patternsyntaxexception-illegal-repetition.html</guid>
+      <category>Regex</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A brace appears where the engine expects a quantifier, so a literal { in the pattern is read as the start of {n,m} and rejected. It shows up most often when a template placeholder such as {name} is passed straight to Pattern.compile or to String.replaceAll.</description>
+    </item>
+    <item>
+      <title>libvirt: Failed to connect socket to /var/run/libvirt/libvirt-sock</title>
+      <link>https://fixmyerror.net/errors/libvirt-failed-to-connect-socket-permission-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-failed-to-connect-socket-permission-denied.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>virsh connected to the session daemon rather than the system one, or the user is not in the group that owns the socket. The same command works under sudo, which is the clue: it is a permission and URI problem, not a daemon that failed to start.</description>
+    </item>
+    <item>
+      <title>log4j2: ERROR StatusLogger No Log4j 2 configuration file found</title>
+      <link>https://fixmyerror.net/errors/log4j2-no-configuration-file-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/log4j2-no-configuration-file-found.html</guid>
+      <category>Logging</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Log4j 2 could not find log4j2.xml on the classpath and fell back to logging errors only to the console, which is why the application starts but INFO and DEBUG never appear. In a packaged jar the file is usually present in the source tree and missing from the artefact, not absent from the repository.</description>
+    </item>
+    <item>
+      <title>Machine crawls with CPU idle: swap thrashing (si/so in vmstat)</title>
+      <link>https://fixmyerror.net/errors/linux-swap-thrashing-si-so.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-swap-thrashing-si-so.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Once the working set no longer fits in RAM the kernel evicts pages that are about to be needed again, so every fault costs a disk read and throughput collapses long before memory is fully exhausted. The giveaway is sustained si and so columns in vmstat, not the free figure, which looks healthy…</description>
+    </item>
+    <item>
+      <title>Nginx: proxy_cache never stores anything (X-Cache-Status: MISS)</title>
+      <link>https://fixmyerror.net/errors/nginx-proxy-cache-never-stores-a-response.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-proxy-cache-never-stores-a-response.html</guid>
+      <category>Caching</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Nginx honours the upstream response headers, so a Set-Cookie, a Cache-Control of private or no-store, or an unset Expires stops it caching even though proxy_cache_path is configured correctly. Every request is then a MISS, and the cache directory stays empty rather than filling up and evicting.</description>
+    </item>
+    <item>
+      <title>Python: logging.basicConfig() has no effect and nothing is logged</title>
+      <link>https://fixmyerror.net/errors/python-logging-basicconfig-has-no-effect.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-logging-basicconfig-has-no-effect.html</guid>
+      <category>Logging</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>basicConfig only does anything when the root logger has no handlers yet, so it is a silent no operation if any import or framework configured logging first. The second trap is the level: the default is WARNING, so info() and debug() are dropped even when the handler is correct.</description>
+    </item>
+    <item>
+      <title>Python: re.error: look-behind requires fixed-width pattern</title>
+      <link>https://fixmyerror.net/errors/python-re-lookbehind-requires-fixed-width-pattern.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-lookbehind-requires-fixed-width-pattern.html</guid>
+      <category>Regex</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The standard re module only implements lookbehind when every alternative is the same known length, so a quantifier or an alternation of different widths inside (?&lt;=...) is rejected at compile time. The pattern is valid in .NET and in the third party regex module, which is why one copied from a…</description>
+    </item>
+    <item>
+      <title>sbt: Conflicting cross-version suffixes in: org.scala-lang.modules</title>
+      <link>https://fixmyerror.net/errors/sbt-conflicting-cross-version-suffixes.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sbt-conflicting-cross-version-suffixes.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Two dependencies pulled in the same library built for different Scala versions, for example scala-xml _2.12 and _2.13 in one classpath. It usually follows a Scala upgrade where one dependency was written with a single per cent rather than a double, so its suffix was pinned by hand and never moved.</description>
+    </item>
+    <item>
+      <title>Scala: could not find implicit value for parameter</title>
+      <link>https://fixmyerror.net/errors/scala-could-not-find-implicit-value.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-could-not-find-implicit-value.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The compiler could not supply an implicit argument, usually because the instance exists but is not in scope, or because the type it was defined for is slightly different from the one being summoned. Libraries such as Circe and Play JSON report a missing Encoder or Format this way when the real…</description>
+    </item>
+    <item>
+      <title>Scala: recursive value x needs type</title>
+      <link>https://fixmyerror.net/errors/scala-recursive-value-needs-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-recursive-value-needs-type.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A definition refers to its own name on the right hand side, so the compiler cannot infer the type it is in the middle of inferring. It is almost never real recursion: the usual cause is a val that shadows something with the same name, such as a constructor parameter reused as a field.</description>
+    </item>
+    <item>
+      <title>Scala: warning: match may not be exhaustive</title>
+      <link>https://fixmyerror.net/errors/scala-match-may-not-be-exhaustive.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-match-may-not-be-exhaustive.html</guid>
+      <category>Scala</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The compiler proved a case is missing from a match on a sealed type, and with fatal warnings enabled the build stops. It is worth reading rather than silencing: the same warning is how a new subtype added elsewhere in the codebase tells you every match that has not been updated.</description>
+    </item>
+    <item>
+      <title>SLF4J: Failed to load class org.slf4j.impl.StaticLoggerBinder</title>
+      <link>https://fixmyerror.net/errors/slf4j-failed-to-load-class-staticloggerbinder.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/slf4j-failed-to-load-class-staticloggerbinder.html</guid>
+      <category>Logging</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The SLF4J API is on the classpath with no binding behind it, so every log call is discarded through the no operation logger and the application runs in silence. With SLF4J 2.x the wording changes to &quot;No SLF4J providers were found&quot;, but the cause is the same missing implementation.</description>
+    </item>
+    <item>
+      <title>SMTP: 451 4.7.1 Greylisted, please try again later</title>
+      <link>https://fixmyerror.net/errors/smtp-451-greylisted-try-again-later.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-451-greylisted-try-again-later.html</guid>
+      <category>Email</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The receiving server deliberately rejected a first delivery attempt from an unknown sender triple and expects a retry, which real mail servers do and most spam software does not. It is a temporary failure, so the only bug is in senders that treat any 4xx as final and drop the message.</description>
+    </item>
+    <item>
+      <title>SMTP: 552 5.3.4 Message size exceeds fixed maximum message size</title>
+      <link>https://fixmyerror.net/errors/smtp-552-message-size-exceeds-fixed-limit.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-552-message-size-exceeds-fixed-limit.html</guid>
+      <category>Email</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The message was larger than the receiving server accepts, and the limit applies after MIME encoding, which inflates attachments by roughly a third. A 20 MB file therefore fails against a 25 MB limit, and the rejection happens at the smallest limit along the path, not the one you configured.</description>
+    </item>
+    <item>
+      <title>VirtualBox: Kernel driver not installed (rc=-1908)</title>
+      <link>https://fixmyerror.net/errors/virtualbox-kernel-driver-not-installed-rc-1908.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-kernel-driver-not-installed-rc-1908.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The vboxdrv module is missing or refused to load, which normally follows a kernel upgrade that left the DKMS build behind. On a machine with Secure Boot the module builds correctly and is then rejected at load time because it is unsigned, which is a different failure with the same message.</description>
+    </item>
+    <item>
+      <title>VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable</title>
+      <link>https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Something else on Windows already owns the hardware virtualisation extensions, so VirtualBox is pushed onto the Hyper-V layer or fails to create the VM at all. WSL 2, Docker Desktop, Windows Sandbox and memory integrity all switch Hyper-V on, usually without the user connecting that to the VM that…</description>
+    </item>
+    <item>
+      <title>wasm-bindgen: recursive use of an object detected</title>
+      <link>https://fixmyerror.net/errors/wasm-bindgen-recursive-use-unsafe-aliasing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-bindgen-recursive-use-unsafe-aliasing.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A Rust method holding a mutable borrow of a struct called into JavaScript, and that JavaScript called back into the same object before the first call returned. Rust borrow rules are enforced at runtime across the boundary, so what would be a compile error inside Rust becomes this exception in the…</description>
+    </item>
+    <item>
+      <title>Web3: already known / ALREADY_EXISTS when sending a transaction</title>
+      <link>https://fixmyerror.net/errors/web3-already-known-transaction.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-already-known-transaction.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The node already holds a transaction with this exact hash in its pool, so the resend is rejected rather than duplicated. It normally means a retry loop signed the identical payload again, or the same nonce was submitted to two nodes behind one RPC endpoint.</description>
+    </item>
+    <item>
+      <title>Web3: cannot estimate gas; transaction may fail or may require manual gas limit</title>
+      <link>https://fixmyerror.net/errors/web3-cannot-estimate-gas-transaction-may-fail.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-cannot-estimate-gas-transaction-may-fail.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The node ran the transaction against current state and it reverted, so no gas figure could be produced. The wording suggests a gas problem but the cause is almost always the call itself: a missing token approval, a paused contract, or a require that fails for this sender.</description>
+    </item>
+    <item>
+      <title>Web3: query returned more than 10000 results (eth_getLogs)</title>
+      <link>https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html</guid>
+      <category>Web3</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The RPC provider caps how much a single log query may return or how many blocks it may span, and the limit is per provider rather than part of the JSON-RPC spec. The same code works against a local node and fails on a hosted endpoint, usually at the point where an indexer starts from the contract…</description>
+    </item>
+    <item>
+      <title>WebAssembly: LinkError: import object field is not a Function</title>
+      <link>https://fixmyerror.net/errors/wasm-linkerror-import-object-field-not-a-function.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-linkerror-import-object-field-not-a-function.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Instantiation failed because the import object handed to the module does not match what the module declares it needs: a missing property, a nested namespace that is undefined, or a value where a function was expected. The module name comes first in the error, so env.abort means the module asked…</description>
+    </item>
+    <item>
+      <title>WebAssembly: RuntimeError: table index is out of bounds</title>
+      <link>https://fixmyerror.net/errors/wasm-table-index-is-out-of-bounds.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-table-index-is-out-of-bounds.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An indirect call used a function pointer that is not in the module table, which normally means a callback was passed to C or C++ without being registered, or the table was built too small at link time. The pointer looks valid on the Rust or C side because it is just an integer.</description>
+    </item>
     <item>
       <title>Container CPU throttling: nr_throttled rising in cpu.stat</title>
       <link>https://fixmyerror.net/errors/perf-cpu-cfs-throttling.html</link>
@@ -1327,286 +1607,6 @@
       <category>gRPC</category>
       <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
       <description>The client set a deadline on the call and the server did not finish in time. gRPC deadlines are absolute, and they propagate: a slow dependency deep in the chain consumes the budget of every caller above it, so the failure often surfaces on a service that is itself healthy.</description>
-    </item>
-    <item>
-      <title>gRPC: FAILED_PRECONDITION (code 9)</title>
-      <link>https://fixmyerror.net/errors/grpc-failed-precondition.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-failed-precondition.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The request was valid but the system is in a state that cannot serve it, for example a resource that must exist first or a database that has not finished a migration. It means do not retry until something changes, which is what separates it from UNAVAILABLE and ABORTED.</description>
-    </item>
-    <item>
-      <title>gRPC: INTERNAL, received RST_STREAM with error code 2</title>
-      <link>https://fixmyerror.net/errors/grpc-internal-rst-stream.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-internal-rst-stream.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The HTTP/2 stream was reset by the peer or by something in the middle. It is rarely a bug in your handler: a proxy idle timeout, a load balancer that does not speak HTTP/2 end to end, or a server that exceeded its max connection age will all reset streams that the client then reports as INTERNAL.</description>
-    </item>
-    <item>
-      <title>gRPC: INVALID_ARGUMENT (code 3)</title>
-      <link>https://fixmyerror.net/errors/grpc-invalid-argument.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-invalid-argument.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server understood the request and rejected the field values. Because protobuf 3 has no required fields and unset scalars deserialise to zero values, a client that forgot to set a field sends a syntactically valid message that fails validation on arrival.</description>
-    </item>
-    <item>
-      <title>gRPC: PERMISSION_DENIED (code 7)</title>
-      <link>https://fixmyerror.net/errors/grpc-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-permission-denied.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The caller was identified but is not allowed to invoke this method. Unlike UNAUTHENTICATED this is an authorization decision, so retrying with the same identity will never succeed. In a mesh it is often the sidecar&apos;s authorization policy answering, not your application code.</description>
-    </item>
-    <item>
-      <title>gRPC: RESOURCE_EXHAUSTED, received message larger than max</title>
-      <link>https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-resource-exhausted-message-size.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A message exceeded the receiver&apos;s size limit, which defaults to 4 MB inbound in most gRPC implementations. The limit is enforced by whichever side is receiving, so raising it on the server alone will not fix a large response arriving at the client.</description>
-    </item>
-    <item>
-      <title>gRPC: UNAUTHENTICATED (code 16)</title>
-      <link>https://fixmyerror.net/errors/grpc-unauthenticated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unauthenticated.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server rejected the call because credentials were missing, malformed or expired. gRPC carries them in metadata, conventionally the authorization header, and per-RPC credentials are only sent over a secure channel: an insecure channel silently drops them in several implementations.</description>
-    </item>
-    <item>
-      <title>gRPC: UNIMPLEMENTED (code 12)</title>
-      <link>https://fixmyerror.net/errors/grpc-unimplemented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unimplemented.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server has no handler registered for the fully qualified method the client called. Usually the client and server were generated from different versions of the .proto, the service was never registered on the server, or the request reached a proxy that terminated it before the real backend.</description>
-    </item>
-    <item>
-      <title>Hugging Face: 401 Cannot access gated repo</title>
-      <link>https://fixmyerror.net/errors/huggingface-gated-repo-401.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/huggingface-gated-repo-401.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The model or dataset requires you to accept its licence and authenticate. Anonymous downloads that worked for other checkpoints fail here, and in CI the token is often simply absent from the environment rather than wrong.</description>
-    </item>
-    <item>
-      <title>Java: NoSuchMethodError</title>
-      <link>https://fixmyerror.net/errors/java-nosuchmethoderror.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-nosuchmethoderror.html</guid>
-      <category>Java</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A method that existed when the class was compiled is missing at runtime. It means two versions of a library are on the classpath and the wrong one won, which is why it appears after adding an unrelated dependency that pulled an older transitive copy.</description>
-    </item>
-    <item>
-      <title>Java: PKIX path building failed, unable to find valid certification path</title>
-      <link>https://fixmyerror.net/errors/java-pkix-path-building-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-pkix-path-building-failed.html</guid>
-      <category>Java</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The JVM could not build a trust chain to the server&apos;s certificate. Java keeps its own truststore rather than using the operating system&apos;s, so a private or corporate CA that curl accepts is unknown to Java until it is imported.</description>
-    </item>
-    <item>
-      <title>Jest: SyntaxError: Cannot use import statement outside a module</title>
-      <link>https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-cannot-use-import-statement-outside-module.html</guid>
-      <category>Testing</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Jest ran a file containing ES module syntax through a CommonJS pipeline. Either the transform does not cover that file, or it lives in node_modules, which Jest deliberately does not transform, and modern packages increasingly ship ESM only.</description>
-    </item>
-    <item>
-      <title>Kafka: RecordTooLargeException</title>
-      <link>https://fixmyerror.net/errors/kafka-record-too-large.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-record-too-large.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A message exceeded a size limit. Three separate limits must agree: the producer&apos;s max.request.size, the broker or topic&apos;s max.message.bytes, and the consumer&apos;s fetch size, so raising one alone moves the failure rather than fixing it.</description>
-    </item>
-    <item>
-      <title>kubectl apply: metadata.annotations: Too long</title>
-      <link>https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-apply-annotations-too-long.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>kubectl apply stores the whole previous manifest in the last-applied-configuration annotation, and annotations are capped at 256 kB in total. Large ConfigMaps and CRDs with big schemas blow the limit, so create works and apply fails.</description>
-    </item>
-    <item>
-      <title>kubectl: error: You must be logged in to the server (Unauthorized)</title>
-      <link>https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubectl-you-must-be-logged-in-unauthorized.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The API server rejected the credentials in your kubeconfig. Typically an expired token or client certificate, a cloud auth plugin that can no longer refresh, or a context pointing at a cluster your current identity has no access to.</description>
-    </item>
-    <item>
-      <title>Kubernetes: CreateContainerConfigError</title>
-      <link>https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-createcontainerconfigerror.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The kubelet pulled the image but could not build the container&apos;s configuration, almost always because a referenced Secret or ConfigMap key does not exist in that namespace. The pod stays in this state indefinitely rather than crash looping, because nothing ever started.</description>
-    </item>
-    <item>
-      <title>Kubernetes: HorizontalPodAutoscaler unable to get metrics for resource cpu</title>
-      <link>https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-hpa-unable-to-get-metrics.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The HPA has no metrics to scale on. Either metrics-server is not installed or not serving, or the pods have no CPU or memory requests: utilisation is a percentage of the request, so without one there is nothing to compute.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Readiness probe failed, endpoints never become ready</title>
-      <link>https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-readiness-probe-failed.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The container is running but its readiness probe never succeeds, so the Service keeps it out of the endpoint list and traffic goes nowhere. Common causes are a probe pointed at the wrong port or path, an app that binds to loopback only, or a startup slower than the probe&apos;s tolerance.</description>
-    </item>
-    <item>
-      <title>Kubernetes: Unable to attach or mount volumes, timed out</title>
-      <link>https://fixmyerror.net/errors/k8s-unable-to-attach-or-mount-volumes.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-unable-to-attach-or-mount-volumes.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The pod is stuck in ContainerCreating because a volume never attached. With cloud block storage the usual reason is that the disk is still attached to another node, or the volume lives in a zone where the pod cannot be scheduled, since a ReadWriteOnce volume can only be mounted on one node at a…</description>
-    </item>
-    <item>
-      <title>LangChain: OutputParserException, could not parse LLM output</title>
-      <link>https://fixmyerror.net/errors/langchain-output-parser-exception.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/langchain-output-parser-exception.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The parser expected strict JSON or a fixed agent format and the model returned prose, a fenced code block or a trailing explanation. Prompting alone does not guarantee the shape, so a chain that works on nine calls in ten fails on the tenth.</description>
-    </item>
-    <item>
-      <title>Linux: duplicate IPv4 address detected on the network</title>
-      <link>https://fixmyerror.net/errors/arp-duplicate-address-detected.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/arp-duplicate-address-detected.html</guid>
-      <category>Network</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Two hosts answer ARP for the same address, so switches flap the MAC between ports and traffic reaches whichever machine replied last. It is typical of a static address inside a DHCP range, a failed failover where both nodes kept a virtual IP, or a cloned VM.</description>
-    </item>
-    <item>
-      <title>Linux: mount error(13): Permission denied (CIFS/SMB)</title>
-      <link>https://fixmyerror.net/errors/cifs-mount-error-13-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cifs-mount-error-13-permission-denied.html</guid>
-      <category>Storage</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The SMB server rejected the credentials or the requested protocol. Common causes are a domain user given without the domain, a share that requires SMB 3 while the client negotiated SMB 1, or an Azure Files account key that has been rotated.</description>
-    </item>
-    <item>
-      <title>Linux: possible SYN flooding on port X, sending cookies</title>
-      <link>https://fixmyerror.net/errors/linux-syn-flooding-sending-cookies.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-syn-flooding-sending-cookies.html</guid>
-      <category>Network</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The kernel&apos;s accept queue for a listening socket overflowed. Under a real flood that is the defence working, but far more often it is a healthy service whose application accepts connections more slowly than they arrive, and clients see stalls and resets rather than errors in the log.</description>
-    </item>
-    <item>
-      <title>Linux: Too many levels of symbolic links (ELOOP)</title>
-      <link>https://fixmyerror.net/errors/linux-too-many-levels-of-symbolic-links.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-too-many-levels-of-symbolic-links.html</guid>
-      <category>System</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Path resolution followed more than forty symlinks and gave up, which means a loop. The classic case is a link that points at its own directory, or a relative link created from the wrong working directory so it resolves back to itself.</description>
-    </item>
-    <item>
-      <title>Maven: Could not transfer artifact, transfer failed</title>
-      <link>https://fixmyerror.net/errors/maven-could-not-transfer-artifact.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/maven-could-not-transfer-artifact.html</guid>
-      <category>Java</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Maven could not download a dependency. Beyond a plain outage the frequent causes are credentials missing for a private repository, a proxy that intercepts TLS, or a cached failure: Maven remembers a failed lookup and will not retry it until the marker is cleared.</description>
-    </item>
-    <item>
-      <title>MongoDB: Transaction numbers are only allowed on a replica set member or mongos</title>
-      <link>https://fixmyerror.net/errors/mongodb-transaction-numbers-replica-set.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mongodb-transaction-numbers-replica-set.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Retryable writes and multi document transactions need an oplog, which a standalone mongod does not have. The driver enables retryable writes by default, so a perfectly normal insert fails against a single node started without replication.</description>
-    </item>
-    <item>
-      <title>MySQL: Duplicate entry &apos;x&apos; for key &apos;PRIMARY&apos;</title>
-      <link>https://fixmyerror.net/errors/mysql-duplicate-entry-primary.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-duplicate-entry-primary.html</guid>
-      <category>Database</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An insert collided with an existing row on the primary key or another unique index. Beyond the obvious retry, it commonly means an auto increment counter fell behind after rows were imported with explicit ids, or two writers generated the same application side key.</description>
-    </item>
-    <item>
-      <title>Next.js 15: `params` should be awaited before using its properties</title>
-      <link>https://fixmyerror.net/errors/nextjs-params-should-be-awaited.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-params-should-be-awaited.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Next.js 15 made params, searchParams, cookies() and headers() asynchronous so a page can start rendering before request data is known. Code written for 14 reads them synchronously, which now logs an error in development and throws in production builds.</description>
-    </item>
-    <item>
-      <title>Next.js: Invalid src prop, hostname is not configured under images</title>
-      <link>https://fixmyerror.net/errors/nextjs-image-hostname-not-configured.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-image-hostname-not-configured.html</guid>
-      <category>Frontend</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>next/image optimises remote images on your server, so every external host has to be allowed explicitly. Without the allowlist any URL could be turned into a proxy through your own infrastructure, which is why the component throws rather than falling back to the raw URL.</description>
-    </item>
-    <item>
-      <title>Nginx: could not build server_names_hash, increase the bucket size</title>
-      <link>https://fixmyerror.net/errors/nginx-server-names-hash-bucket-size.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-server-names-hash-bucket-size.html</guid>
-      <category>WebServer</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Nginx sizes a hash table for server names at startup and one of your names is too long for the default bucket, which is tied to the CPU cache line. It stops the configuration from loading entirely, so it usually surfaces on reload after adding a long hostname.</description>
-    </item>
-    <item>
-      <title>Nginx: no live upstreams while connecting to upstream</title>
-      <link>https://fixmyerror.net/errors/nginx-no-live-upstreams.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-no-live-upstreams.html</guid>
-      <category>Proxy</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every server in the upstream block has been marked down by passive health checks. After max_fails failures within fail_timeout nginx stops sending traffic for that window, so one burst of errors can take out the whole pool and keep it out even after the backends recover.</description>
-    </item>
-    <item>
-      <title>Node.js: DeprecationWarning: The `punycode` module is deprecated</title>
-      <link>https://fixmyerror.net/errors/node-punycode-deprecation-warning.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/node-punycode-deprecation-warning.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Something in the dependency tree still requires Node&apos;s built in punycode. Your own code almost never does: it comes from an old copy of uri-js, tough-cookie or ajv pulled in transitively, and the warning is noise rather than a fault until the module is finally removed.</description>
-    </item>
-    <item>
-      <title>Node.js: MaxListenersExceededWarning: possible EventEmitter memory leak</title>
-      <link>https://fixmyerror.net/errors/node-max-listeners-exceeded-warning.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/node-max-listeners-exceeded-warning.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>More than ten listeners were added to the same event on one emitter. The default is a leak detector, not a limit: it usually means listeners are registered per request or per render and never removed, so the array grows for the life of the process.</description>
-    </item>
-    <item>
-      <title>Node.js: TypeError: fetch failed</title>
-      <link>https://fixmyerror.net/errors/node-fetch-failed-undici.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/node-fetch-failed-undici.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Node&apos;s built in fetch throws a deliberately vague TypeError and hides the real reason in the cause property. Underneath it is usually ECONNREFUSED, a DNS failure, an untrusted corporate TLS certificate, or undici&apos;s 300 second headers timeout on a slow upstream.</description>
-    </item>
-    <item>
-      <title>npm ERR! code E401 on a private registry</title>
-      <link>https://fixmyerror.net/errors/npm-e401-private-registry.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/npm-e401-private-registry.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>npm reached the registry but sent no usable credentials for that scope. The common causes are an .npmrc that authenticates the default registry while the scope points somewhere else, an expired token, or a CI job where the token was never written to a file npm actually reads.</description>
-    </item>
-    <item>
-      <title>npm error code EJSONPARSE</title>
-      <link>https://fixmyerror.net/errors/npm-ejsonparse-package-json.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/npm-ejsonparse-package-json.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>npm could not parse package.json or package-lock.json. Nearly always a trailing comma, a comment, a smart quote pasted from a document, or conflict markers left in the lockfile after a merge, which is why it appears right after a rebase.</description>
     </item>
   </channel>
 </rss>
