@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Web3: query returned more than 10000 results (eth_getLogs)","name":"Web3: query returned more than 10000 results (eth_getLogs)","description":"The RPC provider caps how much a single log query may return or how many blocks it may span, and the limit is per provider rather than part of the JSON-RPC…","url":"https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html"},"inLanguage":"en-GB","articleSection":"Web3","proficiencyLevel":"Expert","datePublished":"2026-09-19","dateModified":"2026-09-19","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://ethereum.org/en/developers/docs/apis/json-rpc/","https://docs.ethers.org/v6/api/providers/#Provider-getLogs"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Web3: query returned more than 10000 results (eth_getLogs)","name":"Web3: query returned more than 10000 results (eth_getLogs)","description":"The RPC provider caps how much a single log query may return or how many blocks it may span, and the limit is per provider rather than part of the JSON-RPC…","url":"https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html"},"inLanguage":"en-GB","articleSection":"Web3","proficiencyLevel":"Expert","datePublished":"2026-09-19","dateModified":"2026-09-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://ethereum.org/en/developers/docs/apis/json-rpc/","https://docs.ethers.org/v6/api/providers/#Provider-getLogs"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Web3 errors","item":"https://fixmyerror.net/categories/web3.html"},{"@type":"ListItem","position":3,"name":"Web3: query returned more than 10000 results (eth_getLogs)","item":"https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html"}]}</script>
 </head>
 <body>
@@ -127,14 +127,14 @@ catch (e) { if (/more than|range/i.test(e.message)) return split(f); throw e; }
             <ul class="link-list">
                 <li><a href="../errors/web3-already-known-transaction.html">Web3: already known / ALREADY_EXISTS when sending a transaction<span class="sub">The node already holds a transaction with this exact hash in its pool, so the resend is…</span></a></li>
                 <li><a href="../errors/web3-cannot-estimate-gas-transaction-may-fail.html">Web3: cannot estimate gas; transaction may fail or may require manual gas limit<span class="sub">The node ran the transaction against current state and it reverted, so no gas figure could be…</span></a></li>
+                <li><a href="../errors/web3-could-not-detect-network.html">Web3: could not detect network (event=&quot;noNetwork&quot;, code=NETWORK_ERROR)<span class="sub">ethers asks the endpoint for its chain id before it will do anything else, and that call…</span></a></li>
                 <li><a href="../errors/web3-revert-execution.html">Web3: execution reverted<span class="sub">The smart contract reverted. Solidity custom errors or revert strings often explain the exact…</span></a></li>
                 <li><a href="../errors/web3-gas-required-exceeds-allowance.html">Web3: gas required exceeds allowance (0)<span class="sub">The node simulated the transaction and found the sender cannot cover it, so the allowance it…</span></a></li>
                 <li><a href="../errors/web3-insufficient-funds-gas.html">Web3: insufficient funds for gas * price + value<span class="sub">The wallet lacks enough native token to pay transaction value plus gas. This is separate from…</span></a></li>
                 <li><a href="../errors/web3-intrinsic-gas-too-low.html">Web3: intrinsic gas too low<span class="sub">The gas limit on the transaction is below the minimum the EVM charges before executing any…</span></a></li>
-                <li><a href="../errors/web3-max-fee-per-gas-less-than-block-base-fee.html">Web3: max fee per gas less than block base fee<span class="sub">The node rejected the transaction because its maxFeePerGas is below the base fee of the next…</span></a></li>
-                <li><a href="../errors/web3-missing-revert-data-call-exception.html">Web3: missing revert data in call exception (CALL_EXCEPTION)<span class="sub">The call failed without a reason string, which usually means there is no contract at that…</span></a></li>
+                <li><a href="../errors/web3-max-code-size-exceeded.html">Web3: max code size exceeded when deploying a contract<span class="sub">EIP-170 caps deployed runtime code at 24576 bytes and the deployment is rejected once the…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/web3.html">See all 10 Web3 errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/web3.html">See all 14 Web3 errors →</a></p>
         </section>
 
             <section class="block">
@@ -199,7 +199,7 @@ catch (e) { if (/more than|range/i.test(e.message)) return split(f); throw e; }
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1007 documented errors across 57 categories. Last updated 19 September 2026.</p>
+                <p>FixMyError.net has 1047 documented errors across 57 categories. Last updated 26 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

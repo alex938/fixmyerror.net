@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Long GC pause / stop-the-world latency spike","name":"Long GC pause / stop-the-world latency spike","description":"A managed runtime paused application threads to collect garbage long enough to violate latency targets. Large heaps and allocation spikes are common causes…","url":"https://fixmyerror.net/errors/perf-gc-pause-too-long.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/perf-gc-pause-too-long.html"},"inLanguage":"en-GB","articleSection":"Performance","proficiencyLevel":"Expert","datePublished":"2026-05-23","dateModified":"2026-09-19","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.oracle.com/en/java/javase/21/gctuning/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Long GC pause / stop-the-world latency spike","name":"Long GC pause / stop-the-world latency spike","description":"A managed runtime paused application threads to collect garbage long enough to violate latency targets. Large heaps and allocation spikes are common causes…","url":"https://fixmyerror.net/errors/perf-gc-pause-too-long.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/perf-gc-pause-too-long.html"},"inLanguage":"en-GB","articleSection":"Performance","proficiencyLevel":"Expert","datePublished":"2026-05-23","dateModified":"2026-09-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.oracle.com/en/java/javase/21/gctuning/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Performance errors","item":"https://fixmyerror.net/categories/performance.html"},{"@type":"ListItem","position":3,"name":"Long GC pause / stop-the-world latency spike","item":"https://fixmyerror.net/errors/perf-gc-pause-too-long.html"}]}</script>
 </head>
 <body>
@@ -117,14 +117,14 @@ JAVA_OPTS=&quot;-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xlog:gc*:file=gc.log&quot
             <ul class="link-list">
                 <li><a href="../errors/linux-tcp-listen-queue-overflow.html">Connections hang or reset with ListenOverflows increasing<span class="sub">The kernel finished the handshake but the application was too slow to call accept(), so the…</span></a></li>
                 <li><a href="../errors/perf-cpu-cfs-throttling.html">Container CPU throttling: nr_throttled rising in cpu.stat<span class="sub">A CPU limit is enforced as a quota per 100ms period, so a process that spends its quota early…</span></a></li>
+                <li><a href="../errors/perf-cold-start-slow-first-requests.html">First requests after a deploy are slow, then it settles<span class="sub">A freshly started process serves unoptimised code until the JIT has enough samples, with…</span></a></li>
                 <li><a href="../errors/linux-high-iowait-uninterruptible-sleep.html">High iowait: load average climbing while the CPU sits idle<span class="sub">Linux counts tasks in uninterruptible sleep towards the load average, so processes blocked on…</span></a></li>
                 <li><a href="../errors/jvm-gc-overhead-limit-exceeded.html">java.lang.OutOfMemoryError: GC overhead limit exceeded<span class="sub">The JVM spent over 98 percent of recent time collecting and recovered less than 2 percent of…</span></a></li>
+                <li><a href="../errors/jvm-long-time-to-safepoint.html">JVM: pause with no GC in the log (long time to safepoint)<span class="sub">A safepoint stops every application thread, and the pause includes however long the slowest…</span></a></li>
+                <li><a href="../errors/linux-transparent-huge-page-stalls.html">Latency spikes with khugepaged and compaction in the profile<span class="sub">Transparent huge pages let the kernel back a mapping with 2MB pages, but once memory is…</span></a></li>
                 <li><a href="../errors/linux-swap-thrashing-si-so.html">Machine crawls with CPU idle: swap thrashing (si/so in vmstat)<span class="sub">Once the working set no longer fits in RAM the kernel evicts pages that are about to be…</span></a></li>
-                <li><a href="../errors/perf-event-loop-lag.html">Node.js: event loop lag / blocked synchronously<span class="sub">CPU-bound work or sync I/O blocked Node&#039;s single event loop thread, delaying unrelated…</span></a></li>
-                <li><a href="../errors/node-event-loop-blocked-crypto.html">Node.js: high latency from synchronous crypto or JSON on the event loop<span class="sub">Node runs JavaScript on a single thread. A synchronous bcrypt hash, a large JSON.parse, or a…</span></a></li>
-                <li><a href="../errors/perf-thread-starvation.html">Thread pool starvation / requests queueing behind blocked threads<span class="sub">All threads in a bounded pool are blocked on I/O, locks, or sync-over-async calls. Latency…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/performance.html">See all 9 Performance errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/performance.html">See all 13 Performance errors →</a></p>
         </section>
 
             <section class="block">
@@ -189,7 +189,7 @@ JAVA_OPTS=&quot;-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -Xlog:gc*:file=gc.log&quot
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1007 documented errors across 57 categories. Last updated 19 September 2026.</p>
+                <p>FixMyError.net has 1047 documented errors across 57 categories. Last updated 26 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

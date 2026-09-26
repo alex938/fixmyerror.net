@@ -11127,5 +11127,485 @@
       "https://github.com/grpc/grpc/blob/master/doc/naming.md"
     ],
     "dateAdded": "2026-09-19"
+  },
+  {
+    "id": "jvm-long-time-to-safepoint",
+    "title": "JVM: pause with no GC in the log (long time to safepoint)",
+    "category": "Performance",
+    "explanation": "A safepoint stops every application thread, and the pause includes however long the slowest thread takes to reach one, which is not counted as collection time. A counted loop over a large array or a thread inside a long JNI call can hold the rest of the JVM for hundreds of milliseconds while the GC log shows a perfectly healthy collection.",
+    "fix_snippet": "# Safepoint accounting is off by default, so turn it on before tuning the GC\njava -Xlog:safepoint:file=safepoint.log:time,uptime -jar app.jar\n\n# Two numbers matter: reaching the safepoint, and time spent at it\ngrep 'Total time for which application threads were stopped' safepoint.log | tail -20\n\n# Reaching far larger than at means a slow thread, not a slow collector\ngrep -E 'Reaching safepoint|At safepoint' safepoint.log | tail -20\n\n# Name the thread that is late, rather than guessing\njava -XX:+UnlockDiagnosticVMOptions -XX:+SafepointTimeout \\\n     -XX:SafepointTimeoutDelay=500 -jar app.jar\n\n# Counted int loops have no safepoint poll until they finish, so a long\n# loop over an int range is the classic offender: make the counter a long,\n# or split the range into chunks so threads can yield between them\n\n# JFR records the same pauses without restarting with extra logging\njcmd <pid> JFR.start settings=profile filename=app.jfr duration=120s",
+    "sources": [
+      "https://openjdk.org/groups/hotspot/docs/RuntimeOverview.html",
+      "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "linux-transparent-huge-page-stalls",
+    "title": "Latency spikes with khugepaged and compaction in the profile",
+    "category": "Performance",
+    "explanation": "Transparent huge pages let the kernel back a mapping with 2MB pages, but once memory is fragmented the faulting thread has to compact before it gets one, and it waits while that happens. The result is a tail latency spike on a machine with plenty of free memory, usually on a large heap process such as a JVM, Redis or a database.",
+    "fix_snippet": "# Which mode is in force, and whether anything is actually stalling\ncat /sys/kernel/mm/transparent_hugepage/enabled\ncat /sys/kernel/mm/transparent_hugepage/defrag\ngrep -E 'thp_fault_fallback|compact_stall|compact_fail' /proc/vmstat\n\n# Per process: a large AnonHugePages figure means it is using them\ngrep AnonHugePages /proc/*/smaps_rollup 2>/dev/null | sort -k2 -rn | head\n\n# Keep huge pages, stop the synchronous compaction, which is the usual fix\necho defer+madvise | sudo tee /sys/kernel/mm/transparent_hugepage/defrag\n\n# Databases that document \"turn THP off\" mean this setting, not the defrag one\necho madvise | sudo tee /sys/kernel/mm/transparent_hugepage/enabled\n\n# Make it survive a reboot, an echo does not\n# GRUB_CMDLINE_LINUX=\"transparent_hugepage=madvise\" then update-grub\n\n# Recheck the counters afterwards: compact_stall should stop climbing\ngrep compact_stall /proc/vmstat",
+    "sources": [
+      "https://docs.kernel.org/admin-guide/mm/transhuge.html",
+      "https://man7.org/linux/man-pages/man5/proc.5.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "tcp-nagle-delayed-ack-40ms",
+    "title": "Requests take a multiple of 40ms more than the work needs",
+    "category": "Performance",
+    "explanation": "Nagle's algorithm holds a small write until the previous segment is acknowledged, and the peer's delayed ACK holds that acknowledgement for up to 40ms hoping to piggyback it on data. Neither side is overloaded, they are waiting for each other, which is why the extra time is suspiciously constant and only affects requests split across two writes.",
+    "fix_snippet": "# The tell is a flat 40ms (200ms on some stacks) added to small requests\ntcpdump -i any -nn 'tcp port 8080' -ttt | head -40\n\n# Fix the write pattern, not the network: one write per message\n# Python\nsock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)\n# Java\nsocket.setTcpNoDelay(true);\n# Node.js\nsocket.setNoDelay(true);\n# Go sets it for net.Conn already, so check the bufio.Writer you wrapped it in\n\n# Proxies usually set it, confirm rather than assume\ngrep -R tcp_nodelay /etc/nginx/\n\n# Writing headers and body separately is the classic trigger, so buffer\n# them and flush once instead of leaving the kernel to decide\n\n# Sanity check with a client that writes in one go\ncurl -s -o /dev/null -w '%{time_total}\\n' -d @body.json localhost:8080/api",
+    "sources": [
+      "https://man7.org/linux/man-pages/man7/tcp.7.html",
+      "https://datatracker.ietf.org/doc/html/rfc1122"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "perf-cold-start-slow-first-requests",
+    "title": "First requests after a deploy are slow, then it settles",
+    "category": "Performance",
+    "explanation": "A freshly started process serves unoptimised code until the JIT has enough samples, with empty connection pools, empty caches and a cold page cache underneath. Rolling the deployment moves the slow requests around rather than removing them, so the graph looks like the load balancer picking bad instances.",
+    "fix_snippet": "# Confirm it is warm up and not one bad instance: the curve should decay\nfor i in $(seq 1 50); do curl -s -o /dev/null -w '%{time_total}\\n' localhost:8080/api/search?q=a; done\n\n# Warm up before the instance takes traffic, and make readiness mean ready\n# readinessProbe hitting a path that touches the database and the cache\n#   httpGet: { path: /ready, port: 8080 }\n#   periodSeconds: 2\n\n# Startup work in the process itself, before the port is announced\ncurl -s localhost:8080/api/search?q=warmup >/dev/null\n\n# Open the pool at boot instead of on the first request\n# HikariCP minimumIdle, pgbouncer min_pool_size, HTTP clients keep alive\n\n# JVM: give the compiler room so the profile is not thrown away\njava -XX:ReservedCodeCacheSize=256m -jar app.jar\n# .NET: dotnet publish -p:PublishReadyToRun=true\n\n# Then compare the first and the hundredth request, not the average\ncurl -s -o /dev/null -w '%{time_total}\\n' localhost:8080/api/search?q=a",
+    "sources": [
+      "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
+      "https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "dns-refused",
+    "title": "DNS: REFUSED",
+    "category": "DNS",
+    "explanation": "The server answered and declined to do the work, which is what separates this from a timeout or NXDOMAIN. In practice it is a recursive resolver that does not serve your client address, or an authoritative server being asked about a zone it does not host, which is common once a split horizon setup sends internal names to a public resolver.",
+    "fix_snippet": "# The status line in the header is the whole diagnosis\ndig @10.0.0.53 internal.example.com\n\n# Authoritative server, wrong zone: it holds nothing for this name\ndig @ns1.example.com example.net SOA\n\n# Is this server willing to recurse for you at all\ndig @10.0.0.53 example.com +norecurse\ndig @10.0.0.53 example.com +recurse\n\n# BIND: the ACL that decides, and the log line that gives the reason\ngrep -E 'allow-query|allow-recursion' /etc/bind/named.conf.options\njournalctl -u named | grep -i refused\n\n# unbound: the client subnet has to be listed explicitly\ngrep access-control /etc/unbound/unbound.conf\n\n# Finally, check which server the client actually used, not the one you tested\nresolvectl status | grep -A2 'DNS Servers'",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc1035",
+      "https://bind9.readthedocs.io/en/latest/reference.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "dns-truncated-retrying-in-tcp",
+    "title": "dig: ;; Truncated, retrying in TCP mode",
+    "category": "DNS",
+    "explanation": "The answer did not fit in the UDP message size the client offered, so the server set the TC bit and the client started again over TCP. The retry normally succeeds, so the visible symptom is a slow lookup, or an intermittent failure wherever a firewall permits port 53 over UDP but not TCP.",
+    "fix_snippet": "# Reproduce, then measure: how large is the answer and does TCP work\ndig example.com TXT +bufsize=1232\ndig example.com TXT +tcp\n\n# A big DNSSEC or SPF answer is the usual cause, not a broken server\ndig example.com TXT +dnssec | grep 'MSG SIZE'\n\n# Port 53 over TCP is not optional for DNS, open it both ways\nsudo nft list ruleset | grep -w 53\nnc -vz 10.0.0.53 53\n\n# A path MTU black hole breaks large UDP answers before the TC bit helps\nping -M do -s 1400 10.0.0.53\n\n# A sensible EDNS buffer avoids fragmentation without forcing every query to TCP\n# BIND: edns-udp-size 1232; max-udp-size 1232;\ngrep -E 'edns-udp-size|max-udp-size' /etc/bind/named.conf.options",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc6891",
+      "https://bind9.readthedocs.io/en/latest/reference.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "dns-cname-and-other-data",
+    "title": "DNS: CNAME and other data (CNAME at the zone apex)",
+    "category": "DNS",
+    "explanation": "A name may hold a CNAME or it may hold other record types, never both, so a CNAME on the zone apex collides with the SOA and NS records that have to live there. The zone then fails to load, and hosted providers report it as an invalid record rather than as an error in the file.",
+    "fix_snippet": "# The loader names the offending record, so start with it\nnamed-checkzone example.com /etc/bind/db.example.com\n\n# Wrong: the apex already carries SOA and NS\n# example.com.   IN CNAME  lb.provider.net.\n\n# Right, depending on what the provider offers at the apex\n# example.com.   IN ALIAS  lb.provider.net.     (PowerDNS and similar)\n# example.com.   IN A      203.0.113.10         (the address itself)\n# Route 53 uses an A record with an AliasTarget, Cloudflare flattens the CNAME\n\n# Subdomains are unaffected, only the apex is special\ndig www.example.com CNAME +short\n\n# Check nothing already shares the name before adding a CNAME\ndig api.example.com ANY +noall +answer\n\n# TXT records for domain verification at the apex are the usual collision\ndig example.com TXT +short",
+    "sources": [
+      "https://datatracker.ietf.org/doc/html/rfc2181",
+      "https://bind9.readthedocs.io/en/latest/reference.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "dns-systemd-resolved-stub-mismatch",
+    "title": "Name resolves with dig but not from the application",
+    "category": "DNS",
+    "explanation": "dig talks to a server directly, while the application goes through the stub resolver on 127.0.0.53, which keeps its own per link servers, search domains and cache. The two disagree after a VPN connects, when a container inherits the host resolv.conf, or while a negative answer is still cached.",
+    "fix_snippet": "# These two ask different questions, so compare them deliberately\ndig @1.1.1.1 internal.example.com +short\nresolvectl query internal.example.com\n\n# Which servers and search domains each link actually has\nresolvectl status\n\n# A cached negative answer explains \"it started working on its own\"\nresolvectl flush-caches\nresolvectl statistics | grep -i -A3 cache\n\n# In a container, a copied resolv.conf pointing at 127.0.0.53 resolves nothing\ncat /etc/resolv.conf\nls -l /etc/resolv.conf     # should link to /run/systemd/resolve/stub-resolv.conf\n\n# Send one domain to the VPN resolver and leave the rest alone\nsudo resolvectl dns tun0 10.0.0.53\nsudo resolvectl domain tun0 '~internal.example.com'\n\n# glibc reads resolv.conf once per process, so restart the app after changing it",
+    "sources": [
+      "https://www.freedesktop.org/software/systemd/man/latest/systemd-resolved.service.html",
+      "https://man7.org/linux/man-pages/man5/resolv.conf.5.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "nginx-worker-connections-are-not-enough",
+    "title": "nginx: 1024 worker_connections are not enough",
+    "category": "WebServer",
+    "explanation": "Each worker has a fixed number of connection slots and a proxied request uses two of them, one to the client and one to the upstream, so the ceiling arrives at roughly half the concurrency you expected. New connections queue or fail while CPU and memory look fine, and the message repeats once per worker in the error log.",
+    "fix_snippet": "# Measure the ceiling rather than guessing at it\ncurl -s localhost/nginx_status      # requires stub_status\nss -tan state established | wc -l\n\n# events block, not http: proxied requests take two slots each\nevents {\n    worker_connections 8192;\n}\nworker_processes auto;\nworker_rlimit_nofile 32768;         # must exceed worker_connections\n\n# The file descriptor limit is the real cap, and systemd sets its own\nsystemctl show nginx -p LimitNOFILE\n# override with a drop in: [Service] LimitNOFILE=65535\n\nsudo nginx -t && sudo systemctl reload nginx\n\n# Keepalive to upstreams removes most of the second slot's churn\n# upstream app { server 127.0.0.1:3000; keepalive 64; }",
+    "sources": [
+      "https://nginx.org/en/docs/ngx_core_module.html#worker_connections",
+      "https://nginx.org/en/docs/ngx_core_module.html#worker_rlimit_nofile"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "nginx-duplicate-default-server",
+    "title": "nginx: [emerg] a duplicate default server for 0.0.0.0:443",
+    "category": "WebServer",
+    "explanation": "Only one server block per listening address may carry default_server, and nginx refuses to start rather than choose. It nearly always follows a second site being enabled while it still has the packaged default configuration flag, or a sites-enabled directory holding two symlinks to the same file.",
+    "fix_snippet": "# Every block claiming the default, with file and line\ngrep -Rn default_server /etc/nginx/\n\n# Two blocks claiming 0.0.0.0:443, so the flag comes off one of them\n#   listen 443 ssl default_server;\n#   listen 443 ssl;\n\n# Duplicate symlinks are easy to miss\nls -l /etc/nginx/sites-enabled/\nsudo rm /etc/nginx/sites-enabled/default      # if the packaged site is unused\n\n# The flag is per address and port, so IPv6 is counted separately\ngrep -Rn 'listen \\[::\\]' /etc/nginx/\n\n# The test names the file and line before you reload\nsudo nginx -t\nsudo systemctl reload nginx\n\n# Without any default_server, the first matching block wins, which is fine",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_core_module.html#listen",
+      "https://nginx.org/en/docs/http/request_processing.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "apache-ah01630-client-denied-by-server-configuration",
+    "title": "Apache: AH01630: client denied by server configuration",
+    "category": "WebServer",
+    "explanation": "mod_authz_core decided the request was not allowed for that directory, so it never reached the file and the response is a 403 with nothing in the access pattern to explain it. On an upgraded server it is usually a 2.2 style Order and Allow block being ignored, or a new document root that no Directory section grants access to.",
+    "fix_snippet": "# The log line names the path that was denied, start there\ntail -f /var/log/apache2/error.log | grep AH01630\n\n# 2.4 syntax: one Require line replaces Order, Allow and Deny\n<Directory /var/www/app/public>\n    Options FollowSymLinks\n    AllowOverride All\n    Require all granted\n</Directory>\n\n# What is in force for that path, and which vhost owns it\napache2ctl -S\ngrep -Rn 'Require\\|Order\\|Allow from' /etc/apache2/ /var/www/app/.htaccess\n\n# A Require inside .htaccess is ignored unless AllowOverride permits it,\n# so with AllowOverride None the vhost has to grant the access itself\n\nsudo apache2ctl configtest && sudo systemctl reload apache2\n\n# Directories outside the default root need their own section, /srv included",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/mod/mod_authz_core.html#require",
+      "https://httpd.apache.org/docs/2.4/upgrading.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "apache-invalid-command-order",
+    "title": "Apache: Invalid command 'Order', perhaps misspelled or defined by a module",
+    "category": "WebServer",
+    "explanation": "Order, Allow and Deny moved into mod_access_compat in 2.4, so configuration written for 2.2 no longer parses unless that module is loaded. The same wording appears for any directive whose module is absent, which is why enabling the compatibility module is a stopgap and rewriting the block is the fix.",
+    "fix_snippet": "# Which directive, in which file and line\nsudo apache2ctl configtest\n\n# Translate rather than restore:\n#   Order allow,deny        ->  Require all denied\n#   Order deny,allow        ->  Require all granted\n#   Allow from 10.0.0.0/8   ->  Require ip 10.0.0.0/8\n#   Satisfy any             ->  <RequireAny>\n\n# Stopgap when you cannot edit every vhost today\nsudo a2enmod access_compat\nsudo systemctl restart apache2\n\n# The same message for other directives means a different missing module\napache2ctl -M | sort\nsudo a2enmod rewrite headers      # for RewriteRule, Header\n\n# RHEL and CentOS load modules from files rather than with a2enmod\ngrep -R LoadModule /etc/httpd/conf.modules.d/\n\n# Mixing 2.2 and 2.4 authorisation in one directory gives unpredictable results",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/mod/mod_access_compat.html",
+      "https://httpd.apache.org/docs/2.4/upgrading.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "wasm-pack-crate-type-cdylib",
+    "title": "wasm-pack: crate-type must be cdylib to compile to wasm32-unknown-unknown",
+    "category": "WebAssembly",
+    "explanation": "A Rust library defaults to the rlib crate type, which cannot be linked into a WebAssembly module, so wasm-pack stops before it ever calls the compiler. It usually means the crate was started with cargo new rather than from the wasm template, or that a new workspace member inherited the default.",
+    "fix_snippet": "# Cargo.toml of the crate being built, not the workspace root\n[lib]\ncrate-type = [\"cdylib\", \"rlib\"]     # rlib keeps cargo test working\n\n[dependencies]\nwasm-bindgen = \"0.2\"\n\n# Build for the browser and look at what came out\nwasm-pack build --target web\nls pkg/\n\n# In a workspace, point wasm-pack at the member, it builds one crate\nwasm-pack build crates/frontend --target bundler\n\n# Without wasm-pack the crate type requirement is the same\nrustup target add wasm32-unknown-unknown\ncargo build --target wasm32-unknown-unknown --release\n\n# A binary crate (src/main.rs) is a different shape again: it needs\n# --target wasm32-wasip1 and a runtime, not wasm-bindgen",
+    "sources": [
+      "https://rustwasm.github.io/docs/wasm-pack/",
+      "https://doc.rust-lang.org/reference/linkage.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "wasm-import-module-is-not-an-object-or-function",
+    "title": "WebAssembly: Import #0 module=\"env\" error: module is not an object or function",
+    "category": "WebAssembly",
+    "explanation": "The module declares imports and the importObject handed to instantiate has no property for that namespace, so the engine gives up before linking anything. It is the normal outcome of loading an Emscripten or WASI build with a bare instantiate call, because those toolchains expect their own generated glue to supply env or wasi_snapshot_preview1.",
+    "fix_snippet": "// Ask the module what it wants before guessing\nconst mod = await WebAssembly.compileStreaming(fetch('app.wasm'));\nconsole.table(WebAssembly.Module.imports(mod));\n\n// Supply every namespace it lists, memory and tables included\nconst { instance } = await WebAssembly.instantiate(mod, {\n  env: {\n    memory: new WebAssembly.Memory({ initial: 256 }),\n    abort: () => { throw new Error('abort'); },\n  },\n});\n\n// Emscripten output: load the generated .js, do not instantiate the .wasm\n// <script src=\"app.js\"></script>   then Module.onRuntimeInitialized\n\n// wasm-bindgen: use the generated init function from pkg/\nimport init, { greet } from './pkg/app.js';\nawait init();\n\n// A freestanding build has no imports to satisfy at all\n// clang --target=wasm32 -nostdlib -Wl,--no-entry -o app.wasm app.c",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WebAssembly/instantiate",
+      "https://emscripten.org/docs/compiling/WebAssembly.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "wasm-bindgen-closure-invoked-after-being-dropped",
+    "title": "wasm-bindgen: closure invoked after being dropped",
+    "category": "WebAssembly",
+    "explanation": "A Rust closure handed to JavaScript lives only as long as its Closure value, and letting that fall out of scope frees it while the event listener or timer still points at it. The panic therefore arrives when the callback first fires rather than where the mistake was made, which is normally a setup function that registered it and returned.",
+    "fix_snippet": "use wasm_bindgen::prelude::*;\nuse wasm_bindgen::closure::Closure;\n\n// Panics on the first tick: cb is dropped when setup() returns\n// let cb = Closure::wrap(Box::new(|| log(\"tick\")) as Box<dyn FnMut()>);\n// window.set_interval_with_callback_and_timeout_and_arguments_0(\n//     cb.as_ref().unchecked_ref(), 1000)?;\n\n// For something that lives as long as the page, hand ownership to JS\nlet cb = Closure::wrap(Box::new(|| log(\"tick\")) as Box<dyn FnMut()>);\nwindow.set_interval_with_callback_and_timeout_and_arguments_0(\n    cb.as_ref().unchecked_ref(), 1000)?;\ncb.forget();            // deliberate leak, correct for app lifetime callbacks\n\n// When it must be removable, keep the closure beside the handle\nstruct Timer { _cb: Closure<dyn FnMut()>, id: i32 }\n// dropping Timer clears the interval and frees the closure together\n\n# The panic names a Rust file only in a debug build\nwasm-pack build --dev",
+    "sources": [
+      "https://rustwasm.github.io/docs/wasm-bindgen/examples/closures.html",
+      "https://rustwasm.github.io/docs/wasm-bindgen/reference/passing-rust-closures-to-js.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "emscripten-cannot-call-unknown-function",
+    "title": "Emscripten: Cannot call unknown function (make sure it is exported)",
+    "category": "WebAssembly",
+    "explanation": "ccall and cwrap look the symbol up in the module at runtime, and the linker had already removed it because no C code referenced it. That is why it appears in optimised builds and not in debug ones: at -O2 dead code elimination drops any function only ever called from JavaScript.",
+    "fix_snippet": "// C side: mark it so the linker keeps it\n#include <emscripten.h>\nEMSCRIPTEN_KEEPALIVE int add(int a, int b) { return a + b; }\n\n# Or list the exports at link time, with the leading underscore\nemcc app.c -O2 -o app.js \\\n  -sEXPORTED_FUNCTIONS='[\"_add\",\"_malloc\",\"_free\"]' \\\n  -sEXPORTED_RUNTIME_METHODS='[\"ccall\",\"cwrap\"]'\n\n// ccall and cwrap are runtime methods and need exporting too\nconst add = Module.cwrap('add', 'number', ['number', 'number']);\n\n# Check what actually survived the link before changing anything else\nemnm app.wasm | grep add\n\n// C++ symbols are mangled, so give them C linkage\nextern \"C\" EMSCRIPTEN_KEEPALIVE void tick(void) { }\n\n# malloc and free are needed by anything passing strings or arrays across",
+    "sources": [
+      "https://emscripten.org/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html",
+      "https://emscripten.org/docs/tools_reference/settings_reference.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "web3-transaction-underpriced",
+    "title": "Web3: transaction underpriced",
+    "category": "Web3",
+    "explanation": "The node rejected the transaction before it entered the pool because the fee offered is below the minimum it will accept, which is local policy rather than a consensus rule. It differs from the replacement case: nothing is pending for that nonce, the fee is simply under this node’s floor or under the current base fee.",
+    "fix_snippet": "// Let the provider price it rather than hard coding gwei\nconst fee = await provider.getFeeData();\nconst tx = await wallet.sendTransaction({\n  to,\n  value,\n  maxFeePerGas: fee.maxFeePerGas,\n  maxPriorityFeePerGas: fee.maxPriorityFeePerGas,\n});\n\n// Many nodes enforce a minimum tip, and 1 gwei is a common floor\n// maxPriorityFeePerGas: ethers.parseUnits('1', 'gwei')\n\n# What the node itself suggests, right now\n# cast gas-price --rpc-url $RPC\n# cast rpc eth_maxPriorityFeePerGas --rpc-url $RPC\n\n// Replacing a stuck transaction needs a real bump, not a nudge: at least\n// 10 per cent above both fee fields of the pending one, same nonce\nconst pending = await provider.getTransaction(hash);\n\n// Legacy chains still want gasPrice, and mixing the two styles is rejected outright",
+    "sources": [
+      "https://ethereum.org/en/developers/docs/gas/",
+      "https://docs.ethers.org/v6/api/providers/"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "web3-reverted-without-a-reason-string",
+    "title": "Web3: Transaction reverted without a reason string",
+    "category": "Web3",
+    "explanation": "The contract used require without a message, tripped an assert, ran out of gas inside a nested call, or the address has no code for that selector, so there is no string to decode. The tooling reports the absence rather than the cause, which is why the same call against a live node returns only a CALL_EXCEPTION.",
+    "fix_snippet": "# Reproduce it as a call so the node hands back the revert data\ncast call 0xContract \"withdraw(uint256)\" 1000 --rpc-url $RPC\n\n# Modern code reverts with custom errors, which are four bytes, not a string\ncast 4byte-decode 0x82b42900\n\n// Solidity: name the failure so clients can decode it\nerror InsufficientBalance(uint256 available, uint256 required);\nif (bal < amount) revert InsufficientBalance(bal, amount);\n\n// ethers v6 surfaces it once the ABI includes the error definition\ntry { await contract.withdraw(amount); }\ncatch (e) { console.log(e.revert?.name, e.revert?.args, e.shortMessage); }\n\n# Calling a plain address, or a proxy with no implementation set, reverts silently\ncast code 0xContract | head -c 20\n\n# A trace shows which nested call failed and how much gas it had\ncast run <txhash> --rpc-url $RPC",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/contracts.html",
+      "https://docs.ethers.org/v6/api/contract/"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "web3-max-code-size-exceeded",
+    "title": "Web3: max code size exceeded when deploying a contract",
+    "category": "Web3",
+    "explanation": "EIP-170 caps deployed runtime code at 24576 bytes and the deployment is rejected once the compiled contract passes it. The growth is usually incidental rather than a single large addition: long revert strings, many public functions and inlined library code all count, and building with the optimiser off can be the whole difference.",
+    "fix_snippet": "# Measure first, the number tells you how much has to go\nforge build --sizes\nnpx hardhat compile && npx hardhat size-contracts\n\n// The optimiser alone often brings it back under the cap\n// hardhat.config.js\nsolidity: { version: '0.8.28', settings: { optimizer: { enabled: true, runs: 200 } } }\n// foundry.toml: optimizer = true, optimizer_runs = 200\n\n// Custom errors replace revert strings and cost bytecode as well as gas\nerror NotOwner();\n\n// External library functions deploy separately and are linked in\nlibrary Fees { function apply(uint a) external pure returns (uint) { return a; } }\n\n// Past that, split the contract: a proxy with facets keeps each piece small\n\n# Local chains can lift the limit for tests, mainnet cannot\n# anvil --code-size-limit 50000",
+    "sources": [
+      "https://eips.ethereum.org/EIPS/eip-170",
+      "https://docs.soliditylang.org/en/latest/using-the-compiler.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "web3-could-not-detect-network",
+    "title": "Web3: could not detect network (event=\"noNetwork\", code=NETWORK_ERROR)",
+    "category": "Web3",
+    "explanation": "ethers asks the endpoint for its chain id before it will do anything else, and that call failed, so the provider never finished starting. A wrong URL is only one cause: a missing key in the path, a rate limited key, a browser CORS rejection and an http endpoint on an https page all look identical from here.",
+    "fix_snippet": "# Prove the endpoint answers before blaming the library\ncurl -s -X POST $RPC -H 'content-type: application/json' \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_chainId\",\"params\":[]}'\n\n// Skip the detection round trip when the chain is known\nconst provider = new ethers.JsonRpcProvider(RPC_URL, 1, { staticNetwork: true });\n\n// A 401 or 429 from the provider also reads as noNetwork, so log the detail\nprovider.on('error', (e) => console.error(e.info ?? e));\n\n// In the browser the wallet already knows its network\nconst browserProvider = new ethers.BrowserProvider(window.ethereum);\n\n// Env vars that never reached the bundle are the usual local cause\nconsole.log(process.env.RPC_URL ?? 'undefined');   // Vite needs a VITE_ prefix\n\n# A local node that is not up yet: wait for it rather than constructing early\ncast block-number --rpc-url http://127.0.0.1:8545",
+    "sources": [
+      "https://docs.ethers.org/v6/api/providers/",
+      "https://ethereum.org/en/developers/docs/apis/json-rpc/"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "windows-trust-relationship-failed",
+    "title": "The trust relationship between this workstation and the primary domain failed",
+    "category": "Windows",
+    "explanation": "The machine account password the workstation holds no longer matches the one in Active Directory, so domain logons are refused while local accounts still work. Restoring a virtual machine from a snapshot, cloning without sysprep, or leaving a machine switched off for longer than the password lifetime all produce it, and rejoining the domain is not needed to fix it.",
+    "fix_snippet": "# Repair the secure channel in place: no reboot, no rejoin\nTest-ComputerSecureChannel -Verbose\nTest-ComputerSecureChannel -Repair -Credential (Get-Credential DOMAIN\\Admin)\n\n# Or reset the machine account password against a named controller\nReset-ComputerMachinePassword -Server dc01.corp.example.com `\n  -Credential (Get-Credential DOMAIN\\Admin)\n\n# nltest shows which controller is in use and whether the channel is up\nnltest /sc_query:CORP\nnltest /dsgetdc:CORP\n\n# Clock skew over five minutes breaks Kerberos and presents the same way\nw32tm /query /status\nw32tm /resync\n\n# Check the account was not recreated by a rebuild under the same name\nGet-ADComputer WS-1234 -Properties PasswordLastSet, whenCreated",
+    "sources": [
+      "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/test-computersecurechannel",
+      "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/cc731935(v=ws.11)"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "windows-service-error-1053",
+    "title": "Error 1053: The service did not respond to the start or control request",
+    "category": "Windows",
+    "explanation": "A service has about 30 seconds to report back to the service control manager, and the process either failed before doing so or spent that time on startup work. A console application installed as a service never reports at all, which is why it runs perfectly from a command prompt and times out as a service.",
+    "fix_snippet": "# 1053 is only the timeout, the real error is in the event log\nGet-WinEvent -LogName Application -MaxEvents 20 |\n  Where-Object { $_.LevelDisplayName -eq 'Error' } | Format-List TimeCreated, Message\n\n# Run the binary interactively as the service account to see it fail\nsc.exe qc MyService              # binary path, account, dependencies\nGet-Service MyService | Select-Object Name, StartType, Status\n\n# A missing runtime, or a config path relative to the wrong directory,\n# is the usual cause: services start in C:\\Windows\\System32\n# .NET: BackgroundService.ExecuteAsync must not block StartAsync\n# Node and Java wrappers (node-windows, procrun) report readiness for you\n\n# Widen the timeout only once the slow startup is genuinely necessary\n# HKLM\\SYSTEM\\CurrentControlSet\\Control\\ServicesPipeTimeout (DWORD, milliseconds)\n\n# Then confirm it starts and stays up\nStart-Service MyService; Get-Service MyService",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/win32/services/service-control-manager",
+      "https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-query"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "windows-python-was-not-found-store-alias",
+    "title": "Python was not found; run without arguments to install from the Microsoft Store",
+    "category": "Windows",
+    "explanation": "Windows ships app execution aliases for python.exe and python3.exe that open the Store, and they sit early enough in PATH to shadow a real installation. Anything that shells out to python hits the stub, including build scripts and node-gyp, so an interpreter you can see on disk appears to be missing.",
+    "fix_snippet": "# What is actually being found, and what is installed\nwhere.exe python\nwhere.exe python3\npy -0p                    # every interpreter the launcher knows about\n\n# The stubs live here, and they are not real interpreters\ndir \"$env:LOCALAPPDATA\\Microsoft\\WindowsApps\\python*.exe\"\n\n# Turn them off: Settings, Apps, Advanced app settings,\n# App execution aliases, then python.exe and python3.exe to Off\n\n# Prefer the launcher in scripts, it does not depend on PATH order\npy -3.13 -m pip install -r requirements.txt\n\n# If the interpreter is genuinely missing, install it for the machine\nwinget install Python.Python.3.13 --scope machine\n\n# Open a new terminal afterwards: PATH changes do not reach a running shell\npython --version",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/python/faqs",
+      "https://docs.python.org/3/using/windows.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "windows-privilege-not-held-symlink",
+    "title": "Windows: A required privilege is not held by the client (0x80070522)",
+    "category": "Windows",
+    "explanation": "Creating a symbolic link needs SeCreateSymbolicLinkPrivilege, which standard accounts do not hold, so git checkouts, npm installs and archive extractions that contain links fail with something that reads like a file permission problem. Developer Mode grants the privilege without making the whole session administrative.",
+    "fix_snippet": "# Confirm which privilege is missing before touching any ACLs\nwhoami /priv | Select-String Symbolic\n\n# Settings, System, For developers, Developer Mode On grants it to your account\n# Then sign out and back in: privileges are granted at logon\n\n# Verify by hand, with no elevation\nNew-Item -ItemType SymbolicLink -Path link.txt -Target target.txt\n\n# Git then creates real links instead of files containing a path\ngit config --global core.symlinks true\ngit checkout -- .            # or reclone, existing files stay as text\n\n# Managed machines: Local Security Policy, Local Policies,\n# User Rights Assignment, \"Create symbolic links\", add the account\n\n# Directory junctions need no privilege, which is why mklink /J works\ncmd /c mklink /J link target",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/create-symbolic-links",
+      "https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "macos-ld-symbols-not-found-arm64",
+    "title": "ld: symbol(s) not found for architecture arm64",
+    "category": "Apple",
+    "explanation": "Compilation succeeded and the linker could not find a definition for something that was declared, so the reference survived to the link step. The architecture in the message is a red herring most of the time: a source file missing from the target, a library built for the other slice, or a C header included from C++ without extern \"C\" all report it this way.",
+    "fix_snippet": "# Which symbol, in human form\nc++filt _Z3addii\n# Xcode prints \"Undefined symbols for architecture arm64\" then the reference\n\n# Does the library contain it, and for which slice\nnm -gU /opt/homebrew/lib/libfoo.a | grep foo\nlipo -info /opt/homebrew/lib/libfoo.dylib     # arm64, x86_64 or both\n\n# A single slice library on Apple silicon needs a native rebuild\narch -arm64 make clean all\n\n# C headers used from C++ need the linkage spelled out\nextern \"C\" {\n#include \"legacy.h\"\n}\n\n# Xcode: the file compiles but was never added to this target\n# Build Phases, Compile Sources, and Other Linker Flags for -lfoo\n\n# Homebrew is not on the default search path\nexport LDFLAGS=\"-L$(brew --prefix)/lib\"\nexport CPPFLAGS=\"-I$(brew --prefix)/include\"",
+    "sources": [
+      "https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary",
+      "https://developer.apple.com/documentation/xcode/build-settings-reference"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "xcode-building-for-simulator-linking-object-file-built-for-ios",
+    "title": "Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'",
+    "category": "Apple",
+    "explanation": "A dependency in the project carries a device slice only, and the simulator build cannot link it even though both are arm64 on Apple silicon. It turns up with an old fat framework or a binary pod published before XCFrameworks existed, and excluding arm64 hides it at the cost of breaking the simulator on every Apple silicon Mac.",
+    "fix_snippet": "# What the binary contains, and which platform each slice targets\nlipo -info Vendor.framework/Vendor\nvtool -show-build Vendor.framework/Vendor | grep -A2 platform\n\n# The real fix is an XCFramework, which carries device and simulator together\nls Vendor.xcframework/       # ios-arm64, ios-arm64_x86_64-simulator\n\n# Build one from slices you have\nxcodebuild -create-xcframework \\\n  -framework build/Release-iphoneos/Vendor.framework \\\n  -framework build/Release-iphonesimulator/Vendor.framework \\\n  -output Vendor.xcframework\n\n# CocoaPods: a newer version of the pod usually ships one\npod update Vendor && pod install\n\n# Setting EXCLUDED_ARCHS=arm64 for the simulator forces Rosetta and only\n# works while an x86_64 slice exists, so treat it as a temporary measure\n\n# Confirm afterwards by building for the simulator explicitly\nxcodebuild -scheme App -sdk iphonesimulator build",
+    "sources": [
+      "https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle",
+      "https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "homebrew-cannot-install-under-rosetta-arm-prefix",
+    "title": "Homebrew: Cannot install under Rosetta 2 in ARM default prefix",
+    "category": "Apple",
+    "explanation": "The arm64 Homebrew in /opt/homebrew refuses to run in a translated process, which is what happens when the terminal itself was opened with Rosetta or a shell inherited an x86_64 environment. Two installations can coexist, one per prefix, so the message is really about which one the current shell is talking to.",
+    "fix_snippet": "# Which architecture is this shell, and which brew is first on PATH\narch\nuname -m\nwhich -a brew\n\n# Run the native one explicitly to get past it now\narch -arm64 /opt/homebrew/bin/brew install jq\n\n# Terminal or iTerm: untick \"Open using Rosetta\" in Get Info on the app\n\n# Keep the two prefixes apart in your shell profile\n# /opt/homebrew is arm64, /usr/local is x86_64\neval \"$(/opt/homebrew/bin/brew shellenv)\"\n\n# For a formula that genuinely has no arm64 build, use the Intel prefix\narch -x86_64 /usr/local/bin/brew install some-intel-only-formula\n\n# Confirm the environment a formula will be built in\nbrew config | grep -E 'Rosetta|macOS|CPU|HOMEBREW_PREFIX'",
+    "sources": [
+      "https://docs.brew.sh/Installation",
+      "https://developer.apple.com/documentation/apple-silicon/about-the-rosetta-translation-environment"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "macos-app-is-damaged-and-cannot-be-opened",
+    "title": "macOS: \"App\" is damaged and can’t be opened. You should move it to the Bin",
+    "category": "Apple",
+    "explanation": "Gatekeeper is reporting a failed signature or notarisation check on a quarantined download, not a corrupted file. An app unzipped by a tool that dropped part of the bundle, modified after signing, or fetched from a mirror that never notarised it all end here, and the wording sends people to download it again instead of checking the signature.",
+    "fix_snippet": "# What Gatekeeper actually objects to\nspctl -a -vvv /Applications/App.app\ncodesign -dv --verbose=4 /Applications/App.app\n\n# The quarantine attribute is what triggers the check\nxattr -l /Applications/App.app\n\n# Notarisation, if the developer submitted and stapled it\nxcrun stapler validate /Applications/App.app\n\n# Your own build, broken by editing the bundle after signing: sign it again\ncodesign --force --deep --sign - /Applications/App.app\n\n# Unzip with a tool that preserves bundle metadata\nditto -x -k App.zip /Applications/\n\n# Removing the attribute skips the check, so keep it for software you built\nxattr -d com.apple.quarantine /Applications/App.app\n\n# For third party software, get it from the vendor and check the authority\ncodesign -dv --verbose=4 /Applications/App.app 2>&1 | grep Authority",
+    "sources": [
+      "https://support.apple.com/en-gb/guide/mac-help/mchld5a35146/mac",
+      "https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "scala-missing-parameter-type-for-expanded-function",
+    "title": "Scala: missing parameter type for expanded function",
+    "category": "Scala",
+    "explanation": "The compiler reached a placeholder or a lambda before it knew the expected type, so there is nothing to infer the parameter from. The cause is inference order rather than the lambda itself: a value with no declared type, an overloaded method, or a chain whose receiver type is still being worked out.",
+    "fix_snippet": "// Nothing to infer from: there is no expected type here\n// val f = _ + 1\n\n// Say what the function is, either side of the equals sign\nval f: Int => Int = _ + 1\nval g = (x: Int) => x + 1\n\n// In a chain, annotate the value that lost its type, not the lambda\nval names: List[String] = load()\nnames.map(_.toUpperCase)\n\n// Overloads defeat inference, so make the choice explicit\ndef handle(f: Int => Int): Unit = ()\ndef handle(f: String => String): Unit = ()\nhandle((s: String) => s.trim)\n\n// Separate parameter lists let the first inform the second\ndef fold[A, B](xs: List[A])(z: B)(f: (B, A) => B): B = xs.foldLeft(z)(f)\nfold(List(1, 2, 3))(0)(_ + _)     // fine, B is known by the time f is typed\n\n// Underscore inside a larger expression expands wider than people expect:\n// xs.map(_ + 1) works, xs.map(f(_) + 1) often needs the parameter named",
+    "sources": [
+      "https://docs.scala-lang.org/tour/higher-order-functions.html",
+      "https://docs.scala-lang.org/scala3/book/fun-anonymous-functions.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "scala-3-ambiguous-given-instances",
+    "title": "Scala 3: Ambiguous given instances: both X and Y match type",
+    "category": "Scala",
+    "explanation": "Two givens of the same type are in scope with equal specificity, so the compiler refuses to choose between them. A wildcard import is the usual route in, particularly when a library ships both a default instance and a configurable one, and the ambiguity only shows up at the call site that needs it.",
+    "fix_snippet": "// Both are in scope and equally specific, so neither wins\n// given Ordering[User] = Ordering.by(_.name)\n// given Ordering[User] = Ordering.by(_.id)\n\n// Import the one you want instead of the whole object\nimport Instances.byName.given\n\n// Or pass it explicitly and stop depending on the search\nusers.sorted(using Instances.byId)\n\n// Give the general instance lower priority through inheritance\ntrait LowPriority { given Ordering[User] = Ordering.by(_.id) }\nobject Instances extends LowPriority { given Ordering[User] = Ordering.by(_.name) }\n\n// Ask the compiler what it would pick, at the point where it matters\nsummon[Ordering[User]]\n\n# See the search itself when the answer is surprising\n# scalacOptions += \"-Xprint:typer\"\n\n// Scala 2 words this as \"ambiguous implicit values\", with the same causes",
+    "sources": [
+      "https://docs.scala-lang.org/scala3/reference/contextual/givens.html",
+      "https://docs.scala-lang.org/scala3/book/ca-context-parameters.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "scala-object-is-not-a-member-of-package",
+    "title": "Scala: object X is not a member of package Y",
+    "category": "Scala",
+    "explanation": "The compiler resolved the package and found nothing of that name inside it, so the import fails rather than the usage. A dependency that is only on the test classpath, a stale target directory after a rename, and a package declaration that no longer matches the artefact all present identically.",
+    "fix_snippet": "# Is the dependency on the classpath for this configuration at all\nsbt \"show Compile/dependencyClasspath\" | tr ',' '\\n' | grep -i circe\nsbt \"whatDependsOn io.circe circe-core\"\n\n// Test only dependencies are invisible to main sources\nlibraryDependencies += \"org.scalatest\" %% \"scalatest\" % \"3.2.19\" % Test\n\n// A rename leaves the old class in target until you clean\n// sbt clean compile\n\n# What the jar on disk actually contains\nunzip -l \"$(find ~/.cache/coursier -name 'circe-core_3-*.jar' | head -1)\" | grep -i syntax\n\n// The package is the declaration, but it should match the directory\n// src/main/scala/com/example/api/Routes.scala\npackage com.example.api\n\n// A local package of the same name shadows the library, so be absolute\nimport _root_.com.example.api.Routes\n\n// Scala 3 artefacts are suffixed _3: a _2.13 only library has no such package",
+    "sources": [
+      "https://docs.scala-lang.org/tour/packages-and-imports.html",
+      "https://www.scala-sbt.org/1.x/docs/Library-Dependencies.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "scala-3-underscore-type-wildcard-no-longer-supported",
+    "title": "Scala 3: `_` is no longer supported for a type wildcard, use `?`",
+    "category": "Scala",
+    "explanation": "Underscore is being reclaimed for type lambdas, so existing type wildcards have to be written with a question mark instead. It arrives as a warning during a Scala 3 upgrade and becomes an error under -source:future, and the rewrite is mechanical because only type positions changed.",
+    "fix_snippet": "// Before\n// def sizes(xs: List[Seq[_]]): List[Int] = xs.map(_.size)\n\n// After: ? in a type position, _ still means a placeholder in a term\ndef sizes(xs: List[Seq[?]]): List[Int] = xs.map(_.size)\n\n// Java interop and existential style signatures are where it turns up\nval cls: Class[?] = classOf[String]\nval pending: List[scala.concurrent.Future[?]] = Nil\n\n// Let the compiler rewrite the codebase for you\n// build.sbt\nscalacOptions ++= Seq(\"-source:3.4-migration\", \"-rewrite\")\n// then remove both flags once it compiles clean\n\n# Find what is left by hand\ngrep -rn '\\[_\\]' src/main/scala | grep -v '=>'\n\n// A type lambda is the reason the syntax was needed: [X] =>> Map[String, X]",
+    "sources": [
+      "https://docs.scala-lang.org/scala3/reference/changed-features/wildcards.html",
+      "https://docs.scala-lang.org/scala3/guides/migration/tooling-migration-mode.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "flutter-missingpluginexception-no-implementation-found",
+    "title": "Flutter: MissingPluginException: No implementation found for method",
+    "category": "Dart",
+    "explanation": "The Dart half of a plugin is present and the native half was never registered, so the method channel has nothing on the other end. A hot restart after adding the dependency is the usual cause, because plugin registration happens when the app is built and installed rather than when Dart reloads.",
+    "fix_snippet": "# Registration happens at build time, so rebuild rather than hot restart\nflutter clean\nflutter pub get\nflutter run\n\n# iOS: the pod has to be installed for the generated registrant to see it\ncd ios && pod install && cd ..\n\n# Confirm it is a real dependency and not just an import\ngrep -A5 '^dependencies:' pubspec.yaml\n\n// Guard platforms the plugin does not support instead of crashing on them\nif (Platform.isAndroid || Platform.isIOS) {\n  await Battery().batteryLevel;\n}\n\n// A method name that does not exist natively reads exactly the same, so\n// check the channel name and method spelling on both sides\n// MethodChannel('com.example/battery').invokeMethod('getLevel')\n\n# Web and desktop need their own registration, so test the target you ship\nflutter run -d chrome",
+    "sources": [
+      "https://docs.flutter.dev/platform-integration/platform-channels",
+      "https://docs.flutter.dev/packages-and-plugins/developing-packages"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "flutter-incorrect-use-of-parentdatawidget",
+    "title": "Flutter: Incorrect use of ParentDataWidget",
+    "category": "Dart",
+    "explanation": "Expanded, Flexible and Positioned only mean something to one kind of parent, and the tree has one of them under something else, usually because a Container or a Padding was inserted between it and the Row. The message names both the widget and the ancestor it actually found, and the layout beneath it is laid out wrongly rather than not at all.",
+    "fix_snippet": "// Wrong: Expanded's parent is Padding, not the Row\n// Row(children: [Padding(padding: pad, child: Expanded(child: Text('a')))])\n\n// Right: Expanded sits directly under the Flex, padding goes inside it\nRow(children: [\n  Expanded(child: Padding(padding: pad, child: const Text('a'))),\n]);\n\n// Which parent each one belongs to\n// Expanded, Flexible  ->  Row, Column, Flex\n// Positioned          ->  Stack\nStack(children: [Positioned(top: 0, left: 0, child: child)]);\n\n// A helper that wraps children is the usual way one gets misplaced\n// children: items.map((i) => Card(child: Expanded(child: Tile(i)))).toList()\n\n# The inspector shows the real tree, which is quicker than reading the code\nflutter run        # then press \"w\" to dump the widget hierarchy\n\n// Inside a Column, give a ListView bounded height with Expanded on the list\n// itself, not on the items",
+    "sources": [
+      "https://api.flutter.dev/flutter/widgets/ParentDataWidget-class.html",
+      "https://api.flutter.dev/flutter/widgets/Expanded-class.html"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "flutter-waiting-for-another-flutter-command-startup-lock",
+    "title": "Flutter: Waiting for another flutter command to release the startup lock",
+    "category": "Dart",
+    "explanation": "The SDK takes a file lock while it updates its own caches, and a command killed part way through leaves that lock file behind. Nothing holds it any more, so the wait never ends, and clearing one file inside the SDK directory is all that is needed.",
+    "fix_snippet": "# Check nothing is genuinely still running first\npgrep -af 'flutter|dart'\n\n# Then delete the stale lock from the SDK, not from the project\nrm \"$(dirname \"$(dirname \"$(readlink -f \"$(which flutter)\")\")\")/bin/cache/lockfile\"\n# usually the same as: rm ~/development/flutter/bin/cache/lockfile\n\n# Windows PowerShell\n# Get-Process dart -ErrorAction Ignore | Stop-Process\n# Remove-Item \"$env:FLUTTER_ROOT\\bin\\cache\\lockfile\"\n\n# If it reappears at once, an IDE analysis server holds it: close the IDE,\n# or let the running command finish rather than killing it again\nflutter doctor -v\n\n# A cache left half downloaded needs repairing as well as unlocking\nflutter precache\nflutter pub get",
+    "sources": [
+      "https://docs.flutter.dev/reference/flutter-cli",
+      "https://docs.flutter.dev/release/upgrade"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "dart-cannot-add-new-events-after-calling-close",
+    "title": "Dart: Bad state: Cannot add new events after calling close",
+    "category": "Dart",
+    "explanation": "A closed StreamController still exists, and something is holding the old reference and adding to it. In Flutter it is normally a controller closed in dispose while an async callback completes just afterwards, or a shared service whose controller was closed by the first widget that happened to use it.",
+    "fix_snippet": "// For the unavoidable race with async work, check before adding\nif (!_controller.isClosed) _controller.add(value);\n\n// Own the controller where you close it: per widget, not in a shared singleton\nclass _MyWidgetState extends State<MyWidget> {\n  final _controller = StreamController<int>();\n  StreamSubscription<int>? _sub;\n\n  @override\n  void dispose() {\n    _sub?.cancel();        // cancel what feeds it before closing\n    _controller.close();\n    super.dispose();\n  }\n}\n\n// A broadcast controller shared by many listeners should be closed by\n// whoever created it, usually the service's own dispose, and once only\nfinal _events = StreamController<Event>.broadcast();\n\n// In BLoC the same error means an event arrived after the route was popped",
+    "sources": [
+      "https://api.dart.dev/stable/dart-async/StreamController-class.html",
+      "https://dart.dev/libraries/async/creating-streams"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "sveltekit-cross-site-post-form-submissions-are-forbidden",
+    "title": "SvelteKit: Cross-site POST form submissions are forbidden",
+    "category": "Svelte",
+    "explanation": "SvelteKit compares the Origin header with the origin it believes it is serving and rejects the mismatch, which is its CSRF protection rather than a bug. It appears behind a proxy that does not pass the original host and protocol through, or when a form genuinely posts to another host, such as a webhook receiver.",
+    "fix_snippet": "# The check compares two values, so print both before changing anything\ncurl -i -X POST https://app.example.com/login \\\n  -H 'origin: https://app.example.com' -d 'user=a'\n\n# adapter-node: tell it what the public origin is\nORIGIN=https://app.example.com node build\n# or let it trust the proxy headers\n# PROTOCOL_HEADER=x-forwarded-proto HOST_HEADER=x-forwarded-host node build\n\n# The proxy has to actually send them\n# proxy_set_header X-Forwarded-Host  $host;\n# proxy_set_header X-Forwarded-Proto $scheme;\n\n// A route that is genuinely cross origin belongs in +server.js, where the\n// form action check does not apply, rather than switching the check off\n\n// svelte.config.js: leave this on in production\nkit: { csrf: { checkOrigin: true } }\n\n# Local development over a tunnel or a LAN address hits it too, so set\n# ORIGIN to whatever the browser is really using",
+    "sources": [
+      "https://svelte.dev/docs/kit/configuration",
+      "https://svelte.dev/docs/kit/adapter-node"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "svelte-5-effect-update-depth-exceeded",
+    "title": "Svelte 5: effect_update_depth_exceeded (Maximum update depth exceeded)",
+    "category": "Svelte",
+    "explanation": "An effect wrote to state that it also reads, so running it schedules it again and Svelte gives up after a fixed number of iterations. Deriving a value inside an effect is the usual shape, and the loop often only closes once a second effect starts reading what the first one writes.",
+    "fix_snippet": "<script>\n  let items = $state([]);\n\n  // Loops: this effect reads total and writes it\n  // let total = $state(0);\n  // $effect(() => { total = items.length; });\n\n  // Derived state is computed, never assigned\n  let total = $derived(items.length);\n\n  // When an effect genuinely must write, read without subscribing\n  let seen = $state(false);\n  $effect(() => {\n    if (untrack(() => seen)) return;\n    seen = true;\n  });\n\n  // Two way bindings between components form the same cycle, so let one\n  // side own the value and pass a callback the other way\n</script>\n\n<!-- The dev build names the effect and the line in the console error -->",
+    "sources": [
+      "https://svelte.dev/docs/svelte/runtime-errors",
+      "https://svelte.dev/docs/svelte/$derived"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "sveltekit-cannot-access-url-searchparams-prerendering",
+    "title": "SvelteKit: Cannot access url.searchParams on a page with prerendering enabled",
+    "category": "Svelte",
+    "explanation": "A prerendered page is one file written at build time, so there is no request to read a query string from. The clash usually comes from a layout: prerender was switched on once near the root and inherited by a page that filters or paginates from the URL.",
+    "fix_snippet": "// Find where it was switched on, which is often not this page\n// src/routes/+layout.js\nexport const prerender = true;\n\n// Turn it off for the page that needs a request\n// src/routes/search/+page.js\nexport const prerender = false;\n\n// Or read the query string in the browser rather than during load\n<script>\n  import { page } from '$app/state';\n  let q = $derived(page.url.searchParams.get('q') ?? '');\n</script>\n\n// Path parameters prerender happily, query strings do not, so make it a route\n// /products/[category] rather than /products?category=x\n\n// url.pathname and url.origin are safe while prerendering, searchParams is not\n\n# The build log lists every route it prerendered, which settles the argument\nnpm run build",
+    "sources": [
+      "https://svelte.dev/docs/kit/page-options",
+      "https://svelte.dev/docs/kit/load"
+    ],
+    "dateAdded": "2026-09-26"
+  },
+  {
+    "id": "sveltekit-env-static-private-in-client-code",
+    "title": "SvelteKit: Cannot import $env/static/private into client-facing code",
+    "category": "Svelte",
+    "explanation": "Private environment variables may only be imported by modules that never reach the browser, and the import chain from a component or a universal load function crossed that line. The offending import is often indirect: a shared helper that reads a secret gets pulled into a .svelte file by one innocent looking utility function.",
+    "fix_snippet": "// Allowed: +page.server.js, +server.js, hooks.server.js, src/lib/server/**\nimport { DATABASE_URL } from '$env/static/private';\n\n// A universal +page.js runs in both places, so it cannot hold the secret.\n// Load the data on the server and return only what the page may see.\n// src/routes/+page.server.js\nexport const load = async () => ({ plans: await listPlans() });\n\n// Public values need the PUBLIC_ prefix and can be imported anywhere\nimport { PUBLIC_API_URL } from '$env/static/public';\n\n// Move the helper under src/lib/server/ so the boundary is enforced for you\n// import { getClient } from '$lib/server/db';\n\n// Dynamic access follows the same rule\n// import { env } from '$env/dynamic/private';   // server only\n\n# The error prints the import chain: follow it to the shared module\nnpm run dev",
+    "sources": [
+      "https://svelte.dev/docs/kit/$env-static-private",
+      "https://svelte.dev/docs/kit/server-only-modules"
+    ],
+    "dateAdded": "2026-09-26"
   }
 ]

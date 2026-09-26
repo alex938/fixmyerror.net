@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Apache: AH00558: Could not reliably determine the server's FQDN","name":"Apache: AH00558: Could not reliably determine the server's FQDN","description":"ServerName is not set, so Apache guessed from the system hostname. It is a warning and the server starts, but the guessed name is used in redirects and self…","url":"https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html"},"inLanguage":"en-GB","articleSection":"WebServer","proficiencyLevel":"Expert","datePublished":"2026-09-08","dateModified":"2026-09-19","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://httpd.apache.org/docs/2.4/mod/core.html"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Apache: AH00558: Could not reliably determine the server's FQDN","name":"Apache: AH00558: Could not reliably determine the server's FQDN","description":"ServerName is not set, so Apache guessed from the system hostname. It is a warning and the server starts, but the guessed name is used in redirects and self…","url":"https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html"},"inLanguage":"en-GB","articleSection":"WebServer","proficiencyLevel":"Expert","datePublished":"2026-09-08","dateModified":"2026-09-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://httpd.apache.org/docs/2.4/mod/core.html"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"WebServer errors","item":"https://fixmyerror.net/categories/webserver.html"},{"@type":"ListItem","position":3,"name":"Apache: AH00558: Could not reliably determine the server's FQDN","item":"https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html"}]}</script>
 </head>
 <body>
@@ -124,15 +124,15 @@ RemoteIPHeader X-Forwarded-For</code></pre>
             <h2>Related WebServer errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/apache-htaccess-not-allowed.html">Apache: .htaccess: Option Indexes not allowed<span class="sub">Directory listing (Options Indexes) is disabled in main config but requested in .htaccess.</span></a></li>
+                <li><a href="../errors/apache-ah01630-client-denied-by-server-configuration.html">Apache: AH01630: client denied by server configuration<span class="sub">mod_authz_core decided the request was not allowed for that directory, so it never reached…</span></a></li>
+                <li><a href="../errors/apache-invalid-command-order.html">Apache: Invalid command &#039;Order&#039;, perhaps misspelled or defined by a module<span class="sub">Order, Allow and Deny moved into mod_access_compat in 2.4, so configuration written for 2.2…</span></a></li>
                 <li><a href="../errors/apache-mod-rewrite-not-working.html">Apache: mod_rewrite not enabled<span class="sub">URL rewriting rules in .htaccess are not working because the mod_rewrite module is not loaded…</span></a></li>
                 <li><a href="../errors/caddy-reverse-proxy-502.html">Caddy: 502 Bad Gateway (reverse proxy)<span class="sub">Caddy&#039;s reverse proxy cannot reach the upstream backend. The backend service may be down or…</span></a></li>
                 <li><a href="../errors/iis-500-19-config-error.html">IIS: HTTP Error 500.19 - Internal Server Error<span class="sub">IIS cannot read the web.config file due to syntax errors, missing modules, or insufficient…</span></a></li>
-                <li><a href="../errors/nginx-413-request-entity-too-large.html">Nginx: 413 Request Entity Too Large<span class="sub">The request body exceeds Nginx&#039;s client_max_body_size directive. Default is 1MB.</span></a></li>
-                <li><a href="../errors/nginx-emerg-bind-failed.html">Nginx: bind() to 0.0.0.0:80 failed<span class="sub">Nginx cannot bind to port 80 because it is already in use by another process (Apache, another…</span></a></li>
-                <li><a href="../errors/nginx-server-names-hash-bucket-size.html">Nginx: could not build server_names_hash, increase the bucket size<span class="sub">Nginx sizes a hash table for server names at startup and one of your names is too long for…</span></a></li>
-                <li><a href="../errors/nginx-ssl-no-shared-cipher.html">Nginx: no shared cipher (SSL)<span class="sub">The client and Nginx have no common SSL/TLS cipher suite. Usually caused by overly…</span></a></li>
+                <li><a href="../errors/nginx-duplicate-default-server.html">nginx: [emerg] a duplicate default server for 0.0.0.0:443<span class="sub">Only one server block per listening address may carry default_server, and nginx refuses to…</span></a></li>
+                <li><a href="../errors/nginx-worker-connections-are-not-enough.html">nginx: 1024 worker_connections are not enough<span class="sub">Each worker has a fixed number of connection slots and a proxied request uses two of them…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/webserver.html">See all 10 WebServer errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/webserver.html">See all 14 WebServer errors →</a></p>
         </section>
 
             <section class="block">
@@ -197,7 +197,7 @@ RemoteIPHeader X-Forwarded-For</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1007 documented errors across 57 categories. Last updated 19 September 2026.</p>
+                <p>FixMyError.net has 1047 documented errors across 57 categories. Last updated 26 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
