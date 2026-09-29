@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable","name":"VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable","description":"Something else on Windows already owns the hardware virtualisation extensions, so VirtualBox is pushed onto the Hyper-V layer or fails to create the VM at…","url":"https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html"},"inLanguage":"en-GB","articleSection":"Virtualization","proficiencyLevel":"Expert","datePublished":"2026-09-19","dateModified":"2026-09-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.virtualbox.org/manual/ch12.html","https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable","name":"VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable","description":"Something else on Windows already owns the hardware virtualisation extensions, so VirtualBox is pushed onto the Hyper-V layer or fails to create the VM at…","url":"https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html"},"inLanguage":"en-GB","articleSection":"Virtualization","proficiencyLevel":"Expert","datePublished":"2026-09-19","dateModified":"2026-09-29","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://www.virtualbox.org/manual/ch12.html","https://learn.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Virtualization errors","item":"https://fixmyerror.net/categories/virtualization.html"},{"@type":"ListItem","position":3,"name":"VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable","item":"https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html"}]}</script>
 </head>
 <body>
@@ -129,14 +129,14 @@ systeminfo | findstr /C:&quot;Virtualization Enabled In Firmware&quot;
             <ul class="link-list">
                 <li><a href="../errors/hyperv-switch-not-found.html">Hyper-V: Virtual switch not found<span class="sub">The VM references a virtual switch that doesn&#039;t exist. The switch may have been deleted or…</span></a></li>
                 <li><a href="../errors/libvirt-failed-to-connect-socket-permission-denied.html">libvirt: Failed to connect socket to /var/run/libvirt/libvirt-sock<span class="sub">virsh connected to the session daemon rather than the system one, or the user is not in the…</span></a></li>
+                <li><a href="../errors/libvirt-network-default-is-not-active.html">libvirt: Requested operation is not valid: network &#039;default&#039; is not active<span class="sub">The VM is attached to libvirt&#039;s NAT network called default, and that network is defined but…</span></a></li>
+                <li><a href="../errors/proxmox-cant-lock-file-got-timeout.html">Proxmox: can&#039;t lock file &#039;/var/lock/qemu-server/lock-100.conf&#039; - got timeout<span class="sub">Another task still holds the lock on that VM&#039;s configuration, so the new start, stop or…</span></a></li>
                 <li><a href="../errors/qemu-kvm-not-available.html">QEMU/KVM: /dev/kvm not available<span class="sub">KVM kernel module is not loaded or the user doesn&#039;t have permission to access /dev/kvm…</span></a></li>
                 <li><a href="../errors/vagrant-box-not-found.html">Vagrant: Box not found<span class="sub">The Vagrant box specified in the Vagrantfile has not been downloaded or the name is incorrect.</span></a></li>
                 <li><a href="../errors/virtualbox-kernel-driver-not-installed-rc-1908.html">VirtualBox: Kernel driver not installed (rc=-1908)<span class="sub">The vboxdrv module is missing or refused to load, which normally follows a kernel upgrade…</span></a></li>
-                <li><a href="../errors/virtualbox-vt-x-not-available.html">VirtualBox: VT-x is not available<span class="sub">Hardware virtualization (VT-x/AMD-V) is disabled in BIOS or being used by another hypervisor…</span></a></li>
-                <li><a href="../errors/vmware-disk-consolidation-needed.html">VMware: Disk consolidation needed<span class="sub">The VM has orphaned snapshot delta disks that need to be merged back. Usually happens after a…</span></a></li>
-                <li><a href="../errors/wsl-kernel-update-required.html">WSL 2: Kernel update required<span class="sub">WSL 2 requires a Linux kernel component update that hasn&#039;t been installed yet.</span></a></li>
+                <li><a href="../errors/virtualbox-verr-vmx-in-vmx-root-mode.html">VirtualBox: VT-x is being used by another hypervisor (VERR_VMX_IN_VMX_ROOT_MODE)<span class="sub">VT-x is enabled and working, but another hypervisor on a Linux host already owns it, almost…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/virtualization.html">See all 11 Virtualization errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/virtualization.html">See all 14 Virtualization errors →</a></p>
         </section>
 
             <section class="block">
@@ -201,7 +201,7 @@ systeminfo | findstr /C:&quot;Virtualization Enabled In Firmware&quot;
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1047 documented errors across 57 categories. Last updated 26 September 2026.</p>
+                <p>FixMyError.net has 1083 documented errors across 57 categories. Last updated 29 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

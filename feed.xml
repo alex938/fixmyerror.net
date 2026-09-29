@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Sat, 26 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 29 Sep 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Airflow: Broken DAG: [/opt/airflow/dags/etl.py] No module named &apos;x&apos;</title>
+      <link>https://fixmyerror.net/errors/airflow-broken-dag-no-module-named.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-broken-dag-no-module-named.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The DAG processor could not import the file, so the DAG vanishes from the UI and a red banner appears instead. The module is missing from the environment the scheduler or DAG processor runs in, which is often not the one you tested in: a package installed in the webserver image only, or a helper…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: The runtime parameter of nodejs16.x is no longer supported</title>
+      <link>https://fixmyerror.net/errors/lambda-runtime-parameter-no-longer-supported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-runtime-parameter-no-longer-supported.html</guid>
+      <category>Serverless</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The runtime has passed its deprecation date and Lambda now blocks creating or updating functions that use it. Existing functions keep running, which is why the failure appears on an unrelated code change: the deploy touches the function configuration and the old runtime string is rejected. Bumping…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: TooManyRequestsException: Rate Exceeded.</title>
+      <link>https://fixmyerror.net/errors/lambda-toomanyrequestsexception-rate-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-toomanyrequestsexception-rate-exceeded.html</guid>
+      <category>Serverless</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Lambda refused the invocation because the function hit its concurrency ceiling, which is the account&apos;s regional limit (1,000 by default, lower on new accounts) or the function&apos;s own reserved concurrency. It is a limit on requests running at the same moment, not requests per second, so a function…</description>
+    </item>
+    <item>
+      <title>Bundler: Your bundle only supports platforms [&quot;arm64-darwin-23&quot;]</title>
+      <link>https://fixmyerror.net/errors/bundler-bundle-only-supports-platforms.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bundler-bundle-only-supports-platforms.html</guid>
+      <category>Ruby</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Gemfile.lock records the platforms it was resolved for, and it was generated on a Mac, so the Linux CI runner or Docker image is not on the list. Bundler refuses rather than guess, because platform-specific gems such as nokogiri and ffi ship different binaries. The fix is to add the target…</description>
+    </item>
+    <item>
+      <title>C++: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32&apos; not found</title>
+      <link>https://fixmyerror.net/errors/cpp-glibcxx-version-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-glibcxx-version-not-found.html</guid>
+      <category>C++</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The binary was built with a newer GCC than the machine it is running on, and it needs a libstdc++ symbol version the system library does not have. Nothing is wrong with the code: it works on the build box because that box has the newer library. It shows up when copying binaries to an older distro…</description>
+    </item>
+    <item>
+      <title>C++: error: use of deleted function</title>
+      <link>https://fixmyerror.net/errors/cpp-use-of-deleted-function.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-use-of-deleted-function.html</guid>
+      <category>C++</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The code tries to call a function that has been explicitly deleted, and nine times out of ten that function is a copy constructor. Types such as std::unique_ptr, std::thread and std::mutex cannot be copied, so passing one by value, pushing it into a vector or capturing it in a lambda by copy…</description>
+    </item>
+    <item>
+      <title>C++: pure virtual method called, terminate called without an active exception</title>
+      <link>https://fixmyerror.net/errors/cpp-pure-virtual-method-called.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-pure-virtual-method-called.html</guid>
+      <category>C++</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A pure virtual function was called through an object whose derived part does not exist at that moment. It almost always means a virtual call from a base class constructor or destructor, where the object is only the base type, or a call on an object that another thread has already started…</description>
+    </item>
+    <item>
+      <title>Cloudflare Workers: Error 1102: Worker exceeded resource limits</title>
+      <link>https://fixmyerror.net/errors/cloudflare-workers-error-1102-exceeded-resource-limits.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-workers-error-1102-exceeded-resource-limits.html</guid>
+      <category>Serverless</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The Worker used more CPU time or memory than its plan allows and was stopped mid-request. CPU time counts only while your code is actually computing, so waiting on fetch() is free, but parsing a large JSON body, hashing or rendering a big page is not. A Worker that runs fine in development can hit…</description>
+    </item>
+    <item>
+      <title>CloudFront: 502 ERROR The request could not be satisfied (origin SSL failure)</title>
+      <link>https://fixmyerror.net/errors/cloudfront-502-could-not-connect-ssl-origin.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudfront-502-could-not-connect-ssl-origin.html</guid>
+      <category>Caching</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>CloudFront connected to the origin over HTTPS but the TLS negotiation failed, so it returned a 502 instead. The certificate on the origin must match the origin domain name configured in CloudFront, not the viewer&apos;s hostname, and must chain to a public CA. Pointing CloudFront at a load balancer&apos;s…</description>
+    </item>
+    <item>
+      <title>CloudFront: 504 ERROR The request could not be satisfied (origin timeout)</title>
+      <link>https://fixmyerror.net/errors/cloudfront-504-could-not-connect-to-origin.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudfront-504-could-not-connect-to-origin.html</guid>
+      <category>Caching</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>CloudFront reached for your origin and either could not open a connection or got no response in time, so the viewer sees a CloudFront error page. The origin often looks healthy when you test it directly, because the problem is on CloudFront&apos;s path: a security group or firewall that only allows…</description>
+    </item>
+    <item>
+      <title>Composer: Your lock file does not contain a compatible set of packages</title>
+      <link>https://fixmyerror.net/errors/composer-lock-file-not-compatible-set-of-packages.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/composer-lock-file-not-compatible-set-of-packages.html</guid>
+      <category>PHP</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>composer install found that the versions pinned in composer.lock cannot run here, almost always because of the PHP version or a missing extension, not a problem with the lock file itself. The lock was generated on a machine with a newer PHP or with ext-intl or ext-gd installed, and the server or…</description>
+    </item>
+    <item>
+      <title>Gateway API: HTTPRoute Accepted=False, reason NoMatchingParent</title>
+      <link>https://fixmyerror.net/errors/gateway-api-httproute-no-matching-parent.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gateway-api-httproute-no-matching-parent.html</guid>
+      <category>Ingress</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The HTTPRoute names a Gateway in parentRefs, but no listener on that Gateway will take it, so the route is ignored and traffic never arrives. The usual causes are a sectionName or port that matches no listener, a hostname outside the listener&apos;s hostname, or a route in a namespace the listener&apos;s…</description>
+    </item>
+    <item>
+      <title>grep: Invalid range end</title>
+      <link>https://fixmyerror.net/errors/grep-invalid-range-end.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grep-invalid-range-end.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A bracket expression contains a range whose end sorts before its start. In POSIX brackets a backslash is literal, so [\w-.] means the range from w to a full stop, not a word character and a hyphen. Ranges like [a-Z] also depend on the locale&apos;s collation order, which is why the same command works…</description>
+    </item>
+    <item>
+      <title>gRPC: StatusCode.UNKNOWN, Exception calling application</title>
+      <link>https://fixmyerror.net/errors/grpc-python-statuscode-unknown-exception-calling-application.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-python-statuscode-unknown-exception-calling-application.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The server&apos;s handler raised an exception it did not turn into a gRPC status, so the framework reported UNKNOWN (code 2) and the client learns nothing useful. The real traceback is in the server&apos;s log, not the client&apos;s. Other languages behave the same way: an uncaught Java exception or a panic…</description>
+    </item>
+    <item>
+      <title>gRPC: tls: first record does not look like a TLS handshake</title>
+      <link>https://fixmyerror.net/errors/grpc-tls-first-record-does-not-look-like-tls-handshake.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-tls-first-record-does-not-look-like-tls-handshake.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The client started a TLS handshake and the server answered in plain text, which means the client uses TLS credentials and the server, or whatever is in front of it, listens without TLS. The reverse mismatch shows as the server logging a bogus greeting or an HTTP/2 frame error. A proxy that…</description>
+    </item>
+    <item>
+      <title>gRPC: UNAVAILABLE, GOAWAY received, ENHANCE_YOUR_CALM, too_many_pings</title>
+      <link>https://fixmyerror.net/errors/grpc-goaway-enhance-your-calm-too-many-pings.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-goaway-enhance-your-calm-too-many-pings.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The client sent HTTP/2 keepalive pings more often than the server permits, so the server closed the connection and every call in flight failed. Client and server keepalive settings are configured separately and a client tuned to ping every few seconds will be cut off by a server using the default…</description>
+    </item>
+    <item>
+      <title>ingress-nginx: failed calling webhook &quot;validate.nginx.ingress.kubernetes.io&quot;</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-failed-calling-webhook-validate.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-failed-calling-webhook-validate.html</guid>
+      <category>Ingress</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The API server tried to ask the ingress-nginx admission webhook whether your Ingress is valid and could not reach it at all, so nothing about your manifest has been judged yet. It usually means the controller pod is not running, a NetworkPolicy or private cluster firewall blocks the control plane…</description>
+    </item>
+    <item>
+      <title>ingress-nginx: host &quot;example.com&quot; and path &quot;/&quot; is already defined in ingress</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-host-and-path-already-defined.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-host-and-path-already-defined.html</guid>
+      <category>Ingress</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The admission webhook rejected the Ingress because another Ingress, possibly in a different namespace, already claims exactly the same host and path. ingress-nginx merges every Ingress into one nginx config, so two owners for one location would be ambiguous. It often catches out a blue and green…</description>
+    </item>
+    <item>
+      <title>Keycloak: Cookie not found. Please make sure cookies are enabled</title>
+      <link>https://fixmyerror.net/errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html</guid>
+      <category>Auth</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Keycloak sets a cookie when the login page loads and expects it back when the form is submitted, and it did not come back. Browsers are rarely at fault: behind a reverse proxy Keycloak often thinks it is on plain HTTP or the wrong hostname, so it issues a cookie the browser will not return…</description>
+    </item>
+    <item>
+      <title>Laravel: No application encryption key has been specified.</title>
+      <link>https://fixmyerror.net/errors/laravel-no-application-encryption-key-specified.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-no-application-encryption-key-specified.html</guid>
+      <category>PHP</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>APP_KEY is empty in the environment Laravel actually loaded, so it cannot encrypt cookies or sessions. On a fresh clone that just means .env was never created. In production it is usually a cached config from before the key was set, or a container whose environment does not include the variable…</description>
+    </item>
+    <item>
+      <title>libvirt: Requested operation is not valid: network &apos;default&apos; is not active</title>
+      <link>https://fixmyerror.net/errors/libvirt-network-default-is-not-active.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-network-default-is-not-active.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The VM is attached to libvirt&apos;s NAT network called default, and that network is defined but not started, so the guest cannot boot. It is not set to autostart on some distributions, and it also fails to start when dnsmasq or another DHCP server already holds its bridge address, or when a firewall…</description>
+    </item>
+    <item>
+      <title>Microsoft Entra ID: AADSTS65001: The user or administrator has not consented</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts65001-user-or-admin-has-not-consented.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts65001-user-or-admin-has-not-consented.html</guid>
+      <category>Auth</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The app asked for permissions that nobody in this tenant has agreed to grant it. Consent is per tenant, so an app that works in your own tenant fails in a customer&apos;s, and adding a new scope to an existing app needs fresh consent too. Many organisations block users from consenting themselves, so…</description>
+    </item>
+    <item>
+      <title>Microsoft Entra ID: AADSTS7000215: Invalid client secret provided</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts7000215-invalid-client-secret.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts7000215-invalid-client-secret.html</guid>
+      <category>Auth</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The client secret sent to the token endpoint is not one Entra has for that app registration. By far the most common reason is copying the secret&apos;s ID instead of its Value, since the portal shows both side by side and only reveals the value once. Expired secrets, a secret from a different app…</description>
+    </item>
+    <item>
+      <title>Pattern attribute value [a-z-_]+ is not a valid regular expression</title>
+      <link>https://fixmyerror.net/errors/html-pattern-attribute-invalid-regex-v-flag.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/html-pattern-attribute-invalid-regex-v-flag.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Browsers now compile the HTML pattern attribute with the v (unicodeSets) flag, which is stricter about character classes than plain JavaScript regex. A hyphen between other characters, and unescaped characters such as ( ) [ ] { } / | inside a class, are now syntax errors. The console shows the…</description>
+    </item>
+    <item>
+      <title>PHP 8.2: Deprecated: Creation of dynamic property Foo::$bar is deprecated</title>
+      <link>https://fixmyerror.net/errors/php-82-creation-of-dynamic-property-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-82-creation-of-dynamic-property-deprecated.html</guid>
+      <category>PHP</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Since PHP 8.2, assigning to a property that the class never declared raises a deprecation, and it is scheduled to become an error. Older code relied on setting arbitrary properties on objects, so an upgrade floods the log with these even though nothing has visibly broken. The fix is to declare the…</description>
+    </item>
+    <item>
+      <title>Proxmox: can&apos;t lock file &apos;/var/lock/qemu-server/lock-100.conf&apos; - got timeout</title>
+      <link>https://fixmyerror.net/errors/proxmox-cant-lock-file-got-timeout.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/proxmox-cant-lock-file-got-timeout.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Another task still holds the lock on that VM&apos;s configuration, so the new start, stop or backup waited and gave up. The holder is usually a backup, snapshot or migration that is still running or hung, and killing the wrong process can leave the VM in a half-finished state. Check what holds the lock…</description>
+    </item>
+    <item>
+      <title>Python: re.error: global flags not at the start of the expression</title>
+      <link>https://fixmyerror.net/errors/python-re-global-flags-not-at-start.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-global-flags-not-at-start.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>An inline flag such as (?i) or (?s) appears somewhere other than the very start of the pattern. Python 3.6 to 3.10 only warned about it, and 3.11 made it an error, so code that has worked for years breaks on upgrade. It is common when patterns are built by joining strings together, each with its…</description>
+    </item>
+    <item>
+      <title>Rails: Missing encryption key to decrypt file with</title>
+      <link>https://fixmyerror.net/errors/rails-missing-encryption-key-master-key.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-missing-encryption-key-master-key.html</guid>
+      <category>Ruby</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Rails found config/credentials.yml.enc but has no key to open it, because config/master.key is git-ignored and RAILS_MASTER_KEY is not set. It works on the developer&apos;s laptop that ran rails new and fails on every other machine, CI job and container. Generating a new key does not help: it cannot…</description>
+    </item>
+    <item>
+      <title>Redis: MOVED 3999 10.0.0.12:6379</title>
+      <link>https://fixmyerror.net/errors/redis-moved-cluster-redirection.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-moved-cluster-redirection.html</guid>
+      <category>Caching</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The node you asked does not own the hash slot for that key and is telling you which node does. A cluster-aware client follows this silently, so seeing it as an error means the client is running in standalone mode against a cluster, for example a plain connection to an ElastiCache or MemoryStore…</description>
+    </item>
+    <item>
+      <title>Ruby: warning: csv was loaded from the standard library</title>
+      <link>https://fixmyerror.net/errors/ruby-loaded-from-standard-library-not-default-gem.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-loaded-from-standard-library-not-default-gem.html</guid>
+      <category>Ruby</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Ruby 3.4 moved csv, base64, bigdecimal and several other libraries out of the default gems and into bundled gems, and Ruby 3.3 warns about each one it sees you require. Under Bundler, a bundled gem is only loadable if it is in the Gemfile, so the warning today becomes cannot load such file after…</description>
+    </item>
+    <item>
+      <title>SMTP: 421 4.7.28 Our system has detected an unusual rate of unsolicited mail</title>
+      <link>https://fixmyerror.net/errors/gmail-421-4-7-28-unusual-rate-unsolicited-mail.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gmail-421-4-7-28-unusual-rate-unsolicited-mail.html</guid>
+      <category>Email</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Gmail is temporarily deferring mail from your IP or domain because recent volume looks like spam, judged by complaints and sudden changes in sending rate. It is a 4xx, so your server will retry, but pushing harder makes it worse. New IPs, a burst after a quiet period, and one customer on a shared…</description>
+    </item>
+    <item>
+      <title>SMTP: 535 5.7.139 Authentication unsuccessful</title>
+      <link>https://fixmyerror.net/errors/m365-535-5-7-139-smtpclientauthentication-disabled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/m365-535-5-7-139-smtpclientauthentication-disabled.html</guid>
+      <category>Email</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>Microsoft 365 accepted your username and password but refused the login because authenticated SMTP submission is turned off for the tenant or the mailbox. It is off by default in newer tenants and when security defaults are enabled. The password is not wrong, so resetting it will not help; a…</description>
+    </item>
+    <item>
+      <title>SMTP: 550 5.7.1 Client host [203.0.113.5] blocked using zen.spamhaus.org</title>
+      <link>https://fixmyerror.net/errors/smtp-550-client-host-blocked-spamhaus.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-client-host-blocked-spamhaus.html</guid>
+      <category>Email</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>The receiving server looked up your sending IP in a DNS blocklist and found it listed, so it rejected the connection before reading the message. Your content and authentication are irrelevant here; the IP&apos;s reputation is the problem. Cloud and residential IP ranges are often listed as a whole, so…</description>
+    </item>
+    <item>
+      <title>Spark: Container killed by YARN for exceeding memory limits</title>
+      <link>https://fixmyerror.net/errors/spark-container-killed-by-yarn-memory-limits.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-container-killed-by-yarn-memory-limits.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>YARN measured the whole executor process and killed it for using more physical memory than the container allowed. That is different from a Java heap OutOfMemoryError: the heap may be fine, and the excess is off-heap memory from Python workers, Arrow buffers, netty or native libraries. Raising…</description>
+    </item>
+    <item>
+      <title>Spark: org.apache.spark.shuffle.FetchFailedException: Failed to connect to</title>
+      <link>https://fixmyerror.net/errors/spark-shuffle-fetchfailedexception.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-shuffle-fetchfailedexception.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>A task tried to read shuffle output from another executor and that executor was gone, so the stage has to be recomputed. The fetch failure is a symptom: look for why the executor died, which is usually memory pressure, a spot or preemptible node being reclaimed, or a long GC pause that made it…</description>
+    </item>
+    <item>
+      <title>VirtualBox: VT-x is being used by another hypervisor (VERR_VMX_IN_VMX_ROOT_MODE)</title>
+      <link>https://fixmyerror.net/errors/virtualbox-verr-vmx-in-vmx-root-mode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-verr-vmx-in-vmx-root-mode.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
+      <description>VT-x is enabled and working, but another hypervisor on a Linux host already owns it, almost always the KVM kernel module. Older VirtualBox releases cannot share VT-x, so the VM refuses to start. It commonly appears after installing an Android emulator, GNOME Boxes or virt-manager, which load KVM…</description>
+    </item>
     <item>
       <title>Apache: AH01630: client denied by server configuration</title>
       <link>https://fixmyerror.net/errors/apache-ah01630-client-denied-by-server-configuration.html</link>
@@ -1319,294 +1607,6 @@
       <category>Git</category>
       <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
       <description>Local and remote have both moved on, and since Git 2.27 pull refuses to guess between merging and rebasing. The hint offers three settings without recommending one, which is why it is so often answered with a global config that then surprises everyone in the next repository.</description>
-    </item>
-    <item>
-      <title>git: Your local changes to the following files would be overwritten by merge</title>
-      <link>https://fixmyerror.net/errors/git-local-changes-would-be-overwritten.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-local-changes-would-be-overwritten.html</guid>
-      <category>Git</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Git is protecting uncommitted work in files the incoming commits also touch, so nothing has been merged yet. When the listed files are ones you never edited, the cause is usually a line ending or file mode difference the working tree recorded on checkout rather than an edit of yours.</description>
-    </item>
-    <item>
-      <title>Go: module declares its path as X but was required as Y</title>
-      <link>https://fixmyerror.net/errors/go-module-path-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-module-path-mismatch.html</guid>
-      <category>Go</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module line inside the dependency&apos;s go.mod does not match the import path you asked for. It shows up after a repository is renamed or forked, and after a v2 release that omitted the /v2 suffix, because Go treats the major version as part of the import path rather than as metadata.</description>
-    </item>
-    <item>
-      <title>Go: panic: send on closed channel</title>
-      <link>https://fixmyerror.net/errors/go-send-on-closed-channel.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-send-on-closed-channel.html</guid>
-      <category>Go</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A goroutine wrote to a channel another goroutine had already closed. The convention is that the sender closes and the receiver never does, and with several producers no single one of them has a safe moment to close. The panic surfaces in a producer even though the bug belongs to whoever closed…</description>
-    </item>
-    <item>
-      <title>GraphQL: Cannot return null for non-nullable field</title>
-      <link>https://fixmyerror.net/errors/graphql-cannot-return-null-for-non-nullable-field.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-return-null-for-non-nullable-field.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A resolver returned null where the schema promised a value. GraphQL then propagates the failure upward until it reaches a nullable field, so one missing value can blank out a whole branch of the response. The field that actually returned null is in the error path, not in the message text.</description>
-    </item>
-    <item>
-      <title>Java: error: invalid target release: 21</title>
-      <link>https://fixmyerror.net/errors/maven-invalid-target-release.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/maven-invalid-target-release.html</guid>
-      <category>Java</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The build asked javac for a release the JDK on PATH cannot produce, which means the compiler running the build is older than the version the project targets. IDEs keep their own JDK setting, so the same project often compiles in the IDE and fails from the command line or in CI.</description>
-    </item>
-    <item>
-      <title>Java: java.lang.OutOfMemoryError: Metaspace</title>
-      <link>https://fixmyerror.net/errors/java-outofmemoryerror-metaspace.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-outofmemoryerror-metaspace.html</guid>
-      <category>Java</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Metaspace holds class metadata rather than objects, so raising the heap changes nothing. It fills when an application keeps loading classes: repeated hot redeploys inside one JVM, a proxy or scripting library generating a class per request, or a classloader kept alive by a single stray reference.</description>
-    </item>
-    <item>
-      <title>Kubernetes: node(s) didn&apos;t match Pod&apos;s node affinity/selector</title>
-      <link>https://fixmyerror.net/errors/k8s-node-affinity-selector-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-node-affinity-selector-mismatch.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>No node carries the labels the pod insists on, so the scheduler rejects every candidate. It turns up after an upgrade that replaced nodes with a different label set, and in multi zone clusters where a pod is pinned to the zone of a volume it can no longer be placed near.</description>
-    </item>
-    <item>
-      <title>Kubernetes: pod has unbound immediate PersistentVolumeClaims</title>
-      <link>https://fixmyerror.net/errors/k8s-unbound-persistent-volume-claims.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-unbound-persistent-volume-claims.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The scheduler will not place the pod because its claim has no volume yet. With WaitForFirstConsumer binding a moment of this is normal, so it only matters when it persists: then the storage class is missing, the provisioner is unhealthy, or the claim asks for an access mode the driver does not…</description>
-    </item>
-    <item>
-      <title>Laravel: 419 Page Expired</title>
-      <link>https://fixmyerror.net/errors/laravel-419-page-expired.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-419-page-expired.html</guid>
-      <category>PHP</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The CSRF token sent with the form did not match the session, and Laravel answers with 419 rather than 403. Most of the time the session was never stored at all: a session driver pointing at an unreachable Redis, a SESSION_DOMAIN that does not match the host, or a load balancer spreading requests…</description>
-    </item>
-    <item>
-      <title>macOS: cannot be opened because the developer cannot be verified</title>
-      <link>https://fixmyerror.net/errors/macos-developer-cannot-be-verified.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-developer-cannot-be-verified.html</guid>
-      <category>Apple</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gatekeeper blocked something that carries the quarantine attribute and is not notarised. Anything a browser downloads gets that attribute, while the same file fetched with curl does not, which is why one copy of a binary runs and another refuses.</description>
-    </item>
-    <item>
-      <title>MySQL: Table &apos;db.Users&apos; doesn&apos;t exist</title>
-      <link>https://fixmyerror.net/errors/mysql-table-case-sensitivity.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mysql-table-case-sensitivity.html</guid>
-      <category>Database</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>On Linux, table names are case sensitive because they are filenames, while macOS and Windows are not. Code that writes Users against a schema that created users therefore works everywhere except production. lower_case_table_names is fixed when the data directory is initialised, so it cannot be…</description>
-    </item>
-    <item>
-      <title>PHP-FPM: server reached pm.max_children setting, consider raising it</title>
-      <link>https://fixmyerror.net/errors/php-fpm-max-children-reached.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-fpm-max-children-reached.html</guid>
-      <category>PHP</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every worker in the pool is busy, so new requests sit in the listen backlog until Nginx gives up with a 502 or 504. Raising max_children only helps if there is memory to back it: the real cause is usually workers blocked on a slow query or an outbound HTTP call that has no timeout.</description>
-    </item>
-    <item>
-      <title>PHP: Fatal error: Call to a member function x() on null</title>
-      <link>https://fixmyerror.net/errors/php-call-to-member-function-on-null.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-call-to-member-function-on-null.html</guid>
-      <category>PHP</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A method was called on a variable holding null, which PHP 8 treats as a fatal Error rather than a warning. The null is nearly always the result of a lookup that found nothing: a find() with no row, an unloaded relation, or a dependency that was never injected because the container quietly fell…</description>
-    </item>
-    <item>
-      <title>PostgreSQL: could not resize shared memory segment, No space left on device</title>
-      <link>https://fixmyerror.net/errors/postgres-could-not-resize-shared-memory.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/postgres-could-not-resize-shared-memory.html</guid>
-      <category>Database</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Postgres allocates workspace for parallel queries in /dev/shm, and containers default that mount to 64 MB. The disk is not full: the message is about the shared memory filesystem, which is why the same query runs happily on a host and fails inside Docker or Kubernetes.</description>
-    </item>
-    <item>
-      <title>Python: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</title>
-      <link>https://fixmyerror.net/errors/python-json-decode-expecting-value.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-json-decode-expecting-value.html</guid>
-      <category>Python</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>What was handed to json.loads was not JSON at all, most often an empty body, an HTML error or login page, or a compressed payload nobody decoded. Line 1 column 1 means the very first character was already wrong, so the thing to inspect is the response, not the parsing code.</description>
-    </item>
-    <item>
-      <title>Python: SyntaxWarning: invalid escape sequence &apos;\d&apos;</title>
-      <link>https://fixmyerror.net/errors/python-syntaxwarning-invalid-escape-sequence.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-syntaxwarning-invalid-escape-sequence.html</guid>
-      <category>Python</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A backslash inside an ordinary string starts an escape sequence, and \d is not one of them. Python 3.12 promoted this from a hidden DeprecationWarning to a SyntaxWarning that prints by default, which is why code that was quiet for years started complaining after an upgrade. It is scheduled to…</description>
-    </item>
-    <item>
-      <title>Python: TypeError: Object of type datetime is not JSON serializable</title>
-      <link>https://fixmyerror.net/errors/python-object-not-json-serializable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-object-not-json-serializable.html</guid>
-      <category>Python</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>json.dumps only understands the built in types, so a datetime, Decimal, UUID, set or dataclass stops it. The value is usually buried in a structure assembled somewhere else, which is why the traceback points at the dumps call rather than at the code that produced it.</description>
-    </item>
-    <item>
-      <title>Rails: ActionController::InvalidAuthenticityToken</title>
-      <link>https://fixmyerror.net/errors/rails-invalid-authenticity-token.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-invalid-authenticity-token.html</guid>
-      <category>Ruby</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The CSRF token in the request did not match the one in the session. Rails keeps the session in a cookie signed with secret_key_base, so a deploy that rotated the secret, servers that disagree about it, or a form page cached by a CDN all produce this for people who were part way through a session.</description>
-    </item>
-    <item>
-      <title>React: Rendered more hooks than during the previous render</title>
-      <link>https://fixmyerror.net/errors/react-rendered-more-hooks.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/react-rendered-more-hooks.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A hook ran on this render that did not run on the last one, which happens when a hook sits after an early return or inside a condition or a loop. React matches hooks by call order, so the mismatch is reported on the render after the one that actually broke the rule.</description>
-    </item>
-    <item>
-      <title>Redis: LOADING Redis is loading the dataset in memory</title>
-      <link>https://fixmyerror.net/errors/redis-loading-dataset-in-memory.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-loading-dataset-in-memory.html</guid>
-      <category>Caching</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server is replaying its RDB or AOF file after a restart and refuses commands until it finishes. On a large dataset that takes minutes, and a replica that keeps falling back to a full resync will return it again and again, which reads as an outage rather than as a cold start.</description>
-    </item>
-    <item>
-      <title>Redis: WRONGTYPE Operation against a key holding the wrong kind of value</title>
-      <link>https://fixmyerror.net/errors/redis-wrongtype-operation.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-wrongtype-operation.html</guid>
-      <category>Database</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The key exists but holds a different type from the one the command expects, for instance GET against a hash. In practice it means two parts of the system disagree about the shape of a key, usually because a prefix is missing and two features have collided on the same name.</description>
-    </item>
-    <item>
-      <title>ReferenceError: window is not defined</title>
-      <link>https://fixmyerror.net/errors/window-is-not-defined-ssr.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/window-is-not-defined-ssr.html</guid>
-      <category>JavaScript</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module ran on the server, where there is no DOM. Next.js, Nuxt, SvelteKit and Remix all execute components and everything they import during the build or on each request, so a library that touches window at import time fails long before a browser is involved.</description>
-    </item>
-    <item>
-      <title>Ruby: Your Ruby version is 3.3.5, but your Gemfile specified 3.2.2</title>
-      <link>https://fixmyerror.net/errors/ruby-version-gemfile-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-version-gemfile-mismatch.html</guid>
-      <category>Ruby</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Bundler compares the running interpreter with the ruby directive in the Gemfile and refuses to go further. A version manager that did not switch, a system Ruby picked up by cron or a deploy user, or a .ruby-version file updated without the Gemfile are the usual explanations.</description>
-    </item>
-    <item>
-      <title>Rust: error: linker `link.exe` not found</title>
-      <link>https://fixmyerror.net/errors/rust-linker-link-exe-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-linker-link-exe-not-found.html</guid>
-      <category>Rust</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The default Windows toolchain is msvc, which uses Microsoft&apos;s linker rather than shipping one of its own. Rustup installs the compiler but not the Visual Studio build tools, so the failure arrives at the very end of the first build, after everything has already compiled.</description>
-    </item>
-    <item>
-      <title>Spring Boot: IllegalStateException: Failed to load ApplicationContext</title>
-      <link>https://fixmyerror.net/errors/spring-failed-to-load-applicationcontext.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-failed-to-load-applicationcontext.html</guid>
-      <category>Java</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A test could not build its context, and the message that matters is further down the caused by chain rather than on the first line. The usual reasons are a bean the test slice does not scan, a property that only exists in the production profile, and a mock that was removed while the test still…</description>
-    </item>
-    <item>
-      <title>ssh: Received disconnect: Too many authentication failures</title>
-      <link>https://fixmyerror.net/errors/ssh-too-many-authentication-failures.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ssh-too-many-authentication-failures.html</guid>
-      <category>Security</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server closed the connection after the client offered more keys than MaxAuthTries allows. The agent presents every key it holds before reaching the one that would work, so a laptop with a dozen keys fails against a host that permits six attempts while a fresh machine connects first time.</description>
-    </item>
-    <item>
-      <title>Temporary failure in name resolution (EAI_AGAIN)</title>
-      <link>https://fixmyerror.net/errors/temporary-failure-in-name-resolution.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/temporary-failure-in-name-resolution.html</guid>
-      <category>DNS</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The resolver received no usable answer at all, rather than a negative one, so the problem is the path to the resolver rather than the record. An empty or wrong /etc/resolv.conf, a container that inherited a host only nameserver, and UDP 53 dropped by a firewall all look like this while everything…</description>
-    </item>
-    <item>
-      <title>TypeScript: Cannot find module &apos;./x.js&apos; or its corresponding type declarations</title>
-      <link>https://fixmyerror.net/errors/ts-cannot-find-module-js-extension.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-cannot-find-module-js-extension.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>With module set to node16 or nodenext, TypeScript resolves imports exactly as Node does at runtime, so a relative ESM import has to carry the .js extension even though the file on disk is .ts. The same code compiles under the bundler resolution, which is why this appears the day a project changes…</description>
-    </item>
-    <item>
-      <title>TypeScript: Cannot redeclare block-scoped variable &apos;name&apos;</title>
-      <link>https://fixmyerror.net/errors/ts-cannot-redeclare-block-scoped-variable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-cannot-redeclare-block-scoped-variable.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A file with no import or export is treated as a script, not a module, so its top level declarations land in the global scope and collide with the DOM library or with another file. The name in the message is usually something like name, event or status that already exists on window.</description>
-    </item>
-    <item>
-      <title>Vue: [Vue warn]: Failed to resolve component</title>
-      <link>https://fixmyerror.net/errors/vue-failed-to-resolve-component.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/vue-failed-to-resolve-component.html</guid>
-      <category>Frontend</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Vue looked up a tag used in a template and found nothing registered under that name. With script setup an import is the registration, so the causes are a missing import, a name that does not match the file&apos;s PascalCase form, or a component registered on a different app instance from the one…</description>
-    </item>
-    <item>
-      <title>Windows: &apos;x&apos; is not recognized as an internal or external command</title>
-      <link>https://fixmyerror.net/errors/windows-not-recognized-command.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-not-recognized-command.html</guid>
-      <category>Windows</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>cmd searched PATH and found nothing by that name. An already open terminal keeps the environment it started with, so a program installed a minute ago looks missing until a new shell is opened. The other frequent cause is a per user installation while the shell runs as a different account.</description>
-    </item>
-    <item>
-      <title>Windows: The process cannot access the file because it is being used</title>
-      <link>https://fixmyerror.net/errors/windows-file-used-by-another-process.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-file-used-by-another-process.html</guid>
-      <category>Windows</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Windows takes mandatory file locks, so a handle held anywhere blocks a delete or rename that would simply succeed on Linux. The holder is often not the obvious application: an antivirus scanner, the search indexer or an Explorer preview pane can keep a handle open long enough to break a build&apos;s…</description>
-    </item>
-    <item>
-      <title>Xcode: Command PhaseScriptExecution failed with a nonzero exit code</title>
-      <link>https://fixmyerror.net/errors/xcode-phasescriptexecution-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-phasescriptexecution-failed.html</guid>
-      <category>Apple</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A Run Script build phase exited non zero, and Xcode reports its own wrapper rather than the script&apos;s message, which is buried higher up the log. Scripts that work in a terminal fail here because the build environment has a trimmed PATH and never loads an interactive shell profile.</description>
-    </item>
-    <item>
-      <title>Android: INSTALL_FAILED_UPDATE_INCOMPATIBLE</title>
-      <link>https://fixmyerror.net/errors/android-install-failed-update-incompatible.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-install-failed-update-incompatible.html</guid>
-      <category>Mobile</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An app with the same package name is already installed but signed with a different key. Android will not let one signing identity replace another, so a debug build cannot overwrite a release build or a Play Store install of the same app.</description>
-    </item>
-    <item>
-      <title>Anthropic API: 429 rate_limit_error (tokens per minute)</title>
-      <link>https://fixmyerror.net/errors/anthropic-rate-limit-tokens-per-minute.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/anthropic-rate-limit-tokens-per-minute.html</guid>
-      <category>AI</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The organisation exceeded its input or output token budget for the minute, not its request count. Large prompts burn the token bucket long before the request bucket, so throttling concurrency without shrinking prompts often changes nothing.</description>
-    </item>
-    <item>
-      <title>Apache: AH00558: Could not reliably determine the server&apos;s FQDN</title>
-      <link>https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-could-not-determine-fqdn.html</guid>
-      <category>WebServer</category>
-      <pubDate>Tue, 08 Sep 2026 00:00:00 GMT</pubDate>
-      <description>ServerName is not set, so Apache guessed from the system hostname. It is a warning and the server starts, but the guessed name is used in redirects and self referential URLs, which is how a redirect can send a browser to an internal hostname it cannot reach.</description>
     </item>
   </channel>
 </rss>

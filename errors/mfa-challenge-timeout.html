@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"MFA: challenge timeout / code expired","name":"MFA: challenge timeout / code expired","description":"A TOTP or push challenge was rejected because it expired or the device clock drifted outside the verification window. Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/mfa-challenge-timeout.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/mfa-challenge-timeout.html"},"inLanguage":"en-GB","articleSection":"Auth","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-09-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://datatracker.ietf.org/doc/html/rfc6238"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"MFA: challenge timeout / code expired","name":"MFA: challenge timeout / code expired","description":"A TOTP or push challenge was rejected because it expired or the device clock drifted outside the verification window. Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/mfa-challenge-timeout.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/mfa-challenge-timeout.html"},"inLanguage":"en-GB","articleSection":"Auth","proficiencyLevel":"Expert","datePublished":"2026-06-25","dateModified":"2026-09-29","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://datatracker.ietf.org/doc/html/rfc6238"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Auth errors","item":"https://fixmyerror.net/categories/auth.html"},{"@type":"ListItem","position":3,"name":"MFA: challenge timeout / code expired","item":"https://fixmyerror.net/errors/mfa-challenge-timeout.html"}]}</script>
 </head>
 <body>
@@ -115,13 +115,13 @@ date -u            # verify server time
                 <li><a href="../errors/auth0-callback-url-mismatch.html">Auth0: Callback URL mismatch<span class="sub">Auth0 rejected the login because the redirect URL in the request is not in the application&#039;s…</span></a></li>
                 <li><a href="../errors/google-oauth-access-denied-testing.html">Google OAuth: Error 403: access_denied, app is in testing<span class="sub">The OAuth consent screen is in Testing mode, which only allows the accounts explicitly listed…</span></a></li>
                 <li><a href="../errors/jwt-token-used-before-issued-clock-skew.html">JWT: token used before issued / not valid yet<span class="sub">Validation compared the token&#039;s iat or nbf claim against the verifier&#039;s clock and decided the…</span></a></li>
+                <li><a href="../errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html">Keycloak: Cookie not found. Please make sure cookies are enabled<span class="sub">Keycloak sets a cookie when the login page loads and expects it back when the form is…</span></a></li>
                 <li><a href="../errors/keycloak-invalid-redirect-uri.html">Keycloak: Invalid parameter: redirect_uri<span class="sub">Keycloak rejected the redirect URI because it is not listed in the client&#039;s Valid Redirect…</span></a></li>
                 <li><a href="../errors/entra-aadsts50011-redirect-uri.html">Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)<span class="sub">The redirect_uri sent in the authorisation request is not registered on the app registration…</span></a></li>
-                <li><a href="../errors/oauth-pkce-code-verifier-mismatch.html">OAuth 2: invalid_grant (PKCE code_verifier does not match)<span class="sub">The code_verifier sent to the token endpoint does not hash to the code_challenge sent to the…</span></a></li>
-                <li><a href="../errors/oidc-nonce-mismatch.html">OIDC: nonce mismatch<span class="sub">The nonce in the returned ID token does not match the nonce sent in the auth request…</span></a></li>
-                <li><a href="../errors/oidc-unable-to-find-signing-key-kid.html">OIDC: unable to find a signing key that matches the kid<span class="sub">The token was signed with a key the verifier does not have. Identity providers rotate signing…</span></a></li>
+                <li><a href="../errors/entra-aadsts65001-user-or-admin-has-not-consented.html">Microsoft Entra ID: AADSTS65001: The user or administrator has not consented<span class="sub">The app asked for permissions that nobody in this tenant has agreed to grant it. Consent is…</span></a></li>
+                <li><a href="../errors/entra-aadsts7000215-invalid-client-secret.html">Microsoft Entra ID: AADSTS7000215: Invalid client secret provided<span class="sub">The client secret sent to the token endpoint is not one Entra has for that app registration…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/auth.html">See all 11 Auth errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/auth.html">See all 14 Auth errors →</a></p>
         </section>
 
             <section class="block">
@@ -186,7 +186,7 @@ date -u            # verify server time
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1047 documented errors across 57 categories. Last updated 26 September 2026.</p>
+                <p>FixMyError.net has 1083 documented errors across 57 categories. Last updated 29 September 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
