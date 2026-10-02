@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"S3: Access denied by bucket policy","name":"S3: Access denied by bucket policy","description":"S3 bucket policy explicitly denies access. Need to update bucket policy or IAM permissions. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/s3-access-denied-bucket-policy.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/s3-access-denied-bucket-policy.html"},"inLanguage":"en-GB","articleSection":"Storage","proficiencyLevel":"Expert","datePublished":"2025-10-13","dateModified":"2026-09-29","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"S3: Access denied by bucket policy","name":"S3: Access denied by bucket policy","description":"S3 bucket policy explicitly denies access. Need to update bucket policy or IAM permissions. Includes a copy-paste fix and how to diagnose it.","url":"https://fixmyerror.net/errors/s3-access-denied-bucket-policy.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/s3-access-denied-bucket-policy.html"},"inLanguage":"en-GB","articleSection":"Storage","proficiencyLevel":"Expert","datePublished":"2025-10-13","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Storage errors","item":"https://fixmyerror.net/categories/storage.html"},{"@type":"ListItem","position":3,"name":"S3: Access denied by bucket policy","item":"https://fixmyerror.net/errors/s3-access-denied-bucket-policy.html"}]}</script>
 </head>
 <body>
@@ -120,11 +120,11 @@ aws s3 ls s3://bucket-name --debug</code></pre>
                 <li><a href="../errors/s3-signature-does-not-match.html">AWS S3: SignatureDoesNotMatch<span class="sub">The SigV4 signature computed by the client differs from the one S3 computed. Causes: wrong…</span></a></li>
                 <li><a href="../errors/ebs-volume-not-available.html">AWS: EBS volume not available in AZ<span class="sub">An EBS volume cannot be attached to an EC2 instance because they are in different…</span></a></li>
                 <li><a href="../errors/storage-azure-blob-lease-conflict.html">Azure Blob: Lease conflict<span class="sub">Blob is leased by another client. Cannot modify until lease expires or is released.</span></a></li>
+                <li><a href="../errors/azure-blob-authorizationpermissionmismatch.html">Azure Storage: AuthorizationPermissionMismatch<span class="sub">You are signed in with Entra ID, and your role lets you manage the storage account but not…</span></a></li>
                 <li><a href="../errors/storage-quota-exceeded-browser.html">Browser: Storage quota exceeded<span class="sub">localStorage or IndexedDB quota exceeded. Browser has storage limits per origin.</span></a></li>
                 <li><a href="../errors/ceph-osd-down.html">Ceph: OSD down<span class="sub">A Ceph Object Storage Daemon is not running, reducing cluster redundancy and potentially…</span></a></li>
-                <li><a href="../errors/storage-gcs-signed-url-expired.html">Google Cloud Storage: Signed URL expired<span class="sub">GCS signed URL has exceeded its expiration time. Need to generate new signed URL.</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/storage.html">See all 13 Storage errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/storage.html">See all 16 Storage errors →</a></p>
         </section>
 
             <section class="block">
@@ -189,7 +189,7 @@ aws s3 ls s3://bucket-name --debug</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1083 documented errors across 57 categories. Last updated 29 September 2026.</p>
+                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

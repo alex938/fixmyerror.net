@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"logrotate: skipping because parent directory has insecure permissions","name":"logrotate: skipping because parent directory has insecure permissions","description":"logrotate refuses to rotate a file in a directory that is group or world writable, because doing that work as root would be an escalation path. Nothing else…","url":"https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html"},"inLanguage":"en-GB","articleSection":"Logging","proficiencyLevel":"Expert","datePublished":"2026-09-12","dateModified":"2026-09-29","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://github.com/logrotate/logrotate"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"logrotate: skipping because parent directory has insecure permissions","name":"logrotate: skipping because parent directory has insecure permissions","description":"logrotate refuses to rotate a file in a directory that is group or world writable, because doing that work as root would be an escalation path. Nothing else…","url":"https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html"},"inLanguage":"en-GB","articleSection":"Logging","proficiencyLevel":"Expert","datePublished":"2026-09-12","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://github.com/logrotate/logrotate"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Logging errors","item":"https://fixmyerror.net/categories/logging.html"},{"@type":"ListItem","position":3,"name":"logrotate: skipping because parent directory has insecure permissions","item":"https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html"}]}</script>
 </head>
 <body>
@@ -129,15 +129,15 @@ sudo chmod g-w,o-w /var/log/app
             <h2>Related Logging errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/cloudwatch-logs-throttled.html">CloudWatch Logs: Rate exceeded (ThrottlingException)<span class="sub">PutLogEvents API calls are being throttled by CloudWatch Logs. The account or log group is…</span></a></li>
+                <li><a href="../errors/elasticsearch-limit-of-total-fields-exceeded.html">Elasticsearch: Limit of total fields [1000] has been exceeded<span class="sub">Dynamic mapping adds a new field for every new key it sees, and JSON logs whose keys contain…</span></a></li>
+                <li><a href="../errors/docker-logs-configured-logging-driver-does-not-support-reading.html">Error response from daemon: configured logging driver does not support reading<span class="sub">The container sends its logs to a driver such as syslog, gelf, fluentd or awslogs, so they…</span></a></li>
                 <li><a href="../errors/fluentd-buffer-overflow.html">Fluentd: Buffer overflow<span class="sub">Fluentd&#039;s output buffer is full because the destination cannot accept data fast enough. Logs…</span></a></li>
                 <li><a href="../errors/journalctl-no-journal-files-were-found.html">journalctl: No journal files were found<span class="sub">journald stores logs in memory when /var/log/journal does not exist, so everything is…</span></a></li>
                 <li><a href="../errors/log4j-appender-not-found.html">Log4j: Appender not found<span class="sub">The logging configuration references an appender that is not defined. The log4j2.xml or…</span></a></li>
                 <li><a href="../errors/log4j2-no-configuration-file-found.html">log4j2: ERROR StatusLogger No Log4j 2 configuration file found<span class="sub">Log4j 2 could not find log4j2.xml on the classpath and fell back to logging errors only to…</span></a></li>
                 <li><a href="../errors/logback-file-permission-denied.html">Logback: Failed to create log file<span class="sub">Logback cannot create or write to the log file due to filesystem permissions or the directory…</span></a></li>
-                <li><a href="../errors/elk-logstash-pipeline-error.html">Logstash: Pipeline error<span class="sub">A Logstash pipeline failed to start or process events, usually due to a bad grok pattern…</span></a></li>
-                <li><a href="../errors/loki-entry-too-far-behind.html">Loki: entry too far behind / out of order<span class="sub">Loki rejected log lines whose timestamps are older than the accepted window for that stream…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/logging.html">See all 12 Logging errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/logging.html">See all 15 Logging errors →</a></p>
         </section>
 
             <section class="block">
@@ -202,7 +202,7 @@ sudo chmod g-w,o-w /var/log/app
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1083 documented errors across 57 categories. Last updated 29 September 2026.</p>
+                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

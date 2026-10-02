@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Tue, 29 Sep 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 02 Oct 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Ansible: &apos;dict object&apos; has no attribute &apos;stdout&apos;</title>
+      <link>https://fixmyerror.net/errors/ansible-dict-object-has-no-attribute-stdout.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-dict-object-has-no-attribute-stdout.html</guid>
+      <category>Ansible</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The variable exists but does not have the key you asked for. Usually that&apos;s because the task that registered it was skipped, so all it holds is skipped and changed. Or the task ran in a loop, and then the output sits under results, one entry per item. Printing the whole variable shows which of the…</description>
+    </item>
+    <item>
+      <title>Ansible: Failed to set permissions on the temporary files Ansible needs</title>
+      <link>https://fixmyerror.net/errors/ansible-failed-to-set-permissions-temporary-files.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-failed-to-set-permissions-temporary-files.html</guid>
+      <category>Ansible</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This happens with become_user set to an unprivileged account such as postgres. Ansible uploads the module as the SSH user, and that account then has to read it. Ansible tries setfacl first, then other methods, and refuses to make the file world readable unless you tell it to. Installing the acl…</description>
+    </item>
+    <item>
+      <title>Ansible: Timeout (12s) waiting for privilege escalation prompt</title>
+      <link>https://fixmyerror.net/errors/ansible-timeout-waiting-for-privilege-escalation-prompt.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-timeout-waiting-for-privilege-escalation-prompt.html</guid>
+      <category>Ansible</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Ansible ran sudo and waited for a password prompt or a success marker that never came within the timeout. It is rarely a wrong password. More often sudo itself is slow because the host cannot resolve its own hostname, a login banner or sudo lecture is in the way, or become_method does not match…</description>
+    </item>
+    <item>
+      <title>Apollo Client: Could not find &quot;client&quot; in the context or passed in as an option</title>
+      <link>https://fixmyerror.net/errors/apollo-could-not-find-client-in-context.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-could-not-find-client-in-context.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A useQuery or useMutation hook ran outside an ApolloProvider. When the provider clearly wraps the app, there are two copies of @apollo/client in node_modules, so the hook and the provider use different React contexts. Tests that render a component without a MockedProvider fail in the same way.</description>
+    </item>
+    <item>
+      <title>AWS SQS: The specified queue does not exist or you do not have access to it</title>
+      <link>https://fixmyerror.net/errors/sqs-specified-queue-does-not-exist.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sqs-specified-queue-does-not-exist.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>SQS gives the same answer whether the queue is missing or you lack permission, so you cannot tell which from the message. Most often the queue exists in another region or account from the one the client is using. Or the code built a URL from the queue name instead of calling GetQueueUrl. A queue…</description>
+    </item>
+    <item>
+      <title>Azure Storage: AuthorizationPermissionMismatch</title>
+      <link>https://fixmyerror.net/errors/azure-blob-authorizationpermissionmismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/azure-blob-authorizationpermissionmismatch.html</guid>
+      <category>Storage</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>You are signed in with Entra ID, and your role lets you manage the storage account but not read its data. Owner and Contributor only cover the control plane. Blob access needs a data role such as Storage Blob Data Reader or Contributor. The portal hides this because it falls back to the account…</description>
+    </item>
+    <item>
+      <title>bash: !&quot;: event not found</title>
+      <link>https://fixmyerror.net/errors/bash-event-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-event-not-found.html</guid>
+      <category>Shell</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>In an interactive shell, an exclamation mark in double quotes triggers history expansion, and bash tried to find a previous command beginning with whatever followed it. The same line works fine in a script, where history expansion is off, which is why it puzzles people. Single quotes stop it…</description>
+    </item>
+    <item>
+      <title>bash: [: : integer expression expected</title>
+      <link>https://fixmyerror.net/errors/bash-integer-expression-expected.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-integer-expression-expected.html</guid>
+      <category>Shell</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A numeric comparison such as -gt or -eq got something that is not a whole number. The text between the colons is the bad value: empty means the variable was unset or a command printed nothing. A trailing carriage return from a Windows file or a decimal like 3.5 cause the same error, since the…</description>
+    </item>
+    <item>
+      <title>bash: [: too many arguments</title>
+      <link>https://fixmyerror.net/errors/bash-test-too-many-arguments.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-test-too-many-arguments.html</guid>
+      <category>Shell</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A variable inside single brackets was left unquoted and its value contained spaces, or a glob that matched several files. So [ was handed more words than it can parse. Because it depends on the data, the script works for months and then breaks the first time a filename or answer has a space in it.</description>
+    </item>
+    <item>
+      <title>C#: Collection was modified; enumeration operation may not execute</title>
+      <link>https://fixmyerror.net/errors/csharp-collection-was-modified-enumeration.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-collection-was-modified-enumeration.html</guid>
+      <category>C#</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>You added or removed items in a List or Dictionary while a foreach was still walking it, and the enumerator noticed the version change. In a single thread the fix is simple. If the loop body never touches the collection, another thread does, and taking a copy only hides a race that needs a lock or…</description>
+    </item>
+    <item>
+      <title>C#: CS0246 The type or namespace name could not be found</title>
+      <link>https://fixmyerror.net/errors/csharp-cs0246-type-or-namespace-could-not-be-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-cs0246-type-or-namespace-could-not-be-found.html</guid>
+      <category>C#</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The compiler cannot see the type at all. It might be a missing using directive or NuGet package, but just as often the package is there and targets a different framework than the project. Or the type sits in a project that is not referenced. When the IDE is happy and dotnet build is not, a stale…</description>
+    </item>
+    <item>
+      <title>Connection to node -1 could not be established. Broker may not be available.</title>
+      <link>https://fixmyerror.net/errors/kafka-broker-may-not-be-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-broker-may-not-be-available.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Node -1 is the bootstrap server, so the client could not even make its first connection. If bootstrap works and a later node fails, the broker is returning advertised.listeners that the client cannot reach, such as a container hostname or localhost. That is why Kafka in Docker often works from…</description>
+    </item>
+    <item>
+      <title>dig: status: SERVFAIL with EDE: 6 (DNSSEC Bogus)</title>
+      <link>https://fixmyerror.net/errors/dig-servfail-ede-dnssec-bogus.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dig-servfail-ede-dnssec-bogus.html</guid>
+      <category>DNS</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The resolver fetched the answer but its DNSSEC signatures did not validate, so it refused to return it. Extended DNS Errors (RFC 8914) now say which kind of failure you hit. The usual cause is a botched key rollover or a DS record left at the registrar after moving DNS provider. Every validating…</description>
+    </item>
+    <item>
+      <title>DNS problem: NXDOMAIN looking up TXT for _acme-challenge.example.com</title>
+      <link>https://fixmyerror.net/errors/acme-dns-problem-nxdomain-looking-up-txt.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/acme-dns-problem-nxdomain-looking-up-txt.html</guid>
+      <category>DNS</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Let&apos;s Encrypt queried the authoritative servers for the DNS-01 challenge record and was told the name does not exist. The record often is there, just in a zone that is not authoritative. That might be an old provider still listed, a private split horizon zone, or a CNAME delegation pointing at a…</description>
+    </item>
+    <item>
+      <title>Ecto: (Ecto.Query.CastError) value &quot;abc&quot; in where cannot be cast to type :id</title>
+      <link>https://fixmyerror.net/errors/ecto-query-casterror-cannot-be-cast-to-type-id.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-query-casterror-cannot-be-cast-to-type-id.html</guid>
+      <category>Elixir</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A value went into a query uncast, usually a path or query parameter straight from Phoenix, and it does not match the field&apos;s type. Ecto raises before the database ever sees the query. It is a 500 in production when it should have been a 404 or 400, so the fix is to validate at the edge, not to…</description>
+    </item>
+    <item>
+      <title>Elasticsearch: Limit of total fields [1000] has been exceeded</title>
+      <link>https://fixmyerror.net/errors/elasticsearch-limit-of-total-fields-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elasticsearch-limit-of-total-fields-exceeded.html</guid>
+      <category>Logging</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Dynamic mapping adds a new field for every new key it sees, and JSON logs whose keys contain IDs, headers or arbitrary user data keep inventing new ones until the index reaches its field limit. Further documents are then rejected, so logs vanish without any error in the application. Raising the…</description>
+    </item>
+    <item>
+      <title>Elixir: (ArgumentError) errors were found at the given arguments</title>
+      <link>https://fixmyerror.net/errors/elixir-argumenterror-errors-were-found-at-the-given-arguments.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-argumenterror-errors-were-found-at-the-given-arguments.html</guid>
+      <category>Elixir</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This is OTP&apos;s wording for a bad argument passed to a built-in function, and the line after it names the argument and the reason, such as &quot;1st argument: not an already existing atom&quot;. The usual causes are String.to_existing_atom on user input, an :ets call on a table that no longer exists because…</description>
+    </item>
+    <item>
+      <title>Elixir: protocol Jason.Encoder not implemented for %MyApp.User{}</title>
+      <link>https://fixmyerror.net/errors/elixir-jason-encoder-not-implemented.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-jason-encoder-not-implemented.html</guid>
+      <category>Elixir</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Jason will encode maps but not structs it has not been told about, because a struct could contain secrets or other private fields. The surprise is that a plain map encodes fine. The struct only turns up when a Repo result or an association ends up in a json/2 call. Elixir 1.18 has a built-in JSON…</description>
+    </item>
+    <item>
+      <title>Error response from daemon: configured logging driver does not support reading</title>
+      <link>https://fixmyerror.net/errors/docker-logs-configured-logging-driver-does-not-support-reading.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-logs-configured-logging-driver-does-not-support-reading.html</guid>
+      <category>Logging</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The container sends its logs to a driver such as syslog, gelf, fluentd or awslogs, so they never touch the local disk and docker logs has nothing to read. Docker 20.10 added dual logging to keep a local copy, but it can be turned off in daemon.json. The logs have usually arrived safely at their…</description>
+    </item>
+    <item>
+      <title>Go: high tail latency in a container, GOMAXPROCS above the CPU limit</title>
+      <link>https://fixmyerror.net/errors/go-gomaxprocs-above-container-cpu-limit.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-gomaxprocs-above-container-cpu-limit.html</guid>
+      <category>Performance</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Before Go 1.25, GOMAXPROCS defaulted to the number of CPUs on the node and ignored the container&apos;s CPU limit. A pod limited to 2 CPUs on a 64 core node would run 64 threads, burn through its CFS quota in a few milliseconds and then be throttled for the rest of the period. Go 1.25 reads the cgroup…</description>
+    </item>
+    <item>
+      <title>Google API: Request had insufficient authentication scopes (403)</title>
+      <link>https://fixmyerror.net/errors/google-api-insufficient-authentication-scopes.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/google-api-insufficient-authentication-scopes.html</guid>
+      <category>API</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The token is valid, but it was minted without the OAuth scope this method needs. IAM roles can be perfectly correct and the call still fails. It is common on Compute Engine VMs whose service account was given narrow access scopes at creation, and with user tokens that were granted before a new…</description>
+    </item>
+    <item>
+      <title>Grafana: origin not allowed</title>
+      <link>https://fixmyerror.net/errors/grafana-origin-not-allowed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-origin-not-allowed.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Grafana compares the browser&apos;s Origin header with the host it thinks it is served on. When they differ, it rejects anything that changes data, such as saving a dashboard or logging in. Grafana itself is usually fine: the reverse proxy is rewriting the Host header, or root_url does not match the…</description>
+    </item>
+    <item>
+      <title>GraphQL: Abstract type &quot;SearchResult&quot; must resolve to an Object type at runtime</title>
+      <link>https://fixmyerror.net/errors/graphql-abstract-type-must-resolve-to-object-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-abstract-type-must-resolve-to-object-type.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A field returns a union or interface, and the server could not work out which concrete type a returned object is. graphql-js looks at a __typename property, then a resolveType function, then isTypeOf on each member. A plain row from the database has none of them, so the error appears when the…</description>
+    </item>
+    <item>
+      <title>GraphQL: Cannot query field &quot;email&quot; on type &quot;User&quot;</title>
+      <link>https://fixmyerror.net/errors/graphql-cannot-query-field-on-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-query-field-on-type.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The server&apos;s schema has no field by that name on that type, so the query fails validation before any resolver runs. When the field plainly exists in the code, the client is talking to another deployment, a gateway with an old supergraph, or it generated its types from a stale schema. A union or…</description>
+    </item>
+    <item>
+      <title>Loki: Maximum active stream limit exceeded, reduce the number of active streams</title>
+      <link>https://fixmyerror.net/errors/loki-maximum-active-stream-limit-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-maximum-active-stream-limit-exceeded.html</guid>
+      <category>Logging</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Every unique set of labels is its own stream in Loki, and the tenant has gone over its stream limit. That nearly always means a high cardinality value got into the labels, such as a request ID, user ID, pod hash or full path. Raising the limit only postpones the problem. Move the value out of the…</description>
+    </item>
+    <item>
+      <title>Microsoft Graph: Authorization_RequestDenied, Insufficient privileges</title>
+      <link>https://fixmyerror.net/errors/microsoft-graph-authorization-requestdenied-insufficient-privileges.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/microsoft-graph-authorization-requestdenied-insufficient-privileges.html</guid>
+      <category>API</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The app&apos;s token lacks the Graph permission this call needs. Usually it was added in the portal but admin consent was never granted, or it was added as a delegated permission while the app authenticates as itself and needs the application permission. A token issued before consent will not pick up…</description>
+    </item>
+    <item>
+      <title>mount: wrong fs type, bad option, bad superblock on /dev/sdb1</title>
+      <link>https://fixmyerror.net/errors/mount-wrong-fs-type-bad-option-bad-superblock.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mount-wrong-fs-type-bad-option-bad-superblock.html</guid>
+      <category>Storage</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>mount gives this one generic message for several unrelated failures, and the real reason is only in the kernel log. For NFS or CIFS it nearly always means the helper package (nfs-common or cifs-utils) is not installed. For a block device it is usually a disk that was never formatted, the wrong -t…</description>
+    </item>
+    <item>
+      <title>perf: Access to performance monitoring and observability operations is limited</title>
+      <link>https://fixmyerror.net/errors/perf-event-paranoid-access-limited.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/perf-event-paranoid-access-limited.html</guid>
+      <category>Performance</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The kernel&apos;s perf_event_paranoid setting stops unprivileged users profiling, and most distributions ship it at 2, while Debian and Ubuntu kernels carry a patch for stricter levels that block it entirely. In a container the setting comes from the host kernel and the seccomp profile also blocks…</description>
+    </item>
+    <item>
+      <title>Prometheus: many-to-many matching not allowed: matching labels must be unique</title>
+      <link>https://fixmyerror.net/errors/promql-many-to-many-matching-not-allowed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/promql-many-to-many-matching-not-allowed.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>You combined two vectors with a binary operator and on the labels Prometheus matched on, both sides had more than one series. Each result has to come from exactly one pair. The query may have worked for weeks and then broken when a second instance, a restarted pod or a new label value added…</description>
+    </item>
+    <item>
+      <title>Prometheus: vector cannot contain metrics with the same labelset</title>
+      <link>https://fixmyerror.net/errors/promql-vector-cannot-contain-metrics-with-same-labelset.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/promql-vector-cannot-contain-metrics-with-same-labelset.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A function such as rate(), or a label_replace() call, dropped the metric name or rewrote a label, so two series that used to differ now have identical labels. A query result cannot hold two series with the same labels. It usually shows up when a selector matches several metric names with a regex…</description>
+    </item>
+    <item>
+      <title>RabbitMQ: PRECONDITION_FAILED - delivery acknowledgement on channel 1 timed out</title>
+      <link>https://fixmyerror.net/errors/rabbitmq-delivery-acknowledgement-timed-out.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-delivery-acknowledgement-timed-out.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A consumer held a message unacknowledged for longer than consumer_timeout, 30 minutes by default, so the broker closed the channel and requeued the message. The consumer may be fine but slow, or it may have hung. Because the message goes back on the queue, a long job can end up processed several…</description>
+    </item>
+    <item>
+      <title>Slow DNS in Kubernetes pods: each lookup tries every search domain first</title>
+      <link>https://fixmyerror.net/errors/kubernetes-dns-ndots-slow-lookups.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kubernetes-dns-ndots-slow-lookups.html</guid>
+      <category>DNS</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Pods get ndots:5 in resolv.conf, so any name with fewer than five dots, api.example.com included, is first tried with every cluster search domain appended. One external lookup becomes six or more queries, doubled for A and AAAA. Under load that adds latency and conntrack races that look like…</description>
+    </item>
+    <item>
+      <title>Stripe: No such customer; a similar object exists in test mode</title>
+      <link>https://fixmyerror.net/errors/stripe-no-such-customer-similar-object-test-mode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/stripe-no-such-customer-similar-object-test-mode.html</guid>
+      <category>API</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The ID is real, but it belongs to the other mode. Test and live data in Stripe are entirely separate, so an ID saved during testing cannot be used with a live key. This usually appears straight after going live, when the database still holds customer or price IDs created against the test key.</description>
+    </item>
+    <item>
+      <title>System.Text.Json: A possible object cycle was detected</title>
+      <link>https://fixmyerror.net/errors/system-text-json-possible-object-cycle-detected.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/system-text-json-possible-object-cycle-detected.html</guid>
+      <category>C#</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The serialiser followed references round in a circle, typically an EF Core entity whose navigation property points back at its parent, and stopped at a depth of 64. Newtonsoft.Json shows the same problem as a self referencing loop. Returning entities straight from a controller is what usually…</description>
+    </item>
+    <item>
+      <title>The bucket you are attempting to access must be addressed using the specified</title>
+      <link>https://fixmyerror.net/errors/s3-must-be-addressed-using-the-specified-endpoint.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-must-be-addressed-using-the-specified-endpoint.html</guid>
+      <category>Storage</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This is S3&apos;s PermanentRedirect. The bucket exists, but in a different region from the endpoint the client sent the request to. The credentials and the bucket policy are fine. It usually turns up when a client defaults to us-east-1, or a hard-coded endpoint survives after the bucket was recreated…</description>
+    </item>
+    <item>
+      <title>watchdog: BUG: soft lockup - CPU#3 stuck for 22s!</title>
+      <link>https://fixmyerror.net/errors/linux-watchdog-soft-lockup-cpu-stuck.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-watchdog-soft-lockup-cpu-stuck.html</guid>
+      <category>Performance</category>
+      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A CPU spent over twice the watchdog threshold in kernel code without letting the scheduler run. On physical hardware that points to a driver or kernel bug. On a virtual machine it is usually the host: the vCPU was not scheduled because the host is overcommitted, or the guest was paused for a…</description>
+    </item>
     <item>
       <title>Airflow: Broken DAG: [/opt/airflow/dags/etl.py] No module named &apos;x&apos;</title>
       <link>https://fixmyerror.net/errors/airflow-broken-dag-no-module-named.html</link>
@@ -1319,294 +1607,6 @@
       <category>Testing</category>
       <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
       <description>The test returned a promise that never settled within the limit. A slow network call is the obvious cause, but the common one is a promise that cannot settle: a missing await, a done callback never called, or fake timers installed so the timer the code is waiting on never advances.</description>
-    </item>
-    <item>
-      <title>Jest: Your test suite must contain at least one test.</title>
-      <link>https://fixmyerror.net/errors/jest-must-contain-at-least-one-test.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-must-contain-at-least-one-test.html</guid>
-      <category>Testing</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A file matched the test pattern but declared no test. Helper files living beside the tests are the usual reason, because the default pattern picks up everything inside a __tests__ directory, not only files named .test.js. A file where every test is skipped or filtered out fails the same way.</description>
-    </item>
-    <item>
-      <title>Memcached: SERVER_ERROR object too large for cache</title>
-      <link>https://fixmyerror.net/errors/memcached-object-too-large-for-cache.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/memcached-object-too-large-for-cache.html</guid>
-      <category>Caching</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The item exceeded the maximum item size, one megabyte by default, so it was refused rather than stored. Because most clients treat a failed set as a cache miss, the symptom is usually a page that is mysteriously slow rather than an error: every request recomputes the same oversized value.</description>
-    </item>
-    <item>
-      <title>React Native: Unable to load script. Make sure you&apos;re running Metro</title>
-      <link>https://fixmyerror.net/errors/react-native-unable-to-load-script.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/react-native-unable-to-load-script.html</guid>
-      <category>Mobile</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The debug build fetches its JavaScript bundle from Metro at runtime, and the device could not reach it. On a physical Android device localhost means the phone itself, so the port has to be forwarded over adb; on a release build the message instead means the bundle was never packaged into the app.</description>
-    </item>
-    <item>
-      <title>Redis: NOSCRIPT No matching script. Please use EVAL.</title>
-      <link>https://fixmyerror.net/errors/redis-noscript-no-matching-script.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-noscript-no-matching-script.html</guid>
-      <category>Caching</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>EVALSHA runs a script the server has already cached by hash, and that cache is not persisted. A restart, a failover to a replica that never saw the script, or a SCRIPT FLUSH empties it, so a client that only ever sends the hash starts failing until it loads the body again.</description>
-    </item>
-    <item>
-      <title>Regex: nothing to repeat at position 0</title>
-      <link>https://fixmyerror.net/errors/regex-nothing-to-repeat.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/regex-nothing-to-repeat.html</guid>
-      <category>Regex</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A quantifier appeared with nothing before it to repeat, so the pattern is invalid rather than merely wrong. It is almost always a pattern built at runtime: user input interpolated into a regex, or a string that already contained a plus or asterisk meant literally.</description>
-    </item>
-    <item>
-      <title>Rust: called `Option::unwrap()` on a `None` value</title>
-      <link>https://fixmyerror.net/errors/rust-unwrap-on-none-value.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-unwrap-on-none-value.html</guid>
-      <category>Rust</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>unwrap says the value is definitely there, and it was not, so the thread panicked at that line. The message names the file and column of the unwrap, not of the code that produced the None, which is why the interesting frame is usually further down the backtrace.</description>
-    </item>
-    <item>
-      <title>Rust: cannot borrow `*self` as mutable because it is also borrowed as immutable</title>
-      <link>https://fixmyerror.net/errors/rust-cannot-borrow-self-as-mutable-also-immutable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-cannot-borrow-self-as-mutable-also-immutable.html</guid>
-      <category>Rust</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The immutable borrow is usually hidden in an argument: self.push(self.len()) borrows self to evaluate the argument while the method call already holds a mutable borrow. Borrows end at their last use under NLL, so the fix is nearly always to finish the read before starting the write rather than to…</description>
-    </item>
-    <item>
-      <title>Rust: recursive type has infinite size (E0072)</title>
-      <link>https://fixmyerror.net/errors/rust-recursive-type-has-infinite-size.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-recursive-type-has-infinite-size.html</guid>
-      <category>Rust</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A struct or enum that contains itself by value would need infinite space, because the compiler lays out every field inline. The fix is not to remove the recursion but to put a pointer in the cycle, which has a known size and moves the child onto the heap.</description>
-    </item>
-    <item>
-      <title>Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps</title>
-      <link>https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html</guid>
-      <category>Scala</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The code compiled against one version of the Scala library and is running against another. Scala guarantees binary compatibility only within a minor series, so a dependency published for 2.12 pulled into a 2.13 build, or two libraries built against different minor versions, produces a method that…</description>
-    </item>
-    <item>
-      <title>Spring Boot: required a bean of type &apos;X&apos; that could not be found</title>
-      <link>https://fixmyerror.net/errors/spring-required-a-bean-that-could-not-be-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-required-a-bean-that-could-not-be-found.html</guid>
-      <category>Java</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Component scanning starts at the package of the class annotated with @SpringBootApplication and covers only that package and below. A bean in a sibling package, or one whose @Component annotation is missing, is never registered, which is why the same class works in a test that declares it…</description>
-    </item>
-    <item>
-      <title>Svelte 5: `export let` is not allowed in runes mode, use `$props()` instead</title>
-      <link>https://fixmyerror.net/errors/svelte-5-export-let-in-runes-mode.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-export-let-in-runes-mode.html</guid>
-      <category>Svelte</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A component is in runes mode, where props arrive through $props() rather than exported let bindings. Runes mode is chosen per component: using any rune anywhere in the file switches it, so adding a single $state to a legacy component makes every remaining export let in it illegal.</description>
-    </item>
-    <item>
-      <title>SvelteKit: Data returned from `load` is not serializable</title>
-      <link>https://fixmyerror.net/errors/sveltekit-data-from-load-not-serializable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-data-from-load-not-serializable.html</guid>
-      <category>Svelte</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Data from a server load function is serialised so the browser can hydrate with it, and the serialiser handles plain objects, arrays, Date, Map, Set and a few more, but not class instances. ORM rows are the usual offender: a Prisma Decimal, a Mongo ObjectId or a Mongoose document looks like a plain…</description>
-    </item>
-    <item>
-      <title>systemd-journald: Suppressed 1234 messages from /system.slice/app.service</title>
-      <link>https://fixmyerror.net/errors/journald-suppressed-messages-rate-limit.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/journald-suppressed-messages-rate-limit.html</guid>
-      <category>Logging</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>journald rate limits each service, discarding the rest of a burst rather than slowing the writer. The lines are gone, not delayed, which makes it look as though the application stopped logging exactly when it got interesting: incidents produce bursts, and the burst is what gets dropped.</description>
-    </item>
-    <item>
-      <title>Tokio: Cannot start a runtime from within a runtime</title>
-      <link>https://fixmyerror.net/errors/tokio-cannot-start-runtime-from-within-runtime.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/tokio-cannot-start-runtime-from-within-runtime.html</guid>
-      <category>Rust</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Something called block_on on a thread that is already driving the async runtime, which would deadlock the worker, so Tokio panics instead. The call is usually not yours: a blocking client such as reqwest::blocking, or a library helper that hides block_on, used from inside an async function.</description>
-    </item>
-    <item>
-      <title>TypeScript: &apos;error&apos; is of type &apos;unknown&apos; (TS18046)</title>
-      <link>https://fixmyerror.net/errors/ts-error-is-of-type-unknown.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-error-is-of-type-unknown.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Since TypeScript 4.4, useUnknownInCatchVariables (part of strict) types the catch binding as unknown rather than any, because JavaScript lets you throw anything, not just an Error. The code did not change; the compiler now insists you prove what you caught before reading a property off it.</description>
-    </item>
-    <item>
-      <title>TypeScript: Module can only be default-imported using the &apos;esModuleInterop&apos; flag</title>
-      <link>https://fixmyerror.net/errors/ts-can-only-be-default-imported-esmoduleinterop.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-can-only-be-default-imported-esmoduleinterop.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The package is CommonJS and sets module.exports directly, so it has no ES default export to bind. esModuleInterop makes the compiler emit a helper that wraps such a module, which is why the same import works in a bundler that already does this and fails in tsc.</description>
-    </item>
-    <item>
-      <title>TypeScript: Option &apos;module&apos; must be set to &apos;NodeNext&apos;</title>
-      <link>https://fixmyerror.net/errors/ts-module-must-be-set-to-nodenext.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-module-must-be-set-to-nodenext.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>moduleResolution and module are not independent: the Node16 and NodeNext resolution modes read package.json exports and the type field, and only the matching module setting emits code that agrees with them. Copying a moduleResolution line from a bundler config into a Node project is the usual way…</description>
-    </item>
-    <item>
-      <title>TypeScript: Parameter &apos;x&apos; implicitly has an &apos;any&apos; type (TS7006)</title>
-      <link>https://fixmyerror.net/errors/ts-parameter-implicitly-any.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-parameter-implicitly-any.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Under noImplicitAny, which strict turns on, TypeScript refuses a parameter it cannot infer. Callback parameters are normally inferred from the function they are passed to, so seeing this on a callback means the surrounding value is untyped: an untyped library, a variable annotated as any, or a…</description>
-    </item>
-    <item>
-      <title>TypeScript: Two different types with this name exist, but they are unrelated</title>
-      <link>https://fixmyerror.net/errors/ts-two-different-types-with-this-name-exist.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ts-two-different-types-with-this-name-exist.html</guid>
-      <category>TypeScript</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Two copies of the same type package are installed at different paths, usually @types/react or @types/node pulled in at two versions by different dependencies. The types are structurally identical but nominally distinct, so a value from one tree cannot be assigned to a parameter typed by the other.</description>
-    </item>
-    <item>
-      <title>Vitest: ReferenceError: document is not defined</title>
-      <link>https://fixmyerror.net/errors/vitest-document-is-not-defined.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/vitest-document-is-not-defined.html</guid>
-      <category>Testing</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Vitest runs in Node by default, where there is no DOM. The component test needs a browser like environment declared, either for the whole project or per file. Unlike Jest, Vitest does not bundle jsdom, so the package has to be installed as well as configured.</description>
-    </item>
-    <item>
-      <title>WebAssembly: Cannot enlarge memory arrays</title>
-      <link>https://fixmyerror.net/errors/wasm-cannot-enlarge-memory-arrays.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-cannot-enlarge-memory-arrays.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module asked for more linear memory than it was built to have. Emscripten fixes the heap at INITIAL_MEMORY unless memory growth was enabled at link time, so this is a build setting rather than a browser limit, and the same binary fails identically in Node and in every browser.</description>
-    </item>
-    <item>
-      <title>Xcode: Sandbox: rsync.samba deny(1) file-write-create</title>
-      <link>https://fixmyerror.net/errors/xcode-sandbox-rsync-deny-file-write-create.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-sandbox-rsync-deny-file-write-create.html</guid>
-      <category>Apple</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Xcode 15 turned on user script sandboxing for new projects, and a build phase tried to write outside the files it declared. The phase is usually not one you wrote: CocoaPods copies frameworks and resources with rsync, and Flutter and React Native ship similar scripts, so the failure appears after…</description>
-    </item>
-    <item>
-      <title>.NET: The framework &apos;Microsoft.NETCore.App&apos;, version &apos;8.0.0&apos; was not found</title>
-      <link>https://fixmyerror.net/errors/dotnet-framework-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-framework-not-found.html</guid>
-      <category>C#</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The published application is framework dependent and the machine has no matching runtime. Roll forward will pick a newer patch of the same major version but never a different major, so an app built for 8.0 will not start on a box that only has 9.0 installed.</description>
-    </item>
-    <item>
-      <title>Angular: NG0100: ExpressionChangedAfterItHasBeenCheckedError</title>
-      <link>https://fixmyerror.net/errors/angular-ng0100-expression-changed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/angular-ng0100-expression-changed.html</guid>
-      <category>Frontend</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A binding produced one value during change detection and a different one when Angular verified the pass in development mode. It normally means a parent reads state that a child mutates while initialising, so the check runs before the value has settled. Production builds skip the verification…</description>
-    </item>
-    <item>
-      <title>Apollo Client: Missing field &apos;x&apos; while writing result to the cache</title>
-      <link>https://fixmyerror.net/errors/apollo-missing-field-writing-result.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-missing-field-writing-result.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The normalised cache stores objects by id and typename, and the response left out a field the cache needed, usually because one query selects a subset that a fragment elsewhere expects. It is only a warning, but the later read returns incomplete data and refetches, which looks like a caching bug…</description>
-    </item>
-    <item>
-      <title>ASP.NET Core: Unable to resolve service for type while activating</title>
-      <link>https://fixmyerror.net/errors/aspnet-unable-to-resolve-service.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/aspnet-unable-to-resolve-service.html</guid>
-      <category>C#</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The container was asked for a dependency nobody registered, so the controller or hosted service could not be constructed. The rest of the message names the type that needed it, which is the quickest way to tell whether the missing registration is yours or belongs to a library whose AddSomething…</description>
-    </item>
-    <item>
-      <title>AWS ECS: CannotPullContainerError, pull image manifest has been retried</title>
-      <link>https://fixmyerror.net/errors/ecs-cannot-pull-container-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ecs-cannot-pull-container-error.html</guid>
-      <category>Cloud</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The task could not fetch its image, and the reason is far more often networking than permissions: a task in a private subnet with no NAT gateway and no VPC endpoints cannot reach ECR at all. A task in a public subnet still needs assignPublicIp turned on before it has a route out.</description>
-    </item>
-    <item>
-      <title>AWS: The security token included in the request is expired</title>
-      <link>https://fixmyerror.net/errors/aws-security-token-expired.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-security-token-expired.html</guid>
-      <category>Cloud</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The temporary credentials issued by STS have passed their expiry, which is one hour by default for an assumed role. A long build, a laptop resumed from sleep with a stale cache, or a clock that has drifted by more than a few minutes all produce it even though credentials are clearly present.</description>
-    </item>
-    <item>
-      <title>bash: warning: setlocale: LC_ALL: cannot change locale</title>
-      <link>https://fixmyerror.net/errors/bash-setlocale-cannot-change-locale.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-setlocale-cannot-change-locale.html</guid>
-      <category>Shell</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>SSH forwards the client&apos;s locale variables and the server has no such locale generated, so every login prints the warning and programs fall back to the C locale. The fallback is the part that matters: sorting order, date parsing and Unicode handling all change underneath you.</description>
-    </item>
-    <item>
-      <title>Cargo: Blocking waiting for file lock on package cache</title>
-      <link>https://fixmyerror.net/errors/cargo-blocking-waiting-for-file-lock.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cargo-blocking-waiting-for-file-lock.html</guid>
-      <category>Rust</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Cargo takes an exclusive lock on its home directory so two builds cannot corrupt the registry. The message is harmless while another build is genuinely running, but a lock left behind by a killed process, or a cache mounted read only in a container, makes the build wait for ever instead of failing.</description>
-    </item>
-    <item>
-      <title>Django: Forbidden (403) CSRF verification failed. Request aborted.</title>
-      <link>https://fixmyerror.net/errors/django-csrf-verification-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/django-csrf-verification-failed.html</guid>
-      <category>Python</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Django rejected the POST because the CSRF token or the request Origin did not match the session. Behind a reverse proxy the cause is usually not a missing token at all: since Django 4.0 the Origin header is compared against CSRF_TRUSTED_ORIGINS, so a site served over HTTPS whose proxy forwards the…</description>
-    </item>
-    <item>
-      <title>Docker: image&apos;s platform (linux/amd64) does not match the detected host</title>
-      <link>https://fixmyerror.net/errors/docker-platform-mismatch-warning.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-platform-mismatch-warning.html</guid>
-      <category>Docker</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The image has no build for the host architecture, so Docker Desktop runs it under emulation on Apple Silicon. It is a warning rather than an error, but emulated containers are slow and some binaries die with an illegal instruction, which is the failure people actually end up debugging.</description>
-    </item>
-    <item>
-      <title>docker: invalid reference format</title>
-      <link>https://fixmyerror.net/errors/docker-invalid-reference-format.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-invalid-reference-format.html</guid>
-      <category>Docker</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Docker could not parse the image name. The usual causes are an uppercase letter in the repository part, a shell variable that expanded to nothing, or an unquoted path in a volume flag containing a space, which pushes the rest of the command into the position where the image name should be.</description>
-    </item>
-    <item>
-      <title>DOMException: play() failed because the user didn&apos;t interact with the document</title>
-      <link>https://fixmyerror.net/errors/autoplay-play-failed-no-user-interaction.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/autoplay-play-failed-no-user-interaction.html</guid>
-      <category>Frontend</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Browsers block audible autoplay until the page has received a user gesture. play() returns a promise that rejects rather than throwing, so an unhandled rejection in the console is the only clue and the video simply sits there. Muted playback is still allowed, which is why the same code works on…</description>
-    </item>
-    <item>
-      <title>EF Core: another instance with the same key value is already being tracked</title>
-      <link>https://fixmyerror.net/errors/efcore-instance-already-tracked.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/efcore-instance-already-tracked.html</guid>
-      <category>C#</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The change tracker already holds an entity with that primary key and Attach or Update tried to add a second copy. It normally follows a tracked read earlier in the request, then an update built from the request body. The first query is the cause even though the second call is what throws.</description>
-    </item>
-    <item>
-      <title>git: You have divergent branches and need to specify how to reconcile them</title>
-      <link>https://fixmyerror.net/errors/git-divergent-branches-reconcile.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/git-divergent-branches-reconcile.html</guid>
-      <category>Git</category>
-      <pubDate>Wed, 09 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Local and remote have both moved on, and since Git 2.27 pull refuses to guess between merging and rebasing. The hint offers three settings without recommending one, which is why it is so often answered with a global config that then surprises everyone in the next repository.</description>
     </item>
   </channel>
 </rss>
