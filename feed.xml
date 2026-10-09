@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 02 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 09 Oct 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Apache: AH01071: Got error &apos;Primary script unknown&apos;</title>
+      <link>https://fixmyerror.net/errors/apache-ah01071-primary-script-unknown.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-ah01071-primary-script-unknown.html</guid>
+      <category>WebServer</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The message is PHP-FPM&apos;s, relayed by Apache: the script path Apache sent over FastCGI does not exist, or cannot be read, from PHP-FPM&apos;s point of view. Usually the handler builds the path from the wrong document root, or PHP-FPM runs in a container where the code lives somewhere else. The browser…</description>
+    </item>
+    <item>
+      <title>App Store Connect: ITMS-91053: Missing API declaration</title>
+      <link>https://fixmyerror.net/errors/app-store-itms-91053-missing-api-declaration.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/app-store-itms-91053-missing-api-declaration.html</guid>
+      <category>Apple</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Since May 2024 Apple rejects uploads that call certain &quot;required reason&quot; APIs, such as UserDefaults, file timestamps or system boot time, without a privacy manifest saying why. The call is often in a third-party SDK rather than your code, so updating the dependency to a version that ships its own…</description>
+    </item>
+    <item>
+      <title>C++: error: &apos;format&apos; is not a member of &apos;std&apos;</title>
+      <link>https://fixmyerror.net/errors/cpp-format-is-not-a-member-of-std.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-format-is-not-a-member-of-std.html</guid>
+      <category>C++</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>std::format is C++20 and lives in , which needs both the C++20 flag and a recent enough standard library: GCC 13, Clang 17 with libc++, or Visual Studio 2019 16.10. GCC still defaults to C++17, so one build file without the flag is enough. On macOS the deployment target matters as well as the…</description>
+    </item>
+    <item>
+      <title>C++: error: &apos;uint8_t&apos; does not name a type</title>
+      <link>https://fixmyerror.net/errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html</guid>
+      <category>C++</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The file uses fixed-width integer types without including , and only ever compiled because another standard header pulled it in indirectly. GCC 13 trimmed those internal includes in libstdc++, so code that built for years breaks on upgrade, often inside a third-party library. The same happens with…</description>
+    </item>
+    <item>
+      <title>C++: terminate called after throwing an instance of &apos;std::bad_alloc&apos;</title>
+      <link>https://fixmyerror.net/errors/cpp-terminate-called-std-bad-alloc.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-terminate-called-std-bad-alloc.html</guid>
+      <category>C++</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>An allocation asked for more memory than the allocator could provide, nothing caught the exception, and the runtime aborted. On Linux, real memory exhaustion usually brings the OOM killer instead, so this message more often means one absurd request: a negative length converted to size_t, a size…</description>
+    </item>
+    <item>
+      <title>Dart: Bad state: No element</title>
+      <link>https://fixmyerror.net/errors/dart-bad-state-no-element.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-bad-state-no-element.html</guid>
+      <category>Dart</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>firstWhere, first, last or single ran on a collection with nothing in it, or nothing matching, and these throw a StateError rather than returning null. It tends to pass in testing and fail in use, because the list is only sometimes empty: an empty API response, a search with no hits, a list read…</description>
+    </item>
+    <item>
+      <title>Emscripten: RuntimeError: Aborted(). Build with -sASSERTIONS for more info.</title>
+      <link>https://fixmyerror.net/errors/emscripten-aborted-build-with-assertions.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/emscripten-aborted-build-with-assertions.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Emscripten&apos;s runtime hit a fatal condition and called abort(), but release builds leave out assertions to save size, so the reason was thrown away. Behind the empty brackets is usually a failed allocation, a C++ exception in a build without exception support, or a call into the module before the…</description>
+    </item>
+    <item>
+      <title>ethers v6: Cannot read properties of undefined (reading &apos;Web3Provider&apos;)</title>
+      <link>https://fixmyerror.net/errors/ethers-v6-cannot-read-web3provider.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ethers-v6-cannot-read-web3provider.html</guid>
+      <category>Web3</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>ethers v6 removed the providers, utils and constants namespaces, so v5 code such as ethers.providers.Web3Provider or ethers.utils.parseEther reads a property of undefined. It usually appears when a fresh npm install pulled v6 into a project or tutorial written for v5. The classes still exist…</description>
+    </item>
+    <item>
+      <title>Flutter: Looking up a deactivated widget&apos;s ancestor is unsafe</title>
+      <link>https://fixmyerror.net/errors/flutter-looking-up-deactivated-widget-ancestor.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-looking-up-deactivated-widget-ancestor.html</guid>
+      <category>Dart</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Code used a BuildContext after its widget had left the tree, almost always after an await: the user navigated away or the dialog closed, then the callback carried on and called Navigator.of(context) or ScaffoldMessenger.of(context). The context object still exists but has nowhere in the tree to…</description>
+    </item>
+    <item>
+      <title>ingress-nginx: 400 The plain HTTP request was sent to HTTPS port</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-plain-http-request-sent-to-https-port.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-plain-http-request-sent-to-https-port.html</guid>
+      <category>Ingress</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The controller is speaking plain HTTP to a backend that only accepts HTTPS, and the backend&apos;s own web server answers with this 400. ingress-nginx proxies to pods over HTTP unless told otherwise; it does not guess TLS from a Service port of 443. Apps that terminate their own TLS, such as Argo CD or…</description>
+    </item>
+    <item>
+      <title>Ingress: spec.rules[0].http.paths[0].pathType: Required value</title>
+      <link>https://fixmyerror.net/errors/ingress-pathtype-required-value.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-pathtype-required-value.html</guid>
+      <category>Ingress</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>networking.k8s.io/v1 made pathType mandatory on every path, where the old v1beta1 API filled it in for you. Manifests and Helm charts converted by changing only the apiVersion fail validation here, and usually on the backend fields next, since those changed shape too. The choice matters: Prefix…</description>
+    </item>
+    <item>
+      <title>macOS: zsh: killed ./app (Killed: 9) on Apple silicon</title>
+      <link>https://fixmyerror.net/errors/macos-zsh-killed-invalid-code-signature.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-zsh-killed-invalid-code-signature.html</guid>
+      <category>Apple</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>On Apple silicon every arm64 executable must carry a valid code signature, even if only an ad hoc one, and the kernel kills it at launch if the signature no longer matches the file. The program is usually fine: something changed it after linking, such as install_name_tool, strip or a patch script…</description>
+    </item>
+    <item>
+      <title>MetaMask Tx Signature: User denied transaction signature (4001)</title>
+      <link>https://fixmyerror.net/errors/web3-user-denied-transaction-signature-4001.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-user-denied-transaction-signature-4001.html</guid>
+      <category>Web3</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Code 4001 is the EIP-1193 &quot;user rejected&quot; error: the person clicked Reject or closed the wallet popup, nothing reached the chain and no gas was spent. It is a normal outcome rather than a fault, so an app that reports it as a crash, or retries it, is the bug. ethers wraps it as ACTION_REJECTED. If…</description>
+    </item>
+    <item>
+      <title>nginx: [warn] conflicting server name &quot;example.com&quot; on 0.0.0.0:80, ignored</title>
+      <link>https://fixmyerror.net/errors/nginx-conflicting-server-name-ignored.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-conflicting-server-name-ignored.html</guid>
+      <category>WebServer</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Two server blocks on the same address and port both claim the same server_name, so nginx keeps the first one it read and ignores the other for that name. Because it is only a warning the reload succeeds, and the symptom is that your edits seem to have no effect. The usual cause is a leftover copy…</description>
+    </item>
+    <item>
+      <title>nginx: the &quot;listen ... http2&quot; directive is deprecated, use the &quot;http2&quot; directive</title>
+      <link>https://fixmyerror.net/errors/nginx-listen-http2-directive-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-listen-http2-directive-deprecated.html</guid>
+      <category>WebServer</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Since nginx 1.25.1, HTTP/2 is switched on with its own http2 directive rather than a parameter on listen. The old form still works for now, so this is only a warning and nginx -t passes, which makes it easy to ignore. It turns up on every reload once nginx is upgraded underneath configs copied…</description>
+    </item>
+    <item>
+      <title>PHP 8.1: Passing null to parameter #1 ($string) of type string is deprecated</title>
+      <link>https://fixmyerror.net/errors/php-81-passing-null-to-parameter-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-81-passing-null-to-parameter-deprecated.html</guid>
+      <category>PHP</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Built-in functions used to treat null as an empty string or zero. PHP 8.1 deprecated that, so trim(null), strlen(null) and friends now log a deprecation, and a future major version is set to make it a TypeError. The null usually comes from a missing form field, a nullable database column or a…</description>
+    </item>
+    <item>
+      <title>PHP: count(): Argument #1 ($value) must be of type Countable|array, null given</title>
+      <link>https://fixmyerror.net/errors/php-8-count-must-be-countable-array-null-given.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-8-count-must-be-countable-array-null-given.html</guid>
+      <category>PHP</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Since PHP 8.0, count() throws a TypeError for anything that is not an array or a Countable object. PHP 7.2 only warned, and before that count(null) quietly returned 0, so code that counted a value which might be null worked for years and breaks on upgrade. The fix belongs where the null comes…</description>
+    </item>
+    <item>
+      <title>PHP: Warning: Cannot modify header information - headers already sent by</title>
+      <link>https://fixmyerror.net/errors/php-cannot-modify-header-information-headers-already-sent.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-cannot-modify-header-information-headers-already-sent.html</guid>
+      <category>PHP</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Something was written to the response before header(), setcookie() or session_start() ran, and once the first byte has gone out the headers are fixed. The message names the file and line where output started, and the output is often invisible: whitespace after a closing ?&gt;, a UTF-8 byte order…</description>
+    </item>
+    <item>
+      <title>Rails: could not obtain a connection from the pool within 5.000 seconds</title>
+      <link>https://fixmyerror.net/errors/rails-could-not-obtain-connection-from-pool.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-could-not-obtain-connection-from-pool.html</guid>
+      <category>Ruby</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Each thread that touches the database needs its own connection, and every connection in the pool stayed checked out for longer than checkout_timeout. The cause is rarely a slow database: it is usually a pool smaller than the number of threads, such as Puma threads or Sidekiq concurrency set higher…</description>
+    </item>
+    <item>
+      <title>Ruby 3: ArgumentError: wrong number of arguments (given 2, expected 1)</title>
+      <link>https://fixmyerror.net/errors/ruby-3-wrong-number-of-arguments-keyword-separation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-3-wrong-number-of-arguments-keyword-separation.html</guid>
+      <category>Ruby</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Ruby 3.0 separated keyword arguments from positional ones, so a hash passed where a method expects keywords is now counted as an extra positional argument. Code that ran on Ruby 2.7, perhaps with a deprecation warning nobody read, fails after the upgrade. The usual places are wrappers that forward…</description>
+    </item>
+    <item>
+      <title>Ruby: Psych::BadAlias: Unknown alias: default</title>
+      <link>https://fixmyerror.net/errors/ruby-psych-4-bad-alias-unknown-alias.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-psych-4-bad-alias-unknown-alias.html</guid>
+      <category>Ruby</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Psych 4, the YAML library that ships with Ruby 3.1 onwards, made YAML.load safe by default, and safe loading refuses aliases such as &lt;&lt;: *default unless asked. Files that have always used anchors, database.yml above all, fail when an older gem or Rails version loads them with the plain call. The…</description>
+    </item>
+    <item>
+      <title>Rust: Could not find specification for target &quot;wasm32-wasi&quot;</title>
+      <link>https://fixmyerror.net/errors/rust-wasm32-wasi-target-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-wasm32-wasi-target-not-found.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Rust renamed the wasm32-wasi target to wasm32-wasip1 to make room for WASI 0.2, then removed the old name entirely in Rust 1.84. Build scripts, CI workflows and tutorials that still say wasm32-wasi fail as soon as the toolchain updates, though no code changed. The output is the same WASI preview 1…</description>
+    </item>
+    <item>
+      <title>sbt: found version conflict(s) in library dependencies</title>
+      <link>https://fixmyerror.net/errors/sbt-found-version-conflicts-binary-incompatible.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sbt-found-version-conflicts-binary-incompatible.html</guid>
+      <category>Scala</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Two dependencies need different versions of the same library, sbt picked the newer one, and the version scheme that library declares says the two are not binary compatible. Since sbt 1.5 that is an error rather than a warning, because it tends to end in a NoSuchMethodError at runtime. It typically…</description>
+    </item>
+    <item>
+      <title>Scala 3: Implicit parameters should be provided with a `using` clause</title>
+      <link>https://fixmyerror.net/errors/scala-3-implicit-parameters-using-clause.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-3-implicit-parameters-using-clause.html</guid>
+      <category>Scala</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>From Scala 3.7 the compiler warns when you pass an argument to an implicit parameter list by plain application, as in xs.sorted(ord). Scala 3 wants the call site to say using, so a reader can tell the argument fills an implicit slot. It arrives in large numbers when an existing codebase upgrades…</description>
+    </item>
+    <item>
+      <title>Scala module 2.15.2 requires Jackson Databind version &gt;= 2.15.0 and &lt; 2.16.0</title>
+      <link>https://fixmyerror.net/errors/jackson-scala-module-requires-databind-version.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jackson-scala-module-requires-databind-version.html</guid>
+      <category>Scala</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>jackson-module-scala refuses to register unless jackson-databind on the classpath has the same minor version, and something else pulled databind up or down. In Spark jobs the usual culprit is the Jackson that Spark itself ships, which is why the job runs locally and fails once submitted to the…</description>
+    </item>
+    <item>
+      <title>Solidity: CompilerError: Stack too deep. Try compiling with --via-ir</title>
+      <link>https://fixmyerror.net/errors/solidity-stack-too-deep.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/solidity-stack-too-deep.html</guid>
+      <category>Web3</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The EVM can only reach the top 16 slots of its stack, and the function the error points at needs more than that for its locals, parameters and return values at once. The legacy code generator cannot move values to memory to make room, so it gives up. The IR pipeline can, which is why the compiler…</description>
+    </item>
+    <item>
+      <title>Svelte 5: Using `&lt;slot&gt;` to render parent content is deprecated</title>
+      <link>https://fixmyerror.net/errors/svelte-5-slot-element-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-slot-element-deprecated.html</guid>
+      <category>Svelte</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>In Svelte 5, content passed into a component arrives as snippets and is rendered with {@render}; survives only for compatibility. The warning appears once a component runs in runes mode, which is why it shows up after migrating a single file. A component cannot use both styles, so convert its…</description>
+    </item>
+    <item>
+      <title>Svelte 5: Using `on:click` to listen to the click event is deprecated</title>
+      <link>https://fixmyerror.net/errors/svelte-5-on-directive-event-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-on-directive-event-deprecated.html</guid>
+      <category>Svelte</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Svelte 5 treats DOM event handlers as ordinary attributes, onclick={...}, so the on: directive is deprecated in runes mode, and one component cannot mix the two forms. Event modifiers such as |preventDefault went too, which means a plain search and replace is not enough. Component events change as…</description>
+    </item>
+    <item>
+      <title>SvelteKit: Error: Not found: /favicon.ico</title>
+      <link>https://fixmyerror.net/errors/sveltekit-error-not-found-favicon.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-error-not-found-favicon.html</guid>
+      <category>Svelte</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The browser asked for /favicon.ico, no route or static file matched, and SvelteKit logged the 404 the same way it logs any error. The page itself is fine. It fills the dev server log because browsers request the icon on their own whether or not the HTML links one, and the same message with another…</description>
+    </item>
+    <item>
+      <title>The argument type &apos;String?&apos; can&apos;t be assigned to the parameter type &apos;String&apos;.</title>
+      <link>https://fixmyerror.net/errors/dart-argument-type-nullable-string-cant-be-assigned.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-argument-type-nullable-string-cant-be-assigned.html</guid>
+      <category>Dart</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Under sound null safety a type ending in ? might be null, and Dart will not pass it where a non-nullable value is required until you show it is not. The value usually comes from a map lookup, a nullable field or a parsed model, all of which are nullable even when you know the data is there. Adding…</description>
+    </item>
+    <item>
+      <title>Traefik: middleware &quot;default-redirect@kubernetescrd&quot; does not exist</title>
+      <link>https://fixmyerror.net/errors/traefik-middleware-does-not-exist.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/traefik-middleware-does-not-exist.html</guid>
+      <category>Ingress</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A router refers to a middleware by a name Traefik cannot find. With the Kubernetes CRD provider the full name is namespace-name@kubernetescrd, so a Middleware in another namespace, or an annotation that leaves out the namespace prefix, points at nothing. Traefik keeps running and drops only that…</description>
+    </item>
+    <item>
+      <title>WebAssembly: Refused to compile or instantiate WebAssembly module</title>
+      <link>https://fixmyerror.net/errors/wasm-refused-to-compile-csp-wasm-unsafe-eval.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-refused-to-compile-csp-wasm-unsafe-eval.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The page&apos;s Content Security Policy blocks WebAssembly compilation. Browsers treat compiling Wasm much like eval, so a script-src without &apos;wasm-unsafe-eval&apos; stops it even when the .wasm file comes from your own origin. It often appears only in production or in a browser extension, because the…</description>
+    </item>
+    <item>
+      <title>Windows: The requested operation requires elevation (error 740)</title>
+      <link>https://fixmyerror.net/errors/windows-requested-operation-requires-elevation-740.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-requested-operation-requires-elevation-740.html</guid>
+      <category>Windows</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The program&apos;s manifest says it must run as administrator, and the process starting it is not elevated, so Windows refuses rather than showing a UAC prompt. That is why the same installer works when double-clicked but fails from a script, a scheduled task, a CI agent or an ordinary terminal. Being…</description>
+    </item>
+    <item>
+      <title>Windows: The RPC server is unavailable (0x800706BA)</title>
+      <link>https://fixmyerror.net/errors/windows-rpc-server-is-unavailable-0x800706ba.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-rpc-server-is-unavailable-0x800706ba.html</guid>
+      <category>Windows</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The client could not complete a remote procedure call to the target machine. RPC first contacts the endpoint mapper on TCP 135, then switches to a dynamic high port, and a firewall that allows 135 but not the high range is the classic cause. It surfaces in WMI, remote management, domain joins and…</description>
+    </item>
+    <item>
+      <title>Windows: You can&apos;t access this shared folder (guest access blocked)</title>
+      <link>https://fixmyerror.net/errors/windows-smb-unauthenticated-guest-access-blocked.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-smb-unauthenticated-guest-access-blocked.html</guid>
+      <category>Windows</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Windows 11 24H2 refuses SMB guest logons and requires SMB signing by default, so a NAS, a router USB share or an old Samba server that lets anyone in as guest stops working after the upgrade, while other PCs still connect. The share is fine; the client is refusing to talk to it without…</description>
+    </item>
+    <item>
+      <title>Xcode: No signing certificate &quot;iOS Development&quot; found</title>
+      <link>https://fixmyerror.net/errors/xcode-no-signing-certificate-ios-development-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-no-signing-certificate-ios-development-found.html</guid>
+      <category>Apple</category>
+      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The project wants to sign with a development certificate whose private key is not in this Mac&apos;s keychain. The certificate may well exist in your developer account, but without its key it cannot sign anything, which is why a project that builds on a colleague&apos;s Mac or your old one fails on a new…</description>
+    </item>
     <item>
       <title>Ansible: &apos;dict object&apos; has no attribute &apos;stdout&apos;</title>
       <link>https://fixmyerror.net/errors/ansible-dict-object-has-no-attribute-stdout.html</link>
@@ -1319,294 +1607,6 @@
       <category>Scala</category>
       <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
       <description>A jar built for a different Scala version is on the classpath. Scala is only binary compatible within a minor version, so a 2.12 artifact loaded by a 2.13 runtime looks for classes that were moved or renamed. It compiles, because the missing class is only resolved when the code first runs.</description>
-    </item>
-    <item>
-      <title>Scala: type mismatch; found: Unit, required: String</title>
-      <link>https://fixmyerror.net/errors/scala-value-discarded-unit-return.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-value-discarded-unit-return.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The last expression in the block is an assignment or a `for` loop, both of which evaluate to Unit, so the block returns nothing useful. It reads as a compiler mistake because the value the author meant to return is two lines up, discarded by whatever came after it.</description>
-    </item>
-    <item>
-      <title>Spark: org.apache.spark.SparkException: Task not serializable</title>
-      <link>https://fixmyerror.net/errors/spark-task-not-serializable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-task-not-serializable.html</guid>
-      <category>BigData</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A closure sent to the executors dragged an unserialisable object along with it. Referencing one field of an enclosing class captures the whole instance, so a lambda that only needs a string can pull in a database connection, a logger or the SparkSession itself.</description>
-    </item>
-    <item>
-      <title>Svelte 5: `$effect` can only be used inside an effect</title>
-      <link>https://fixmyerror.net/errors/svelte-5-effect-orphan.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-effect-orphan.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Effects have to be created while a component is initialising, so calling `$effect` from a click handler, a `setTimeout` callback or an async function after an `await` throws. The rule usually catches an attempt to start a subscription in response to an event rather than declaring it up front and…</description>
-    </item>
-    <item>
-      <title>Svelte 5: `$props()` can only be used at the top level of components</title>
-      <link>https://fixmyerror.net/errors/svelte-5-props-invalid-placement.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-props-invalid-placement.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Runes are compiled away rather than called, so `$props()` has to appear exactly once as the initialiser of a top level declaration in a component&apos;s instance script. Destructuring it inside a function, a condition or a `.svelte.js` module looks like an ordinary call but fails to compile.</description>
-    </item>
-    <item>
-      <title>Svelte 5: State referenced in its own scope will never update</title>
-      <link>https://fixmyerror.net/errors/svelte-5-state-referenced-locally.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-state-referenced-locally.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Reading a `$state` variable into a plain `const`, or passing it to a function, copies the value at that moment instead of keeping the reactive reference. The component still updates when the state changes, but your copy does not, so the page shows a stale number and nothing in the code looks wrong.</description>
-    </item>
-    <item>
-      <title>Svelte 5: Updating state inside a derived is forbidden</title>
-      <link>https://fixmyerror.net/errors/svelte-5-state-unsafe-mutation.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-state-unsafe-mutation.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A `$derived` expression re-runs whenever its inputs change, so writing state from inside one would feed the change back into itself. It almost always appears after a migration, where a `$:` statement that both computed a value and assigned to something else was converted mechanically into a single…</description>
-    </item>
-    <item>
-      <title>SvelteKit: Cannot prerender pages with actions</title>
-      <link>https://fixmyerror.net/errors/sveltekit-cannot-prerender-pages-with-actions.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-cannot-prerender-pages-with-actions.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Prerendering happens at build time and produces a static file, while a form action needs a server when the request arrives, so one route cannot do both. It usually surfaces because `prerender = true` was set on a root layout months ago and a page underneath it has just gained a form.</description>
-    </item>
-    <item>
-      <title>Web3: gas required exceeds allowance (0)</title>
-      <link>https://fixmyerror.net/errors/web3-gas-required-exceeds-allowance.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-gas-required-exceeds-allowance.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node simulated the transaction and found the sender cannot cover it, so the allowance it reports is the gas the balance affords, often zero. Despite the wording it is rarely a gas limit problem: the account is empty, or it is the wrong account, or the wrong chain is selected in the wallet.</description>
-    </item>
-    <item>
-      <title>Web3: max fee per gas less than block base fee</title>
-      <link>https://fixmyerror.net/errors/web3-max-fee-per-gas-less-than-block-base-fee.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-max-fee-per-gas-less-than-block-base-fee.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node rejected the transaction because its maxFeePerGas is below the base fee of the next block. Base fee moves by up to 12.5 percent per block, so a fee read a few seconds earlier, or a value hard coded in a script, is stale by the time the transaction is submitted.</description>
-    </item>
-    <item>
-      <title>Web3: missing revert data in call exception (CALL_EXCEPTION)</title>
-      <link>https://fixmyerror.net/errors/web3-missing-revert-data-call-exception.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-missing-revert-data-call-exception.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The call failed without a reason string, which usually means there is no contract at that address on this chain rather than a failed require. A deployment address from a different network, a proxy that was never initialised, or an ABI that does not match the deployed bytecode all produce it.</description>
-    </item>
-    <item>
-      <title>WebAssembly: null function or function signature mismatch</title>
-      <link>https://fixmyerror.net/errors/wasm-function-signature-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-function-signature-mismatch.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An indirect call went through the function table and found an empty slot, or a function whose type does not match the call site. In Emscripten builds it is a C function pointer cast to the wrong signature, or a JavaScript callback registered with a signature string that does not match what it is…</description>
-    </item>
-    <item>
-      <title>WebAssembly: RuntimeError: unreachable executed</title>
-      <link>https://fixmyerror.net/errors/wasm-unreachable-executed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-unreachable-executed.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module reached an `unreachable` instruction, which compilers emit wherever the program traps: a Rust panic, an assertion, `abort()`, or a C++ exception in a build compiled without exception support. The JavaScript stack shows a wasm frame and nothing else, so the useful detail is whatever the…</description>
-    </item>
-    <item>
-      <title>WebAssembly: SharedArrayBuffer is not defined</title>
-      <link>https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Threaded builds need shared memory, and browsers only expose SharedArrayBuffer to cross origin isolated pages. The module works on localhost and fails on the deployed site, because isolation comes from response headers that the dev server sets and the CDN in front of production does not.</description>
-    </item>
-    <item>
-      <title>Android: Manifest merger failed with multiple errors, see logs</title>
-      <link>https://fixmyerror.net/errors/android-manifest-merger-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-manifest-merger-failed.html</guid>
-      <category>Mobile</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gradle merges your manifest with every library manifest, and two of them disagree: usually a minSdkVersion lower than a dependency allows, or the same attribute declared with different values. The build log line above this one names the attribute; the merged result and its blame report say which…</description>
-    </item>
-    <item>
-      <title>Android: SDK location not found. Define a valid SDK location</title>
-      <link>https://fixmyerror.net/errors/android-sdk-location-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-sdk-location-not-found.html</guid>
-      <category>Mobile</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gradle looks for sdk.dir in local.properties, then for the ANDROID_HOME environment variable. local.properties is machine specific and is git ignored by every Android template, so this is almost always a build running somewhere the SDK path was never set: CI, a container, or a freshly cloned…</description>
-    </item>
-    <item>
-      <title>Ansible: The conditional check &apos;result.rc == 0&apos; failed</title>
-      <link>https://fixmyerror.net/errors/ansible-conditional-check-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-conditional-check-failed.html</guid>
-      <category>Ansible</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The when expression could not be evaluated, usually because the variable it names does not exist on this host: the registering task was skipped, ran on a different host, or the play failed before reaching it. The message continues with the Jinja error, and &apos;dict object&apos; has no attribute is the…</description>
-    </item>
-    <item>
-      <title>Ansible: you must install the sshpass program</title>
-      <link>https://fixmyerror.net/errors/ansible-must-install-sshpass.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-must-install-sshpass.html</guid>
-      <category>Ansible</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>OpenSSH refuses to read a password from anything but a terminal, so Ansible shells out to sshpass whenever a connection or become password is supplied rather than a key. The program is not a dependency of Ansible and is missing from most container images, which is why a playbook that runs on a…</description>
-    </item>
-    <item>
-      <title>Apollo Server: POST body missing, invalid Content-Type</title>
-      <link>https://fixmyerror.net/errors/apollo-server-post-body-missing.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-server-post-body-missing.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Apollo Server 4 does not parse request bodies itself, so the Express integration needs express.json() mounted before it. The other half of the cases is a client or proxy that sends no content type header, since anything other than application/json or application/graphql-response+json is refused.</description>
-    </item>
-    <item>
-      <title>C++: relocation R_X86_64_32S can not be used when making a shared object</title>
-      <link>https://fixmyerror.net/errors/cpp-relocation-recompile-with-fpic.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-relocation-recompile-with-fpic.html</guid>
-      <category>C++</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A shared library must be loadable at any address, so every object in it needs position independent code. The object triggering this is nearly always from a static library built without -fPIC and then linked into a .so, which is why the advice to recompile applies to that dependency rather than to…</description>
-    </item>
-    <item>
-      <title>C++: undefined reference to `vtable for X&apos;</title>
-      <link>https://fixmyerror.net/errors/cpp-undefined-reference-to-vtable.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-undefined-reference-to-vtable.html</guid>
-      <category>C++</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>This is not a missing call to the named function. The compiler emits a class&apos;s vtable alongside the definition of its first non inline virtual function, so if that function is declared and never defined, or its translation unit is missing from the link, the vtable is never emitted. A virtual…</description>
-    </item>
-    <item>
-      <title>CMake Error: Could not find a package configuration file provided by X</title>
-      <link>https://fixmyerror.net/errors/cmake-could-not-find-package-configuration-file.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cmake-could-not-find-package-configuration-file.html</guid>
-      <category>C++</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>find_package looked for a config file the library installs, XConfig.cmake or x-config.cmake, and no directory it searched had one. The library being present in the system is not enough: the runtime package often ships without the config file, which lives in the development package or in a prefix…</description>
-    </item>
-    <item>
-      <title>Dart: LateInitializationError: Field &apos;x&apos; has not been initialized</title>
-      <link>https://fixmyerror.net/errors/dart-late-initialization-error.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-late-initialization-error.html</guid>
-      <category>Dart</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>late promises the compiler that a non nullable field will hold a value before anything reads it, and that promise was broken. Reading it during initState before the assignment, or on a code path where the assignment is conditional, throws at the point of the read rather than where the field was…</description>
-    </item>
-    <item>
-      <title>Ecto: connection not available and request was dropped from queue</title>
-      <link>https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-connection-not-available-dropped-from-queue.html</guid>
-      <category>Elixir</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every connection in the pool was busy for longer than queue_target allowed, so DBConnection gave up rather than queueing indefinitely. Raising pool_size is the reflex and rarely the cure: the pool is usually held by a handful of slow queries, or by processes doing HTTP calls inside a transaction.</description>
-    </item>
-    <item>
-      <title>Elixir: (FunctionClauseError) no function clause matching</title>
-      <link>https://fixmyerror.net/errors/elixir-no-function-clause-matching.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-no-function-clause-matching.html</guid>
-      <category>Elixir</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Every clause of the function was tried and none matched the arguments, either on the pattern or on a guard. Elixir prints the attempted clauses and the arguments it was given, so the useful comparison is between the two: a nil where a map was expected, a string key where an atom was expected, or a…</description>
-    </item>
-    <item>
-      <title>Flutter: A RenderFlex overflowed by 42 pixels on the right</title>
-      <link>https://fixmyerror.net/errors/flutter-renderflex-overflowed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-renderflex-overflowed.html</guid>
-      <category>Dart</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A Row or Column laid out children that want more space than the parent offered, so the excess is painted as the yellow and black stripes. The number is the overflow, not the required width, and the fix depends on intent: a child that should shrink needs Flexible, one that should scroll needs a…</description>
-    </item>
-    <item>
-      <title>Flutter: setState() called after dispose()</title>
-      <link>https://fixmyerror.net/errors/flutter-setstate-called-after-dispose.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-setstate-called-after-dispose.html</guid>
-      <category>Dart</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An asynchronous callback finished after its widget left the tree, so the State it wants to update no longer exists. The await is the giveaway: the widget can be disposed while the request is in flight, which is why the crash only appears when the user navigates away quickly or the network is slow.</description>
-    </item>
-    <item>
-      <title>go: cannot find main module; see &apos;go help modules&apos;</title>
-      <link>https://fixmyerror.net/errors/go-cannot-find-main-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-cannot-find-main-module.html</guid>
-      <category>Go</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The command was run outside any module: there is no go.mod in the working directory or any parent. Since Go 1.16 module mode is the default, so a repository that once built from GOPATH, or a Dockerfile that copies sources without go.mod, fails here rather than falling back.</description>
-    </item>
-    <item>
-      <title>Go: panic: runtime error: index out of range [3] with length 3</title>
-      <link>https://fixmyerror.net/errors/go-index-out-of-range-with-length.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-index-out-of-range-with-length.html</guid>
-      <category>Go</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Go slices are zero indexed, so the valid indexes stop one short of len. The message gives both numbers, and when the index is exactly the length the loop ran one iteration too far; when it is far larger the index came from data, not from the loop, and needs validating before use.</description>
-    </item>
-    <item>
-      <title>go: updates to go.mod needed; to update it: go mod tidy</title>
-      <link>https://fixmyerror.net/errors/go-updates-to-go-mod-needed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-updates-to-go-mod-needed.html</guid>
-      <category>Go</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Go stopped editing go.mod as a side effect of build commands in 1.16, so a missing or stale requirement is now reported instead of quietly added. It usually appears in CI first, because a local run had already written the change into go.mod that nobody committed.</description>
-    </item>
-    <item>
-      <title>GraphQL: Cannot use GraphQLSchema from another module or realm</title>
-      <link>https://fixmyerror.net/errors/graphql-cannot-use-graphqlschema-from-another-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-use-graphqlschema-from-another-module.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Two copies of the graphql package are installed, so the schema was built with one and validated by the other. graphql-js checks identity with instanceof, which fails across copies even when the versions match, and the message blames the schema rather than the duplicated dependency.</description>
-    </item>
-    <item>
-      <title>GraphQL: Variable &quot;$id&quot; of required type &quot;ID!&quot; was not provided</title>
-      <link>https://fixmyerror.net/errors/graphql-variable-of-required-type-was-not-provided.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-variable-of-required-type-was-not-provided.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Validation rejected the request before any resolver ran, because a non null variable was declared in the document but missing from the variables map. Sending null is not the same as sending nothing for a non null type, and a key that is present but undefined is dropped by JSON.stringify, which is…</description>
-    </item>
-    <item>
-      <title>Ingress: configuration-snippet annotation cannot be used</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-configuration-snippet-cannot-be-used.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-configuration-snippet-cannot-be-used.html</guid>
-      <category>Ingress</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>ingress-nginx 1.9 turned allow-snippet-annotations off by default after snippets were shown to let any namespace inject configuration into the shared nginx process. Manifests that worked for years are rejected by the admission webhook at apply time, so the failure appears during an upgrade rather…</description>
-    </item>
-    <item>
-      <title>Java: Cannot invoke &quot;String.length()&quot; because &quot;s&quot; is null</title>
-      <link>https://fixmyerror.net/errors/java-cannot-invoke-because-is-null.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-cannot-invoke-because-is-null.html</guid>
-      <category>Java</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>This is a helpful NullPointerException message, on by default since Java 15, and it names the exact expression that was null rather than just the line. When the name reads as or a synthetic name, the class was compiled without debug information, so recompiling with -g restores the real variable…</description>
-    </item>
-    <item>
-      <title>Java: java.lang.OutOfMemoryError: Java heap space</title>
-      <link>https://fixmyerror.net/errors/java-outofmemoryerror-java-heap-space.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-outofmemoryerror-java-heap-space.html</guid>
-      <category>Java</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The heap could not satisfy an allocation after a full collection. Raising -Xmx only helps when the working set genuinely grew; if the cause is a leak, a bigger heap moves the crash later and makes the pauses worse. A heap dump taken at the moment of failure tells the two apart.</description>
-    </item>
-    <item>
-      <title>Java: NoClassDefFoundError: Could not initialize class X</title>
-      <link>https://fixmyerror.net/errors/java-noclassdeffounderror-could-not-initialize-class.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-noclassdeffounderror-could-not-initialize-class.html</guid>
-      <category>Java</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>This is not a missing class. The class was found, its static initialiser ran and threw, and every later use reports this instead. The real exception appears only the first time, often much earlier in the log, and is usually a missing config value, a failing static block or an incompatible…</description>
-    </item>
-    <item>
-      <title>Jest: Exceeded timeout of 5000 ms for a test</title>
-      <link>https://fixmyerror.net/errors/jest-exceeded-timeout-of-5000-ms.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-exceeded-timeout-of-5000-ms.html</guid>
-      <category>Testing</category>
-      <pubDate>Thu, 10 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The test returned a promise that never settled within the limit. A slow network call is the obvious cause, but the common one is a promise that cannot settle: a missing await, a done callback never called, or fake timers installed so the timer the code is waiting on never advances.</description>
     </item>
   </channel>
 </rss>

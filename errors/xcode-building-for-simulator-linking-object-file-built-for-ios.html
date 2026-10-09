@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'","name":"Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'","description":"A dependency in the project carries a device slice only, and the simulator build cannot link it even though both are arm64 on Apple silicon. It turns up…","url":"https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html"},"inLanguage":"en-GB","articleSection":"Apple","proficiencyLevel":"Expert","datePublished":"2026-09-26","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle","https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'","name":"Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'","description":"A dependency in the project carries a device slice only, and the simulator build cannot link it even though both are arm64 on Apple silicon. It turns up…","url":"https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html"},"inLanguage":"en-GB","articleSection":"Apple","proficiencyLevel":"Expert","datePublished":"2026-09-26","dateModified":"2026-10-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.apple.com/documentation/xcode/creating-a-multi-platform-binary-framework-bundle","https://developer.apple.com/documentation/apple-silicon/building-a-universal-macos-binary"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Apple errors","item":"https://fixmyerror.net/categories/apple.html"},{"@type":"ListItem","position":3,"name":"Xcode: building for 'iOS-simulator', but linking in object file built for 'iOS'","item":"https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html"}]}</script>
 </head>
 <body>
@@ -130,6 +130,7 @@ xcodebuild -scheme App -sdk iphonesimulator build</code></pre>
         <section class="block">
             <h2>Related Apple errors</h2>
             <ul class="link-list">
+                <li><a href="../errors/app-store-itms-91053-missing-api-declaration.html">App Store Connect: ITMS-91053: Missing API declaration<span class="sub">Since May 2024 Apple rejects uploads that call certain &quot;required reason&quot; APIs, such as…</span></a></li>
                 <li><a href="../errors/homebrew-cannot-install-under-rosetta-arm-prefix.html">Homebrew: Cannot install under Rosetta 2 in ARM default prefix<span class="sub">The arm64 Homebrew in /opt/homebrew refuses to run in a translated process, which is what…</span></a></li>
                 <li><a href="../errors/homebrew-permission-denied-usr-local.html">Homebrew: Permission denied @ /usr/local<span class="sub">Homebrew cannot write to its prefix because directory ownership is wrong, common on Intel…</span></a></li>
                 <li><a href="../errors/macos-ld-symbols-not-found-arm64.html">ld: symbol(s) not found for architecture arm64<span class="sub">Compilation succeeded and the linker could not find a definition for something that was…</span></a></li>
@@ -137,9 +138,8 @@ xcodebuild -scheme App -sdk iphonesimulator build</code></pre>
                 <li><a href="../errors/macos-developer-cannot-be-verified.html">macOS: cannot be opened because the developer cannot be verified<span class="sub">Gatekeeper blocked something that carries the quarantine attribute and is not notarised…</span></a></li>
                 <li><a href="../errors/macos-dyld-library-not-loaded.html">macOS: dyld: Library not loaded<span class="sub">The dynamic linker could not find a shared library at the path baked into the binary, often…</span></a></li>
                 <li><a href="../errors/macos-keychain-access-denied.html">macOS: errSecAuthFailed / Keychain access denied<span class="sub">A code-signing or credential operation could not read the Keychain, common in CI when the…</span></a></li>
-                <li><a href="../errors/macos-notarization-failed.html">macOS: notarization failed (notarytool)<span class="sub">Apple&#039;s notary service rejected the app, usually for unsigned/un-hardened binaries, a missing…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/apple.html">See all 14 Apple errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/apple.html">See all 17 Apple errors →</a></p>
         </section>
 
             <section class="block">
@@ -204,7 +204,7 @@ xcodebuild -scheme App -sdk iphonesimulator build</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
+                <p>FixMyError.net has 1155 documented errors across 57 categories. Last updated 9 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

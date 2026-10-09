@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps","name":"Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps","description":"The code compiled against one version of the Scala library and is running against another. Scala guarantees binary compatibility only within a minor series…","url":"https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html"},"inLanguage":"en-GB","articleSection":"Scala","proficiencyLevel":"Expert","datePublished":"2026-09-10","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.scala-lang.org/overviews/core/binary-compatibility-of-scala-releases.html"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps","name":"Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps","description":"The code compiled against one version of the Scala library and is running against another. Scala guarantees binary compatibility only within a minor series…","url":"https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html"},"inLanguage":"en-GB","articleSection":"Scala","proficiencyLevel":"Expert","datePublished":"2026-09-10","dateModified":"2026-10-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.scala-lang.org/overviews/core/binary-compatibility-of-scala-releases.html"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Scala errors","item":"https://fixmyerror.net/categories/scala.html"},{"@type":"ListItem","position":3,"name":"Scala: java.lang.NoSuchMethodError: scala.Predef$.refArrayOps","item":"https://fixmyerror.net/errors/scala-nosuchmethoderror-scala-predef.html"}]}</script>
 </head>
 <body>
@@ -128,15 +128,15 @@ scala -version &amp;&amp; java -cp app.jar scala.util.Properties</code></pre>
             <h2>Related Scala errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/sbt-conflicting-cross-version-suffixes.html">sbt: Conflicting cross-version suffixes in: org.scala-lang.modules<span class="sub">Two dependencies pulled in the same library built for different Scala versions, for example…</span></a></li>
+                <li><a href="../errors/sbt-found-version-conflicts-binary-incompatible.html">sbt: found version conflict(s) in library dependencies<span class="sub">Two dependencies need different versions of the same library, sbt picked the newer one, and…</span></a></li>
                 <li><a href="../errors/scala-3-underscore-type-wildcard-no-longer-supported.html">Scala 3: `_` is no longer supported for a type wildcard, use `?`<span class="sub">Underscore is being reclaimed for type lambdas, so existing type wildcards have to be written…</span></a></li>
                 <li><a href="../errors/scala-3-ambiguous-given-instances.html">Scala 3: Ambiguous given instances: both X and Y match type<span class="sub">Two givens of the same type are in scope with equal specificity, so the compiler refuses to…</span></a></li>
+                <li><a href="../errors/scala-3-implicit-parameters-using-clause.html">Scala 3: Implicit parameters should be provided with a `using` clause<span class="sub">From Scala 3.7 the compiler warns when you pass an argument to an implicit parameter list by…</span></a></li>
                 <li><a href="../errors/scala-3-given-not-found.html">Scala 3: no given instance of type X was found<span class="sub">The compiler needed a contextual value and could not find one in scope. This is Scala 3&#039;s…</span></a></li>
+                <li><a href="../errors/jackson-scala-module-requires-databind-version.html">Scala module 2.15.2 requires Jackson Databind version &gt;= 2.15.0 and &lt; 2.16.0<span class="sub">jackson-module-scala refuses to register unless jackson-databind on the classpath has the…</span></a></li>
                 <li><a href="../errors/scala-could-not-find-implicit-value.html">Scala: could not find implicit value for parameter<span class="sub">The compiler could not supply an implicit argument, usually because the instance exists but…</span></a></li>
-                <li><a href="../errors/scala-missing-parameter-type-for-expanded-function.html">Scala: missing parameter type for expanded function<span class="sub">The compiler reached a placeholder or a lambda before it knew the expected type, so there is…</span></a></li>
-                <li><a href="../errors/scala-noclassdeffounderror-iterableonce.html">Scala: NoClassDefFoundError: scala/collection/IterableOnce<span class="sub">A jar built for a different Scala version is on the classpath. Scala is only binary…</span></a></li>
-                <li><a href="../errors/scala-object-is-not-a-member-of-package.html">Scala: object X is not a member of package Y<span class="sub">The compiler resolved the package and found nothing of that name inside it, so the import…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/scala.html">See all 14 Scala errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/scala.html">See all 17 Scala errors →</a></p>
         </section>
 
             <section class="block">
@@ -201,7 +201,7 @@ scala -version &amp;&amp; java -cp app.jar scala.util.Properties</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
+                <p>FixMyError.net has 1155 documented errors across 57 categories. Last updated 9 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

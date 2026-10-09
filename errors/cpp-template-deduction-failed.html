@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"template argument deduction/substitution failed","name":"template argument deduction/substitution failed","description":"The compiler could not deduce template arguments from the function call or the substituted types are invalid (SFINAE). Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/cpp-template-deduction-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/cpp-template-deduction-failed.html"},"inLanguage":"en-GB","articleSection":"C++","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://en.cppreference.com/w/cpp/language/template_argument_deduction"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"template argument deduction/substitution failed","name":"template argument deduction/substitution failed","description":"The compiler could not deduce template arguments from the function call or the substituted types are invalid (SFINAE). Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/cpp-template-deduction-failed.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/cpp-template-deduction-failed.html"},"inLanguage":"en-GB","articleSection":"C++","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-10-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://en.cppreference.com/w/cpp/language/template_argument_deduction"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"C++ errors","item":"https://fixmyerror.net/categories/c-plus-plus.html"},{"@type":"ListItem","position":3,"name":"template argument deduction/substitution failed","item":"https://fixmyerror.net/errors/cpp-template-deduction-failed.html"}]}</script>
 </head>
 <body>
@@ -116,15 +116,15 @@ static_assert(std::is_integral_v&lt;T&gt;, &quot;T must be integral&quot;);
             <h2>Related C++ errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/cpp-glibcxx-version-not-found.html">C++: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32&#039; not found<span class="sub">The binary was built with a newer GCC than the machine it is running on, and it needs a…</span></a></li>
+                <li><a href="../errors/cpp-format-is-not-a-member-of-std.html">C++: error: &#039;format&#039; is not a member of &#039;std&#039;<span class="sub">std::format is C++20 and lives in , which needs both the C++20 flag and a recent enough…</span></a></li>
+                <li><a href="../errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html">C++: error: &#039;uint8_t&#039; does not name a type<span class="sub">The file uses fixed-width integer types without including , and only ever compiled because…</span></a></li>
                 <li><a href="../errors/cpp-use-of-deleted-function.html">C++: error: use of deleted function<span class="sub">The code tries to call a function that has been explicitly deleted, and nine times out of ten…</span></a></li>
                 <li><a href="../errors/cpp-pure-virtual-method-called.html">C++: pure virtual method called, terminate called without an active exception<span class="sub">A pure virtual function was called through an object whose derived part does not exist at…</span></a></li>
                 <li><a href="../errors/cpp-relocation-recompile-with-fpic.html">C++: relocation R_X86_64_32S can not be used when making a shared object<span class="sub">A shared library must be loadable at any address, so every object in it needs position…</span></a></li>
                 <li><a href="../errors/cpp-undefined-behaviour-sanitizer-signed-overflow.html">C++: runtime error: signed integer overflow (UBSan)<span class="sub">Signed integer overflow is undefined behaviour in C and C++. The program may appear to work…</span></a></li>
                 <li><a href="../errors/cpp-segmentation-fault.html">C++: Segmentation fault (core dumped)<span class="sub">Program attempted to access memory it doesn&#039;t own (e.g., dereferencing null pointer, buffer…</span></a></li>
-                <li><a href="../errors/cpp-undefined-reference-to-vtable.html">C++: undefined reference to `vtable for X&#039;<span class="sub">This is not a missing call to the named function. The compiler emits a class&#039;s vtable…</span></a></li>
-                <li><a href="../errors/cmake-could-not-find-package-configuration-file.html">CMake Error: Could not find a package configuration file provided by X<span class="sub">find_package looked for a config file the library installs, XConfig.cmake or x-config.cmake…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/c-plus-plus.html">See all 14 C++ errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/c-plus-plus.html">See all 17 C++ errors →</a></p>
         </section>
 
             <section class="block">
@@ -189,7 +189,7 @@ static_assert(std::is_integral_v&lt;T&gt;, &quot;T must be integral&quot;);
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
+                <p>FixMyError.net has 1155 documented errors across 57 categories. Last updated 9 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

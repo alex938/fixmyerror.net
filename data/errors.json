@@ -12457,5 +12457,430 @@
       "https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-troubleshooting-queue-does-not-exist.html"
     ],
     "dateAdded": "2026-10-02"
+  },
+  {
+    "id": "nginx-listen-http2-directive-deprecated",
+    "title": "nginx: the \"listen ... http2\" directive is deprecated, use the \"http2\" directive",
+    "category": "WebServer",
+    "explanation": "Since nginx 1.25.1, HTTP/2 is switched on with its own http2 directive rather than a parameter on listen. The old form still works for now, so this is only a warning and nginx -t passes, which makes it easy to ignore. It turns up on every reload once nginx is upgraded underneath configs copied from older guides, and a future release can drop the parameter altogether.",
+    "fix_snippet": "# Which version, and where is the old syntax?\nnginx -v\ngrep -rn 'listen.*http2' /etc/nginx/\n\n# Old\n#   listen 443 ssl http2;\n# New (nginx 1.25.1 and later)\n#   listen 443 ssl;\n#   http2 on;\n\n# Edit every server block that matched, then test and reload\nsudo nginx -t && sudo systemctl reload nginx\n\n# On nginx older than 1.25.1 keep the old form:\n# \"http2 on\" is an unknown directive there and nginx will not start",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_v2_module.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "apache-ah01071-primary-script-unknown",
+    "title": "Apache: AH01071: Got error 'Primary script unknown'",
+    "category": "WebServer",
+    "explanation": "The message is PHP-FPM's, relayed by Apache: the script path Apache sent over FastCGI does not exist, or cannot be read, from PHP-FPM's point of view. Usually the handler builds the path from the wrong document root, or PHP-FPM runs in a container where the code lives somewhere else. The browser only sees \"File not found.\", so it looks like a missing page rather than two processes disagreeing about a path.",
+    "fix_snippet": "# How is Apache handing .php files to PHP-FPM?\ngrep -rn 'proxy:unix\\|proxy:fcgi\\|ProxyPassMatch' /etc/apache2/ /etc/httpd/ 2>/dev/null\n\n# Can the FPM pool user read the file at that exact path?\ngrep -E '^(user|chroot)' /etc/php/8.3/fpm/pool.d/www.conf\nsudo -u www-data ls -l /var/www/example/public/index.php\n\n# Preferred form: Apache maps the path from its own DocumentRoot\n<FilesMatch \"\\.php$\">\n    SetHandler \"proxy:unix:/run/php/php8.3-fpm.sock|fcgi://localhost\"\n</FilesMatch>\n\n# PHP-FPM in a container: mount the code at the same path in both,\n# or rewrite the path Apache sends\n# ProxyFCGISetEnvIf \"true\" SCRIPT_FILENAME \"/app/public%{reqenv:SCRIPT_NAME}\"\n\nsudo apachectl configtest && sudo systemctl reload apache2",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/mod/mod_proxy_fcgi.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "nginx-conflicting-server-name-ignored",
+    "title": "nginx: [warn] conflicting server name \"example.com\" on 0.0.0.0:80, ignored",
+    "category": "WebServer",
+    "explanation": "Two server blocks on the same address and port both claim the same server_name, so nginx keeps the first one it read and ignores the other for that name. Because it is only a warning the reload succeeds, and the symptom is that your edits seem to have no effect. The usual cause is a leftover copy that the include glob also picks up, such as a .bak file in sites-enabled or the old default site.",
+    "fix_snippet": "# Every block that claims the name, with the file it came from\nsudo nginx -T 2>/dev/null | grep -E '# configuration file|server_name'\ngrep -rn 'server_name.*example.com' /etc/nginx/\n\n# Usual culprits: backups and stale links matched by \"include sites-enabled/*\"\nls -la /etc/nginx/sites-enabled/ /etc/nginx/conf.d/\n\n# Remove the duplicate, or move it out of the included directory\nsudo rm /etc/nginx/sites-enabled/example.com.bak\n\nsudo nginx -t && sudo systemctl reload nginx\n# nginx -t should now print no \"conflicting server name\" line",
+    "sources": [
+      "https://nginx.org/en/docs/http/server_names.html",
+      "https://nginx.org/en/docs/http/request_processing.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "wasm-refused-to-compile-csp-wasm-unsafe-eval",
+    "title": "WebAssembly: Refused to compile or instantiate WebAssembly module",
+    "category": "WebAssembly",
+    "explanation": "The page's Content Security Policy blocks WebAssembly compilation. Browsers treat compiling Wasm much like eval, so a script-src without 'wasm-unsafe-eval' stops it even when the .wasm file comes from your own origin. It often appears only in production or in a browser extension, because the policy is set by the server, the CDN or the extension manifest rather than by the dev server.",
+    "fix_snippet": "# What policy is the page actually served with?\ncurl -sI https://example.com/ | grep -i content-security-policy\n# also check for a <meta http-equiv=\"Content-Security-Policy\"> in the HTML:\n# if both exist, each one must allow Wasm\n\n# Allow Wasm compilation without allowing JavaScript eval\nContent-Security-Policy: script-src 'self' 'wasm-unsafe-eval'\n\n# nginx\nadd_header Content-Security-Policy \"script-src 'self' 'wasm-unsafe-eval'\" always;\n\n# Browser extension, Manifest V3 (manifest.json)\n\"content_security_policy\": {\n  \"extension_pages\": \"script-src 'self' 'wasm-unsafe-eval'; object-src 'self'\"\n}",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src",
+      "https://developer.chrome.com/docs/extensions/reference/manifest/content-security-policy"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "emscripten-aborted-build-with-assertions",
+    "title": "Emscripten: RuntimeError: Aborted(). Build with -sASSERTIONS for more info.",
+    "category": "WebAssembly",
+    "explanation": "Emscripten's runtime hit a fatal condition and called abort(), but release builds leave out assertions to save size, so the reason was thrown away. Behind the empty brackets is usually a failed allocation, a C++ exception in a build without exception support, or a call into the module before the runtime finished starting. Rebuilding with assertions turns it into a real message.",
+    "fix_snippet": "# Rebuild a debug variant that keeps the reason and readable stack traces\nemcc main.cpp -o app.js -O0 -g -sASSERTIONS=2 -sSAFE_HEAP=1\n\n# The console now says what aborted. Common outcomes:\n#  OOM / Cannot enlarge memory: let the heap grow\nemcc main.cpp -o app.js -O2 -sALLOW_MEMORY_GROWTH=1\n#  C++ exception thrown: build with native Wasm exceptions\nemcc main.cpp -o app.js -O2 -fwasm-exceptions\n#  called before the runtime was initialised: wait for the module\n#    (with -sMODULARIZE) const Module = await createModule(); Module._run();\n\n# Keep ASSERTIONS out of production builds: it adds size and runtime checks",
+    "sources": [
+      "https://emscripten.org/docs/porting/Debugging.html",
+      "https://emscripten.org/docs/tools_reference/settings_reference.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "rust-wasm32-wasi-target-not-found",
+    "title": "Rust: Could not find specification for target \"wasm32-wasi\"",
+    "category": "WebAssembly",
+    "explanation": "Rust renamed the wasm32-wasi target to wasm32-wasip1 to make room for WASI 0.2, then removed the old name entirely in Rust 1.84. Build scripts, CI workflows and tutorials that still say wasm32-wasi fail as soon as the toolchain updates, though no code changed. The output is the same WASI preview 1 module as before, so Wasmtime, Wasmer and friends run it unchanged.",
+    "fix_snippet": "# Where is the old name still used?\nrustc --version\ngrep -rn 'wasm32-wasi\\b' Cargo.toml .cargo/ rust-toolchain.toml .github/ Makefile 2>/dev/null\n\n# Install and build for the new name\nrustup target add wasm32-wasip1\ncargo build --target wasm32-wasip1 --release\n\n# The output directory follows the target name\nwasmtime target/wasm32-wasip1/release/app.wasm\n\n# For the component model (WASI 0.2), target wasip2 instead\nrustup target add wasm32-wasip2",
+    "sources": [
+      "https://blog.rust-lang.org/2024/04/09/updates-to-rusts-wasi-targets/",
+      "https://doc.rust-lang.org/rustc/platform-support/wasm32-wasip1.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "ethers-v6-cannot-read-web3provider",
+    "title": "ethers v6: Cannot read properties of undefined (reading 'Web3Provider')",
+    "category": "Web3",
+    "explanation": "ethers v6 removed the providers, utils and constants namespaces, so v5 code such as ethers.providers.Web3Provider or ethers.utils.parseEther reads a property of undefined. It usually appears when a fresh npm install pulled v6 into a project or tutorial written for v5. The classes still exist, mostly under new names on the top-level export, and amounts are now native bigint instead of BigNumber.",
+    "fix_snippet": "# Which major version is installed?\nnpm ls ethers\n\n# v5 to v6 renames\n#  new ethers.providers.Web3Provider(window.ethereum) -> new ethers.BrowserProvider(window.ethereum)\n#  new ethers.providers.JsonRpcProvider(url)          -> new ethers.JsonRpcProvider(url)\n#  ethers.utils.parseEther(\"1.0\")                     -> ethers.parseEther(\"1.0\")\n#  ethers.utils.formatUnits(x, 6)                     -> ethers.formatUnits(x, 6)\n#  ethers.constants.AddressZero                       -> ethers.ZeroAddress\n#  BigNumber.from(x), a.add(b)                        -> BigInt(x), a + b\n#  provider.getSigner()                               -> await provider.getSigner()\n\n# Or pin v5 until the migration is done\nnpm install ethers@5",
+    "sources": [
+      "https://docs.ethers.org/v6/migrating/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "web3-user-denied-transaction-signature-4001",
+    "title": "MetaMask Tx Signature: User denied transaction signature (4001)",
+    "category": "Web3",
+    "explanation": "Code 4001 is the EIP-1193 \"user rejected\" error: the person clicked Reject or closed the wallet popup, nothing reached the chain and no gas was spent. It is a normal outcome rather than a fault, so an app that reports it as a crash, or retries it, is the bug. ethers wraps it as ACTION_REJECTED. If users swear they never saw a prompt, look for a second request fired while the first was pending, which returns -32002 instead.",
+    "fix_snippet": "// Treat a rejection as a cancel, not an exception (ethers v6)\ntry {\n  const tx = await signer.sendTransaction({ to, value });\n  await tx.wait();\n} catch (err) {\n  // ethers uses ACTION_REJECTED, raw EIP-1193 providers use code 4001\n  if (err.code === 'ACTION_REJECTED' || err.code === 4001) {\n    showMessage('Transaction cancelled');\n    return;\n  }\n  throw err;\n}\n\n// -32002 means a request is already waiting in the wallet:\n// disable the button until the first request settles",
+    "sources": [
+      "https://eips.ethereum.org/EIPS/eip-1193",
+      "https://docs.ethers.org/v6/api/utils/errors/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "solidity-stack-too-deep",
+    "title": "Solidity: CompilerError: Stack too deep. Try compiling with --via-ir",
+    "category": "Web3",
+    "explanation": "The EVM can only reach the top 16 slots of its stack, and the function the error points at needs more than that for its locals, parameters and return values at once. The legacy code generator cannot move values to memory to make room, so it gives up. The IR pipeline can, which is why the compiler suggests it, at the cost of slower compiles and sometimes different gas costs.",
+    "fix_snippet": "# Hardhat (hardhat.config.js)\nsolidity: {\n  version: \"0.8.28\",\n  settings: { viaIR: true, optimizer: { enabled: true, runs: 200 } }\n}\n\n# Foundry (foundry.toml)\n[profile.default]\nvia_ir = true\noptimizer = true\n\n# solc directly\nsolc --via-ir --optimize contracts/Vault.sol\n\n# Or cut stack use in that function: group locals into a memory struct,\n# split it into internal functions, or scope temporaries in { } blocks",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/using-the-compiler.html",
+      "https://docs.soliditylang.org/en/latest/ir-breaking-changes.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "windows-requested-operation-requires-elevation-740",
+    "title": "Windows: The requested operation requires elevation (error 740)",
+    "category": "Windows",
+    "explanation": "The program's manifest says it must run as administrator, and the process starting it is not elevated, so Windows refuses rather than showing a UAC prompt. That is why the same installer works when double-clicked but fails from a script, a scheduled task, a CI agent or an ordinary terminal. Being in the Administrators group is not enough: the launching process itself needs an elevated token.",
+    "fix_snippet": ":: Is this shell elevated? (net session needs admin)\nnet session >nul 2>&1 && echo elevated || echo NOT elevated\n\n:: Start it elevated from any shell (shows the UAC prompt)\npowershell -Command \"Start-Process C:\\tools\\setup.exe -Verb RunAs\"\n\n:: Scheduled task: run with highest privileges\nschtasks /Create /TN Setup /TR \"C:\\tools\\setup.exe\" /SC ONCE /ST 00:00 /RL HIGHEST\n\n:: From code, go through the shell so UAC can prompt\n::   C#: new ProcessStartInfo(\"setup.exe\") { UseShellExecute = true, Verb = \"runas\" }\n\n:: CI agents: run the agent service as an account that is elevated,\n:: since nobody is there to answer a UAC prompt",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--500-999-",
+      "https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/how-it-works"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "windows-smb-unauthenticated-guest-access-blocked",
+    "title": "Windows: You can't access this shared folder (guest access blocked)",
+    "category": "Windows",
+    "explanation": "Windows 11 24H2 refuses SMB guest logons and requires SMB signing by default, so a NAS, a router USB share or an old Samba server that lets anyone in as guest stops working after the upgrade, while other PCs still connect. The share is fine; the client is refusing to talk to it without credentials. The proper fix is a real account on the share rather than switching guest access back on.",
+    "fix_snippet": "# PowerShell: what is the client enforcing?\nGet-SmbClientConfiguration | Select EnableInsecureGuestLogons, RequireSecuritySignature\n\n# Best fix: create a user on the NAS or Samba server, then connect as it\nnet use Z: \\\\nas\\share /user:nas\\shareuser *\n\n# Samba server side (smb.conf): stop mapping callers to guest\n#   [global]\n#   map to guest = never\n\n# Last resort on a trusted home network only (re-enables insecure defaults)\nSet-SmbClientConfiguration -EnableInsecureGuestLogons $true -Force\nSet-SmbClientConfiguration -RequireSecuritySignature $false -Force",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/guest-access-in-smb2-is-disabled-by-default"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "windows-rpc-server-is-unavailable-0x800706ba",
+    "title": "Windows: The RPC server is unavailable (0x800706BA)",
+    "category": "Windows",
+    "explanation": "The client could not complete a remote procedure call to the target machine. RPC first contacts the endpoint mapper on TCP 135, then switches to a dynamic high port, and a firewall that allows 135 but not the high range is the classic cause. It surfaces in WMI, remote management, domain joins and certificate enrolment, so it looks like a fault in whichever tool you were using. DNS pointing at a stale address is the other usual suspect.",
+    "fix_snippet": "# PowerShell: does the name resolve to the machine you expect?\nResolve-DnsName server01\n\n# Endpoint mapper reachable?\nTest-NetConnection server01 -Port 135\n\n# RPC then uses 49152-65535. On the target, find a listening port to test:\n#   netstat -ano | findstr LISTENING\nTest-NetConnection server01 -Port 49668\n\n# On the target: enable the built-in rule groups rather than single ports\nEnable-NetFirewallRule -DisplayGroup \"Windows Management Instrumentation (WMI)\"\nEnable-NetFirewallRule -DisplayGroup \"Remote Service Management\"\n\n# And confirm the services are running there\nGet-Service RpcSs, RpcEptMapper, Winmgmt",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-client/networking/rpc-errors-troubleshooting",
+      "https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/service-overview-and-network-port-requirements"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "xcode-no-signing-certificate-ios-development-found",
+    "title": "Xcode: No signing certificate \"iOS Development\" found",
+    "category": "Apple",
+    "explanation": "The project wants to sign with a development certificate whose private key is not in this Mac's keychain. The certificate may well exist in your developer account, but without its key it cannot sign anything, which is why a project that builds on a colleague's Mac or your old one fails on a new machine. Projects pinned to the old \"iOS Development\" identity hit it more, since Xcode now issues \"Apple Development\" certificates.",
+    "fix_snippet": "# Which signing identities, with private keys, does this Mac have?\nsecurity find-identity -v -p codesigning\n\n# Simplest: let Xcode create one\n#  Xcode > Settings > Accounts > your team > Manage Certificates > + Apple Development\n#  Target > Signing & Capabilities: tick \"Automatically manage signing\", pick the team\n\n# Moving an existing certificate: export it WITH its key as .p12 on the old Mac\n#  (Keychain Access > My Certificates > Export), then here:\nsecurity import cert.p12 -k ~/Library/Keychains/login.keychain-db -T /usr/bin/codesign\n\n# Is the project pinned to an old identity?\nxcodebuild -showBuildSettings | grep -E 'CODE_SIGN_IDENTITY|DEVELOPMENT_TEAM'",
+    "sources": [
+      "https://developer.apple.com/documentation/xcode/sharing-your-teams-signing-certificates",
+      "https://developer.apple.com/help/account/certificates/create-developer-certificates/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "macos-zsh-killed-invalid-code-signature",
+    "title": "macOS: zsh: killed ./app (Killed: 9) on Apple silicon",
+    "category": "Apple",
+    "explanation": "On Apple silicon every arm64 executable must carry a valid code signature, even if only an ad hoc one, and the kernel kills it at launch if the signature no longer matches the file. The program is usually fine: something changed it after linking, such as install_name_tool, strip or a patch script, or it was copied over the top of an existing file. There is no Gatekeeper dialog, so it looks like an instant crash.",
+    "fix_snippet": "# Is the signature intact?\ncodesign --verify --verbose ./app\ncodesign -dv ./app 2>&1 | grep -E 'Signature|flags'\n\n# The kernel log confirms it\nlog show --last 5m --predicate 'eventMessage CONTAINS \"CODE SIGNING\"' | tail\n\n# Re-sign ad hoc after editing the binary\ncodesign --force --sign - ./app\n\n# Replacing an installed binary: delete it first, then copy,\n# so the kernel does not reuse the cached signature of the old file\nrm /usr/local/bin/app && cp build/app /usr/local/bin/app",
+    "sources": [
+      "https://developer.apple.com/documentation/macos-release-notes/macos-big-sur-11_0_1-universal-apps-release-notes",
+      "https://developer.apple.com/documentation/security/code-signing-services"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "app-store-itms-91053-missing-api-declaration",
+    "title": "App Store Connect: ITMS-91053: Missing API declaration",
+    "category": "Apple",
+    "explanation": "Since May 2024 Apple rejects uploads that call certain \"required reason\" APIs, such as UserDefaults, file timestamps or system boot time, without a privacy manifest saying why. The call is often in a third-party SDK rather than your code, so updating the dependency to a version that ships its own PrivacyInfo.xcprivacy can be the whole fix. The rejection email names the API category, which tells you which reason to declare.",
+    "fix_snippet": "# Which bundles already include a privacy manifest?\nfind ~/Library/Developer/Xcode/Archives -name PrivacyInfo.xcprivacy | tail\n# Xcode: Organizer > right-click the archive > Generate Privacy Report\n\n# Update SDKs first: most popular ones now ship their own manifest\npod outdated\n# SwiftPM: File > Packages > Update to Latest Package Versions\n\n# Then add File > New > File > App Privacy to the app target.\n# Example for UserDefaults read by the app itself:\n#   NSPrivacyAccessedAPITypes\n#     NSPrivacyAccessedAPIType        NSPrivacyAccessedAPICategoryUserDefaults\n#     NSPrivacyAccessedAPITypeReasons CA92.1",
+    "sources": [
+      "https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api",
+      "https://developer.apple.com/documentation/bundleresources/privacy-manifest-files"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "sbt-found-version-conflicts-binary-incompatible",
+    "title": "sbt: found version conflict(s) in library dependencies",
+    "category": "Scala",
+    "explanation": "Two dependencies need different versions of the same library, sbt picked the newer one, and the version scheme that library declares says the two are not binary compatible. Since sbt 1.5 that is an error rather than a warning, because it tends to end in a NoSuchMethodError at runtime. It typically appears when one library has moved to a new major version of something like cats-effect or scala-xml and another has not.",
+    "fix_snippet": "# Which modules pull in which version?\nsbt evicted\n# Full tree: add addDependencyTreePlugin to project/plugins.sbt, then\nsbt dependencyTree\n\n# Best fix: upgrade the library that still wants the old version\n\n# If you have checked the versions really are compatible, declare it\nThisBuild / libraryDependencySchemes +=\n  \"org.scala-lang.modules\" %% \"scala-xml\" % VersionScheme.Always\n\n# Blunt: downgrade the check to a warning for the whole build\nThisBuild / evictionErrorLevel := Level.Warn",
+    "sources": [
+      "https://www.scala-lang.org/blog/2021/02/16/preventing-version-conflicts-with-versionscheme.html",
+      "https://www.scala-sbt.org/1.x/docs/Library-Management.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "jackson-scala-module-requires-databind-version",
+    "title": "Scala module 2.15.2 requires Jackson Databind version >= 2.15.0 and < 2.16.0",
+    "category": "Scala",
+    "explanation": "jackson-module-scala refuses to register unless jackson-databind on the classpath has the same minor version, and something else pulled databind up or down. In Spark jobs the usual culprit is the Jackson that Spark itself ships, which is why the job runs locally and fails once submitted to the cluster. The check runs when the module is registered, so it fails at startup rather than at the first JSON call.",
+    "fix_snippet": "# Which Jackson versions end up on the classpath?\nsbt evicted\nsbt 'show Runtime/fullClasspath' | tr ',' '\\n' | grep jackson\n\n# Pin every Jackson artefact to one version (build.sbt)\nval jacksonVersion = \"2.15.2\"\ndependencyOverrides ++= Seq(\n  \"com.fasterxml.jackson.core\" % \"jackson-databind\" % jacksonVersion,\n  \"com.fasterxml.jackson.module\" %% \"jackson-module-scala\" % jacksonVersion\n)\n\n# Spark: match the version the cluster bundles\nls $SPARK_HOME/jars | grep jackson\n# and mark spark-core / spark-sql as \"provided\" so you do not ship a second copy",
+    "sources": [
+      "https://github.com/FasterXML/jackson-module-scala",
+      "https://www.scala-sbt.org/1.x/docs/Library-Management.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "scala-3-implicit-parameters-using-clause",
+    "title": "Scala 3: Implicit parameters should be provided with a `using` clause",
+    "category": "Scala",
+    "explanation": "From Scala 3.7 the compiler warns when you pass an argument to an implicit parameter list by plain application, as in xs.sorted(ord). Scala 3 wants the call site to say using, so a reader can tell the argument fills an implicit slot. It arrives in large numbers when an existing codebase upgrades, and it fails the build outright where -Werror or -Xfatal-warnings is on.",
+    "fix_snippet": "// Before\nxs.sorted(Ordering.Int.reverse)\n// After\nxs.sorted(using Ordering.Int.reverse)\n\n# Let the compiler rewrite every call site, then remove these options\nscalacOptions ++= Seq(\"-rewrite\", \"-source\", \"3.7-migration\")\nsbt clean compile\n\n# Or silence only this warning while migrating gradually\nscalacOptions += \"-Wconf:msg=Implicit parameters should be provided with a `using` clause:s\"",
+    "sources": [
+      "https://docs.scala-lang.org/scala3/reference/contextual/using-clauses.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "dart-argument-type-nullable-string-cant-be-assigned",
+    "title": "The argument type 'String?' can't be assigned to the parameter type 'String'.",
+    "category": "Dart",
+    "explanation": "Under sound null safety a type ending in ? might be null, and Dart will not pass it where a non-nullable value is required until you show it is not. The value usually comes from a map lookup, a nullable field or a parsed model, all of which are nullable even when you know the data is there. Adding ! silences it but moves the failure to runtime as \"Null check operator used on a null value\", so a default or a check is usually better.",
+    "fix_snippet": "// Map lookups are always nullable\nfinal Map<String, String> args = parse(argv);\nfinal name = args['name'];        // String?\n\n// Give it a default\ngreet(name ?? 'guest');\n\n// Or check it: Dart promotes a local to String after the test\nif (name != null) greet(name);\n\n// Public fields are not promoted (they could change), so copy to a local\nfinal title = widget.title;\nreturn Text(title ?? 'Untitled');\n\n# List every site at once\ndart analyze",
+    "sources": [
+      "https://dart.dev/null-safety/understanding-null-safety",
+      "https://dart.dev/tools/diagnostics/argument_type_not_assignable"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "flutter-looking-up-deactivated-widget-ancestor",
+    "title": "Flutter: Looking up a deactivated widget's ancestor is unsafe",
+    "category": "Dart",
+    "explanation": "Code used a BuildContext after its widget had left the tree, almost always after an await: the user navigated away or the dialog closed, then the callback carried on and called Navigator.of(context) or ScaffoldMessenger.of(context). The context object still exists but has nowhere in the tree to look things up from. It is intermittent because it depends on whether the user leaves before the async work finishes.",
+    "fix_snippet": "// Check the context is still mounted after every await\nFuture<void> _save() async {\n  await api.save(form);\n  if (!context.mounted) return;\n  Navigator.of(context).pop();\n}\n\n// Or look things up before the await, while the context is valid\nfinal messenger = ScaffoldMessenger.of(context);\nawait api.save(form);\nmessenger.showSnackBar(const SnackBar(content: Text('Saved')));\n\n// Inside a dialog, use the dialog builder's context, not the page's\n\n# The use_build_context_synchronously lint finds most of these\ndart analyze",
+    "sources": [
+      "https://api.flutter.dev/flutter/widgets/BuildContext/mounted.html",
+      "https://dart.dev/tools/linter-rules/use_build_context_synchronously"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "dart-bad-state-no-element",
+    "title": "Dart: Bad state: No element",
+    "category": "Dart",
+    "explanation": "firstWhere, first, last or single ran on a collection with nothing in it, or nothing matching, and these throw a StateError rather than returning null. It tends to pass in testing and fail in use, because the list is only sometimes empty: an empty API response, a search with no hits, a list read before it has loaded. On a Stream the same message means it closed without emitting anything.",
+    "fix_snippet": "// Throws when nothing matches\nfinal user = users.firstWhere((u) => u.id == id);\n\n// Return null instead: firstOrNull is built in from Dart 3,\n// firstWhereOrNull comes from package:collection\nimport 'package:collection/collection.dart';\nfinal user = users.firstWhereOrNull((u) => u.id == id);\nfinal head = users.firstOrNull;\n\n// Or give firstWhere a fallback\nfinal user = users.firstWhere((u) => u.id == id, orElse: () => User.guest());\n\n# Find candidates to review\ngrep -rnE '\\.(firstWhere|first|last|single)\\b' lib/",
+    "sources": [
+      "https://api.dart.dev/dart-core/Iterable/firstWhere.html",
+      "https://api.dart.dev/dart-core/StateError-class.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "svelte-5-slot-element-deprecated",
+    "title": "Svelte 5: Using `<slot>` to render parent content is deprecated",
+    "category": "Svelte",
+    "explanation": "In Svelte 5, content passed into a component arrives as snippets and is rendered with {@render}; <slot> survives only for compatibility. The warning appears once a component runs in runes mode, which is why it shows up after migrating a single file. A component cannot use both styles, so convert its slots and the named slots its callers fill in one go.",
+    "fix_snippet": "<!-- Before: Card.svelte -->\n<div class=\"card\"><slot /><slot name=\"footer\" /></div>\n\n<!-- After -->\n<script>\n  let { children, footer } = $props();\n</script>\n<div class=\"card\">\n  {@render children?.()}\n  {@render footer?.()}\n</div>\n\n<!-- Caller: a named slot becomes a snippet -->\n<Card>\n  Body text\n  {#snippet footer()}<button>OK</button>{/snippet}\n</Card>\n\n# Or migrate the whole project\nnpx sv migrate svelte-5",
+    "sources": [
+      "https://svelte.dev/docs/svelte/v5-migration-guide",
+      "https://svelte.dev/docs/svelte/snippet"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "svelte-5-on-directive-event-deprecated",
+    "title": "Svelte 5: Using `on:click` to listen to the click event is deprecated",
+    "category": "Svelte",
+    "explanation": "Svelte 5 treats DOM event handlers as ordinary attributes, onclick={...}, so the on: directive is deprecated in runes mode, and one component cannot mix the two forms. Event modifiers such as |preventDefault went too, which means a plain search and replace is not enough. Component events change as well: createEventDispatcher gives way to callback props.",
+    "fix_snippet": "<!-- Before -->\n<button on:click={save}>Save</button>\n<form on:submit|preventDefault={submit}>\n\n<!-- After -->\n<button onclick={save}>Save</button>\n<form onsubmit={(e) => { e.preventDefault(); submit(e); }}>\n\n<!-- Component events: a callback prop instead of a dispatcher -->\n<script>\n  let { onsave } = $props();\n</script>\n<button onclick={() => onsave?.(data)}>Save</button>\n\n# What is left to convert?\ngrep -rn ' on:[a-z]' src/",
+    "sources": [
+      "https://svelte.dev/docs/svelte/v5-migration-guide",
+      "https://svelte.dev/docs/svelte/basic-markup"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "sveltekit-error-not-found-favicon",
+    "title": "SvelteKit: Error: Not found: /favicon.ico",
+    "category": "Svelte",
+    "explanation": "The browser asked for /favicon.ico, no route or static file matched, and SvelteKit logged the 404 the same way it logs any error. The page itself is fine. It fills the dev server log because browsers request the icon on their own whether or not the HTML links one, and the same message with another path is simply how SvelteKit reports any unmatched URL.",
+    "fix_snippet": "# Static files are served from static/\nls static/\ncp favicon.png static/favicon.png\n\n# Link it in src/app.html so browsers stop guessing /favicon.ico\n<link rel=\"icon\" href=\"%sveltekit.assets%/favicon.png\" />\n\n// Keep 404s out of error reporting (src/hooks.server.js)\nexport function handleError({ error, status }) {\n  if (status === 404) return { message: 'Not found' };\n  reportToMonitoring(error);\n  return { message: 'Internal error' };\n}",
+    "sources": [
+      "https://svelte.dev/docs/kit/hooks",
+      "https://svelte.dev/docs/kit/project-structure"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "ingress-nginx-plain-http-request-sent-to-https-port",
+    "title": "ingress-nginx: 400 The plain HTTP request was sent to HTTPS port",
+    "category": "Ingress",
+    "explanation": "The controller is speaking plain HTTP to a backend that only accepts HTTPS, and the backend's own web server answers with this 400. ingress-nginx proxies to pods over HTTP unless told otherwise; it does not guess TLS from a Service port of 443. Apps that terminate their own TLS, such as Argo CD or the Kubernetes dashboard, are the usual case.",
+    "fix_snippet": "# What does the backend actually speak?\nkubectl get svc argocd-server -n argocd -o jsonpath='{.spec.ports}'\nkubectl port-forward svc/argocd-server -n argocd 8443:443 &\ncurl -vk https://localhost:8443/ -o /dev/null\n\n# Tell the controller to use TLS to the backend\nmetadata:\n  annotations:\n    nginx.ingress.kubernetes.io/backend-protocol: \"HTTPS\"\n\n# Or run the backend in plain HTTP and let the ingress terminate TLS\n# (Argo CD: server.insecure: \"true\" in the argocd-cmd-params-cm ConfigMap)",
+    "sources": [
+      "https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/",
+      "https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "ingress-pathtype-required-value",
+    "title": "Ingress: spec.rules[0].http.paths[0].pathType: Required value",
+    "category": "Ingress",
+    "explanation": "networking.k8s.io/v1 made pathType mandatory on every path, where the old v1beta1 API filled it in for you. Manifests and Helm charts converted by changing only the apiVersion fail validation here, and usually on the backend fields next, since those changed shape too. The choice matters: Prefix matches whole path segments, Exact matches the string, and ImplementationSpecific leaves it to the controller.",
+    "fix_snippet": "# Server-side validation lists every problem at once\nkubectl apply --dry-run=server -f ingress.yaml\n\n# v1 path: pathType plus the new backend shape\nspec:\n  rules:\n  - host: app.example.com\n    http:\n      paths:\n      - path: /\n        pathType: Prefix\n        backend:\n          service:\n            name: web\n            port:\n              number: 80\n\n# Regex paths on ingress-nginx need pathType: ImplementationSpecific",
+    "sources": [
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+      "https://kubernetes.io/docs/reference/using-api/deprecation-guide/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "traefik-middleware-does-not-exist",
+    "title": "Traefik: middleware \"default-redirect@kubernetescrd\" does not exist",
+    "category": "Ingress",
+    "explanation": "A router refers to a middleware by a name Traefik cannot find. With the Kubernetes CRD provider the full name is namespace-name@kubernetescrd, so a Middleware in another namespace, or an annotation that leaves out the namespace prefix, points at nothing. Traefik keeps running and drops only that router, so the route answers 404 and it looks like a routing mistake.",
+    "fix_snippet": "# Does the Middleware exist, and in which namespace?\nkubectl get middlewares.traefik.io -A\n\n# Traefik logs the router that was dropped\nkubectl logs -n traefik deploy/traefik | grep -i 'does not exist'\n\n# Ingress annotation format: <namespace>-<name>@kubernetescrd\nmetadata:\n  annotations:\n    traefik.ingress.kubernetes.io/router.middlewares: default-redirect@kubernetescrd\n\n# IngressRoute referring to another namespace also needs, in Traefik static config:\n#   --providers.kubernetescrd.allowCrossNamespace=true",
+    "sources": [
+      "https://doc.traefik.io/traefik/routing/providers/kubernetes-ingress/",
+      "https://doc.traefik.io/traefik/providers/kubernetes-crd/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "cpp-gcc-13-uint8-t-does-not-name-a-type",
+    "title": "C++: error: 'uint8_t' does not name a type",
+    "category": "C++",
+    "explanation": "The file uses fixed-width integer types without including <cstdint>, and only ever compiled because another standard header pulled it in indirectly. GCC 13 trimmed those internal includes in libstdc++, so code that built for years breaks on upgrade, often inside a third-party library. The same happens with std::runtime_error without <stdexcept>.",
+    "fix_snippet": "# Which compiler started it?\ng++ --version\n\n# Include what the file actually uses, at the top of the file\n#include <cstdint>     // uint8_t, int64_t\n#include <stdexcept>   // std::runtime_error\n#include <string>      // std::string\n\n# Other files using the types without the header\ngrep -rlE '\\bu?int(8|16|32|64)_t\\b' src/ | xargs grep -L 'cstdint\\|stdint.h'\n\n# Third-party code you cannot edit yet: force the include as a stopgap\nCXXFLAGS=\"-include cstdint\" cmake -B build",
+    "sources": [
+      "https://gcc.gnu.org/gcc-13/porting_to.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "cpp-terminate-called-std-bad-alloc",
+    "title": "C++: terminate called after throwing an instance of 'std::bad_alloc'",
+    "category": "C++",
+    "explanation": "An allocation asked for more memory than the allocator could provide, nothing caught the exception, and the runtime aborted. On Linux, real memory exhaustion usually brings the OOM killer instead, so this message more often means one absurd request: a negative length converted to size_t, a size read from uninitialised memory, or a 32-bit build out of address space. A ulimit -v on the process produces it for genuine shortage.",
+    "fix_snippet": "# Stop at the throw and read the requested size from the backtrace\ngdb ./app -ex 'catch throw' -ex run -ex bt\n\n# AddressSanitizer reports oversized requests with size and call site\ng++ -g -fsanitize=address app.cpp -o app && ./app\n# look for \"requested allocation size ... exceeds maximum supported size\"\n\n# Was the process given a memory limit?\nulimit -v\n\n// Typical bug: a failed read returns -1, which becomes ~18 exabytes\nif (len < 0) throw std::runtime_error(\"read failed\");\nstd::vector<char> buf(static_cast<std::size_t>(len));",
+    "sources": [
+      "https://en.cppreference.com/w/cpp/memory/new/bad_alloc",
+      "https://clang.llvm.org/docs/AddressSanitizer.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "cpp-format-is-not-a-member-of-std",
+    "title": "C++: error: 'format' is not a member of 'std'",
+    "category": "C++",
+    "explanation": "std::format is C++20 and lives in <format>, which needs both the C++20 flag and a recent enough standard library: GCC 13, Clang 17 with libc++, or Visual Studio 2019 16.10. GCC still defaults to C++17, so one build file without the flag is enough. On macOS the deployment target matters as well as the Xcode version, which is why the same code builds for one target and not another.",
+    "fix_snippet": "# Does this toolchain have <format> at all?\ng++ --version\necho | g++ -x c++ -std=c++20 -dM -E -include format - | grep __cpp_lib_format\n\n#include <format>\nstd::string s = std::format(\"{} items\", n);\n\n# Set the standard explicitly\ng++ -std=c++20 main.cpp\n# CMake\nset(CMAKE_CXX_STANDARD 20)\nset(CMAKE_CXX_STANDARD_REQUIRED ON)\n\n# Stuck on an older toolchain? {fmt} has the same API:\n#   fmt::format(\"{} items\", n), with find_package(fmt) and fmt::fmt",
+    "sources": [
+      "https://en.cppreference.com/w/cpp/utility/format/format",
+      "https://en.cppreference.com/w/cpp/compiler_support/20"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "php-8-count-must-be-countable-array-null-given",
+    "title": "PHP: count(): Argument #1 ($value) must be of type Countable|array, null given",
+    "category": "PHP",
+    "explanation": "Since PHP 8.0, count() throws a TypeError for anything that is not an array or a Countable object. PHP 7.2 only warned, and before that count(null) quietly returned 0, so code that counted a value which might be null worked for years and breaks on upgrade. The fix belongs where the null comes from, such as an empty result or a missing request field, not inside count().",
+    "fix_snippet": "# Calls to review\ngrep -rn 'count(\\$' src/ | head -50\n\n// Before: $items is null when the field is missing\n$total = count($data['items']);\n\n// Default to an empty array at the source\n$items = $data['items'] ?? [];\n$rows  = $repository->findAll() ?? [];\n\n// Or guard the call\n$total = is_countable($rows) ? count($rows) : 0;\n\n// Generators and iterators are not Countable\n$total = iterator_count($generator);",
+    "sources": [
+      "https://www.php.net/manual/en/function.count.php",
+      "https://www.php.net/manual/en/migration80.incompatible.php"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "php-cannot-modify-header-information-headers-already-sent",
+    "title": "PHP: Warning: Cannot modify header information - headers already sent by",
+    "category": "PHP",
+    "explanation": "Something was written to the response before header(), setcookie() or session_start() ran, and once the first byte has gone out the headers are fixed. The message names the file and line where output started, and the output is often invisible: whitespace after a closing ?>, a UTF-8 byte order mark, or a notice printed because display_errors is on. That last one is why it can happen on one server only.",
+    "fix_snippet": "# The warning says where: \"(output started at /var/www/app/config.php:12)\"\n\n# A byte order mark before <?php shows up as ef bb bf\nhead -c 3 config.php | xxd\nsed -i '1s/^\\xEF\\xBB\\xBF//' config.php\n\n# Whitespace after a closing tag at the end of a file\ngrep -rlzP '\\?>\\s+\\z' src/\n# In pure PHP files, leave out the closing ?> altogether\n\n# Notices printed into the page: log them instead in production\nphp -i | grep display_errors\n# php.ini: display_errors = Off, log_errors = On",
+    "sources": [
+      "https://www.php.net/manual/en/function.header.php",
+      "https://www.php.net/manual/en/language.basic-syntax.phptags.php"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "php-81-passing-null-to-parameter-deprecated",
+    "title": "PHP 8.1: Passing null to parameter #1 ($string) of type string is deprecated",
+    "category": "PHP",
+    "explanation": "Built-in functions used to treat null as an empty string or zero. PHP 8.1 deprecated that, so trim(null), strlen(null) and friends now log a deprecation, and a future major version is set to make it a TypeError. The null usually comes from a missing form field, a nullable database column or a function that returns null on failure, and logs fill up after an upgrade even though nothing is broken yet.",
+    "fix_snippet": "# How many, and where? Each line in the log gives file and line\ngrep -c 'Passing null to parameter' /var/log/php*.log\n\n// Default the value where it is read\n$name  = trim($_POST['name'] ?? '');\n$notes = strlen((string) $row['notes']);\n\n// Handle functions that return null on failure\n$out = preg_replace('/\\s+/', ' ', $input);\nif ($out === null) {\n    throw new RuntimeException(preg_last_error_msg());\n}\n\n# Static analysis finds the rest before production does\nvendor/bin/phpstan analyse --level 8 src",
+    "sources": [
+      "https://wiki.php.net/rfc/deprecate_null_to_scalar_internal_arg",
+      "https://www.php.net/manual/en/migration81.deprecated.php"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "ruby-3-wrong-number-of-arguments-keyword-separation",
+    "title": "Ruby 3: ArgumentError: wrong number of arguments (given 2, expected 1)",
+    "category": "Ruby",
+    "explanation": "Ruby 3.0 separated keyword arguments from positional ones, so a hash passed where a method expects keywords is now counted as an extra positional argument. Code that ran on Ruby 2.7, perhaps with a deprecation warning nobody read, fails after the upgrade. The usual places are wrappers that forward *args without **kwargs, and method_missing or define_method delegation.",
+    "fix_snippet": "# Ruby 2.7 warns at every affected call: run the suite there with warnings on\nRUBYOPT='-W:deprecated' bundle exec rspec\n\n# A hash passed to a method that takes keywords: splat it\ndef create(name, admin: false); end\nopts = { admin: true }\ncreate('sam', opts)     # Ruby 3: given 2, expected 1\ncreate('sam', **opts)   # works\n\n# Delegating wrappers must forward keywords too\ndef wrapper(*args, **kwargs, &blk) = target(*args, **kwargs, &blk)\n# or, simplest\ndef wrapper(...) = target(...)",
+    "sources": [
+      "https://www.ruby-lang.org/en/news/2019/12/12/separation-of-positional-and-keyword-arguments-in-ruby-3-0/"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "rails-could-not-obtain-connection-from-pool",
+    "title": "Rails: could not obtain a connection from the pool within 5.000 seconds",
+    "category": "Ruby",
+    "explanation": "Each thread that touches the database needs its own connection, and every connection in the pool stayed checked out for longer than checkout_timeout. The cause is rarely a slow database: it is usually a pool smaller than the number of threads, such as Puma threads or Sidekiq concurrency set higher than pool in database.yml. Threads you start yourself that never return their connection drain it too.",
+    "fix_snippet": "# Pool size against the threads that use it\nbin/rails runner 'p ActiveRecord::Base.connection_pool.stat'\ngrep -n pool config/database.yml\ngrep -n threads config/puma.rb\n\n# config/database.yml: at least one connection per thread in each process\nproduction:\n  pool: <%= ENV.fetch(\"RAILS_MAX_THREADS\", 5) %>\n\n# Sidekiq: concurrency must not exceed the pool\nRAILS_MAX_THREADS=10 bundle exec sidekiq -c 10\n\n# Your own threads must hand the connection back\nThread.new do\n  ActiveRecord::Base.connection_pool.with_connection { Report.generate }\nend",
+    "sources": [
+      "https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/ConnectionPool.html",
+      "https://guides.rubyonrails.org/configuring.html"
+    ],
+    "dateAdded": "2026-10-09"
+  },
+  {
+    "id": "ruby-psych-4-bad-alias-unknown-alias",
+    "title": "Ruby: Psych::BadAlias: Unknown alias: default",
+    "category": "Ruby",
+    "explanation": "Psych 4, the YAML library that ships with Ruby 3.1 onwards, made YAML.load safe by default, and safe loading refuses aliases such as <<: *default unless asked. Files that have always used anchors, database.yml above all, fail when an older gem or Rails version loads them with the plain call. The YAML is valid; the loader got stricter. Newer Psych raises Psych::AliasesNotEnabled for the same reason.",
+    "fix_snippet": "# Which Psych, and which gem calls YAML.load? (see the backtrace)\nruby -rpsych -e 'puts Psych::VERSION'\nbundle outdated rails webpacker\n\n# Best fix: upgrade the gem that loads the file\n\n# In your own code, allow aliases explicitly (trusted files only)\nYAML.load_file('config/settings.yml', aliases: true)\nYAML.safe_load(text, aliases: true, permitted_classes: [Date, Symbol])\n\n# Stopgap for an old app you cannot upgrade yet (Gemfile)\ngem 'psych', '< 4'",
+    "sources": [
+      "https://docs.ruby-lang.org/en/master/Psych.html",
+      "https://github.com/ruby/psych"
+    ],
+    "dateAdded": "2026-10-09"
   }
 ]

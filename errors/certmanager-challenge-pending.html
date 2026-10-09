@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"cert-manager: Order is pending / challenge failed to propagate","name":"cert-manager: Order is pending / challenge failed to propagate","description":"cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT…","url":"https://fixmyerror.net/errors/certmanager-challenge-pending.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/certmanager-challenge-pending.html"},"inLanguage":"en-GB","articleSection":"Ingress","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://cert-manager.io/docs/troubleshooting/acme/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"cert-manager: Order is pending / challenge failed to propagate","name":"cert-manager: Order is pending / challenge failed to propagate","description":"cert-manager created an ACME order but the challenge never validated. For HTTP-01 the challenge path is not reachable from the internet; for DNS-01 the TXT…","url":"https://fixmyerror.net/errors/certmanager-challenge-pending.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/certmanager-challenge-pending.html"},"inLanguage":"en-GB","articleSection":"Ingress","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-10-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://cert-manager.io/docs/troubleshooting/acme/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Ingress errors","item":"https://fixmyerror.net/categories/ingress.html"},{"@type":"ListItem","position":3,"name":"cert-manager: Order is pending / challenge failed to propagate","item":"https://fixmyerror.net/errors/certmanager-challenge-pending.html"}]}</script>
 </head>
 <body>
@@ -123,15 +123,15 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
             <h2>Related Ingress errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/gateway-api-httproute-no-matching-parent.html">Gateway API: HTTPRoute Accepted=False, reason NoMatchingParent<span class="sub">The HTTPRoute names a Gateway in parentRefs, but no listener on that Gateway will take it, so…</span></a></li>
+                <li><a href="../errors/ingress-nginx-plain-http-request-sent-to-https-port.html">ingress-nginx: 400 The plain HTTP request was sent to HTTPS port<span class="sub">The controller is speaking plain HTTP to a backend that only accepts HTTPS, and the backend&#039;s…</span></a></li>
                 <li><a href="../errors/ingress-nginx-failed-calling-webhook-validate.html">ingress-nginx: failed calling webhook &quot;validate.nginx.ingress.kubernetes.io&quot;<span class="sub">The API server tried to ask the ingress-nginx admission webhook whether your Ingress is valid…</span></a></li>
                 <li><a href="../errors/ingress-nginx-host-and-path-already-defined.html">ingress-nginx: host &quot;example.com&quot; and path &quot;/&quot; is already defined in ingress<span class="sub">The admission webhook rejected the Ingress because another Ingress, possibly in a different…</span></a></li>
                 <li><a href="../errors/ingress-nginx-service-does-not-have-any-active-endpoint.html">ingress-nginx: Service does not have any active Endpoint<span class="sub">The controller resolved the Ingress to a Service but the Service selects no ready Pods, so it…</span></a></li>
                 <li><a href="../errors/ingress-nginx-upstream-timed-out-110.html">ingress-nginx: upstream timed out (110: Connection timed out)<span class="sub">The controller gave up waiting for the backend and returned 504 after its own timeout, which…</span></a></li>
                 <li><a href="../errors/ingress-address-field-stays-empty.html">Ingress: ADDRESS column stays empty and the host never resolves<span class="sub">kubectl get ingress shows no address because no controller has claimed the object, so nothing…</span></a></li>
                 <li><a href="../errors/ingress-nginx-configuration-snippet-cannot-be-used.html">Ingress: configuration-snippet annotation cannot be used<span class="sub">ingress-nginx 1.9 turned allow-snippet-annotations off by default after snippets were shown…</span></a></li>
-                <li><a href="../errors/ingress-default-backend-404.html">Ingress: default backend - 404<span class="sub">No Ingress rule matched the request, so it was routed to the default backend which returned…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/ingress.html">See all 14 Ingress errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/ingress.html">See all 17 Ingress errors →</a></p>
         </section>
 
             <section class="block">
@@ -196,7 +196,7 @@ dig +short TXT _acme-challenge.example.com @1.1.1.1
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
+                <p>FixMyError.net has 1155 documented errors across 57 categories. Last updated 9 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

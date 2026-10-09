@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WebAssembly: SharedArrayBuffer is not defined","name":"WebAssembly: SharedArrayBuffer is not defined","description":"Threaded builds need shared memory, and browsers only expose SharedArrayBuffer to cross origin isolated pages. The module works on localhost and fails on…","url":"https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html"},"inLanguage":"en-GB","articleSection":"WebAssembly","proficiencyLevel":"Expert","datePublished":"2026-09-12","dateModified":"2026-10-02","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer","https://web.dev/articles/coop-coep"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"WebAssembly: SharedArrayBuffer is not defined","name":"WebAssembly: SharedArrayBuffer is not defined","description":"Threaded builds need shared memory, and browsers only expose SharedArrayBuffer to cross origin isolated pages. The module works on localhost and fails on…","url":"https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html"},"inLanguage":"en-GB","articleSection":"WebAssembly","proficiencyLevel":"Expert","datePublished":"2026-09-12","dateModified":"2026-10-09","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SharedArrayBuffer","https://web.dev/articles/coop-coep"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"WebAssembly errors","item":"https://fixmyerror.net/categories/webassembly.html"},{"@type":"ListItem","position":3,"name":"WebAssembly: SharedArrayBuffer is not defined","item":"https://fixmyerror.net/errors/wasm-sharedarraybuffer-not-defined.html"}]}</script>
 </head>
 <body>
@@ -128,15 +128,15 @@ emcc app.c -o app-st.js</code></pre>
             <h2>Related WebAssembly errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/emscripten-cannot-call-unknown-function.html">Emscripten: Cannot call unknown function (make sure it is exported)<span class="sub">ccall and cwrap look the symbol up in the module at runtime, and the linker had already…</span></a></li>
+                <li><a href="../errors/emscripten-aborted-build-with-assertions.html">Emscripten: RuntimeError: Aborted(). Build with -sASSERTIONS for more info.<span class="sub">Emscripten&#039;s runtime hit a fatal condition and called abort(), but release builds leave out…</span></a></li>
+                <li><a href="../errors/rust-wasm32-wasi-target-not-found.html">Rust: Could not find specification for target &quot;wasm32-wasi&quot;<span class="sub">Rust renamed the wasm32-wasi target to wasm32-wasip1 to make room for WASI 0.2, then removed…</span></a></li>
                 <li><a href="../errors/wasm-bindgen-closure-invoked-after-being-dropped.html">wasm-bindgen: closure invoked after being dropped<span class="sub">A Rust closure handed to JavaScript lives only as long as its Closure value, and letting that…</span></a></li>
                 <li><a href="../errors/wasm-bindgen-recursive-use-unsafe-aliasing.html">wasm-bindgen: recursive use of an object detected<span class="sub">A Rust method holding a mutable borrow of a struct called into JavaScript, and that…</span></a></li>
                 <li><a href="../errors/wasm-pack-crate-type-cdylib.html">wasm-pack: crate-type must be cdylib to compile to wasm32-unknown-unknown<span class="sub">A Rust library defaults to the rlib crate type, which cannot be linked into a WebAssembly…</span></a></li>
                 <li><a href="../errors/wasm-cannot-enlarge-memory-arrays.html">WebAssembly: Cannot enlarge memory arrays<span class="sub">The module asked for more linear memory than it was built to have. Emscripten fixes the heap…</span></a></li>
                 <li><a href="../errors/wasm-compile-error.html">WebAssembly: CompileError - invalid magic / section<span class="sub">The .wasm file is not valid WebAssembly bytes. Often the server returned an HTML error page…</span></a></li>
-                <li><a href="../errors/wasm-import-module-is-not-an-object-or-function.html">WebAssembly: Import #0 module=&quot;env&quot; error: module is not an object or function<span class="sub">The module declares imports and the importObject handed to instantiate has no property for…</span></a></li>
-                <li><a href="../errors/wasm-mime-type-incorrect.html">WebAssembly: incorrect response MIME type (expected application/wasm)<span class="sub">instantiateStreaming requires the response to be served as application/wasm. Servers that do…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/webassembly.html">See all 14 WebAssembly errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/webassembly.html">See all 17 WebAssembly errors →</a></p>
         </section>
 
             <section class="block">
@@ -201,7 +201,7 @@ emcc app.c -o app-st.js</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1119 documented errors across 57 categories. Last updated 2 October 2026.</p>
+                <p>FixMyError.net has 1155 documented errors across 57 categories. Last updated 9 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
