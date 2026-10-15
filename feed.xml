@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Fri, 09 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>.NET: BinaryFormatter serialization and deserialization have been removed</title>
+      <link>https://fixmyerror.net/errors/dotnet-9-binaryformatter-removed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-9-binaryformatter-removed.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>.NET 9 removed the BinaryFormatter implementation: the type still compiles, but every call throws PlatformNotSupportedException. It was deprecated because deserialising untrusted data with it allows remote code execution. Code that has not touched it directly often still hits it through an old…</description>
+    </item>
+    <item>
+      <title>.NET: NETSDK1045: The current .NET SDK does not support targeting .NET 10.0</title>
+      <link>https://fixmyerror.net/errors/dotnet-netsdk1045-sdk-does-not-support-targeting.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-netsdk1045-sdk-does-not-support-targeting.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The project&apos;s TargetFramework is newer than the SDK doing the build. Installing the new runtime is not enough, you need the matching SDK. The usual surprise is a global.json pinning an older SDK, or a CI image or Visual Studio install that lags behind, so the project builds on one machine and not…</description>
+    </item>
+    <item>
+      <title>Airflow: DAG.__init__() got an unexpected keyword argument &apos;schedule_interval&apos;</title>
+      <link>https://fixmyerror.net/errors/airflow-3-unexpected-keyword-schedule-interval.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-3-unexpected-keyword-schedule-interval.html</guid>
+      <category>BigData</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Airflow 3 removed the schedule_interval and timetable arguments that had been deprecated since 2.4; a DAG now takes a single schedule argument. Every DAG file written for Airflow 2 fails to import after the upgrade and shows up as a Broken DAG, even though nothing in the file changed. The same…</description>
+    </item>
+    <item>
+      <title>Alertmanager: Notify for alerts failed: notify retry canceled after 16 attempts</title>
+      <link>https://fixmyerror.net/errors/alertmanager-notify-retry-canceled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/alertmanager-notify-retry-canceled.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Alertmanager tried to deliver a notification until the group&apos;s retry window ran out, and every attempt failed. The line itself only says it gave up; the reason follows it, usually a webhook returning 4xx, a Slack or Teams URL that was revoked, an SMTP relay rejecting the login, or DNS and proxy…</description>
+    </item>
+    <item>
+      <title>Ansible: [WARNING]: Platform linux on host web1 is using the discovered Python</title>
+      <link>https://fixmyerror.net/errors/ansible-discovered-python-interpreter-warning.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-discovered-python-interpreter-warning.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Ansible had to guess which Python to run modules with on the managed host, and warns because a later package install could change the answer. It is harmless on its own, but the same guessing is behind confusing failures elsewhere: a module that says a library is missing when you installed it for a…</description>
+    </item>
+    <item>
+      <title>Ansible: Conditionals must have a boolean result</title>
+      <link>https://fixmyerror.net/errors/ansible-2-19-conditionals-must-have-boolean-result.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-2-19-conditionals-must-have-boolean-result.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>ansible-core 2.19 rewrote templating and stopped guessing the truthiness of non-boolean values in when, until, failed_when and changed_when. A condition like when: my_var, where my_var holds the string &quot;false&quot; or a list, used to be coerced quietly and sometimes wrongly; now it fails the task…</description>
+    </item>
+    <item>
+      <title>Ansible: ERROR! the role &apos;nginx&apos; was not found in</title>
+      <link>https://fixmyerror.net/errors/ansible-role-was-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-role-was-not-found.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Ansible searched its role path and found no directory with that name. The search starts relative to the playbook file, not the directory you run the command from, so moving a playbook into a subfolder breaks roles that sat next to it. Roles from Galaxy also need installing on each machine that…</description>
+    </item>
+    <item>
+      <title>ASP.NET Core: Synchronous operations are disallowed. Call ReadAsync or set</title>
+      <link>https://fixmyerror.net/errors/aspnet-core-synchronous-operations-are-disallowed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aspnet-core-synchronous-operations-are-disallowed.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Kestrel and IIS block synchronous reads and writes on the request and response bodies, because a blocked thread per request starves the thread pool under load. The exception usually comes from a library rather than your code: an XmlSerializer, an old Newtonsoft.Json formatter, or a…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: Runtime.HandlerNotFound: index.handler is undefined or not exported</title>
+      <link>https://fixmyerror.net/errors/lambda-runtime-handler-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-runtime-handler-not-found.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Lambda found and loaded the file named in the handler setting, but that file has no export called handler. The usual causes are a default export instead of a named one, a build step that puts the file in dist/ while the handler setting still says index, or a TypeScript build that was never run so…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: Runtime.UserCodeSyntaxError: Cannot use import statement outside</title>
+      <link>https://fixmyerror.net/errors/lambda-cannot-use-import-statement-outside-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-cannot-use-import-statement-outside-module.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The Node.js runtime decides whether your handler is an ES module or CommonJS from the file extension and the nearest package.json, exactly as Node does locally. An index.js containing import statements is treated as CommonJS unless package.json says &quot;type&quot;: &quot;module&quot;. Locally a bundler or ts-node…</description>
+    </item>
+    <item>
+      <title>Azure Functions: No job functions found. Try making your job classes</title>
+      <link>https://fixmyerror.net/errors/azure-functions-no-job-functions-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/azure-functions-no-job-functions-found.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The host started but indexed zero functions, so there is nothing to run. The message talks about public classes, which is a .NET in-process hint, yet the real cause is usually elsewhere: FUNCTIONS_WORKER_RUNTIME not matching the code, a .NET isolated app deployed with the in-process setting, a…</description>
+    </item>
+    <item>
+      <title>Cloudflare: cf-cache-status: DYNAMIC</title>
+      <link>https://fixmyerror.net/errors/cloudflare-cf-cache-status-dynamic.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-cf-cache-status-dynamic.html</guid>
+      <category>Caching</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>DYNAMIC means Cloudflare never considered the response for caching, which is different from a MISS. By default Cloudflare only caches static file extensions such as .css, .js and images; HTML and API responses pass straight through however long your Cache-Control max-age is. Adding headers at the…</description>
+    </item>
+    <item>
+      <title>Django: CacheKeyWarning: Cache key will cause errors if used with memcached</title>
+      <link>https://fixmyerror.net/errors/django-cache-key-warning-memcached.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/django-cache-key-warning-memcached.html</guid>
+      <category>Caching</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Memcached keys must be under 250 bytes and contain no spaces or control characters. Django warns about this on every backend so that code developed against the local memory cache does not break when it reaches a memcached production cluster. The usual culprits are keys built from URLs, search…</description>
+    </item>
+    <item>
+      <title>Fluent Bit: Action/metadata line [1] contains an unknown parameter [_type]</title>
+      <link>https://fixmyerror.net/errors/fluent-bit-elasticsearch-unknown-parameter-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/fluent-bit-elasticsearch-unknown-parameter-type.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Elasticsearch 8 removed mapping types, and rejects any bulk request that still sends _type. Fluent Bit&apos;s es output sent _type: _doc by default, so a pipeline that was working breaks the moment the cluster is upgraded, with every chunk failing as HTTP 400. Every chunk is rejected, so nothing…</description>
+    </item>
+    <item>
+      <title>Grafana: Datasource ${DS_PROMETHEUS} was not found</title>
+      <link>https://fixmyerror.net/errors/grafana-datasource-ds-prometheus-was-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-datasource-ds-prometheus-was-not-found.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The dashboard was exported for sharing, which replaces every data source with a placeholder input like ${DS_PROMETHEUS}. The import screen normally asks you to map that input to a real data source, but provisioning, the HTTP API and Terraform skip that step and load the placeholder as if it were a…</description>
+    </item>
+    <item>
+      <title>gRPC: CANCELLED (code 1)</title>
+      <link>https://fixmyerror.net/errors/grpc-cancelled-code-1.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-cancelled-code-1.html</guid>
+      <category>gRPC</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The call was cancelled, almost always by the caller rather than the server. In Go the client context was cancelled (often a deferred cancel() or an HTTP request that ended), in Node and Python the client closed the call or the channel. Seen on the server, it means the client gave up and any…</description>
+    </item>
+    <item>
+      <title>gRPC: UNAVAILABLE: DNS resolution failed for service</title>
+      <link>https://fixmyerror.net/errors/grpc-dns-resolution-failed-for-service.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-dns-resolution-failed-for-service.html</guid>
+      <category>gRPC</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The channel could not turn the target into an address. Besides a plain typo, two gRPC quirks cause it: the target string uses its own URI syntax, so a scheme like http:// or a trailing path is read as part of the hostname, and C-core may use the c-ares resolver, which ignores /etc/hosts entries…</description>
+    </item>
+    <item>
+      <title>gRPC: UNAVAILABLE: failed to connect to all addresses</title>
+      <link>https://fixmyerror.net/errors/grpc-unavailable-failed-to-connect-to-all-addresses.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unavailable-failed-to-connect-to-all-addresses.html</guid>
+      <category>gRPC</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This is the C-core wording (Python, Node&apos;s older grpc package, Ruby, C++, PHP) for a channel that resolved its target but could not open a working connection to any of the addresses. The text hides the real cause, which follows it in the debug string: connection refused, a TLS mismatch, a…</description>
+    </item>
+    <item>
+      <title>Java: PatternSyntaxException: Dangling meta character &apos;*&apos; near index 0</title>
+      <link>https://fixmyerror.net/errors/java-patternsyntaxexception-dangling-meta-character.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-patternsyntaxexception-dangling-meta-character.html</guid>
+      <category>Regex</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A quantifier such as *, + or ? appeared with nothing before it to repeat. It almost never comes from a regex you meant to write: String.split, replaceAll and matches all take a regular expression, so splitting on &quot;+&quot; or &quot;*&quot; as a plain separator fails. The same code works with &quot;,&quot; or &quot;;&quot; because…</description>
+    </item>
+    <item>
+      <title>JavaScript: Invalid regular expression: Duplicate capture group name</title>
+      <link>https://fixmyerror.net/errors/js-regex-duplicate-capture-group-name.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/js-regex-duplicate-capture-group-name.html</guid>
+      <category>Regex</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Reusing a named group in different alternatives, as in (?\d{4})-\d{2}|\d{2}/(?\d{4}), only became legal in ES2025. Chrome 125, Firefox 129 and Safari 17 accept it; older browsers, older Node versions and some bundler parsers throw at the moment the script loads. A pattern that passes every test on…</description>
+    </item>
+    <item>
+      <title>libvirt: Cannot access storage file (as uid:107, gid:107): Permission denied</title>
+      <link>https://fixmyerror.net/errors/libvirt-cannot-access-storage-file-permission-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-cannot-access-storage-file-permission-denied.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The system libvirt daemon starts QEMU as an unprivileged user (qemu or libvirt-qemu, uid 107 on many distributions), not as you. That user needs search permission on every directory leading to the disk image, so an image in your home directory fails even when the file itself is world readable. On…</description>
+    </item>
+    <item>
+      <title>Loki: error at least one label pair is required per stream</title>
+      <link>https://fixmyerror.net/errors/loki-at-least-one-label-pair-required.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-at-least-one-label-pair-required.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Loki indexes streams by their labels and will not accept a push whose stream has none. The shipper is configured, but its relabelling dropped every label: commonly a Promtail or Alloy relabel rule with action keep or labeldrop matching too much, or Kubernetes discovery labels that start with __…</description>
+    </item>
+    <item>
+      <title>Microsoft Entra ID: AADSTS50076: Due to a configuration change made by your</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts50076-must-use-mfa.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts50076-must-use-mfa.html</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A Conditional Access policy requires multi-factor authentication for this sign-in, and the client used a flow that cannot show an MFA prompt: the resource owner password grant, a legacy SMTP or IMAP client, or a script calling with a username and password. Interactive sign-ins from the same…</description>
+    </item>
+    <item>
+      <title>Microsoft Entra ID: AADSTS700016: Application with identifier was not found</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts700016-application-not-found-in-directory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts700016-application-not-found-in-directory.html</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The client_id in the request does not exist in the tenant the request was sent to. Usually the app is single tenant and the code points at /common or /organizations, or a user from another organisation is signing in to an app that was never made multi-tenant. Copying the object ID instead of the…</description>
+    </item>
+    <item>
+      <title>Next.js: Failed to set Next.js data cache, items over 2MB can not be cached</title>
+      <link>https://fixmyerror.net/errors/nextjs-failed-to-set-data-cache-over-2mb.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-failed-to-set-data-cache-over-2mb.html</guid>
+      <category>Caching</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The App Router stores fetch() responses in its data cache, and refuses any single response over 2MB. The page still renders, but that fetch runs again on every request, so a page you expected to be static quietly hits your API each time. It usually shows up when an endpoint grows past the limit…</description>
+    </item>
+    <item>
+      <title>OAuth 2: {&quot;error&quot;:&quot;unsupported_grant_type&quot;}</title>
+      <link>https://fixmyerror.net/errors/oauth2-unsupported-grant-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/oauth2-unsupported-grant-type.html</guid>
+      <category>Auth</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The token endpoint did not see a grant_type it accepts. Far more often than a genuinely unsupported grant, the parameter is there but unreadable: OAuth 2 requires the token request as application/x-www-form-urlencoded, and many HTTP clients send a JSON body by default. The server finds no…</description>
+    </item>
+    <item>
+      <title>Postfix: 450 4.1.8 Sender address rejected: Domain not found</title>
+      <link>https://fixmyerror.net/errors/postfix-450-sender-address-rejected-domain-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postfix-450-sender-address-rejected-domain-not-found.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The receiving Postfix has reject_unknown_sender_domain enabled and could not find an A or MX record for the domain in your MAIL FROM address. It is a 4xx, so the sender retries and the mail sits in the queue. Common causes are an application sending from an internal name like app.local, a server…</description>
+    </item>
+    <item>
+      <title>Prometheus: opening storage failed: lock DB directory: resource temporarily</title>
+      <link>https://fixmyerror.net/errors/prometheus-opening-storage-failed-lock-db-directory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-opening-storage-failed-lock-db-directory.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Another Prometheus process already holds the lock file in the data directory. Two Prometheus servers must never share a TSDB directory, so this check is protecting your data. It normally means an old process never exited, a second container or systemd unit points at the same volume, or a…</description>
+    </item>
+    <item>
+      <title>Python: --- Logging error --- TypeError: not all arguments converted</title>
+      <link>https://fixmyerror.net/errors/python-logging-error-not-all-arguments-converted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-logging-error-not-all-arguments-converted.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The logging module formats messages lazily with the % operator, and a call like logger.info(&quot;user&quot;, user_id) passes an argument with no %s to put it in. Logging deliberately does not raise: it prints this block to stderr and drops the message, so the program carries on and the log you wanted is…</description>
+    </item>
+    <item>
+      <title>sed: -e expression #1, char 15: unknown option to `s&apos;</title>
+      <link>https://fixmyerror.net/errors/sed-unknown-option-to-s.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sed-unknown-option-to-s.html</guid>
+      <category>Regex</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>sed ended the s command early because the pattern or replacement contained the delimiter, nearly always a / inside a path or URL. Everything after that slash is read as flags, and the first character that is not a valid flag triggers the error. It typically appears when a shell variable is…</description>
+    </item>
+    <item>
+      <title>SMTP: 530 5.7.0 Must issue a STARTTLS command first</title>
+      <link>https://fixmyerror.net/errors/smtp-530-must-issue-starttls-first.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-530-must-issue-starttls-first.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The server requires an encrypted session before it will accept AUTH or MAIL FROM, and the client went straight in over plain text. Usually the client is configured for port 25 or 587 with TLS switched off, or it is set to implicit TLS mode on a port that expects STARTTLS. The opposite mismatch…</description>
+    </item>
+    <item>
+      <title>SMTP: 550 5.7.25 The IP address sending this message does not have a PTR record</title>
+      <link>https://fixmyerror.net/errors/smtp-550-5-7-25-no-ptr-record.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-5-7-25-no-ptr-record.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Gmail checks that the sending IP has reverse DNS, and that the name it points to resolves forward to the same IP. The PTR record lives with whoever owns the IP block, usually your hosting provider, not in your own DNS zone, which is why adding records to your domain changes nothing. New VPS hosts…</description>
+    </item>
+    <item>
+      <title>Spark: [CAST_INVALID_INPUT] The value &apos;abc&apos; of the type &quot;STRING&quot; cannot be cast</title>
+      <link>https://fixmyerror.net/errors/spark-4-cast-invalid-input-ansi.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-4-cast-invalid-input-ansi.html</guid>
+      <category>BigData</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Spark 4.0 turned ANSI SQL mode on by default. A cast that used to quietly return NULL for a malformed value now fails the whole query, and so do integer overflow and division by zero ([DIVIDE_BY_ZERO]). Jobs that ran for years start failing on the first dirty row after the upgrade, and the bad…</description>
+    </item>
+    <item>
+      <title>Spark: UnsupportedFileSystemException: No FileSystem for scheme &quot;s3&quot;</title>
+      <link>https://fixmyerror.net/errors/spark-no-filesystem-for-scheme-s3.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-no-filesystem-for-scheme-s3.html</guid>
+      <category>BigData</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Hadoop does not ship an implementation for the plain s3:// scheme outside Amazon EMR. Open source Spark talks to S3 through the s3a:// connector in the hadoop-aws jar, which is not on the classpath of a stock Spark download. The same path works on EMR or Databricks, which bundle their own S3…</description>
+    </item>
+    <item>
+      <title>Vagrant: The IP address configured for the host-only network is not within</title>
+      <link>https://fixmyerror.net/errors/vagrant-host-only-ip-not-within-allowed-ranges.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vagrant-host-only-ip-not-within-allowed-ranges.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>VirtualBox 6.1.28 started restricting host-only networks to 192.168.56.0/21 on Linux and macOS. Vagrantfiles that have used addresses like 10.0.0.10 or 192.168.33.10 for years stop working after a VirtualBox update, and Vagrant passes on the refusal. The address is fine as an address; VirtualBox…</description>
+    </item>
+    <item>
+      <title>WSL: HCS_E_HYPERV_NOT_INSTALLED</title>
+      <link>https://fixmyerror.net/errors/wsl-hcs-e-hyperv-not-installed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wsl-hcs-e-hyperv-not-installed.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <description>WSL 2 runs its distros in a lightweight virtual machine, and Windows could not create it. Either the Virtual Machine Platform feature is off, or hardware virtualisation (Intel VT-x, AMD SVM) is disabled in the firmware. A BIOS update or reset often turns it back off silently, which is why WSL can…</description>
+    </item>
     <item>
       <title>Apache: AH01071: Got error &apos;Primary script unknown&apos;</title>
       <link>https://fixmyerror.net/errors/apache-ah01071-primary-script-unknown.html</link>
@@ -1319,294 +1607,6 @@
       <category>Logging</category>
       <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
       <description>Log4j 2 could not find log4j2.xml on the classpath and fell back to logging errors only to the console, which is why the application starts but INFO and DEBUG never appear. In a packaged jar the file is usually present in the source tree and missing from the artefact, not absent from the repository.</description>
-    </item>
-    <item>
-      <title>Machine crawls with CPU idle: swap thrashing (si/so in vmstat)</title>
-      <link>https://fixmyerror.net/errors/linux-swap-thrashing-si-so.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-swap-thrashing-si-so.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Once the working set no longer fits in RAM the kernel evicts pages that are about to be needed again, so every fault costs a disk read and throughput collapses long before memory is fully exhausted. The giveaway is sustained si and so columns in vmstat, not the free figure, which looks healthy…</description>
-    </item>
-    <item>
-      <title>Nginx: proxy_cache never stores anything (X-Cache-Status: MISS)</title>
-      <link>https://fixmyerror.net/errors/nginx-proxy-cache-never-stores-a-response.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-proxy-cache-never-stores-a-response.html</guid>
-      <category>Caching</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Nginx honours the upstream response headers, so a Set-Cookie, a Cache-Control of private or no-store, or an unset Expires stops it caching even though proxy_cache_path is configured correctly. Every request is then a MISS, and the cache directory stays empty rather than filling up and evicting.</description>
-    </item>
-    <item>
-      <title>Python: logging.basicConfig() has no effect and nothing is logged</title>
-      <link>https://fixmyerror.net/errors/python-logging-basicconfig-has-no-effect.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-logging-basicconfig-has-no-effect.html</guid>
-      <category>Logging</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>basicConfig only does anything when the root logger has no handlers yet, so it is a silent no operation if any import or framework configured logging first. The second trap is the level: the default is WARNING, so info() and debug() are dropped even when the handler is correct.</description>
-    </item>
-    <item>
-      <title>Python: re.error: look-behind requires fixed-width pattern</title>
-      <link>https://fixmyerror.net/errors/python-re-lookbehind-requires-fixed-width-pattern.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-lookbehind-requires-fixed-width-pattern.html</guid>
-      <category>Regex</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The standard re module only implements lookbehind when every alternative is the same known length, so a quantifier or an alternation of different widths inside (?&lt;=...) is rejected at compile time. The pattern is valid in .NET and in the third party regex module, which is why one copied from a…</description>
-    </item>
-    <item>
-      <title>sbt: Conflicting cross-version suffixes in: org.scala-lang.modules</title>
-      <link>https://fixmyerror.net/errors/sbt-conflicting-cross-version-suffixes.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sbt-conflicting-cross-version-suffixes.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Two dependencies pulled in the same library built for different Scala versions, for example scala-xml _2.12 and _2.13 in one classpath. It usually follows a Scala upgrade where one dependency was written with a single per cent rather than a double, so its suffix was pinned by hand and never moved.</description>
-    </item>
-    <item>
-      <title>Scala: could not find implicit value for parameter</title>
-      <link>https://fixmyerror.net/errors/scala-could-not-find-implicit-value.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-could-not-find-implicit-value.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The compiler could not supply an implicit argument, usually because the instance exists but is not in scope, or because the type it was defined for is slightly different from the one being summoned. Libraries such as Circe and Play JSON report a missing Encoder or Format this way when the real…</description>
-    </item>
-    <item>
-      <title>Scala: recursive value x needs type</title>
-      <link>https://fixmyerror.net/errors/scala-recursive-value-needs-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-recursive-value-needs-type.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A definition refers to its own name on the right hand side, so the compiler cannot infer the type it is in the middle of inferring. It is almost never real recursion: the usual cause is a val that shadows something with the same name, such as a constructor parameter reused as a field.</description>
-    </item>
-    <item>
-      <title>Scala: warning: match may not be exhaustive</title>
-      <link>https://fixmyerror.net/errors/scala-match-may-not-be-exhaustive.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-match-may-not-be-exhaustive.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The compiler proved a case is missing from a match on a sealed type, and with fatal warnings enabled the build stops. It is worth reading rather than silencing: the same warning is how a new subtype added elsewhere in the codebase tells you every match that has not been updated.</description>
-    </item>
-    <item>
-      <title>SLF4J: Failed to load class org.slf4j.impl.StaticLoggerBinder</title>
-      <link>https://fixmyerror.net/errors/slf4j-failed-to-load-class-staticloggerbinder.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/slf4j-failed-to-load-class-staticloggerbinder.html</guid>
-      <category>Logging</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The SLF4J API is on the classpath with no binding behind it, so every log call is discarded through the no operation logger and the application runs in silence. With SLF4J 2.x the wording changes to &quot;No SLF4J providers were found&quot;, but the cause is the same missing implementation.</description>
-    </item>
-    <item>
-      <title>SMTP: 451 4.7.1 Greylisted, please try again later</title>
-      <link>https://fixmyerror.net/errors/smtp-451-greylisted-try-again-later.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-451-greylisted-try-again-later.html</guid>
-      <category>Email</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The receiving server deliberately rejected a first delivery attempt from an unknown sender triple and expects a retry, which real mail servers do and most spam software does not. It is a temporary failure, so the only bug is in senders that treat any 4xx as final and drop the message.</description>
-    </item>
-    <item>
-      <title>SMTP: 552 5.3.4 Message size exceeds fixed maximum message size</title>
-      <link>https://fixmyerror.net/errors/smtp-552-message-size-exceeds-fixed-limit.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-552-message-size-exceeds-fixed-limit.html</guid>
-      <category>Email</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The message was larger than the receiving server accepts, and the limit applies after MIME encoding, which inflates attachments by roughly a third. A 20 MB file therefore fails against a 25 MB limit, and the rejection happens at the smallest limit along the path, not the one you configured.</description>
-    </item>
-    <item>
-      <title>VirtualBox: Kernel driver not installed (rc=-1908)</title>
-      <link>https://fixmyerror.net/errors/virtualbox-kernel-driver-not-installed-rc-1908.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-kernel-driver-not-installed-rc-1908.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The vboxdrv module is missing or refused to load, which normally follows a kernel upgrade that left the DKMS build behind. On a machine with Secure Boot the module builds correctly and is then rejected at load time because it is unsigned, which is a different failure with the same message.</description>
-    </item>
-    <item>
-      <title>VirtualBox: VERR_NEM_VM_CREATE_FAILED / raw-mode is unavailable</title>
-      <link>https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-verr-nem-vm-create-failed.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Something else on Windows already owns the hardware virtualisation extensions, so VirtualBox is pushed onto the Hyper-V layer or fails to create the VM at all. WSL 2, Docker Desktop, Windows Sandbox and memory integrity all switch Hyper-V on, usually without the user connecting that to the VM that…</description>
-    </item>
-    <item>
-      <title>wasm-bindgen: recursive use of an object detected</title>
-      <link>https://fixmyerror.net/errors/wasm-bindgen-recursive-use-unsafe-aliasing.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-bindgen-recursive-use-unsafe-aliasing.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A Rust method holding a mutable borrow of a struct called into JavaScript, and that JavaScript called back into the same object before the first call returned. Rust borrow rules are enforced at runtime across the boundary, so what would be a compile error inside Rust becomes this exception in the…</description>
-    </item>
-    <item>
-      <title>Web3: already known / ALREADY_EXISTS when sending a transaction</title>
-      <link>https://fixmyerror.net/errors/web3-already-known-transaction.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-already-known-transaction.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node already holds a transaction with this exact hash in its pool, so the resend is rejected rather than duplicated. It normally means a retry loop signed the identical payload again, or the same nonce was submitted to two nodes behind one RPC endpoint.</description>
-    </item>
-    <item>
-      <title>Web3: cannot estimate gas; transaction may fail or may require manual gas limit</title>
-      <link>https://fixmyerror.net/errors/web3-cannot-estimate-gas-transaction-may-fail.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-cannot-estimate-gas-transaction-may-fail.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node ran the transaction against current state and it reverted, so no gas figure could be produced. The wording suggests a gas problem but the cause is almost always the call itself: a missing token approval, a paused contract, or a require that fails for this sender.</description>
-    </item>
-    <item>
-      <title>Web3: query returned more than 10000 results (eth_getLogs)</title>
-      <link>https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-query-returned-more-than-10000-results.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The RPC provider caps how much a single log query may return or how many blocks it may span, and the limit is per provider rather than part of the JSON-RPC spec. The same code works against a local node and fails on a hosted endpoint, usually at the point where an indexer starts from the contract…</description>
-    </item>
-    <item>
-      <title>WebAssembly: LinkError: import object field is not a Function</title>
-      <link>https://fixmyerror.net/errors/wasm-linkerror-import-object-field-not-a-function.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-linkerror-import-object-field-not-a-function.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Instantiation failed because the import object handed to the module does not match what the module declares it needs: a missing property, a nested namespace that is undefined, or a value where a function was expected. The module name comes first in the error, so env.abort means the module asked…</description>
-    </item>
-    <item>
-      <title>WebAssembly: RuntimeError: table index is out of bounds</title>
-      <link>https://fixmyerror.net/errors/wasm-table-index-is-out-of-bounds.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-table-index-is-out-of-bounds.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An indirect call used a function pointer that is not in the module table, which normally means a callback was passed to C or C++ without being registered, or the table was built too small at link time. The pointer looks valid on the Rust or C side because it is just an integer.</description>
-    </item>
-    <item>
-      <title>Container CPU throttling: nr_throttled rising in cpu.stat</title>
-      <link>https://fixmyerror.net/errors/perf-cpu-cfs-throttling.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/perf-cpu-cfs-throttling.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A CPU limit is enforced as a quota per 100ms period, so a process that spends its quota early is stopped until the period ends. Average utilisation looks comfortable while p99 latency spikes, which is why this gets blamed on the database or the network long before anyone reads cpu.stat.</description>
-    </item>
-    <item>
-      <title>Dart: type &apos;Null&apos; is not a subtype of type &apos;String&apos; in type cast</title>
-      <link>https://fixmyerror.net/errors/dart-type-null-is-not-a-subtype-of-string.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-type-null-is-not-a-subtype-of-string.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A cast met a null at runtime, and with sound null safety the failure lands on the cast rather than on first use. Nearly every occurrence is JSON decoding: `json[&apos;name&apos;] as String` passes in testing and throws the first time the server omits the field or sends null for it.</description>
-    </item>
-    <item>
-      <title>docker: could not select device driver with capabilities: [[gpu]]</title>
-      <link>https://fixmyerror.net/errors/docker-could-not-select-device-driver-gpu.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-could-not-select-device-driver-gpu.html</guid>
-      <category>Docker</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>--gpus needs the NVIDIA container toolkit registered as a runtime with the daemon; having the driver installed on the host is not enough. It also appears after an upgrade, because a package that rewrites /etc/docker/daemon.json can drop the runtime entry while leaving everything else working.</description>
-    </item>
-    <item>
-      <title>Elixir: (KeyError) key :name not found in: %{&quot;name&quot; =&gt; &quot;ada&quot;}</title>
-      <link>https://fixmyerror.net/errors/elixir-key-not-found-keyerror.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-key-not-found-keyerror.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Dot access and `Map.fetch!/2` raise rather than returning nil when a key is missing, and the usual cause is string keys where atom keys were expected. A map decoded from JSON has `&quot;name&quot;`, not `:name`, and the two are different keys in the same map.</description>
-    </item>
-    <item>
-      <title>Elixir: function Foo.bar/1 is undefined (module Foo is not available)</title>
-      <link>https://fixmyerror.net/errors/elixir-undefined-function-module-not-available.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-undefined-function-module-not-available.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module was never loaded, which in practice means a misspelled alias, a file outside the compile paths, or a dependency that is in `mix.exs` but whose application was never started. Note the wording: if the module existed and only the function were wrong, the message would name the module as…</description>
-    </item>
-    <item>
-      <title>Elixir: protocol Enumerable not implemented for nil of type Atom</title>
-      <link>https://fixmyerror.net/errors/elixir-protocol-enumerable-not-implemented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-protocol-enumerable-not-implemented.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Something handed `Enum` a nil where a list was expected, and nil has no Enumerable implementation. The real fault is upstream: an Ecto association that was never preloaded, a `Map.get` that missed, or a function whose error branch returns nil instead of an empty list.</description>
-    </item>
-    <item>
-      <title>Flutter: No Material widget found</title>
-      <link>https://fixmyerror.net/errors/flutter-no-material-widget-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-no-material-widget-found.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Widgets such as TextField, ListTile and InkWell paint ink on the nearest Material ancestor and throw when there is none above them. It appears inside a showDialog builder, a custom PageRoute or a widget test that pumps the widget on its own, because those trees start below the Scaffold.</description>
-    </item>
-    <item>
-      <title>Flutter: setState() or markNeedsBuild() called during build</title>
-      <link>https://fixmyerror.net/errors/flutter-setstate-called-during-build.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-setstate-called-during-build.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Something changed state while the framework was already building the tree, so it is being asked to rebuild a widget it has not finished with. The usual cause is work that belongs in initState or in a callback being run directly inside build: notifying a provider, starting navigation, or showing a…</description>
-    </item>
-    <item>
-      <title>Flutter: Vertical viewport was given unbounded height</title>
-      <link>https://fixmyerror.net/errors/flutter-vertical-viewport-unbounded-height.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-vertical-viewport-unbounded-height.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A scrolling widget was placed somewhere with no height to fill, typically inside a Column or another scrollable, and both want to size themselves to their children. The message names the inner ListView, but the constraint that is missing comes from the parent.</description>
-    </item>
-    <item>
-      <title>java.lang.OutOfMemoryError: GC overhead limit exceeded</title>
-      <link>https://fixmyerror.net/errors/jvm-gc-overhead-limit-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jvm-gc-overhead-limit-exceeded.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The JVM spent over 98 percent of recent time collecting and recovered less than 2 percent of the heap, so it stopped rather than crawling on. The heap need not be full: a cache holding strong references keeps everything reachable, and the collector works harder each cycle for less return.</description>
-    </item>
-    <item>
-      <title>journalctl: No journal files were found</title>
-      <link>https://fixmyerror.net/errors/journalctl-no-journal-files-were-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/journalctl-no-journal-files-were-found.html</guid>
-      <category>Logging</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>journald stores logs in memory when /var/log/journal does not exist, so everything is discarded at reboot. The service was logging normally, but the evidence for the crash you came to investigate went away with the machine, which is why the directory matters more than any retention setting.</description>
-    </item>
-    <item>
-      <title>kubectl top: error: Metrics API not available</title>
-      <link>https://fixmyerror.net/errors/k8s-metrics-api-not-available.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/k8s-metrics-api-not-available.html</guid>
-      <category>Kubernetes</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>kubectl top and every horizontal pod autoscaler read from metrics-server, which no upstream cluster installs by default. The same message appears when it is installed but never becomes ready, usually because it cannot verify the kubelet&apos;s self signed serving certificate.</description>
-    </item>
-    <item>
-      <title>logrotate: skipping because parent directory has insecure permissions</title>
-      <link>https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/logrotate-parent-directory-insecure-permissions.html</guid>
-      <category>Logging</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>logrotate refuses to rotate a file in a directory that is group or world writable, because doing that work as root would be an escalation path. Nothing else breaks, so rotation just stops and the disk fills a few weeks later, long after the message scrolled past in the timer output.</description>
-    </item>
-    <item>
-      <title>Phoenix: (Phoenix.Router.NoRouteError) no route found for GET /api/users</title>
-      <link>https://fixmyerror.net/errors/phoenix-no-route-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/phoenix-no-route-found.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>No clause in the router matched, so Phoenix raises rather than quietly returning 404 in development. The path is usually right and the verb or the scope is not: a link issuing GET for a delete route, or a route written with the prefix that its enclosing `scope` already adds.</description>
-    </item>
-    <item>
-      <title>Python: re.error: bad escape \d at position 0</title>
-      <link>https://fixmyerror.net/errors/python-re-bad-escape-in-replacement.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-bad-escape-in-replacement.html</guid>
-      <category>Regex</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The replacement argument of re.sub is not a pattern. It understands only group references such as \1 and \g plus the standard string escapes, so a regex fragment or a Windows path pasted into it raises. The same text is perfectly valid as the pattern argument, which makes the message look wrong.</description>
-    </item>
-    <item>
-      <title>Regex: test() returns false every other call with the /g flag</title>
-      <link>https://fixmyerror.net/errors/regex-test-lastindex-global-flag.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/regex-test-lastindex-global-flag.html</guid>
-      <category>Regex</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A regex with the g or y flag keeps lastIndex between calls, so test() resumes from where the previous match ended and alternates between true and false on the same input. It is worst when the regex is a module level constant shared by every request the process handles.</description>
-    </item>
-    <item>
-      <title>Scala: NoClassDefFoundError: scala/collection/IterableOnce</title>
-      <link>https://fixmyerror.net/errors/scala-noclassdeffounderror-iterableonce.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-noclassdeffounderror-iterableonce.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 12 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A jar built for a different Scala version is on the classpath. Scala is only binary compatible within a minor version, so a 2.12 artifact loaded by a 2.13 runtime looks for classes that were moved or renamed. It compiles, because the missing class is only resolved when the code first runs.</description>
     </item>
   </channel>
 </rss>
