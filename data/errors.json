@@ -13296,5 +13296,435 @@
       "https://grafana.com/docs/loki/latest/get-started/labels/"
     ],
     "dateAdded": "2026-10-15"
+  },
+  {
+    "id": "elixir-crypto-hmac-undefined-otp-24",
+    "title": "Elixir: function :crypto.hmac/3 is undefined or private",
+    "category": "Elixir",
+    "explanation": "OTP 24 removed the old crypto API, so :crypto.hmac/3 no longer exists. Your own code rarely calls it directly: the usual culprit is an old version of a dependency (an outdated plug_crypto, a JWT or AWS signing library) that still does. The project compiled fine on OTP 23, which is why it breaks the moment the Erlang version is bumped in CI or a Docker base image.",
+    "fix_snippet": "# Confirm the OTP release you are actually running\nerl -noshell -eval 'io:format(\"~s~n\", [erlang:system_info(otp_release)]), halt().'\n\n# Find which dependency still calls the removed function\ngrep -rn \"crypto.hmac\\|:crypto.hmac\" deps/ lib/\n\n# Usually the fix is to upgrade that dependency\nmix hex.outdated\nmix deps.update plug_crypto jose\n\n# In your own code, switch to the new API\n# :crypto.hmac(:sha256, key, data)  becomes\n# :crypto.mac(:hmac, :sha256, key, data)\n\nmix deps.clean --all && mix deps.get && mix compile",
+    "sources": [
+      "https://www.erlang.org/doc/apps/crypto/new_api.html",
+      "https://www.erlang.org/doc/apps/crypto/crypto.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "ecto-could-not-lookup-repo-not-started",
+    "title": "Ecto: could not lookup Ecto repo MyApp.Repo because it was not started",
+    "category": "Elixir",
+    "explanation": "Ecto found the repo module but no running process registered under it. The code is fine; it is running somewhere the application tree has not been started: a Mix task, a release eval command, a seeds script run with plain elixir, or an ExUnit test helper that skipped Application.ensure_all_started. In a release, bin/my_app eval does not start your application unless you ask it to.",
+    "fix_snippet": "# Check the repo is listed as a child in your supervision tree\ngrep -n \"Repo\" lib/my_app/application.ex\n\n# Seeds and scripts: run them through mix so the app starts\nmix run priv/repo/seeds.exs\n\n# In a custom Mix task, start the app before touching the repo\n# Mix.Task.run(\"app.start\")\n\n# In a release, start only the repo for migrations\n# Ecto.Migrator.with_repo(MyApp.Repo, &Ecto.Migrator.run(&1, :up, all: true))\nbin/my_app eval \"MyApp.Release.migrate()\"\n\n# Tests: test/test_helper.exs should start the app (mix test does by default)\ngrep -n \"ensure_all_started\\|Sandbox\" test/test_helper.exs",
+    "sources": [
+      "https://hexdocs.pm/ecto_sql/Ecto.Migrator.html",
+      "https://hexdocs.pm/phoenix/releases.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "mix-trying-to-run-on-elixir-version-mix-exs-supports-only",
+    "title": "(Mix) You're trying to run :my_app on Elixir v1.15.7 but it has declared",
+    "category": "Elixir",
+    "explanation": "The elixir: requirement in mix.exs (for example \"~> 1.17\") does not match the Elixir on your PATH. It works on your laptop and fails in CI or a container because the two have different Elixir installs, often an asdf or mise .tool-versions file that the build image ignores. Remember Elixir and OTP versions are paired: a newer Elixir may also need a newer OTP.",
+    "fix_snippet": "# What is actually on the PATH here?\nelixir --version\nwhich elixir\n\n# What does the project ask for?\ngrep -n \"elixir:\" mix.exs\ncat .tool-versions 2>/dev/null\n\n# With asdf or mise, install what .tool-versions pins\nasdf install    # or: mise install\n\n# In Docker, pin the matching image rather than \"latest\"\n# FROM hexpm/elixir:1.17.3-erlang-27.1.2-debian-bookworm-20241016\n\n# Only loosen the requirement if the code genuinely supports the older version\n# elixir: \"~> 1.15\"",
+    "sources": [
+      "https://hexdocs.pm/elixir/compatibility-and-deprecations.html",
+      "https://hexdocs.pm/mix/Mix.Project.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "s3-slowdown-please-reduce-your-request-rate",
+    "title": "S3: SlowDown: Please reduce your request rate (503)",
+    "category": "Storage",
+    "explanation": "S3 is throttling requests to one key prefix, not your whole account. Each prefix supports around 3,500 writes and 5,500 reads a second, and a burst that lands on a single prefix (every object under logs/2026-10-17/, say) hits that ceiling while the rest of the bucket is idle. It also appears briefly after a sudden jump in load, because S3 partitions prefixes gradually rather than instantly.",
+    "fix_snippet": "# The SDKs retry SlowDown automatically; make sure retries are on and adaptive\nexport AWS_RETRY_MODE=adaptive\nexport AWS_MAX_ATTEMPTS=10\n\n# Find which prefixes are hot (needs S3 server access logs or CloudTrail data events)\nawk '{print $8}' access.log | cut -d/ -f1-2 | sort | uniq -c | sort -rn | head\n\n# Spread keys across more prefixes so load splits across partitions\n#   logs/2026-10-17/host-a.gz   becomes   logs/7f/2026-10-17/host-a.gz\n\n# Reduce request count: batch deletes, bigger multipart parts, fewer HEADs\naws s3api delete-objects --bucket my-bucket --delete file://keys.json\n\n# Lower parallelism in the CLI if it is the CLI doing the bursting\naws configure set default.s3.max_concurrent_requests 4",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonS3/latest/userguide/optimizing-performance.html",
+      "https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "s3-bucket-already-exists-namespace-shared",
+    "title": "S3: The requested bucket name is not available (BucketAlreadyExists)",
+    "category": "Storage",
+    "explanation": "Bucket names are global across every AWS account in a partition, so somebody else already owns this one, possibly years ago. BucketAlreadyOwnedByYou is the friendlier variant and means you created it yourself, usually in another region or an earlier Terraform run. A name deleted recently can also stay unavailable for a while before it can be reused.",
+    "fix_snippet": "# Is it yours? A 200 or 403 here tells you it exists somewhere\naws s3api head-bucket --bucket my-bucket-name\n\n# List your own buckets to rule out BucketAlreadyOwnedByYou\naws s3api list-buckets --query \"Buckets[].Name\" --output text | tr \"\\t\" \"\\n\" | grep my-bucket\n\n# Pick a name nobody else will have: add the account id and region\nACCOUNT=$(aws sts get-caller-identity --query Account --output text)\naws s3api create-bucket --bucket \"my-app-$ACCOUNT-eu-west-2\" \\\n  --region eu-west-2 --create-bucket-configuration LocationConstraint=eu-west-2\n\n# Terraform: let it add a unique suffix instead of hard-coding the name\n# resource \"aws_s3_bucket\" \"b\" { bucket_prefix = \"my-app-\" }",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html",
+      "https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "linux-structure-needs-cleaning-euclean",
+    "title": "Structure needs cleaning",
+    "category": "Storage",
+    "explanation": "This is EUCLEAN, the kernel saying the filesystem found corrupt metadata and refused to trust it. On XFS and ext4 it usually follows an unclean shutdown, a failing disk or a virtual disk that lost writes. The file or directory named in the error is only where the damage was noticed: the repair has to run against the whole unmounted filesystem, and the disk underneath deserves checking first.",
+    "fix_snippet": "# See which device and what the kernel logged\ndmesg -T | grep -iE \"xfs|ext4|corrupt|I/O error\" | tail -20\n\n# Check the disk itself before repairing on top of it\nsudo smartctl -H -a /dev/sdb\n\n# Take a copy first if the data matters\nsudo dd if=/dev/sdb1 of=/backup/sdb1.img bs=4M status=progress\n\n# Unmount, then repair (XFS: dry run with -n first)\nsudo umount /dev/sdb1\nsudo xfs_repair -n /dev/sdb1\nsudo xfs_repair /dev/sdb1\n\n# ext4 equivalent\nsudo e2fsck -f /dev/sdb1",
+    "sources": [
+      "https://man7.org/linux/man-pages/man8/xfs_repair.8.html",
+      "https://man7.org/linux/man-pages/man8/e2fsck.8.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "graphql-unknown-argument-on-field",
+    "title": "GraphQL: Unknown argument \"first\" on field \"Query.users\"",
+    "category": "GraphQL",
+    "explanation": "Validation rejected the query before any resolver ran because the schema has no argument with that name on that field. It is often a client written against a different schema version, a Relay-style first/after query sent to a server that paginates with limit/offset, or a field that takes its options inside an input object rather than as loose arguments.",
+    "fix_snippet": "# Ask the server which arguments the field really takes\ncurl -s -H 'Content-Type: application/json' https://api.example.com/graphql \\\n  -d '{\"query\":\"{ __type(name: \\\"Query\\\") { fields { name args { name type { name kind } } } } }\"}' \\\n  | jq '.data.__type.fields[] | select(.name==\"users\")'\n\n# Regenerate client types from the live schema so the mismatch is caught at build time\nnpx graphql-codegen --config codegen.ts\n\n# Then use the name the schema exposes, for example\n# query { users(limit: 10, offset: 0) { id } }\n# or, if it takes an input object\n# query { users(page: { first: 10 }) { id } }",
+    "sources": [
+      "https://spec.graphql.org/October2021/#sec-Argument-Names",
+      "https://graphql.org/learn/introspection/"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "graphql-field-must-have-a-selection-of-subfields",
+    "title": "GraphQL: Field \"user\" of type \"User\" must have a selection of subfields",
+    "category": "GraphQL",
+    "explanation": "The field returns an object type, and GraphQL never returns a whole object implicitly: you have to name the scalar fields you want inside braces. The reverse mistake, adding braces to a scalar or enum field, gives a matching \"must not have a selection\" error. It tends to appear after a schema change turns a plain ID field into a full object.",
+    "fix_snippet": "# Wrong: asks for an object with no fields\n# query { user(id: 1) }\n\n# Right: name the fields you want back\n# query { user(id: 1) { id name email } }\n\n# Check whether the field is an object or a scalar in the schema\ncurl -s -H 'Content-Type: application/json' https://api.example.com/graphql \\\n  -d '{\"query\":\"{ __type(name: \\\"Query\\\") { fields { name type { kind name ofType { kind name } } } } }\"}' \\\n  | jq '.data.__type.fields[] | select(.name==\"user\")'\n\n# Validate client operations against the schema before shipping\nnpx graphql-codegen --config codegen.ts",
+    "sources": [
+      "https://spec.graphql.org/October2021/#sec-Leaf-Field-Selections",
+      "https://graphql.org/learn/queries/"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "apollo-server-blocked-potential-csrf",
+    "title": "This operation has been blocked as a potential Cross-Site Request Forgery (CSRF)",
+    "category": "GraphQL",
+    "explanation": "Apollo Server 4 turns on CSRF prevention by default. It refuses GET requests and \"simple\" POSTs (form-encoded, multipart or text/plain) unless they carry a header a browser cannot add cross-site without a preflight. Normal JSON clients are unaffected, so it usually bites curl one-liners, health checks, GET queries from a CDN, and file uploads via graphql-upload.",
+    "fix_snippet": "# Reproduce: a GET query with no special header is blocked\ncurl -s \"https://api.example.com/graphql?query=%7B__typename%7D\"\n\n# Send a JSON content type, or one of the headers Apollo accepts\ncurl -s https://api.example.com/graphql -H 'Content-Type: application/json' \\\n  -d '{\"query\":\"{ __typename }\"}'\ncurl -s -H 'apollo-require-preflight: true' \"https://api.example.com/graphql?query=%7B__typename%7D\"\n\n# Multipart uploads: have the client send apollo-require-preflight: true\n\n# Keep the protection on; only add headers your own clients send\n# new ApolloServer({ csrfPrevention: { requestHeaders: [\"x-my-client\"] } })",
+    "sources": [
+      "https://www.apollographql.com/docs/apollo-server/security/cors#preventing-cross-site-request-forgery-csrf"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "env-python-no-such-file-or-directory",
+    "title": "/usr/bin/env: 'python': No such file or directory",
+    "category": "Shell",
+    "explanation": "The script's shebang asks for a command called python, and current Debian, Ubuntu, Fedora and macOS releases only ship python3. Python 3 is installed; there is just no executable with the bare name. It also catches scripts saved with Windows line endings, where env looks for 'python\\r' and the message prints oddly because of the hidden carriage return.",
+    "fix_snippet": "# Is there a python3 but no python?\ncommand -v python3 python\n\n# Check for CRLF line endings too (shows ^M at the end of the first line)\nhead -1 script.py | cat -A\nsed -i \"s/\\r$//\" script.py\n\n# Best fix: make the shebang ask for what exists\nsed -i '1s|^#!.*python$|#!/usr/bin/env python3|' script.py\n\n# Or, on Debian and Ubuntu, provide the alias system-wide\nsudo apt install python-is-python3\n\n# Inside a virtualenv, python exists once it is activated\nsource .venv/bin/activate && python --version",
+    "sources": [
+      "https://peps.python.org/pep-0394/",
+      "https://man7.org/linux/man-pages/man1/env.1.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "sudo-a-terminal-is-required-to-read-the-password",
+    "title": "sudo: a terminal is required to read the password",
+    "category": "Shell",
+    "explanation": "sudo wanted a password but had no terminal to ask on, because the command ran over ssh without a TTY, from cron, in a CI job or inside an Ansible or Docker step. The same command works when you type it interactively because there you have a terminal and possibly a cached sudo timestamp. The fix is either a terminal, a password from somewhere else, or a narrowly scoped NOPASSWD rule.",
+    "fix_snippet": "# Over ssh, force a terminal so sudo can prompt\nssh -t user@host \"sudo systemctl restart nginx\"\n\n# Check what this user may run without a password\nsudo -l -n\n\n# For automation, allow one exact command without a password\necho 'deploy ALL=(root) NOPASSWD: /usr/bin/systemctl restart nginx' | sudo tee /etc/sudoers.d/deploy\nsudo chmod 440 /etc/sudoers.d/deploy\nsudo visudo -c\n\n# Fail fast in scripts instead of hanging on a prompt\nsudo -n systemctl restart nginx || echo \"sudo needs a password here\"",
+    "sources": [
+      "https://www.sudo.ws/docs/man/sudo.man/",
+      "https://www.sudo.ws/docs/man/sudoers.man/"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "bash-ulimit-open-files-cannot-modify-limit",
+    "title": "bash: ulimit: open files: cannot modify limit: Operation not permitted",
+    "category": "Shell",
+    "explanation": "An unprivileged shell can lower its soft limit or raise it up to the hard limit, but never past the hard limit. Running ulimit -n 65535 asks for more than the hard limit your session inherited. Editing limits.conf does nothing for services, which take their limits from systemd, and only applies to new logins via PAM, so the old shell keeps the old ceiling.",
+    "fix_snippet": "# Soft and hard limits for this shell\nulimit -Sn; ulimit -Hn\n\n# Raise up to the hard limit, which needs no privilege\nulimit -n \"$(ulimit -Hn)\"\n\n# For logins: raise both limits in limits.d, then log in again\necho '* soft nofile 65535' | sudo tee /etc/security/limits.d/90-nofile.conf\necho '* hard nofile 65535' | sudo tee -a /etc/security/limits.d/90-nofile.conf\n\n# For a systemd service, limits.conf is ignored: use the unit\nsudo systemctl edit myapp    # add: [Service] LimitNOFILE=65535\nsudo systemctl restart myapp\ngrep \"open files\" /proc/$(pidof myapp)/limits",
+    "sources": [
+      "https://man7.org/linux/man-pages/man2/getrlimit.2.html",
+      "https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "linux-task-blocked-for-more-than-120-seconds",
+    "title": "INFO: task kworker blocked for more than 120 seconds",
+    "category": "Performance",
+    "explanation": "The hung task detector found a process stuck in uninterruptible sleep (D state) for two minutes, almost always waiting on I/O. The task it names is the victim, not the cause: look at the storage behind it. Typical culprits are an NFS or iSCSI server that went away, a saturated or failing disk, or a huge dirty page cache being flushed all at once on a machine with lots of RAM.",
+    "fix_snippet": "# The stack trace under the message shows what it was waiting for\ndmesg -T | grep -A20 \"blocked for more than\"\n\n# Which processes are in D state right now?\nps -eo pid,stat,wchan:32,cmd | awk '$2 ~ /D/'\n\n# Is a disk saturated (util near 100%, high await)?\niostat -xz 2 5\n\n# Hung network mounts show up here\nmount -t nfs,nfs4,cifs; timeout 5 stat /mnt/share || echo \"mount not responding\"\n\n# Large writeback stalls: flush earlier and in smaller chunks\nsysctl vm.dirty_ratio vm.dirty_background_ratio\nsudo sysctl -w vm.dirty_background_bytes=268435456 vm.dirty_bytes=1073741824",
+    "sources": [
+      "https://docs.kernel.org/admin-guide/sysctl/kernel.html",
+      "https://docs.kernel.org/admin-guide/sysctl/vm.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "nf-conntrack-table-full-dropping-packet",
+    "title": "nf_conntrack: table full, dropping packet",
+    "category": "Performance",
+    "explanation": "The kernel tracks every connection passing through netfilter, and that table has a fixed size. Once it fills, new connections are silently dropped, which looks like random timeouts under load rather than an error. It is common on busy load balancers, NAT gateways and Kubernetes nodes where kube-proxy relies on conntrack, and a flood of short-lived connections fills it far faster than steady traffic does.",
+    "fix_snippet": "# How full is it?\ncat /proc/sys/net/netfilter/nf_conntrack_count /proc/sys/net/netfilter/nf_conntrack_max\n\n# Drops and insert failures per CPU\nsudo conntrack -S\n\n# What is filling it (by state and destination)?\nsudo conntrack -L 2>/dev/null | awk '{print $4}' | sort | uniq -c | sort -rn | head\n\n# Raise the limit now and persist it\nsudo sysctl -w net.netfilter.nf_conntrack_max=524288\necho 'net.netfilter.nf_conntrack_max=524288' | sudo tee /etc/sysctl.d/90-conntrack.conf\n\n# Reap finished connections sooner\nsudo sysctl -w net.netfilter.nf_conntrack_tcp_timeout_time_wait=30",
+    "sources": [
+      "https://docs.kernel.org/networking/nf_conntrack-sysctl.html",
+      "https://conntrack-tools.netfilter.org/manual.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "linux-core-temperature-above-threshold-cpu-clock-throttled",
+    "title": "CPU0: Core temperature above threshold, cpu clock throttled",
+    "category": "Performance",
+    "explanation": "The CPU hit its thermal limit and the hardware cut its clock speed to cool down. Everything still works, just slower, so it shows up as a benchmark or build that is fast for a minute and then degrades, or a server that is slower in summer. The cause is physical more often than not: clogged fans, dried thermal paste, a blocked rack or a power profile that lets turbo run unchecked.",
+    "fix_snippet": "# How often has it happened?\ndmesg -T | grep -i \"temperature above threshold\" | tail\ncat /sys/devices/system/cpu/cpu0/thermal_throttle/core_throttle_count\n\n# Current temperatures and fan speeds\nsudo apt install lm-sensors && sensors\n\n# Watch clocks drop while under load\nwatch -n1 'grep MHz /proc/cpuinfo | head -4'\n\n# On servers, the BMC records fan faults and inlet temperature\nsudo ipmitool sdr type Temperature; sudo ipmitool sdr type Fan\n\n# Short term, cap turbo to stay under the limit (Intel pstate)\necho 1 | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo",
+    "sources": [
+      "https://docs.kernel.org/driver-api/thermal/sysfs-api.html",
+      "https://docs.kernel.org/admin-guide/pm/intel_pstate.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "systemd-resolved-degraded-feature-set-udp-edns0",
+    "title": "Using degraded feature set UDP instead of UDP+EDNS0 for DNS server",
+    "category": "DNS",
+    "explanation": "systemd-resolved probes each upstream server for EDNS0 and DNSSEC support and steps down when replies look broken. The upstream is usually a home router or ISP resolver that mangles or drops EDNS0 packets. On its own the message is noise, but if lookups are also slow or failing it means resolved is retrying through several feature levels on every query, and a better upstream fixes both.",
+    "fix_snippet": "# Which server is it, and what does resolved think of it?\nresolvectl status\njournalctl -u systemd-resolved --since \"1 hour ago\" | grep -i degraded\n\n# Test EDNS0 against that server directly\ndig +edns=0 example.com @192.168.1.1\ndig +noedns example.com @192.168.1.1\n\n# Point resolved at an upstream that handles EDNS0 properly\nsudo mkdir -p /etc/systemd/resolved.conf.d\nprintf '[Resolve]\\nDNS=1.1.1.1 9.9.9.9\\nDNSSEC=allow-downgrade\\n' | sudo tee /etc/systemd/resolved.conf.d/upstream.conf\nsudo systemctl restart systemd-resolved\nresolvectl flush-caches && resolvectl query example.com",
+    "sources": [
+      "https://www.freedesktop.org/software/systemd/man/latest/resolved.conf.html",
+      "https://www.rfc-editor.org/rfc/rfc6891"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "dnsmasq-failed-to-create-listening-socket-port-53",
+    "title": "dnsmasq: failed to create listening socket for port 53: Address already in use",
+    "category": "DNS",
+    "explanation": "Something else already owns port 53. On Ubuntu and Fedora that is almost always the systemd-resolved stub listener on 127.0.0.53, and on desktops it can be a second dnsmasq started by NetworkManager or libvirt. Because dnsmasq binds the wildcard address by default, it collides even though the other resolver is only on one loopback address.",
+    "fix_snippet": "# Who is listening on 53?\nsudo ss -lntup \"sport = :53\"\n\n# Option 1: keep resolved, but turn its stub listener off\nsudo mkdir -p /etc/systemd/resolved.conf.d\nprintf '[Resolve]\\nDNSStubListener=no\\n' | sudo tee /etc/systemd/resolved.conf.d/nostub.conf\nsudo systemctl restart systemd-resolved\n\n# Option 2: make dnsmasq bind only the interfaces it needs\n# /etc/dnsmasq.conf\n#   bind-interfaces\n#   listen-address=192.168.1.2\n\nsudo systemctl restart dnsmasq && sudo ss -lntup \"sport = :53\"",
+    "sources": [
+      "https://thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html",
+      "https://www.freedesktop.org/software/systemd/man/latest/resolved.conf.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "named-checkzone-ns-has-no-address-records",
+    "title": "zone example.com/IN: NS 'ns1.example.com' has no address records (A or AAAA)",
+    "category": "DNS",
+    "explanation": "The zone lists a name server inside itself but never gives that server an A or AAAA record, so nobody could find it. BIND refuses to load the zone rather than serve a delegation that cannot work. Frequent causes are a typo in the glue name, a missing trailing dot that turned ns1.example.com. into ns1.example.com.example.com, or deleting the old server's address record before the NS record.",
+    "fix_snippet": "# Run the same check BIND runs at load time\nnamed-checkzone example.com /etc/bind/db.example.com\n\n# Look at the NS lines and the matching address records\ngrep -nE '\\sNS\\s|^ns1' /etc/bind/db.example.com\n\n# Missing trailing dot? These two lines mean different things:\n#   @  IN NS ns1.example.com.     (absolute, correct)\n#   @  IN NS ns1.example.com      (becomes ns1.example.com.example.com.)\n\n# Add the address and bump the SOA serial, then reload\n# ns1  IN A  203.0.113.10\nnamed-checkzone example.com /etc/bind/db.example.com && sudo rndc reload example.com",
+    "sources": [
+      "https://bind9.readthedocs.io/en/latest/manpages.html#named-checkzone-zone-file-validation-tool",
+      "https://www.rfc-editor.org/rfc/rfc1034"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "nginx-ssl-do-handshake-failed-ssl-handshaking-to-upstream",
+    "title": "nginx: SSL_do_handshake() failed while SSL handshaking to upstream",
+    "category": "Proxy",
+    "explanation": "nginx reached the HTTPS backend but the TLS handshake failed, and the usual reason surprises people: nginx does not send SNI to upstreams by default. A backend behind a CDN, a cloud load balancer or any shared host picks its certificate by SNI, so without it the handshake is refused with a handshake failure alert. Curl to the same URL works because curl always sends SNI.",
+    "fix_snippet": "# Reproduce with and without SNI from the proxy host\nopenssl s_client -connect backend.example.com:443 -servername backend.example.com </dev/null | head -5\nopenssl s_client -connect backend.example.com:443 -noservername </dev/null | head -5\n\n# Send SNI and the right Host to the upstream\n# location / {\n#   proxy_pass https://backend.example.com;\n#   proxy_ssl_server_name on;\n#   proxy_ssl_name backend.example.com;\n#   proxy_set_header Host backend.example.com;\n# }\n\n# If it still fails, check protocol versions the upstream accepts\n# proxy_ssl_protocols TLSv1.2 TLSv1.3;\nsudo nginx -t && sudo systemctl reload nginx",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_server_name"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "nginx-no-resolver-defined-to-resolve",
+    "title": "nginx: no resolver defined to resolve backend.example.com",
+    "category": "Proxy",
+    "explanation": "When proxy_pass contains a variable, nginx resolves the hostname at request time instead of at startup, and that needs its own resolver directive: it does not read /etc/resolv.conf. People add the variable on purpose so nginx starts even when the backend is down, or so it picks up DNS changes, then get a 502 on every request. Inside Docker the resolver is 127.0.0.11; in Kubernetes it is the cluster DNS service.",
+    "fix_snippet": "# Is there a variable in proxy_pass? That is what triggers runtime resolution\nsudo nginx -T 2>/dev/null | grep -nE 'proxy_pass|resolver'\n\n# Find the resolver this host or container uses\ngrep nameserver /etc/resolv.conf\n\n# Tell nginx about it, with a short cache so DNS changes are picked up\n# resolver 127.0.0.11 valid=30s ipv6=off;       # Docker\n# resolver kube-dns.kube-system.svc.cluster.local valid=30s;  # Kubernetes\n# set $backend http://backend.example.com:8080;\n# proxy_pass $backend;\n\nsudo nginx -t && sudo systemctl reload nginx",
+    "sources": [
+      "https://nginx.org/en/docs/http/ngx_http_core_module.html#resolver",
+      "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "squid-err-access-denied",
+    "title": "Squid: ERR_ACCESS_DENIED Access control configuration prevents your request",
+    "category": "Proxy",
+    "explanation": "The request reached Squid and Squid itself refused it: the destination site is fine. Squid walks http_access rules top to bottom and the first match wins, so a client network missing from localnet, a CONNECT to a port outside SSL_ports, or a new allow rule placed below http_access deny all will all produce this page. The access log shows which client and method was denied.",
+    "fix_snippet": "# See the denied request: TCP_DENIED/403 with the client address\nsudo tail -f /var/log/squid/access.log | grep DENIED\n\n# Review rule order; anything after \"deny all\" never runs\nsudo grep -nE '^(acl|http_access)' /etc/squid/squid.conf\n\n# Allow your client network above the final deny\n# acl localnet src 10.0.0.0/8 192.168.0.0/16\n# http_access allow localnet\n# http_access deny all\n\n# Check syntax and reload without dropping connections\nsudo squid -k parse && sudo squid -k reconfigure",
+    "sources": [
+      "https://www.squid-cache.org/Doc/config/http_access/",
+      "https://wiki.squid-cache.org/SquidFaq/SquidAcl"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "ingress-nginx-kubernetes-ingress-controller-fake-certificate",
+    "title": "Kubernetes Ingress Controller Fake Certificate served instead of yours",
+    "category": "Ingress",
+    "explanation": "ingress-nginx serves its built-in self-signed certificate whenever it cannot match the request to a usable TLS secret. The secret may be missing or in a different namespace from the Ingress, the hostname in spec.tls may not match spec.rules, or the client is not sending SNI at all. cert-manager users often see it for a few minutes while the first certificate is still being issued.",
+    "fix_snippet": "# What certificate is actually served for this hostname?\nopenssl s_client -connect app.example.com:443 -servername app.example.com </dev/null 2>/dev/null | openssl x509 -noout -subject -issuer -dates\n\n# The secret must exist in the same namespace as the Ingress\nkubectl get ingress app -n prod -o jsonpath=\"{.spec.tls}\"; echo\nkubectl get secret app-tls -n prod -o jsonpath=\"{.type}\"; echo\n\n# Hosts in spec.tls must match spec.rules exactly\nkubectl get ingress app -n prod -o yaml | grep -A3 -E \"tls:|host:\"\n\n# The controller logs why it fell back\nkubectl logs -n ingress-nginx deploy/ingress-nginx-controller | grep -i -E \"ssl|certificate\" | tail\n\n# cert-manager: is the certificate actually ready?\nkubectl get certificate -n prod",
+    "sources": [
+      "https://kubernetes.github.io/ingress-nginx/user-guide/tls/",
+      "https://kubernetes.io/docs/concepts/services-networking/ingress/#tls"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "aws-load-balancer-controller-couldnt-auto-discover-subnets",
+    "title": "AWS Load Balancer Controller: couldn't auto-discover subnets",
+    "category": "Ingress",
+    "explanation": "The controller builds an ALB by finding subnets tagged for load balancers, and none in the cluster's VPC carry the tag. Public ALBs need kubernetes.io/role/elb=1 and internal ones kubernetes.io/role/internal-elb=1. eksctl tags subnets it creates, so this usually appears on clusters built with Terraform or the console, or after moving to new subnets. The Ingress stays without an address and the event says unable to resolve at least one subnet.",
+    "fix_snippet": "# The controller records the reason on the Ingress\nkubectl describe ingress app -n prod | sed -n \"/Events/,$p\"\n\n# Which subnets carry the tag in this VPC?\naws ec2 describe-subnets --filters Name=vpc-id,Values=vpc-0abc123 \\\n  --query \"Subnets[].{id:SubnetId,az:AvailabilityZone,tags:Tags[?starts_with(Key,'kubernetes.io/role')]}\"\n\n# Tag the public subnets (one per AZ, at least two AZs)\naws ec2 create-tags --resources subnet-0aaa subnet-0bbb --tags Key=kubernetes.io/role/elb,Value=1\n\n# Or name subnets explicitly on the Ingress\n# alb.ingress.kubernetes.io/subnets: subnet-0aaa, subnet-0bbb",
+    "sources": [
+      "https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/deploy/subnet_discovery/",
+      "https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "cert-manager-failed-to-determine-a-valid-solver-configuration",
+    "title": "cert-manager: Failed to determine a valid solver configuration",
+    "category": "Ingress",
+    "explanation": "None of the solvers on the Issuer matches the domains being requested, so cert-manager has no way to attempt a challenge. Solvers can be limited with a selector by dnsNames, dnsZones or labels, and a new hostname, a wildcard needing DNS01 while only HTTP01 is configured, or an Ingress pointing at the wrong Issuer all leave the order with nothing to try.",
+    "fix_snippet": "# The order lists which domains could not be matched\nkubectl get order -n prod\nkubectl describe order -n prod <order-name> | tail -20\n\n# Inspect solvers and their selectors on the issuer\nkubectl get clusterissuer letsencrypt -o yaml | sed -n \"/solvers:/,$p\"\n\n# Wildcards (*.example.com) can only be solved with DNS01\n# solvers:\n# - dns01: { cloudflare: { apiTokenSecretRef: { name: cf-token, key: token } } }\n#   selector: { dnsZones: [\"example.com\"] }\n# - http01: { ingress: { ingressClassName: nginx } }\n\n# Retry once the issuer is fixed\ncmctl renew app-tls -n prod",
+    "sources": [
+      "https://cert-manager.io/docs/configuration/acme/#adding-multiple-solver-types",
+      "https://cert-manager.io/docs/troubleshooting/acme/"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "slack-api-not-in-channel",
+    "title": "Slack API: not_in_channel",
+    "category": "API",
+    "explanation": "The bot token is valid and has chat:write, but the app has not been added to the channel it is posting to. Slack treats that as membership, not permission, so adding more scopes will not help. It often shows up when a webhook-style integration moves to chat.postMessage, or when the channel ID in config points at a private channel the bot was never invited to.",
+    "fix_snippet": "# Confirm the token works and see which bot it belongs to\ncurl -s -H \"Authorization: Bearer $SLACK_BOT_TOKEN\" https://slack.com/api/auth.test | jq\n\n# Is the bot a member of the channel?\ncurl -s -H \"Authorization: Bearer $SLACK_BOT_TOKEN\" \\\n  \"https://slack.com/api/conversations.info?channel=C0123456789\" | jq \".channel.is_member\"\n\n# Public channels: the bot can join itself (needs channels:join)\ncurl -s -X POST -H \"Authorization: Bearer $SLACK_BOT_TOKEN\" \\\n  -d channel=C0123456789 https://slack.com/api/conversations.join | jq \".ok, .error\"\n\n# Private channels: invite it from Slack, typing in the channel:\n# /invite @your-app-name",
+    "sources": [
+      "https://api.slack.com/methods/chat.postMessage",
+      "https://api.slack.com/methods/conversations.join"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "twilio-21608-trial-accounts-unverified-numbers",
+    "title": "Twilio 21608: Trial accounts cannot send messages to unverified numbers",
+    "category": "API",
+    "explanation": "The request is fine; the account is still on a trial, and trials may only message numbers verified on that account. It catches teams whose staging works because every developer verified their own phone, then fails the first time a real customer number is used. Upgrading the account removes the restriction, but some destination countries also need a registered sender before traffic is delivered.",
+    "fix_snippet": "# Check whether the account is still a trial\ncurl -s -u \"$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN\" \\\n  \"https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID.json\" | jq \".type, .status\"\n\n# List the numbers verified for trial use\ncurl -s -u \"$TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN\" \\\n  \"https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/OutgoingCallerIds.json\" | jq \".outgoing_caller_ids[].phone_number\"\n\n# Either verify the test recipient in the Console (Phone Numbers, Verified Caller IDs)\n# or upgrade the account so any number can be messaged\n\n# Make sure numbers are in E.164 form, e.g. +447700900123",
+    "sources": [
+      "https://www.twilio.com/docs/api/errors/21608",
+      "https://help.twilio.com/articles/223136107"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "discord-api-50013-missing-permissions",
+    "title": "Discord API: 50013 Missing Permissions",
+    "category": "API",
+    "explanation": "The bot is in the server but lacks a permission for this action in this place. Discord evaluates role permissions and then channel overwrites, so a role can grant Send Messages server-wide while one channel denies it. Moderation actions add role hierarchy on top: a bot cannot kick, ban or change the roles of anyone whose highest role sits above the bot's own, even with Administrator.",
+    "fix_snippet": "# Which call failed? The response body names the code\ncurl -s -H \"Authorization: Bot $DISCORD_TOKEN\" \\\n  -H \"Content-Type: application/json\" -d '{\"content\":\"test\"}' \\\n  https://discord.com/api/v10/channels/$CHANNEL_ID/messages | jq\n\n# Read the channel overwrites that may deny the bot\ncurl -s -H \"Authorization: Bot $DISCORD_TOKEN\" \\\n  https://discord.com/api/v10/channels/$CHANNEL_ID | jq \".permission_overwrites\"\n\n# Fixes, in order of likelihood:\n# 1. Allow the permission for the bot role on that channel\n# 2. Drag the bot role above the roles it needs to manage\n# 3. Re-invite with the right permissions integer in the OAuth2 URL",
+    "sources": [
+      "https://discord.com/developers/docs/topics/permissions",
+      "https://discord.com/developers/docs/topics/opcodes-and-status-codes#json"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "rabbitmq-access-refused-login-was-refused-plain",
+    "title": "RabbitMQ: ACCESS_REFUSED - Login was refused using authentication mechanism",
+    "category": "MessageQueue",
+    "explanation": "The broker rejected the username and password, but the credentials are not always what is wrong. The default guest user is restricted to localhost, so guest/guest works on your machine and fails from another container or host. The other common causes are a user with no permissions on the virtual host, or a vhost path in the URL that does not exist.",
+    "fix_snippet": "# The broker log says which user and why\nsudo journalctl -u rabbitmq-server | grep -i \"access_refused\\|invalid credentials\" | tail\n\n# List users and what each may do on each vhost\nsudo rabbitmqctl list_users\nsudo rabbitmqctl list_permissions -p /\n\n# Create a real user instead of relying on guest\nsudo rabbitmqctl add_user app \"$(openssl rand -hex 16)\"\nsudo rabbitmqctl set_permissions -p / app \".*\" \".*\" \".*\"\n\n# The default vhost \"/\" must be URL-encoded in connection strings\n# amqp://app:secret@rabbit:5672/%2F\n\n# Check the credentials directly\nsudo rabbitmqctl authenticate_user app \"secret\"",
+    "sources": [
+      "https://www.rabbitmq.com/docs/access-control",
+      "https://www.rabbitmq.com/docs/uri-spec"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "kafka-coordinator-not-available",
+    "title": "Kafka: The coordinator is not available (COORDINATOR_NOT_AVAILABLE)",
+    "category": "MessageQueue",
+    "explanation": "Consumer groups and transactions need the internal __consumer_offsets topic, and the broker cannot find a healthy leader for the partition that owns your group. On a fresh single-broker dev cluster the classic cause is offsets.topic.replication.factor left at its default of 3, so the topic can never be created. On a real cluster it usually means a broker holding that partition is down or still starting.",
+    "fix_snippet": "# Does the offsets topic exist, and are all partitions led?\nkafka-topics.sh --bootstrap-server localhost:9092 --describe --topic __consumer_offsets | head\n\n# Partitions with no leader\nkafka-topics.sh --bootstrap-server localhost:9092 --describe --unavailable-partitions\n\n# Single-broker dev cluster: set these in server.properties and restart\n# offsets.topic.replication.factor=1\n# transaction.state.log.replication.factor=1\n# transaction.state.log.min.isr=1\n\n# Then confirm the group can be described\nkafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group",
+    "sources": [
+      "https://kafka.apache.org/documentation/#brokerconfigs_offsets.topic.replication.factor",
+      "https://kafka.apache.org/protocol#protocol_error_codes"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "celery-received-unregistered-task-of-type",
+    "title": "Celery: Received unregistered task of type 'myapp.tasks.send_email'",
+    "category": "MessageQueue",
+    "explanation": "The worker took a message off the queue but has never imported the module that defines the task, so it has no idea what to run. The producer and the worker disagree about the task's name or code: the worker was started with a different -A app, autodiscovery missed the module, the task was renamed by moving it, or an old worker still running from the previous deploy picked the message up.",
+    "fix_snippet": "# What does the worker actually know about?\ncelery -A myapp inspect registered\n\n# Compare with the name the producer sends (shown in the error)\npython -c \"from myapp.tasks import send_email; print(send_email.name)\"\n\n# Make sure the worker imports the tasks module\n# app = Celery('myapp'); app.autodiscover_tasks(['myapp'])\n# or: app.conf.imports = (\"myapp.tasks\",)\n\n# Pin names so moving a function does not rename the task\n# @app.task(name='myapp.tasks.send_email')\n\n# Check for stale workers from an older release\ncelery -A myapp inspect stats | grep -E \"^->|pid\"",
+    "sources": [
+      "https://docs.celeryq.dev/en/stable/userguide/tasks.html#names",
+      "https://docs.celeryq.dev/en/stable/userguide/workers.html#inspecting-workers"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "android-namespace-not-specified",
+    "title": "Android: Namespace not specified. Specify a namespace in the module's build file",
+    "category": "Mobile",
+    "explanation": "Android Gradle Plugin 8 stopped reading the package attribute from AndroidManifest.xml and requires namespace in build.gradle instead. Your own module is easy to fix; the harder case is an old third-party library or Flutter or React Native plugin that has not been updated, which fails the build even though your code is correct. The module named in the error tells you which one.",
+    "fix_snippet": "# Which AGP version is the project on?\ngrep -rn \"com.android.tools.build:gradle\\|id(\\\"com.android\" build.gradle* settings.gradle* gradle/libs.versions.toml\n\n# Move the package from the manifest into the module build file\ngrep -n \"package=\" app/src/main/AndroidManifest.xml\n# android {\n#     namespace = \"com.example.myapp\"\n# }\n# then delete package=\"...\" from the manifest\n\n# For an outdated plugin, upgrade it first\nflutter pub outdated    # or: npm outdated\n\n# AGP Upgrade Assistant does this for your own modules\n# Android Studio: Tools > AGP Upgrade Assistant",
+    "sources": [
+      "https://developer.android.com/build/configure-app-module#set-namespace",
+      "https://developer.android.com/build/releases/past-releases/agp-8-0-0-release-notes"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "android-gradle-plugin-requires-java-17",
+    "title": "Android Gradle plugin requires Java 17 to run. You are currently using Java 11",
+    "category": "Mobile",
+    "explanation": "AGP 8 needs JDK 17 to run Gradle itself, separate from the Java version your app code targets. Android Studio bundles a suitable JDK, which is why the build works in the IDE and fails on the command line or in CI, where JAVA_HOME still points at Java 11. Raising sourceCompatibility does nothing here: it is the JDK running Gradle that has to change.",
+    "fix_snippet": "# Which JDK does Gradle actually use?\n./gradlew --version | grep -E \"JVM|Daemon\"\necho \"$JAVA_HOME\"; java -version\n\n# Point the command line at a JDK 17 (or the one bundled with Android Studio)\nexport JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64\n# macOS: export JAVA_HOME=\"/Applications/Android Studio.app/Contents/jbr/Contents/Home\"\n\n# Or pin it for this project only\necho 'org.gradle.java.home=/usr/lib/jvm/java-17-openjdk-amd64' >> gradle.properties\n\n# GitHub Actions\n# - uses: actions/setup-java@v4\n#   with: { distribution: temurin, java-version: 17 }\n\n./gradlew --stop && ./gradlew assembleDebug",
+    "sources": [
+      "https://developer.android.com/build/jdks",
+      "https://docs.gradle.org/current/userguide/build_environment.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "android-resource-linking-failed-attr-lstar-not-found",
+    "title": "AAPT: error: resource android:attr/lStar not found",
+    "category": "Mobile",
+    "explanation": "android:attr/lStar was added in API 31, and a dependency (usually androidx.core 1.7 or newer, pulled in transitively) references it. Your compileSdk is older than 31, so the build tools cannot find the attribute. It looks like a broken library but is a version mismatch, and it commonly appears overnight when a + or dynamic version resolves to a newer androidx release.",
+    "fix_snippet": "# Which compileSdk is the failing module using?\ngrep -rn \"compileSdk\" app/build.gradle* build.gradle*\n\n# Which androidx.core version was resolved, and who asked for it?\n./gradlew :app:dependencyInsight --dependency androidx.core:core --configuration debugRuntimeClasspath\n\n# Fix: compile against API 31 or later (targetSdk can stay lower)\n# android { compileSdk = 34 }\n\n# In a Flutter or React Native plugin module, the plugin needs the same bump\n\n# Stop dynamic versions resolving to something new without you noticing\ngrep -rn \":+\\\"\\|:latest\" app/build.gradle*",
+    "sources": [
+      "https://developer.android.com/reference/android/R.attr#lStar",
+      "https://developer.android.com/jetpack/androidx/releases/core"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "cmake-compatibility-with-cmake-older-than-3-5-removed",
+    "title": "CMake Error: Compatibility with CMake < 3.5 has been removed from CMake.",
+    "category": "C++",
+    "explanation": "CMake 4.0 dropped support for projects that declare cmake_minimum_required below 3.5. The code is unchanged; your CMake upgraded, often silently through Homebrew, pip or a CI image, and an old project or vendored dependency still says VERSION 2.8 or 3.1. Usually the fix belongs upstream, and in the meantime CMAKE_POLICY_VERSION_MINIMUM lets the build continue.",
+    "fix_snippet": "# Which CMake is running?\ncmake --version\n\n# Find every project file declaring an old minimum, including vendored ones\ngrep -rn --include=CMakeLists.txt \"cmake_minimum_required\" . | grep -E \"VERSION (2\\.|3\\.[0-4][^0-9])\"\n\n# Your own project: raise the minimum to one you actually test with\n# cmake_minimum_required(VERSION 3.16)\n\n# Third-party code you cannot edit yet: override at configure time\ncmake -S . -B build -DCMAKE_POLICY_VERSION_MINIMUM=3.5\n\n# pip builds that call CMake underneath\nCMAKE_POLICY_VERSION_MINIMUM=3.5 pip install somepackage",
+    "sources": [
+      "https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html",
+      "https://cmake.org/cmake/help/latest/variable/CMAKE_POLICY_VERSION_MINIMUM.html"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "cpp-invalid-use-of-incomplete-type",
+    "title": "C++: error: invalid use of incomplete type 'class Foo'",
+    "category": "C++",
+    "explanation": "The compiler has seen a forward declaration of Foo but not its definition, and this line needs the full layout: calling a member, taking sizeof, holding it by value or deleting it. Headers often forward-declare on purpose to cut compile times, so the fix is to include the real header in the .cpp file that uses it. With std::unique_ptr<Foo> members the error points into the destructor, which must be defined where Foo is complete.",
+    "fix_snippet": "# The note under the error shows where the forward declaration is\ng++ -std=c++20 -c widget.cpp 2>&1 | grep -A2 \"forward declaration\"\n\n# Include the full definition in the .cpp that uses it, not just the .h\n# #include \"foo.h\"\n\n# Pimpl with unique_ptr: declare the destructor in the header\n# class Widget { public: ~Widget(); private: std::unique_ptr<Impl> impl_; };\n# and define it in widget.cpp after Impl is complete\n# Widget::~Widget() = default;\n\n# Two headers including each other? Look for a cycle\ngrep -n \"#include\" foo.h bar.h",
+    "sources": [
+      "https://en.cppreference.com/w/cpp/language/type#Incomplete_type",
+      "https://en.cppreference.com/w/cpp/memory/unique_ptr"
+    ],
+    "dateAdded": "2026-10-17"
+  },
+  {
+    "id": "cpp-leaksanitizer-detected-memory-leaks",
+    "title": "LeakSanitizer: detected memory leaks",
+    "category": "C++",
+    "explanation": "LeakSanitizer runs when the process exits and reports heap blocks that nothing points to any more. It is on by default with AddressSanitizer on Linux, which is why it starts failing tests the day someone enables -fsanitize=address. Direct leaks are the ones to fix first; indirect leaks are usually owned by a direct one and disappear with it. Leaks inside third-party libraries can be suppressed rather than patched.",
+    "fix_snippet": "# Build with symbols so the stack traces are readable\ng++ -g -O1 -fno-omit-frame-pointer -fsanitize=address main.cpp -o app\n./app\n\n# Longer stacks for leaks allocated deep in a call chain\nASAN_OPTIONS=fast_unwind_on_malloc=0 LSAN_OPTIONS=malloc_context_size=30 ./app\n\n# Suppress a known leak in a library you do not own\necho 'leak:libfontconfig.so' > lsan.supp\nLSAN_OPTIONS=suppressions=lsan.supp ./app\n\n# Leak checking without ASan overhead\ng++ -g -fsanitize=leak main.cpp -o app && ./app",
+    "sources": [
+      "https://clang.llvm.org/docs/LeakSanitizer.html",
+      "https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer"
+    ],
+    "dateAdded": "2026-10-17"
   }
 ]

@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Thu, 15 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 17 Oct 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>(Mix) You&apos;re trying to run :my_app on Elixir v1.15.7 but it has declared</title>
+      <link>https://fixmyerror.net/errors/mix-trying-to-run-on-elixir-version-mix-exs-supports-only.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/mix-trying-to-run-on-elixir-version-mix-exs-supports-only.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The elixir: requirement in mix.exs (for example &quot;~&gt; 1.17&quot;) does not match the Elixir on your PATH. It works on your laptop and fails in CI or a container because the two have different Elixir installs, often an asdf or mise .tool-versions file that the build image ignores. Remember Elixir and OTP…</description>
+    </item>
+    <item>
+      <title>/usr/bin/env: &apos;python&apos;: No such file or directory</title>
+      <link>https://fixmyerror.net/errors/env-python-no-such-file-or-directory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/env-python-no-such-file-or-directory.html</guid>
+      <category>Shell</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The script&apos;s shebang asks for a command called python, and current Debian, Ubuntu, Fedora and macOS releases only ship python3. Python 3 is installed; there is just no executable with the bare name. It also catches scripts saved with Windows line endings, where env looks for &apos;python\r&apos; and the…</description>
+    </item>
+    <item>
+      <title>AAPT: error: resource android:attr/lStar not found</title>
+      <link>https://fixmyerror.net/errors/android-resource-linking-failed-attr-lstar-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-resource-linking-failed-attr-lstar-not-found.html</guid>
+      <category>Mobile</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>android:attr/lStar was added in API 31, and a dependency (usually androidx.core 1.7 or newer, pulled in transitively) references it. Your compileSdk is older than 31, so the build tools cannot find the attribute. It looks like a broken library but is a version mismatch, and it commonly appears…</description>
+    </item>
+    <item>
+      <title>Android Gradle plugin requires Java 17 to run. You are currently using Java 11</title>
+      <link>https://fixmyerror.net/errors/android-gradle-plugin-requires-java-17.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-gradle-plugin-requires-java-17.html</guid>
+      <category>Mobile</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>AGP 8 needs JDK 17 to run Gradle itself, separate from the Java version your app code targets. Android Studio bundles a suitable JDK, which is why the build works in the IDE and fails on the command line or in CI, where JAVA_HOME still points at Java 11. Raising sourceCompatibility does nothing…</description>
+    </item>
+    <item>
+      <title>Android: Namespace not specified. Specify a namespace in the module&apos;s build file</title>
+      <link>https://fixmyerror.net/errors/android-namespace-not-specified.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-namespace-not-specified.html</guid>
+      <category>Mobile</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Android Gradle Plugin 8 stopped reading the package attribute from AndroidManifest.xml and requires namespace in build.gradle instead. Your own module is easy to fix; the harder case is an old third-party library or Flutter or React Native plugin that has not been updated, which fails the build…</description>
+    </item>
+    <item>
+      <title>AWS Load Balancer Controller: couldn&apos;t auto-discover subnets</title>
+      <link>https://fixmyerror.net/errors/aws-load-balancer-controller-couldnt-auto-discover-subnets.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-load-balancer-controller-couldnt-auto-discover-subnets.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The controller builds an ALB by finding subnets tagged for load balancers, and none in the cluster&apos;s VPC carry the tag. Public ALBs need kubernetes.io/role/elb=1 and internal ones kubernetes.io/role/internal-elb=1. eksctl tags subnets it creates, so this usually appears on clusters built with…</description>
+    </item>
+    <item>
+      <title>bash: ulimit: open files: cannot modify limit: Operation not permitted</title>
+      <link>https://fixmyerror.net/errors/bash-ulimit-open-files-cannot-modify-limit.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-ulimit-open-files-cannot-modify-limit.html</guid>
+      <category>Shell</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>An unprivileged shell can lower its soft limit or raise it up to the hard limit, but never past the hard limit. Running ulimit -n 65535 asks for more than the hard limit your session inherited. Editing limits.conf does nothing for services, which take their limits from systemd, and only applies to…</description>
+    </item>
+    <item>
+      <title>C++: error: invalid use of incomplete type &apos;class Foo&apos;</title>
+      <link>https://fixmyerror.net/errors/cpp-invalid-use-of-incomplete-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-invalid-use-of-incomplete-type.html</guid>
+      <category>C++</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The compiler has seen a forward declaration of Foo but not its definition, and this line needs the full layout: calling a member, taking sizeof, holding it by value or deleting it. Headers often forward-declare on purpose to cut compile times, so the fix is to include the real header in the .cpp…</description>
+    </item>
+    <item>
+      <title>Celery: Received unregistered task of type &apos;myapp.tasks.send_email&apos;</title>
+      <link>https://fixmyerror.net/errors/celery-received-unregistered-task-of-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/celery-received-unregistered-task-of-type.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The worker took a message off the queue but has never imported the module that defines the task, so it has no idea what to run. The producer and the worker disagree about the task&apos;s name or code: the worker was started with a different -A app, autodiscovery missed the module, the task was renamed…</description>
+    </item>
+    <item>
+      <title>cert-manager: Failed to determine a valid solver configuration</title>
+      <link>https://fixmyerror.net/errors/cert-manager-failed-to-determine-a-valid-solver-configuration.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cert-manager-failed-to-determine-a-valid-solver-configuration.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>None of the solvers on the Issuer matches the domains being requested, so cert-manager has no way to attempt a challenge. Solvers can be limited with a selector by dnsNames, dnsZones or labels, and a new hostname, a wildcard needing DNS01 while only HTTP01 is configured, or an Ingress pointing at…</description>
+    </item>
+    <item>
+      <title>CMake Error: Compatibility with CMake &lt; 3.5 has been removed from CMake.</title>
+      <link>https://fixmyerror.net/errors/cmake-compatibility-with-cmake-older-than-3-5-removed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cmake-compatibility-with-cmake-older-than-3-5-removed.html</guid>
+      <category>C++</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>CMake 4.0 dropped support for projects that declare cmake_minimum_required below 3.5. The code is unchanged; your CMake upgraded, often silently through Homebrew, pip or a CI image, and an old project or vendored dependency still says VERSION 2.8 or 3.1. Usually the fix belongs upstream, and in…</description>
+    </item>
+    <item>
+      <title>CPU0: Core temperature above threshold, cpu clock throttled</title>
+      <link>https://fixmyerror.net/errors/linux-core-temperature-above-threshold-cpu-clock-throttled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-core-temperature-above-threshold-cpu-clock-throttled.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The CPU hit its thermal limit and the hardware cut its clock speed to cool down. Everything still works, just slower, so it shows up as a benchmark or build that is fast for a minute and then degrades, or a server that is slower in summer. The cause is physical more often than not: clogged fans…</description>
+    </item>
+    <item>
+      <title>Discord API: 50013 Missing Permissions</title>
+      <link>https://fixmyerror.net/errors/discord-api-50013-missing-permissions.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/discord-api-50013-missing-permissions.html</guid>
+      <category>API</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The bot is in the server but lacks a permission for this action in this place. Discord evaluates role permissions and then channel overwrites, so a role can grant Send Messages server-wide while one channel denies it. Moderation actions add role hierarchy on top: a bot cannot kick, ban or change…</description>
+    </item>
+    <item>
+      <title>dnsmasq: failed to create listening socket for port 53: Address already in use</title>
+      <link>https://fixmyerror.net/errors/dnsmasq-failed-to-create-listening-socket-port-53.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dnsmasq-failed-to-create-listening-socket-port-53.html</guid>
+      <category>DNS</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Something else already owns port 53. On Ubuntu and Fedora that is almost always the systemd-resolved stub listener on 127.0.0.53, and on desktops it can be a second dnsmasq started by NetworkManager or libvirt. Because dnsmasq binds the wildcard address by default, it collides even though the…</description>
+    </item>
+    <item>
+      <title>Ecto: could not lookup Ecto repo MyApp.Repo because it was not started</title>
+      <link>https://fixmyerror.net/errors/ecto-could-not-lookup-repo-not-started.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-could-not-lookup-repo-not-started.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Ecto found the repo module but no running process registered under it. The code is fine; it is running somewhere the application tree has not been started: a Mix task, a release eval command, a seeds script run with plain elixir, or an ExUnit test helper that skipped…</description>
+    </item>
+    <item>
+      <title>Elixir: function :crypto.hmac/3 is undefined or private</title>
+      <link>https://fixmyerror.net/errors/elixir-crypto-hmac-undefined-otp-24.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-crypto-hmac-undefined-otp-24.html</guid>
+      <category>Elixir</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>OTP 24 removed the old crypto API, so :crypto.hmac/3 no longer exists. Your own code rarely calls it directly: the usual culprit is an old version of a dependency (an outdated plug_crypto, a JWT or AWS signing library) that still does. The project compiled fine on OTP 23, which is why it breaks…</description>
+    </item>
+    <item>
+      <title>GraphQL: Field &quot;user&quot; of type &quot;User&quot; must have a selection of subfields</title>
+      <link>https://fixmyerror.net/errors/graphql-field-must-have-a-selection-of-subfields.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-field-must-have-a-selection-of-subfields.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The field returns an object type, and GraphQL never returns a whole object implicitly: you have to name the scalar fields you want inside braces. The reverse mistake, adding braces to a scalar or enum field, gives a matching &quot;must not have a selection&quot; error. It tends to appear after a schema…</description>
+    </item>
+    <item>
+      <title>GraphQL: Unknown argument &quot;first&quot; on field &quot;Query.users&quot;</title>
+      <link>https://fixmyerror.net/errors/graphql-unknown-argument-on-field.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-unknown-argument-on-field.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Validation rejected the query before any resolver ran because the schema has no argument with that name on that field. It is often a client written against a different schema version, a Relay-style first/after query sent to a server that paginates with limit/offset, or a field that takes its…</description>
+    </item>
+    <item>
+      <title>INFO: task kworker blocked for more than 120 seconds</title>
+      <link>https://fixmyerror.net/errors/linux-task-blocked-for-more-than-120-seconds.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-task-blocked-for-more-than-120-seconds.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The hung task detector found a process stuck in uninterruptible sleep (D state) for two minutes, almost always waiting on I/O. The task it names is the victim, not the cause: look at the storage behind it. Typical culprits are an NFS or iSCSI server that went away, a saturated or failing disk, or…</description>
+    </item>
+    <item>
+      <title>Kafka: The coordinator is not available (COORDINATOR_NOT_AVAILABLE)</title>
+      <link>https://fixmyerror.net/errors/kafka-coordinator-not-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-coordinator-not-available.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Consumer groups and transactions need the internal __consumer_offsets topic, and the broker cannot find a healthy leader for the partition that owns your group. On a fresh single-broker dev cluster the classic cause is offsets.topic.replication.factor left at its default of 3, so the topic can…</description>
+    </item>
+    <item>
+      <title>Kubernetes Ingress Controller Fake Certificate served instead of yours</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-kubernetes-ingress-controller-fake-certificate.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-kubernetes-ingress-controller-fake-certificate.html</guid>
+      <category>Ingress</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>ingress-nginx serves its built-in self-signed certificate whenever it cannot match the request to a usable TLS secret. The secret may be missing or in a different namespace from the Ingress, the hostname in spec.tls may not match spec.rules, or the client is not sending SNI at all. cert-manager…</description>
+    </item>
+    <item>
+      <title>LeakSanitizer: detected memory leaks</title>
+      <link>https://fixmyerror.net/errors/cpp-leaksanitizer-detected-memory-leaks.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-leaksanitizer-detected-memory-leaks.html</guid>
+      <category>C++</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>LeakSanitizer runs when the process exits and reports heap blocks that nothing points to any more. It is on by default with AddressSanitizer on Linux, which is why it starts failing tests the day someone enables -fsanitize=address. Direct leaks are the ones to fix first; indirect leaks are usually…</description>
+    </item>
+    <item>
+      <title>nf_conntrack: table full, dropping packet</title>
+      <link>https://fixmyerror.net/errors/nf-conntrack-table-full-dropping-packet.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nf-conntrack-table-full-dropping-packet.html</guid>
+      <category>Performance</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The kernel tracks every connection passing through netfilter, and that table has a fixed size. Once it fills, new connections are silently dropped, which looks like random timeouts under load rather than an error. It is common on busy load balancers, NAT gateways and Kubernetes nodes where…</description>
+    </item>
+    <item>
+      <title>nginx: no resolver defined to resolve backend.example.com</title>
+      <link>https://fixmyerror.net/errors/nginx-no-resolver-defined-to-resolve.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-no-resolver-defined-to-resolve.html</guid>
+      <category>Proxy</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>When proxy_pass contains a variable, nginx resolves the hostname at request time instead of at startup, and that needs its own resolver directive: it does not read /etc/resolv.conf. People add the variable on purpose so nginx starts even when the backend is down, or so it picks up DNS changes…</description>
+    </item>
+    <item>
+      <title>nginx: SSL_do_handshake() failed while SSL handshaking to upstream</title>
+      <link>https://fixmyerror.net/errors/nginx-ssl-do-handshake-failed-ssl-handshaking-to-upstream.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-ssl-do-handshake-failed-ssl-handshaking-to-upstream.html</guid>
+      <category>Proxy</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>nginx reached the HTTPS backend but the TLS handshake failed, and the usual reason surprises people: nginx does not send SNI to upstreams by default. A backend behind a CDN, a cloud load balancer or any shared host picks its certificate by SNI, so without it the handshake is refused with a…</description>
+    </item>
+    <item>
+      <title>RabbitMQ: ACCESS_REFUSED - Login was refused using authentication mechanism</title>
+      <link>https://fixmyerror.net/errors/rabbitmq-access-refused-login-was-refused-plain.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-access-refused-login-was-refused-plain.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The broker rejected the username and password, but the credentials are not always what is wrong. The default guest user is restricted to localhost, so guest/guest works on your machine and fails from another container or host. The other common causes are a user with no permissions on the virtual…</description>
+    </item>
+    <item>
+      <title>S3: SlowDown: Please reduce your request rate (503)</title>
+      <link>https://fixmyerror.net/errors/s3-slowdown-please-reduce-your-request-rate.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-slowdown-please-reduce-your-request-rate.html</guid>
+      <category>Storage</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>S3 is throttling requests to one key prefix, not your whole account. Each prefix supports around 3,500 writes and 5,500 reads a second, and a burst that lands on a single prefix (every object under logs/2026-10-17/, say) hits that ceiling while the rest of the bucket is idle. It also appears…</description>
+    </item>
+    <item>
+      <title>S3: The requested bucket name is not available (BucketAlreadyExists)</title>
+      <link>https://fixmyerror.net/errors/s3-bucket-already-exists-namespace-shared.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-bucket-already-exists-namespace-shared.html</guid>
+      <category>Storage</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Bucket names are global across every AWS account in a partition, so somebody else already owns this one, possibly years ago. BucketAlreadyOwnedByYou is the friendlier variant and means you created it yourself, usually in another region or an earlier Terraform run. A name deleted recently can also…</description>
+    </item>
+    <item>
+      <title>Slack API: not_in_channel</title>
+      <link>https://fixmyerror.net/errors/slack-api-not-in-channel.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/slack-api-not-in-channel.html</guid>
+      <category>API</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The bot token is valid and has chat:write, but the app has not been added to the channel it is posting to. Slack treats that as membership, not permission, so adding more scopes will not help. It often shows up when a webhook-style integration moves to chat.postMessage, or when the channel ID in…</description>
+    </item>
+    <item>
+      <title>Squid: ERR_ACCESS_DENIED Access control configuration prevents your request</title>
+      <link>https://fixmyerror.net/errors/squid-err-access-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/squid-err-access-denied.html</guid>
+      <category>Proxy</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The request reached Squid and Squid itself refused it: the destination site is fine. Squid walks http_access rules top to bottom and the first match wins, so a client network missing from localnet, a CONNECT to a port outside SSL_ports, or a new allow rule placed below http_access deny all will…</description>
+    </item>
+    <item>
+      <title>Structure needs cleaning</title>
+      <link>https://fixmyerror.net/errors/linux-structure-needs-cleaning-euclean.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-structure-needs-cleaning-euclean.html</guid>
+      <category>Storage</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This is EUCLEAN, the kernel saying the filesystem found corrupt metadata and refused to trust it. On XFS and ext4 it usually follows an unclean shutdown, a failing disk or a virtual disk that lost writes. The file or directory named in the error is only where the damage was noticed: the repair has…</description>
+    </item>
+    <item>
+      <title>sudo: a terminal is required to read the password</title>
+      <link>https://fixmyerror.net/errors/sudo-a-terminal-is-required-to-read-the-password.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sudo-a-terminal-is-required-to-read-the-password.html</guid>
+      <category>Shell</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>sudo wanted a password but had no terminal to ask on, because the command ran over ssh without a TTY, from cron, in a CI job or inside an Ansible or Docker step. The same command works when you type it interactively because there you have a terminal and possibly a cached sudo timestamp. The fix is…</description>
+    </item>
+    <item>
+      <title>This operation has been blocked as a potential Cross-Site Request Forgery (CSRF)</title>
+      <link>https://fixmyerror.net/errors/apollo-server-blocked-potential-csrf.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-server-blocked-potential-csrf.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Apollo Server 4 turns on CSRF prevention by default. It refuses GET requests and &quot;simple&quot; POSTs (form-encoded, multipart or text/plain) unless they carry a header a browser cannot add cross-site without a preflight. Normal JSON clients are unaffected, so it usually bites curl one-liners, health…</description>
+    </item>
+    <item>
+      <title>Twilio 21608: Trial accounts cannot send messages to unverified numbers</title>
+      <link>https://fixmyerror.net/errors/twilio-21608-trial-accounts-unverified-numbers.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/twilio-21608-trial-accounts-unverified-numbers.html</guid>
+      <category>API</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The request is fine; the account is still on a trial, and trials may only message numbers verified on that account. It catches teams whose staging works because every developer verified their own phone, then fails the first time a real customer number is used. Upgrading the account removes the…</description>
+    </item>
+    <item>
+      <title>Using degraded feature set UDP instead of UDP+EDNS0 for DNS server</title>
+      <link>https://fixmyerror.net/errors/systemd-resolved-degraded-feature-set-udp-edns0.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-resolved-degraded-feature-set-udp-edns0.html</guid>
+      <category>DNS</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>systemd-resolved probes each upstream server for EDNS0 and DNSSEC support and steps down when replies look broken. The upstream is usually a home router or ISP resolver that mangles or drops EDNS0 packets. On its own the message is noise, but if lookups are also slow or failing it means resolved…</description>
+    </item>
+    <item>
+      <title>zone example.com/IN: NS &apos;ns1.example.com&apos; has no address records (A or AAAA)</title>
+      <link>https://fixmyerror.net/errors/named-checkzone-ns-has-no-address-records.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/named-checkzone-ns-has-no-address-records.html</guid>
+      <category>DNS</category>
+      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The zone lists a name server inside itself but never gives that server an A or AAAA record, so nobody could find it. BIND refuses to load the zone rather than serve a delegation that cannot work. Frequent causes are a typo in the glue name, a missing trailing dot that turned ns1.example.com. into…</description>
+    </item>
     <item>
       <title>.NET: BinaryFormatter serialization and deserialization have been removed</title>
       <link>https://fixmyerror.net/errors/dotnet-9-binaryformatter-removed.html</link>
@@ -1319,294 +1607,6 @@
       <category>WebServer</category>
       <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
       <description>Each worker has a fixed number of connection slots and a proxied request uses two of them, one to the client and one to the upstream, so the ceiling arrives at roughly half the concurrency you expected. New connections queue or fail while CPU and memory look fine, and the message repeats once per…</description>
-    </item>
-    <item>
-      <title>Python was not found; run without arguments to install from the Microsoft Store</title>
-      <link>https://fixmyerror.net/errors/windows-python-was-not-found-store-alias.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-python-was-not-found-store-alias.html</guid>
-      <category>Windows</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Windows ships app execution aliases for python.exe and python3.exe that open the Store, and they sit early enough in PATH to shadow a real installation. Anything that shells out to python hits the stub, including build scripts and node-gyp, so an interpreter you can see on disk appears to be…</description>
-    </item>
-    <item>
-      <title>Requests take a multiple of 40ms more than the work needs</title>
-      <link>https://fixmyerror.net/errors/tcp-nagle-delayed-ack-40ms.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/tcp-nagle-delayed-ack-40ms.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Nagle&apos;s algorithm holds a small write until the previous segment is acknowledged, and the peer&apos;s delayed ACK holds that acknowledgement for up to 40ms hoping to piggyback it on data. Neither side is overloaded, they are waiting for each other, which is why the extra time is suspiciously constant…</description>
-    </item>
-    <item>
-      <title>Scala 3: `_` is no longer supported for a type wildcard, use `?`</title>
-      <link>https://fixmyerror.net/errors/scala-3-underscore-type-wildcard-no-longer-supported.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-3-underscore-type-wildcard-no-longer-supported.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Underscore is being reclaimed for type lambdas, so existing type wildcards have to be written with a question mark instead. It arrives as a warning during a Scala 3 upgrade and becomes an error under -source:future, and the rewrite is mechanical because only type positions changed.</description>
-    </item>
-    <item>
-      <title>Scala 3: Ambiguous given instances: both X and Y match type</title>
-      <link>https://fixmyerror.net/errors/scala-3-ambiguous-given-instances.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-3-ambiguous-given-instances.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Two givens of the same type are in scope with equal specificity, so the compiler refuses to choose between them. A wildcard import is the usual route in, particularly when a library ships both a default instance and a configurable one, and the ambiguity only shows up at the call site that needs it.</description>
-    </item>
-    <item>
-      <title>Scala: missing parameter type for expanded function</title>
-      <link>https://fixmyerror.net/errors/scala-missing-parameter-type-for-expanded-function.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-missing-parameter-type-for-expanded-function.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The compiler reached a placeholder or a lambda before it knew the expected type, so there is nothing to infer the parameter from. The cause is inference order rather than the lambda itself: a value with no declared type, an overloaded method, or a chain whose receiver type is still being worked out.</description>
-    </item>
-    <item>
-      <title>Scala: object X is not a member of package Y</title>
-      <link>https://fixmyerror.net/errors/scala-object-is-not-a-member-of-package.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-object-is-not-a-member-of-package.html</guid>
-      <category>Scala</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The compiler resolved the package and found nothing of that name inside it, so the import fails rather than the usage. A dependency that is only on the test classpath, a stale target directory after a rename, and a package declaration that no longer matches the artefact all present identically.</description>
-    </item>
-    <item>
-      <title>Svelte 5: effect_update_depth_exceeded (Maximum update depth exceeded)</title>
-      <link>https://fixmyerror.net/errors/svelte-5-effect-update-depth-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-effect-update-depth-exceeded.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An effect wrote to state that it also reads, so running it schedules it again and Svelte gives up after a fixed number of iterations. Deriving a value inside an effect is the usual shape, and the loop often only closes once a second effect starts reading what the first one writes.</description>
-    </item>
-    <item>
-      <title>SvelteKit: Cannot access url.searchParams on a page with prerendering enabled</title>
-      <link>https://fixmyerror.net/errors/sveltekit-cannot-access-url-searchparams-prerendering.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-cannot-access-url-searchparams-prerendering.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A prerendered page is one file written at build time, so there is no request to read a query string from. The clash usually comes from a layout: prerender was switched on once near the root and inherited by a page that filters or paginates from the URL.</description>
-    </item>
-    <item>
-      <title>SvelteKit: Cannot import $env/static/private into client-facing code</title>
-      <link>https://fixmyerror.net/errors/sveltekit-env-static-private-in-client-code.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-env-static-private-in-client-code.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Private environment variables may only be imported by modules that never reach the browser, and the import chain from a component or a universal load function crossed that line. The offending import is often indirect: a shared helper that reads a secret gets pulled into a .svelte file by one…</description>
-    </item>
-    <item>
-      <title>SvelteKit: Cross-site POST form submissions are forbidden</title>
-      <link>https://fixmyerror.net/errors/sveltekit-cross-site-post-form-submissions-are-forbidden.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-cross-site-post-form-submissions-are-forbidden.html</guid>
-      <category>Svelte</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>SvelteKit compares the Origin header with the origin it believes it is serving and rejects the mismatch, which is its CSRF protection rather than a bug. It appears behind a proxy that does not pass the original host and protocol through, or when a form genuinely posts to another host, such as a…</description>
-    </item>
-    <item>
-      <title>The trust relationship between this workstation and the primary domain failed</title>
-      <link>https://fixmyerror.net/errors/windows-trust-relationship-failed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-trust-relationship-failed.html</guid>
-      <category>Windows</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The machine account password the workstation holds no longer matches the one in Active Directory, so domain logons are refused while local accounts still work. Restoring a virtual machine from a snapshot, cloning without sysprep, or leaving a machine switched off for longer than the password…</description>
-    </item>
-    <item>
-      <title>wasm-bindgen: closure invoked after being dropped</title>
-      <link>https://fixmyerror.net/errors/wasm-bindgen-closure-invoked-after-being-dropped.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-bindgen-closure-invoked-after-being-dropped.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A Rust closure handed to JavaScript lives only as long as its Closure value, and letting that fall out of scope frees it while the event listener or timer still points at it. The panic therefore arrives when the callback first fires rather than where the mistake was made, which is normally a setup…</description>
-    </item>
-    <item>
-      <title>wasm-pack: crate-type must be cdylib to compile to wasm32-unknown-unknown</title>
-      <link>https://fixmyerror.net/errors/wasm-pack-crate-type-cdylib.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-pack-crate-type-cdylib.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A Rust library defaults to the rlib crate type, which cannot be linked into a WebAssembly module, so wasm-pack stops before it ever calls the compiler. It usually means the crate was started with cargo new rather than from the wasm template, or that a new workspace member inherited the default.</description>
-    </item>
-    <item>
-      <title>Web3: could not detect network (event=&quot;noNetwork&quot;, code=NETWORK_ERROR)</title>
-      <link>https://fixmyerror.net/errors/web3-could-not-detect-network.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-could-not-detect-network.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>ethers asks the endpoint for its chain id before it will do anything else, and that call failed, so the provider never finished starting. A wrong URL is only one cause: a missing key in the path, a rate limited key, a browser CORS rejection and an http endpoint on an https page all look identical…</description>
-    </item>
-    <item>
-      <title>Web3: max code size exceeded when deploying a contract</title>
-      <link>https://fixmyerror.net/errors/web3-max-code-size-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-max-code-size-exceeded.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>EIP-170 caps deployed runtime code at 24576 bytes and the deployment is rejected once the compiled contract passes it. The growth is usually incidental rather than a single large addition: long revert strings, many public functions and inlined library code all count, and building with the…</description>
-    </item>
-    <item>
-      <title>Web3: Transaction reverted without a reason string</title>
-      <link>https://fixmyerror.net/errors/web3-reverted-without-a-reason-string.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-reverted-without-a-reason-string.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The contract used require without a message, tripped an assert, ran out of gas inside a nested call, or the address has no code for that selector, so there is no string to decode. The tooling reports the absence rather than the cause, which is why the same call against a live node returns only a…</description>
-    </item>
-    <item>
-      <title>Web3: transaction underpriced</title>
-      <link>https://fixmyerror.net/errors/web3-transaction-underpriced.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-transaction-underpriced.html</guid>
-      <category>Web3</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node rejected the transaction before it entered the pool because the fee offered is below the minimum it will accept, which is local policy rather than a consensus rule. It differs from the replacement case: nothing is pending for that nonce, the fee is simply under this node’s floor or under…</description>
-    </item>
-    <item>
-      <title>WebAssembly: Import #0 module=&quot;env&quot; error: module is not an object or function</title>
-      <link>https://fixmyerror.net/errors/wasm-import-module-is-not-an-object-or-function.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-import-module-is-not-an-object-or-function.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The module declares imports and the importObject handed to instantiate has no property for that namespace, so the engine gives up before linking anything. It is the normal outcome of loading an Emscripten or WASI build with a bare instantiate call, because those toolchains expect their own…</description>
-    </item>
-    <item>
-      <title>Windows: A required privilege is not held by the client (0x80070522)</title>
-      <link>https://fixmyerror.net/errors/windows-privilege-not-held-symlink.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-privilege-not-held-symlink.html</guid>
-      <category>Windows</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Creating a symbolic link needs SeCreateSymbolicLinkPrivilege, which standard accounts do not hold, so git checkouts, npm installs and archive extractions that contain links fail with something that reads like a file permission problem. Developer Mode grants the privilege without making the whole…</description>
-    </item>
-    <item>
-      <title>Xcode: building for &apos;iOS-simulator&apos;, but linking in object file built for &apos;iOS&apos;</title>
-      <link>https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-building-for-simulator-linking-object-file-built-for-ios.html</guid>
-      <category>Apple</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A dependency in the project carries a device slice only, and the simulator build cannot link it even though both are arm64 on Apple silicon. It turns up with an old fat framework or a binary pod published before XCFrameworks existed, and excluding arm64 hides it at the cost of breaking the…</description>
-    </item>
-    <item>
-      <title>Ansible: Failed to import the required Python library (docker) on host</title>
-      <link>https://fixmyerror.net/errors/ansible-failed-to-import-required-python-library.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-failed-to-import-required-python-library.html</guid>
-      <category>Ansible</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Modules run on the target with the interpreter Ansible discovered there, so a library installed on the control node, or into a different virtualenv, is invisible to them. The message names the interpreter it used, and that path is the part worth reading before installing anything again.</description>
-    </item>
-    <item>
-      <title>Ansible: No inventory was parsed, only implicit localhost is available</title>
-      <link>https://fixmyerror.net/errors/ansible-no-inventory-was-parsed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-no-inventory-was-parsed.html</guid>
-      <category>Ansible</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Ansible found no usable inventory, so every host pattern matches nothing and the run ends with &quot;skipping: no hosts matched&quot; and an exit code of zero. A file that exists but fails to parse produces the same warning as one that is missing, which is why a YAML inventory with the wrong shape looks…</description>
-    </item>
-    <item>
-      <title>Connections hang or reset with ListenOverflows increasing</title>
-      <link>https://fixmyerror.net/errors/linux-tcp-listen-queue-overflow.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-tcp-listen-queue-overflow.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The kernel finished the handshake but the application was too slow to call accept(), so the completed connection queue filled and further connections were dropped silently. Clients see a stall and then a timeout or a reset, and nothing appears in the application log because the connection never…</description>
-    </item>
-    <item>
-      <title>DMARC: dmarc=fail (p=reject) in Authentication-Results</title>
-      <link>https://fixmyerror.net/errors/dmarc-fail-policy-reject.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dmarc-fail-policy-reject.html</guid>
-      <category>Email</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>SPF or DKIM passed on its own but neither aligned with the domain in the From header, and alignment is what DMARC checks. This is why mail sent through a third party can pass SPF against the provider domain and still be rejected as your domain.</description>
-    </item>
-    <item>
-      <title>Elixir: (DBConnection.ConnectionError) tcp recv: closed</title>
-      <link>https://fixmyerror.net/errors/elixir-dbconnection-tcp-recv-closed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-dbconnection-tcp-recv-closed.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The database closed a pooled socket that Ecto still believed was usable, so the checkout succeeded and the query died on the wire. The usual culprit is something between the application and the database with an idle timeout: a pgbouncer server_idle_timeout, an RDS proxy, or a cloud load balancer…</description>
-    </item>
-    <item>
-      <title>Elixir: (MatchError) no match of right hand side value: {:error, :enoent}</title>
-      <link>https://fixmyerror.net/errors/elixir-matcherror-no-match-of-right-hand-side.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-matcherror-no-match-of-right-hand-side.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A pattern match assumed the happy path and the function returned the error tuple instead, so the process crashed at the assignment rather than at the failure. The value in the message is the whole answer: it names both what went wrong and which call produced it.</description>
-    </item>
-    <item>
-      <title>Elixir: protocol String.Chars not implemented for %{} of type Map</title>
-      <link>https://fixmyerror.net/errors/elixir-protocol-string-chars-not-implemented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-protocol-string-chars-not-implemented.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>String interpolation calls to_string/1, and only a few types implement it: maps, lists, tuples and structs do not. The failure is at runtime rather than compile time, so it usually appears in an error path or a log line that only runs when something else has already gone wrong.</description>
-    </item>
-    <item>
-      <title>Go: error parsing regexp: invalid or unsupported Perl syntax: (?!</title>
-      <link>https://fixmyerror.net/errors/go-regexp-invalid-or-unsupported-perl-syntax.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-regexp-invalid-or-unsupported-perl-syntax.html</guid>
-      <category>Regex</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Go uses RE2, which has no backtracking and therefore no lookahead, no lookbehind and no backreferences. That is a deliberate guarantee of linear time matching rather than a missing feature, so the pattern has to be restructured instead of escaped.</description>
-    </item>
-    <item>
-      <title>gRPC: connection error: desc = transport: Error while dialing</title>
-      <link>https://fixmyerror.net/errors/grpc-go-transport-error-while-dialing.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-go-transport-error-while-dialing.html</guid>
-      <category>gRPC</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The channel could not open a TCP or TLS connection, so the RPC fails with UNAVAILABLE and this wrapped cause. Because Dial is lazy in the Go client, the mistake surfaces on the first call rather than at construction, which makes it look like a request problem rather than a target or credentials one.</description>
-    </item>
-    <item>
-      <title>High iowait: load average climbing while the CPU sits idle</title>
-      <link>https://fixmyerror.net/errors/linux-high-iowait-uninterruptible-sleep.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-high-iowait-uninterruptible-sleep.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Linux counts tasks in uninterruptible sleep towards the load average, so processes blocked on a disk or an NFS mount push load into double figures on a box that is 95 per cent idle. The number sends people hunting for a CPU problem that does not exist, when the queue is in front of a device.</description>
-    </item>
-    <item>
-      <title>ingress-nginx: Service does not have any active Endpoint</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-service-does-not-have-any-active-endpoint.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-service-does-not-have-any-active-endpoint.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The controller resolved the Ingress to a Service but the Service selects no ready Pods, so it serves the default backend and returns 404 instead of routing. The Ingress and the Service both look correct in kubectl get, because the gap is between the Service selector and the Pod labels or the…</description>
-    </item>
-    <item>
-      <title>ingress-nginx: upstream timed out (110: Connection timed out)</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-upstream-timed-out-110.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-upstream-timed-out-110.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The controller gave up waiting for the backend and returned 504 after its own timeout, which defaults to 60 seconds and is set on the controller, not on the application. A long report or an upload that works when called directly against the Service will fail through the Ingress for exactly this…</description>
-    </item>
-    <item>
-      <title>Ingress: ADDRESS column stays empty and the host never resolves</title>
-      <link>https://fixmyerror.net/errors/ingress-address-field-stays-empty.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-address-field-stays-empty.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>kubectl get ingress shows no address because no controller has claimed the object, so nothing ever programmes a load balancer or writes the status back. The Ingress itself is valid, which is why it is accepted without complaint and then does nothing at all.</description>
-    </item>
-    <item>
-      <title>Java: PatternSyntaxException: Illegal repetition</title>
-      <link>https://fixmyerror.net/errors/java-patternsyntaxexception-illegal-repetition.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-patternsyntaxexception-illegal-repetition.html</guid>
-      <category>Regex</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A brace appears where the engine expects a quantifier, so a literal { in the pattern is read as the start of {n,m} and rejected. It shows up most often when a template placeholder such as {name} is passed straight to Pattern.compile or to String.replaceAll.</description>
-    </item>
-    <item>
-      <title>libvirt: Failed to connect socket to /var/run/libvirt/libvirt-sock</title>
-      <link>https://fixmyerror.net/errors/libvirt-failed-to-connect-socket-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-failed-to-connect-socket-permission-denied.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>virsh connected to the session daemon rather than the system one, or the user is not in the group that owns the socket. The same command works under sudo, which is the clue: it is a permission and URI problem, not a daemon that failed to start.</description>
-    </item>
-    <item>
-      <title>log4j2: ERROR StatusLogger No Log4j 2 configuration file found</title>
-      <link>https://fixmyerror.net/errors/log4j2-no-configuration-file-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/log4j2-no-configuration-file-found.html</guid>
-      <category>Logging</category>
-      <pubDate>Sat, 19 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Log4j 2 could not find log4j2.xml on the classpath and fell back to logging errors only to the console, which is why the application starts but INFO and DEBUG never appear. In a packaged jar the file is usually present in the source tree and missing from the artefact, not absent from the repository.</description>
     </item>
   </channel>
 </rss>
