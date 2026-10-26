@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)","name":"Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)","description":"The redirect_uri sent in the authorisation request is not registered on the app registration. Entra requires an exact match including scheme, host, port…","url":"https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html"},"inLanguage":"en-GB","articleSection":"Auth","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-10-17","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://learn.microsoft.com/en-us/entra/identity-platform/reply-url"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)","name":"Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)","description":"The redirect_uri sent in the authorisation request is not registered on the app registration. Entra requires an exact match including scheme, host, port…","url":"https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html"},"inLanguage":"en-GB","articleSection":"Auth","proficiencyLevel":"Expert","datePublished":"2026-08-28","dateModified":"2026-10-26","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://learn.microsoft.com/en-us/entra/identity-platform/reply-url"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Auth errors","item":"https://fixmyerror.net/categories/auth.html"},{"@type":"ListItem","position":3,"name":"Microsoft Entra ID: AADSTS50011 (redirect URI mismatch)","item":"https://fixmyerror.net/errors/entra-aadsts50011-redirect-uri.html"}]}</script>
 </head>
 <body>
@@ -119,16 +119,16 @@ az ad app update --id &lt;app-id&gt; \
         <section class="block">
             <h2>Related Auth errors</h2>
             <ul class="link-list">
+                <li><a href="../errors/authjs-untrustedhost-host-must-be-trusted.html">Auth.js: UntrustedHost: Host must be trusted. URL was: http://localhost:3000<span class="sub">Auth.js (NextAuth v5) will not build callback URLs from a Host header it has not been told to…</span></a></li>
                 <li><a href="../errors/auth0-callback-url-mismatch.html">Auth0: Callback URL mismatch<span class="sub">Auth0 rejected the login because the redirect URL in the request is not in the application&#039;s…</span></a></li>
                 <li><a href="../errors/google-oauth-access-denied-testing.html">Google OAuth: Error 403: access_denied, app is in testing<span class="sub">The OAuth consent screen is in Testing mode, which only allows the accounts explicitly listed…</span></a></li>
                 <li><a href="../errors/jwt-token-used-before-issued-clock-skew.html">JWT: token used before issued / not valid yet<span class="sub">Validation compared the token&#039;s iat or nbf claim against the verifier&#039;s clock and decided the…</span></a></li>
                 <li><a href="../errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html">Keycloak: Cookie not found. Please make sure cookies are enabled<span class="sub">Keycloak sets a cookie when the login page loads and expects it back when the form is…</span></a></li>
                 <li><a href="../errors/keycloak-invalid-redirect-uri.html">Keycloak: Invalid parameter: redirect_uri<span class="sub">Keycloak rejected the redirect URI because it is not listed in the client&#039;s Valid Redirect…</span></a></li>
+                <li><a href="../errors/keycloak-invalid-token-issuer-expected.html">Keycloak: Invalid token issuer. Expected &#039;http://keycloak:8080/realms/myrealm&#039;<span class="sub">The token&#039;s iss claim comes from whichever hostname the client used to reach Keycloak, and…</span></a></li>
                 <li><a href="../errors/mfa-challenge-timeout.html">MFA: challenge timeout / code expired<span class="sub">A TOTP or push challenge was rejected because it expired or the device clock drifted outside…</span></a></li>
-                <li><a href="../errors/entra-aadsts50076-must-use-mfa.html">Microsoft Entra ID: AADSTS50076: Due to a configuration change made by your<span class="sub">A Conditional Access policy requires multi-factor authentication for this sign-in, and the…</span></a></li>
-                <li><a href="../errors/entra-aadsts65001-user-or-admin-has-not-consented.html">Microsoft Entra ID: AADSTS65001: The user or administrator has not consented<span class="sub">The app asked for permissions that nobody in this tenant has agreed to grant it. Consent is…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/auth.html">See all 17 Auth errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/auth.html">See all 20 Auth errors →</a></p>
         </section>
 
             <section class="block">
@@ -193,7 +193,7 @@ az ad app update --id &lt;app-id&gt; \
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1227 documented errors across 57 categories. Last updated 17 October 2026.</p>
+                <p>FixMyError.net has 1263 documented errors across 57 categories. Last updated 26 October 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

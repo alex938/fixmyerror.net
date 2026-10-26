@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Sat, 17 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 26 Oct 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>Apache: AH00161: server reached MaxRequestWorkers setting, consider raising</title>
+      <link>https://fixmyerror.net/errors/apache-ah00161-server-reached-maxrequestworkers.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-ah00161-server-reached-maxrequestworkers.html</guid>
+      <category>WebServer</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Every Apache worker is busy, so new connections wait in the listen queue and the site slows down or hangs. Raising the limit treats the symptom; the real question is what is holding the workers. Under the prefork MPM with mod_php, each request ties up a whole process for as long as a slow PHP…</description>
+    </item>
+    <item>
+      <title>API Gateway: {&quot;message&quot;: &quot;Endpoint request timed out&quot;}</title>
+      <link>https://fixmyerror.net/errors/api-gateway-endpoint-request-timed-out.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/api-gateway-endpoint-request-timed-out.html</guid>
+      <category>Serverless</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>API Gateway stopped waiting for the integration, which for REST APIs happens at 29 seconds by default whatever the Lambda function&apos;s own timeout says. A function set to five minutes keeps running and finishes successfully in CloudWatch, but its answer is thrown away and the client gets a 504. HTTP…</description>
+    </item>
+    <item>
+      <title>Auth.js: UntrustedHost: Host must be trusted. URL was: http://localhost:3000</title>
+      <link>https://fixmyerror.net/errors/authjs-untrustedhost-host-must-be-trusted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/authjs-untrustedhost-host-must-be-trusted.html</guid>
+      <category>Auth</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Auth.js (NextAuth v5) will not build callback URLs from a Host header it has not been told to trust, which protects against host header injection. On Vercel and under next dev it trusts the host automatically, so the error first appears with next start, in Docker or behind your own reverse proxy…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: Response payload size exceeded maximum allowed payload size</title>
+      <link>https://fixmyerror.net/errors/lambda-response-payload-size-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-response-payload-size-exceeded.html</guid>
+      <category>Serverless</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Synchronous invocations have a fixed 6 MB limit on the response (and on the request), and it cannot be raised. Your code ran to completion: the error is raised after the handler returns, which is why the function logs look clean. Behind API Gateway the practical limit is lower still, because…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: Runtime.InvalidEntrypoint (exec format error)</title>
+      <link>https://fixmyerror.net/errors/lambda-runtime-invalidentrypoint-exec-format-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-runtime-invalidentrypoint-exec-format-error.html</guid>
+      <category>Serverless</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Lambda could not start the container image&apos;s entrypoint at all. When the detail says exec format error, the image was built for a different CPU from the function: an image built on an Apple silicon Mac is arm64, and a function created with the default x86_64 architecture cannot run it. The same…</description>
+    </item>
+    <item>
+      <title>Composer detected issues in your platform: Your Composer dependencies require</title>
+      <link>https://fixmyerror.net/errors/composer-detected-issues-in-your-platform.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/composer-detected-issues-in-your-platform.html</guid>
+      <category>PHP</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Since Composer 2, vendor/composer/platform_check.php runs on every request and stops the app if the PHP running it is older than the locked packages need. The trap is two PHP binaries: composer install ran under CLI PHP 8.3 (in CI or on your laptop) while the web server runs PHP-FPM 8.1, so php -v…</description>
+    </item>
+    <item>
+      <title>Dart: type &apos;List&lt;dynamic&gt;&apos; is not a subtype of type &apos;List&lt;String&gt;&apos;</title>
+      <link>https://fixmyerror.net/errors/dart-list-dynamic-is-not-a-subtype-of-list-string.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-list-dynamic-is-not-a-subtype-of-list-string.html</guid>
+      <category>Dart</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>jsonDecode always returns plain List and Map objects, whatever the JSON holds, and Dart will not reinterpret a List as a List just because every element happens to be a string. The failure comes from an implicit cast, such as assigning json[&apos;tags&apos;] to a List field, so it compiles cleanly and only…</description>
+    </item>
+    <item>
+      <title>Flutter: Binding has not yet been initialized.</title>
+      <link>https://fixmyerror.net/errors/flutter-binding-has-not-yet-been-initialized.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-binding-has-not-yet-been-initialized.html</guid>
+      <category>Dart</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Something used a platform channel (Firebase.initializeApp, SharedPreferences, path_provider, a SystemChrome call) before runApp, and runApp is what normally creates the binding those channels depend on. Making main() async and awaiting setup work first is exactly what triggers it. The fix is one…</description>
+    </item>
+    <item>
+      <title>Flutter: Unable to load asset: &quot;assets/images/logo.png&quot;</title>
+      <link>https://fixmyerror.net/errors/flutter-unable-to-load-asset.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-unable-to-load-asset.html</guid>
+      <category>Dart</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The file is on disk but not in the app bundle, because Flutter only packages what pubspec.yaml lists under flutter: assets:. Usual causes: YAML indentation (assets: must sit two spaces under flutter:, not at the top level), a folder listed without its trailing slash, or expecting a folder entry to…</description>
+    </item>
+    <item>
+      <title>Keycloak: Invalid token issuer. Expected &apos;http://keycloak:8080/realms/myrealm&apos;</title>
+      <link>https://fixmyerror.net/errors/keycloak-invalid-token-issuer-expected.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/keycloak-invalid-token-issuer-expected.html</guid>
+      <category>Auth</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The token&apos;s iss claim comes from whichever hostname the client used to reach Keycloak, and something later checked it against a different one. The classic case is Docker Compose: the browser logs in through http://localhost:8080, the backend validates against http://keycloak:8080, and the two…</description>
+    </item>
+    <item>
+      <title>Laravel: Vite manifest not found at: /var/www/public/build/manifest.json</title>
+      <link>https://fixmyerror.net/errors/laravel-vite-manifest-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-vite-manifest-not-found.html</guid>
+      <category>PHP</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The @vite directive reads public/build/manifest.json to find the hashed asset filenames, and that file only exists after npm run build. So this is not really a PHP problem. Either the front-end build never ran in this environment (a deploy that only runs composer install, or a Docker image with no…</description>
+    </item>
+    <item>
+      <title>macOS: zsh: bad CPU type in executable</title>
+      <link>https://fixmyerror.net/errors/macos-zsh-bad-cpu-type-in-executable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-zsh-bad-cpu-type-in-executable.html</guid>
+      <category>Apple</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The binary contains only Intel x86_64 code, and this Mac has an Apple silicon chip without Rosetta 2 installed. macOS offers to install Rosetta when you open an Intel app from the Finder, but a binary started from the terminal, a script or a CI runner just fails with this. It also catches old…</description>
+    </item>
+    <item>
+      <title>Microsoft Entra ID: AADSTS9002326: Cross-origin token redemption is permitted</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts9002326-cross-origin-token-redemption.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts9002326-cross-origin-token-redemption.html</guid>
+      <category>Auth</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The browser swapped the authorisation code for tokens itself, with a fetch that carries an Origin header, but the redirect URI is registered under the Web platform, which Entra treats as a server-side confidential client. MSAL.js 2 and later always does this from the browser using PKCE, so the URI…</description>
+    </item>
+    <item>
+      <title>nginx: [emerg] &quot;proxy_cache&quot; zone &quot;my_cache&quot; is unknown</title>
+      <link>https://fixmyerror.net/errors/nginx-proxy-cache-zone-is-unknown.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-proxy-cache-zone-is-unknown.html</guid>
+      <category>Caching</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>proxy_cache refers to a shared memory zone that only exists once a proxy_cache_path line declares it with keys_zone=, and nginx found no zone with that name. Usually the server block was copied from another machine without the proxy_cache_path line that lived in that machine&apos;s nginx.conf, or the…</description>
+    </item>
+    <item>
+      <title>nginx: [emerg] cannot load certificate &quot;/etc/ssl/my.crt&quot;: BIO_new_file() failed</title>
+      <link>https://fixmyerror.net/errors/nginx-cannot-load-certificate-bio-new-file-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-cannot-load-certificate-bio-new-file-failed.html</guid>
+      <category>WebServer</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>nginx could not open the certificate file at all, before reading a byte of it, so this is about the file and not the certificate. The end of the message tells you which. No such file or directory usually means a Let&apos;s Encrypt path for a certificate that was never issued, or a symlink in live/…</description>
+    </item>
+    <item>
+      <title>nginx: rewrite or internal redirection cycle while internally redirecting to</title>
+      <link>https://fixmyerror.net/errors/nginx-rewrite-or-internal-redirection-cycle.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-rewrite-or-internal-redirection-cycle.html</guid>
+      <category>WebServer</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Logged alongside a 500 when a try_files fallback or a rewrite sends nginx back into a location that falls back again, until it gives up after ten internal redirects. In a single-page app the usual cause is try_files $uri $uri/ /index.html where index.html is not actually in root: the root path is…</description>
+    </item>
+    <item>
+      <title>PHP: Fatal error: Uncaught Error: Call to undefined function mysqli_connect()</title>
+      <link>https://fixmyerror.net/errors/php-call-to-undefined-function-mysqli-connect.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-call-to-undefined-function-mysqli-connect.html</guid>
+      <category>PHP</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>PHP cannot find the function because the mysqli extension is not loaded in the PHP that ran the script. MySQL itself is not involved yet. Distributions ship extensions as separate packages (php8.3-mysql on Debian and Ubuntu, php-mysqlnd on RHEL), and the CLI and PHP-FPM read different php.ini…</description>
+    </item>
+    <item>
+      <title>Postfix: connect to mx1.example.net[203.0.113.25]:25: Connection timed out</title>
+      <link>https://fixmyerror.net/errors/postfix-connect-to-port-25-connection-timed-out.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postfix-connect-to-port-25-connection-timed-out.html</guid>
+      <category>Email</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Your server never got a TCP connection to the recipient&apos;s mail server on port 25, so the message sits deferred in the queue. If it happens for every destination, the remote side is almost never at fault: most cloud providers block outbound port 25 by default (Google Cloud, Azure, AWS and many VPS…</description>
+    </item>
+    <item>
+      <title>Postfix: SASL authentication failure: No worthy mechs found</title>
+      <link>https://fixmyerror.net/errors/postfix-sasl-authentication-failure-no-worthy-mechs-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postfix-sasl-authentication-failure-no-worthy-mechs-found.html</guid>
+      <category>Email</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Postfix tried to log in to the relay and Cyrus SASL could not find a mechanism the relay accepts. The username and password are not the problem. Either the plugin package is missing (libsasl2-modules on Debian and Ubuntu, cyrus-sasl-plain on RHEL), so PLAIN and LOGIN do not exist at all, or the…</description>
+    </item>
+    <item>
+      <title>PowerShell: WARNING: Unable to resolve package source</title>
+      <link>https://fixmyerror.net/errors/powershell-unable-to-resolve-package-source-psgallery.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/powershell-unable-to-resolve-package-source-psgallery.html</guid>
+      <category>Windows</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Windows PowerShell 5.1 runs on .NET Framework, which on older or unpatched systems still offers only TLS 1.0 and 1.1 by default, and the PowerShell Gallery has required TLS 1.2 since 2020. The handshake fails, so Install-Module reports the gallery as unreachable even though a browser on the same…</description>
+    </item>
+    <item>
+      <title>Proxmox: TASK ERROR: KVM virtualisation configured, but not available</title>
+      <link>https://fixmyerror.net/errors/proxmox-kvm-virtualisation-configured-but-not-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/proxmox-kvm-virtualisation-configured-but-not-available.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The VM is set to use hardware acceleration (kvm: 1, the default) but the host has no /dev/kvm. On bare metal that means Intel VT-x or AMD-V is switched off in the firmware settings. When Proxmox is itself running as a VM, say a home lab under VMware, Hyper-V or another Proxmox, the outer…</description>
+    </item>
+    <item>
+      <title>Rails: ActiveRecord::NoDatabaseError: We could not find your database</title>
+      <link>https://fixmyerror.net/errors/rails-activerecord-nodatabaseerror-could-not-find-database.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-activerecord-nodatabaseerror-could-not-find-database.html</guid>
+      <category>Ruby</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Rails reached the database server and logged in, but the database it asked for does not exist there. That rules out the host and the password. On a fresh clone, a new CI runner or a new Docker volume nobody has run db:create yet, or DATABASE_URL points at a server where the database has a…</description>
+    </item>
+    <item>
+      <title>Rails: Blocked hosts: myapp.example.com</title>
+      <link>https://fixmyerror.net/errors/rails-blocked-hosts.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-blocked-hosts.html</guid>
+      <category>Ruby</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>This is Rails&apos; own HostAuthorization middleware, added in Rails 6 to stop DNS rebinding attacks, refusing a Host header that is not in config.hosts. In development only localhost, .localhost and IP addresses are allowed, so it appears the first time you use an ngrok tunnel, a Codespaces URL or a…</description>
+    </item>
+    <item>
+      <title>Redis: BUSY Redis is busy running a script</title>
+      <link>https://fixmyerror.net/errors/redis-busy-running-a-script.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-busy-running-a-script.html</guid>
+      <category>Caching</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Redis runs Lua scripts and functions atomically on its single main thread, so while one runs nothing else is served. After busy-reply-threshold (called lua-time-limit before Redis 7, 5 seconds by default) Redis answers every other client with BUSY, but it does not stop the script. The usual…</description>
+    </item>
+    <item>
+      <title>SMTP: 534-5.7.9 Application-specific password required</title>
+      <link>https://fixmyerror.net/errors/gmail-smtp-534-5-7-9-application-specific-password-required.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gmail-smtp-534-5-7-9-application-specific-password-required.html</guid>
+      <category>Email</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Gmail accepted the connection but will not take the account&apos;s normal password over SMTP, because the account has 2-Step Verification turned on. Since Google ended less secure app access in 2024, a plain password does not work for SMTP, IMAP or POP at all (without 2-Step Verification you get…</description>
+    </item>
+    <item>
+      <title>Spring: java.lang.IllegalArgumentException: Cannot find cache named &apos;users&apos;</title>
+      <link>https://fixmyerror.net/errors/spring-cannot-find-cache-named.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-cannot-find-cache-named.html</guid>
+      <category>Caching</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>A @Cacheable, @CachePut or @CacheEvict annotation names a cache that the CacheManager does not know and will not create. Spring Boot&apos;s default simple cache creates caches on demand, so everything works until a real provider arrives: Caffeine with spring.cache.cache-names set, or a JCache provider…</description>
+    </item>
+    <item>
+      <title>Svelte 5: `$:` is not allowed in runes mode, use `$derived` or `$effect` instead</title>
+      <link>https://fixmyerror.net/errors/svelte-5-reactive-statement-not-allowed-in-runes-mode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-reactive-statement-not-allowed-in-runes-mode.html</guid>
+      <category>Svelte</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>As soon as a component uses any rune ($state, $props, $derived), Svelte compiles the whole file in runes mode, and the old $: reactive statements stop being valid. So adding one $state to a legacy component breaks every $: in it, and setting runes: true in the config breaks them everywhere. Values…</description>
+    </item>
+    <item>
+      <title>Svelte 5: Cannot export state from a module if it is reassigned</title>
+      <link>https://fixmyerror.net/errors/svelte-5-cannot-export-state-if-reassigned.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-cannot-export-state-if-reassigned.html</guid>
+      <category>Svelte</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>In a .svelte.js or .svelte.ts module, $state works because the compiler rewrites every read and write of that variable inside the file. Other files that import it only get the value it had, so if the module ever reassigns it (count = 0, user = null) importers would be left holding a stale copy…</description>
+    </item>
+    <item>
+      <title>Svelte: `getContext(...)` can only be used during component initialisation</title>
+      <link>https://fixmyerror.net/errors/svelte-getcontext-can-only-be-used-during-component-initialisation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-getcontext-can-only-be-used-during-component-initialisation.html</guid>
+      <category>Svelte</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Context functions and lifecycle hooks (getContext, setContext, onMount, onDestroy) attach to whichever component is being created at that moment, so they only work synchronously at the top level of a component&apos;s script. Called inside an event handler, after an await, in a setTimeout, or from a…</description>
+    </item>
+    <item>
+      <title>VMware Workstation and Device/Credential Guard are not compatible</title>
+      <link>https://fixmyerror.net/errors/vmware-workstation-device-credential-guard-not-compatible.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vmware-workstation-device-credential-guard-not-compatible.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Older VMware Workstation and Player builds need VT-x to themselves, and Credential Guard, Memory Integrity (HVCI) and Windows Sandbox all start the Hyper-V hypervisor underneath Windows, which claims it first. Workstation 15.5.5 and later can run on top of the Windows Hypervisor Platform instead…</description>
+    </item>
+    <item>
+      <title>Windows: System error 53 has occurred. The network path was not found.</title>
+      <link>https://fixmyerror.net/errors/windows-system-error-53-network-path-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-system-error-53-network-path-not-found.html</guid>
+      <category>Windows</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>net use, or Explorer, could not reach an SMB server by that name at all, so this is name resolution or TCP port 445, not permissions (those come back as error 5 or 86). The usual suspects: a hostname that only resolves through NetBIOS or LLMNR, which many networks now disable; a firewall, VPN or…</description>
+    </item>
+    <item>
+      <title>Windows: The semaphore timeout period has expired (0x80070079)</title>
+      <link>https://fixmyerror.net/errors/windows-semaphore-timeout-period-has-expired-0x80070079.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-semaphore-timeout-period-has-expired-0x80070079.html</guid>
+      <category>Windows</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Despite the wording, this has nothing to do with semaphores in your code: Windows gave up waiting for an I/O operation, and error 121 is what the storage or network stack reports when a device stops answering. Copying to a NAS or mapped drive, it usually points at the network path (flaky Wi-Fi…</description>
+    </item>
+    <item>
+      <title>wsl: A localhost proxy configuration was detected but not mirrored into WSL</title>
+      <link>https://fixmyerror.net/errors/wsl-localhost-proxy-configuration-not-mirrored.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wsl-localhost-proxy-configuration-not-mirrored.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Windows has a proxy set at 127.0.0.1 or localhost, usually from a corporate VPN client, Fiddler or a tool such as Clash, and WSL 2 tried to copy it into Linux as HTTP_PROXY. In the default NAT networking mode, localhost inside WSL is the Linux VM rather than Windows, so that address would lead…</description>
+    </item>
+    <item>
+      <title>xcode-select: error: tool &apos;xcodebuild&apos; requires Xcode, but active developer</title>
+      <link>https://fixmyerror.net/errors/xcode-select-tool-xcodebuild-requires-xcode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-select-tool-xcodebuild-requires-xcode.html</guid>
+      <category>Apple</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>The active developer directory points at the standalone Command Line Tools in /Library/Developer/CommandLineTools, which include compilers and git but not xcodebuild, simulators or platform SDKs. It happens when the tools were installed before Xcode, or a script ran xcode-select --install, and…</description>
+    </item>
+    <item>
+      <title>Xcode: SDK does not contain &apos;libarclite&apos; at the path</title>
+      <link>https://fixmyerror.net/errors/xcode-sdk-does-not-contain-libarclite.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-sdk-does-not-contain-libarclite.html</guid>
+      <category>Apple</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Xcode 14.3 removed libarclite, the small library that let ARC code run on very old OS versions, so any target whose deployment target is below what current Xcode supports now fails to link. Your app target is usually fine. The culprit is a CocoaPods dependency whose podspec still declares iOS 8 or…</description>
+    </item>
+    <item>
+      <title>Zeitwerk::NameError: expected file app/models/user.rb to define constant User</title>
+      <link>https://fixmyerror.net/errors/rails-zeitwerk-expected-file-to-define-constant.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-zeitwerk-expected-file-to-define-constant.html</guid>
+      <category>Ruby</category>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Since Rails 7, Zeitwerk is the only autoloader, and it maps every file path to exactly one constant name. The file exists, but the class inside it is named something else: a typo, a module nesting that does not match the folders, or an acronym such as HTMLParser in html_parser.rb, which Zeitwerk…</description>
+    </item>
     <item>
       <title>(Mix) You&apos;re trying to run :my_app on Elixir v1.15.7 but it has declared</title>
       <link>https://fixmyerror.net/errors/mix-trying-to-run-on-elixir-version-mix-exs-supports-only.html</link>
@@ -1319,294 +1607,6 @@
       <category>PHP</category>
       <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
       <description>APP_KEY is empty in the environment Laravel actually loaded, so it cannot encrypt cookies or sessions. On a fresh clone that just means .env was never created. In production it is usually a cached config from before the key was set, or a container whose environment does not include the variable…</description>
-    </item>
-    <item>
-      <title>libvirt: Requested operation is not valid: network &apos;default&apos; is not active</title>
-      <link>https://fixmyerror.net/errors/libvirt-network-default-is-not-active.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-network-default-is-not-active.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The VM is attached to libvirt&apos;s NAT network called default, and that network is defined but not started, so the guest cannot boot. It is not set to autostart on some distributions, and it also fails to start when dnsmasq or another DHCP server already holds its bridge address, or when a firewall…</description>
-    </item>
-    <item>
-      <title>Microsoft Entra ID: AADSTS65001: The user or administrator has not consented</title>
-      <link>https://fixmyerror.net/errors/entra-aadsts65001-user-or-admin-has-not-consented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts65001-user-or-admin-has-not-consented.html</guid>
-      <category>Auth</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The app asked for permissions that nobody in this tenant has agreed to grant it. Consent is per tenant, so an app that works in your own tenant fails in a customer&apos;s, and adding a new scope to an existing app needs fresh consent too. Many organisations block users from consenting themselves, so…</description>
-    </item>
-    <item>
-      <title>Microsoft Entra ID: AADSTS7000215: Invalid client secret provided</title>
-      <link>https://fixmyerror.net/errors/entra-aadsts7000215-invalid-client-secret.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts7000215-invalid-client-secret.html</guid>
-      <category>Auth</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The client secret sent to the token endpoint is not one Entra has for that app registration. By far the most common reason is copying the secret&apos;s ID instead of its Value, since the portal shows both side by side and only reveals the value once. Expired secrets, a secret from a different app…</description>
-    </item>
-    <item>
-      <title>Pattern attribute value [a-z-_]+ is not a valid regular expression</title>
-      <link>https://fixmyerror.net/errors/html-pattern-attribute-invalid-regex-v-flag.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/html-pattern-attribute-invalid-regex-v-flag.html</guid>
-      <category>Regex</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Browsers now compile the HTML pattern attribute with the v (unicodeSets) flag, which is stricter about character classes than plain JavaScript regex. A hyphen between other characters, and unescaped characters such as ( ) [ ] { } / | inside a class, are now syntax errors. The console shows the…</description>
-    </item>
-    <item>
-      <title>PHP 8.2: Deprecated: Creation of dynamic property Foo::$bar is deprecated</title>
-      <link>https://fixmyerror.net/errors/php-82-creation-of-dynamic-property-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-82-creation-of-dynamic-property-deprecated.html</guid>
-      <category>PHP</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Since PHP 8.2, assigning to a property that the class never declared raises a deprecation, and it is scheduled to become an error. Older code relied on setting arbitrary properties on objects, so an upgrade floods the log with these even though nothing has visibly broken. The fix is to declare the…</description>
-    </item>
-    <item>
-      <title>Proxmox: can&apos;t lock file &apos;/var/lock/qemu-server/lock-100.conf&apos; - got timeout</title>
-      <link>https://fixmyerror.net/errors/proxmox-cant-lock-file-got-timeout.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/proxmox-cant-lock-file-got-timeout.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Another task still holds the lock on that VM&apos;s configuration, so the new start, stop or backup waited and gave up. The holder is usually a backup, snapshot or migration that is still running or hung, and killing the wrong process can leave the VM in a half-finished state. Check what holds the lock…</description>
-    </item>
-    <item>
-      <title>Python: re.error: global flags not at the start of the expression</title>
-      <link>https://fixmyerror.net/errors/python-re-global-flags-not-at-start.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-global-flags-not-at-start.html</guid>
-      <category>Regex</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>An inline flag such as (?i) or (?s) appears somewhere other than the very start of the pattern. Python 3.6 to 3.10 only warned about it, and 3.11 made it an error, so code that has worked for years breaks on upgrade. It is common when patterns are built by joining strings together, each with its…</description>
-    </item>
-    <item>
-      <title>Rails: Missing encryption key to decrypt file with</title>
-      <link>https://fixmyerror.net/errors/rails-missing-encryption-key-master-key.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-missing-encryption-key-master-key.html</guid>
-      <category>Ruby</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Rails found config/credentials.yml.enc but has no key to open it, because config/master.key is git-ignored and RAILS_MASTER_KEY is not set. It works on the developer&apos;s laptop that ran rails new and fails on every other machine, CI job and container. Generating a new key does not help: it cannot…</description>
-    </item>
-    <item>
-      <title>Redis: MOVED 3999 10.0.0.12:6379</title>
-      <link>https://fixmyerror.net/errors/redis-moved-cluster-redirection.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-moved-cluster-redirection.html</guid>
-      <category>Caching</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The node you asked does not own the hash slot for that key and is telling you which node does. A cluster-aware client follows this silently, so seeing it as an error means the client is running in standalone mode against a cluster, for example a plain connection to an ElastiCache or MemoryStore…</description>
-    </item>
-    <item>
-      <title>Ruby: warning: csv was loaded from the standard library</title>
-      <link>https://fixmyerror.net/errors/ruby-loaded-from-standard-library-not-default-gem.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-loaded-from-standard-library-not-default-gem.html</guid>
-      <category>Ruby</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Ruby 3.4 moved csv, base64, bigdecimal and several other libraries out of the default gems and into bundled gems, and Ruby 3.3 warns about each one it sees you require. Under Bundler, a bundled gem is only loadable if it is in the Gemfile, so the warning today becomes cannot load such file after…</description>
-    </item>
-    <item>
-      <title>SMTP: 421 4.7.28 Our system has detected an unusual rate of unsolicited mail</title>
-      <link>https://fixmyerror.net/errors/gmail-421-4-7-28-unusual-rate-unsolicited-mail.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gmail-421-4-7-28-unusual-rate-unsolicited-mail.html</guid>
-      <category>Email</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gmail is temporarily deferring mail from your IP or domain because recent volume looks like spam, judged by complaints and sudden changes in sending rate. It is a 4xx, so your server will retry, but pushing harder makes it worse. New IPs, a burst after a quiet period, and one customer on a shared…</description>
-    </item>
-    <item>
-      <title>SMTP: 535 5.7.139 Authentication unsuccessful</title>
-      <link>https://fixmyerror.net/errors/m365-535-5-7-139-smtpclientauthentication-disabled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/m365-535-5-7-139-smtpclientauthentication-disabled.html</guid>
-      <category>Email</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Microsoft 365 accepted your username and password but refused the login because authenticated SMTP submission is turned off for the tenant or the mailbox. It is off by default in newer tenants and when security defaults are enabled. The password is not wrong, so resetting it will not help; a…</description>
-    </item>
-    <item>
-      <title>SMTP: 550 5.7.1 Client host [203.0.113.5] blocked using zen.spamhaus.org</title>
-      <link>https://fixmyerror.net/errors/smtp-550-client-host-blocked-spamhaus.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-client-host-blocked-spamhaus.html</guid>
-      <category>Email</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The receiving server looked up your sending IP in a DNS blocklist and found it listed, so it rejected the connection before reading the message. Your content and authentication are irrelevant here; the IP&apos;s reputation is the problem. Cloud and residential IP ranges are often listed as a whole, so…</description>
-    </item>
-    <item>
-      <title>Spark: Container killed by YARN for exceeding memory limits</title>
-      <link>https://fixmyerror.net/errors/spark-container-killed-by-yarn-memory-limits.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-container-killed-by-yarn-memory-limits.html</guid>
-      <category>BigData</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>YARN measured the whole executor process and killed it for using more physical memory than the container allowed. That is different from a Java heap OutOfMemoryError: the heap may be fine, and the excess is off-heap memory from Python workers, Arrow buffers, netty or native libraries. Raising…</description>
-    </item>
-    <item>
-      <title>Spark: org.apache.spark.shuffle.FetchFailedException: Failed to connect to</title>
-      <link>https://fixmyerror.net/errors/spark-shuffle-fetchfailedexception.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-shuffle-fetchfailedexception.html</guid>
-      <category>BigData</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A task tried to read shuffle output from another executor and that executor was gone, so the stage has to be recomputed. The fetch failure is a symptom: look for why the executor died, which is usually memory pressure, a spot or preemptible node being reclaimed, or a long GC pause that made it…</description>
-    </item>
-    <item>
-      <title>VirtualBox: VT-x is being used by another hypervisor (VERR_VMX_IN_VMX_ROOT_MODE)</title>
-      <link>https://fixmyerror.net/errors/virtualbox-verr-vmx-in-vmx-root-mode.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-verr-vmx-in-vmx-root-mode.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>VT-x is enabled and working, but another hypervisor on a Linux host already owns it, almost always the KVM kernel module. Older VirtualBox releases cannot share VT-x, so the VM refuses to start. It commonly appears after installing an Android emulator, GNOME Boxes or virt-manager, which load KVM…</description>
-    </item>
-    <item>
-      <title>Apache: AH01630: client denied by server configuration</title>
-      <link>https://fixmyerror.net/errors/apache-ah01630-client-denied-by-server-configuration.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-ah01630-client-denied-by-server-configuration.html</guid>
-      <category>WebServer</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>mod_authz_core decided the request was not allowed for that directory, so it never reached the file and the response is a 403 with nothing in the access pattern to explain it. On an upgraded server it is usually a 2.2 style Order and Allow block being ignored, or a new document root that no…</description>
-    </item>
-    <item>
-      <title>Apache: Invalid command &apos;Order&apos;, perhaps misspelled or defined by a module</title>
-      <link>https://fixmyerror.net/errors/apache-invalid-command-order.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-invalid-command-order.html</guid>
-      <category>WebServer</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Order, Allow and Deny moved into mod_access_compat in 2.4, so configuration written for 2.2 no longer parses unless that module is loaded. The same wording appears for any directive whose module is absent, which is why enabling the compatibility module is a stopgap and rewriting the block is the…</description>
-    </item>
-    <item>
-      <title>Dart: Bad state: Cannot add new events after calling close</title>
-      <link>https://fixmyerror.net/errors/dart-cannot-add-new-events-after-calling-close.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-cannot-add-new-events-after-calling-close.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A closed StreamController still exists, and something is holding the old reference and adding to it. In Flutter it is normally a controller closed in dispose while an async callback completes just afterwards, or a shared service whose controller was closed by the first widget that happened to use…</description>
-    </item>
-    <item>
-      <title>dig: ;; Truncated, retrying in TCP mode</title>
-      <link>https://fixmyerror.net/errors/dns-truncated-retrying-in-tcp.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dns-truncated-retrying-in-tcp.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The answer did not fit in the UDP message size the client offered, so the server set the TC bit and the client started again over TCP. The retry normally succeeds, so the visible symptom is a slow lookup, or an intermittent failure wherever a firewall permits port 53 over UDP but not TCP.</description>
-    </item>
-    <item>
-      <title>DNS: CNAME and other data (CNAME at the zone apex)</title>
-      <link>https://fixmyerror.net/errors/dns-cname-and-other-data.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dns-cname-and-other-data.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A name may hold a CNAME or it may hold other record types, never both, so a CNAME on the zone apex collides with the SOA and NS records that have to live there. The zone then fails to load, and hosted providers report it as an invalid record rather than as an error in the file.</description>
-    </item>
-    <item>
-      <title>DNS: REFUSED</title>
-      <link>https://fixmyerror.net/errors/dns-refused.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dns-refused.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server answered and declined to do the work, which is what separates this from a timeout or NXDOMAIN. In practice it is a recursive resolver that does not serve your client address, or an authoritative server being asked about a zone it does not host, which is common once a split horizon setup…</description>
-    </item>
-    <item>
-      <title>Emscripten: Cannot call unknown function (make sure it is exported)</title>
-      <link>https://fixmyerror.net/errors/emscripten-cannot-call-unknown-function.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/emscripten-cannot-call-unknown-function.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>ccall and cwrap look the symbol up in the module at runtime, and the linker had already removed it because no C code referenced it. That is why it appears in optimised builds and not in debug ones: at -O2 dead code elimination drops any function only ever called from JavaScript.</description>
-    </item>
-    <item>
-      <title>Error 1053: The service did not respond to the start or control request</title>
-      <link>https://fixmyerror.net/errors/windows-service-error-1053.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-service-error-1053.html</guid>
-      <category>Windows</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A service has about 30 seconds to report back to the service control manager, and the process either failed before doing so or spent that time on startup work. A console application installed as a service never reports at all, which is why it runs perfectly from a command prompt and times out as a…</description>
-    </item>
-    <item>
-      <title>First requests after a deploy are slow, then it settles</title>
-      <link>https://fixmyerror.net/errors/perf-cold-start-slow-first-requests.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/perf-cold-start-slow-first-requests.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A freshly started process serves unoptimised code until the JIT has enough samples, with empty connection pools, empty caches and a cold page cache underneath. Rolling the deployment moves the slow requests around rather than removing them, so the graph looks like the load balancer picking bad…</description>
-    </item>
-    <item>
-      <title>Flutter: Incorrect use of ParentDataWidget</title>
-      <link>https://fixmyerror.net/errors/flutter-incorrect-use-of-parentdatawidget.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-incorrect-use-of-parentdatawidget.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Expanded, Flexible and Positioned only mean something to one kind of parent, and the tree has one of them under something else, usually because a Container or a Padding was inserted between it and the Row. The message names both the widget and the ancestor it actually found, and the layout beneath…</description>
-    </item>
-    <item>
-      <title>Flutter: MissingPluginException: No implementation found for method</title>
-      <link>https://fixmyerror.net/errors/flutter-missingpluginexception-no-implementation-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-missingpluginexception-no-implementation-found.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The Dart half of a plugin is present and the native half was never registered, so the method channel has nothing on the other end. A hot restart after adding the dependency is the usual cause, because plugin registration happens when the app is built and installed rather than when Dart reloads.</description>
-    </item>
-    <item>
-      <title>Flutter: Waiting for another flutter command to release the startup lock</title>
-      <link>https://fixmyerror.net/errors/flutter-waiting-for-another-flutter-command-startup-lock.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-waiting-for-another-flutter-command-startup-lock.html</guid>
-      <category>Dart</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The SDK takes a file lock while it updates its own caches, and a command killed part way through leaves that lock file behind. Nothing holds it any more, so the wait never ends, and clearing one file inside the SDK directory is all that is needed.</description>
-    </item>
-    <item>
-      <title>Homebrew: Cannot install under Rosetta 2 in ARM default prefix</title>
-      <link>https://fixmyerror.net/errors/homebrew-cannot-install-under-rosetta-arm-prefix.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/homebrew-cannot-install-under-rosetta-arm-prefix.html</guid>
-      <category>Apple</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The arm64 Homebrew in /opt/homebrew refuses to run in a translated process, which is what happens when the terminal itself was opened with Rosetta or a shell inherited an x86_64 environment. Two installations can coexist, one per prefix, so the message is really about which one the current shell…</description>
-    </item>
-    <item>
-      <title>JVM: pause with no GC in the log (long time to safepoint)</title>
-      <link>https://fixmyerror.net/errors/jvm-long-time-to-safepoint.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jvm-long-time-to-safepoint.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A safepoint stops every application thread, and the pause includes however long the slowest thread takes to reach one, which is not counted as collection time. A counted loop over a large array or a thread inside a long JNI call can hold the rest of the JVM for hundreds of milliseconds while the…</description>
-    </item>
-    <item>
-      <title>Latency spikes with khugepaged and compaction in the profile</title>
-      <link>https://fixmyerror.net/errors/linux-transparent-huge-page-stalls.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-transparent-huge-page-stalls.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Transparent huge pages let the kernel back a mapping with 2MB pages, but once memory is fragmented the faulting thread has to compact before it gets one, and it waits while that happens. The result is a tail latency spike on a machine with plenty of free memory, usually on a large heap process…</description>
-    </item>
-    <item>
-      <title>ld: symbol(s) not found for architecture arm64</title>
-      <link>https://fixmyerror.net/errors/macos-ld-symbols-not-found-arm64.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-ld-symbols-not-found-arm64.html</guid>
-      <category>Apple</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Compilation succeeded and the linker could not find a definition for something that was declared, so the reference survived to the link step. The architecture in the message is a red herring most of the time: a source file missing from the target, a library built for the other slice, or a C header…</description>
-    </item>
-    <item>
-      <title>macOS: &quot;App&quot; is damaged and can’t be opened. You should move it to the Bin</title>
-      <link>https://fixmyerror.net/errors/macos-app-is-damaged-and-cannot-be-opened.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-app-is-damaged-and-cannot-be-opened.html</guid>
-      <category>Apple</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gatekeeper is reporting a failed signature or notarisation check on a quarantined download, not a corrupted file. An app unzipped by a tool that dropped part of the bundle, modified after signing, or fetched from a mirror that never notarised it all end here, and the wording sends people to…</description>
-    </item>
-    <item>
-      <title>Name resolves with dig but not from the application</title>
-      <link>https://fixmyerror.net/errors/dns-systemd-resolved-stub-mismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dns-systemd-resolved-stub-mismatch.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>dig talks to a server directly, while the application goes through the stub resolver on 127.0.0.53, which keeps its own per link servers, search domains and cache. The two disagree after a VPN connects, when a container inherits the host resolv.conf, or while a negative answer is still cached.</description>
-    </item>
-    <item>
-      <title>nginx: [emerg] a duplicate default server for 0.0.0.0:443</title>
-      <link>https://fixmyerror.net/errors/nginx-duplicate-default-server.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-duplicate-default-server.html</guid>
-      <category>WebServer</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Only one server block per listening address may carry default_server, and nginx refuses to start rather than choose. It nearly always follows a second site being enabled while it still has the packaged default configuration flag, or a sites-enabled directory holding two symlinks to the same file.</description>
-    </item>
-    <item>
-      <title>nginx: 1024 worker_connections are not enough</title>
-      <link>https://fixmyerror.net/errors/nginx-worker-connections-are-not-enough.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-worker-connections-are-not-enough.html</guid>
-      <category>WebServer</category>
-      <pubDate>Sat, 26 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Each worker has a fixed number of connection slots and a proxied request uses two of them, one to the client and one to the upstream, so the ceiling arrives at roughly half the concurrency you expected. New connections queue or fail while CPU and memory look fine, and the message repeats once per…</description>
     </item>
   </channel>
 </rss>
