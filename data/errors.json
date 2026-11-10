@@ -14152,5 +14152,438 @@
       "https://learn.microsoft.com/en-us/windows/wsl/wsl-config"
     ],
     "dateAdded": "2026-10-26"
+  },
+  {
+    "id": "spark-sparkupgradeexception-different-result-due-to-upgrading",
+    "title": "Spark: SparkUpgradeException: You may get a different result",
+    "category": "BigData",
+    "explanation": "Spark 3 switched from the hybrid Julian/Gregorian calendar to the proleptic Gregorian one, so dates before 1582-10-15 and timestamps before 1900 in Parquet or Avro files written by Spark 2 can read back a few days off. Rather than silently guess, Spark refuses the read until you say which calendar the files were written with. It is not a corrupt file and not a schema problem: it is almost always one legacy partition with placeholder dates like 0001-01-01 mixed into an otherwise modern table.",
+    "fix_snippet": "# Find which files carry the old calendar: Spark 2 writers leave no marker,\n# Spark 3 writers stamp org.apache.spark.legacyDateTime in the footer\nparquet-tools meta s3://bucket/table/part-00000.parquet | grep -i legacy\n\n# Files written by Spark 2.x (or Hive, Impala): rebase them on read\nspark.conf.set(\"spark.sql.parquet.datetimeRebaseModeInRead\", \"LEGACY\")\nspark.conf.set(\"spark.sql.parquet.int96RebaseModeInRead\", \"LEGACY\")\n\n# Files written by Spark 3.x with the new calendar: no rebase needed\nspark.conf.set(\"spark.sql.parquet.datetimeRebaseModeInRead\", \"CORRECTED\")\n\n# Avro has its own pair of settings\nspark.conf.set(\"spark.sql.avro.datetimeRebaseModeInRead\", \"LEGACY\")\n\n# Set the same keys as --conf on spark-submit so every job agrees\nspark-submit --conf spark.sql.parquet.datetimeRebaseModeInRead=LEGACY job.py",
+    "sources": [
+      "https://spark.apache.org/docs/latest/sql-migration-guide.html",
+      "https://spark.apache.org/docs/latest/configuration.html#runtime-sql-configuration"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "airflow-dagbag-import-timeout",
+    "title": "Airflow: DagBag import timeout for /opt/airflow/dags/etl.py after 30.0s",
+    "category": "BigData",
+    "explanation": "The scheduler re-parses every DAG file every few seconds and gives each file 30 seconds by default. The file was not slow to import because of its size: top-level code in it is doing real work at parse time, typically a Variable.get(), a database query or an HTTP call to build the task list dynamically. That runs on every parse, on every scheduler and worker, so one slow or unreachable dependency takes the whole DAG offline. Raising the timeout hides the cost; moving the work inside a task removes it.",
+    "fix_snippet": "# Time the import by hand to confirm it is the file, not the scheduler\ntime python /opt/airflow/dags/etl.py\n\n# Airflow's own parse report shows per-file timings\nairflow dags report\n\n# Look for the usual suspects at module level in the DAG file\ngrep -nE \"Variable\\.get|requests\\.|create_engine|boto3\\.client|\\.query\\(\" /opt/airflow/dags/etl.py\n\n# Move those calls inside the task callable, or use Jinja in operator\n# arguments so the lookup happens at run time instead of parse time:\n#   bash_command=\"echo {{ var.value.bucket }}\"\n\n# Last resort while you refactor: give the parser longer\n# AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT=120\n# AIRFLOW__CORE__DAG_FILE_PROCESSOR_TIMEOUT=180",
+    "sources": [
+      "https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html#top-level-python-code",
+      "https://airflow.apache.org/docs/apache-airflow/stable/configurations-ref.html#dagbag-import-timeout"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "snowflake-object-does-not-exist-or-not-authorized",
+    "title": "Snowflake: Object 'ANALYTICS.PUBLIC.ORDERS' does not exist or not authorized.",
+    "category": "BigData",
+    "explanation": "Snowflake deliberately gives the same message whether the table is missing or your role simply cannot see it, so a privilege gap looks like a typo. Visibility needs USAGE on the database and the schema as well as SELECT on the table, and it is checked against the role active in your session, not every role you hold. The other common cause is quoting: an identifier created as \"orders\" in lower case can only ever be referenced in double quotes, because unquoted names are folded to upper case.",
+    "fix_snippet": "-- Which role is this session actually using?\nSELECT CURRENT_ROLE(), CURRENT_DATABASE(), CURRENT_SCHEMA();\n\n-- Does the object exist under any role you can switch to?\nSHOW TABLES LIKE 'ORDERS' IN ACCOUNT;\nSHOW TABLES LIKE 'orders' IN SCHEMA ANALYTICS.PUBLIC;   -- case-sensitive name?\n\n-- What can the role see? USAGE on db and schema is required, not just SELECT\nSHOW GRANTS TO ROLE ANALYST;\n\n-- Grant the full chain (run as a role that owns the objects or SECURITYADMIN)\nGRANT USAGE ON DATABASE ANALYTICS TO ROLE ANALYST;\nGRANT USAGE ON SCHEMA ANALYTICS.PUBLIC TO ROLE ANALYST;\nGRANT SELECT ON TABLE ANALYTICS.PUBLIC.ORDERS TO ROLE ANALYST;\n\n-- Or switch to a role that already has access\nUSE ROLE ANALYST;",
+    "sources": [
+      "https://docs.snowflake.com/en/user-guide/security-access-control-privileges",
+      "https://docs.snowflake.com/en/sql-reference/identifiers-syntax"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "python-re-unterminated-character-set",
+    "title": "Python: re.error: unterminated character set at position 0",
+    "category": "Regex",
+    "explanation": "An opening square bracket starts a character class, and the parser never found the matching closing one. Nine times out of ten the pattern was meant to match a literal bracket, as in stripping \"[INFO]\" from log lines, and the fix is to escape it or to use re.escape() on text that came from a variable. The message can also appear when a closing bracket is the first character inside the class, because \"[]\" is not an empty class: the first \"]\" is taken literally and the class runs on. Python 3.13 renamed the exception to re.PatternError, with re.error kept as an alias.",
+    "fix_snippet": "# Reproduce and read the position: it points at the offending bracket\npython3 -c \"import re; re.compile(r'[INFO] (.*)')\"\n\n# Escape the literal bracket\nimport re\nre.compile(r'\\[INFO\\] (.*)')\n\n# Or escape the whole thing when the text comes from user input or config\nre.compile(re.escape('[INFO]') + r' (.*)')\n\n# A class that must contain ']' puts it first or escapes it\nre.compile(r'[\\]\\[]')        # matches ] or [\n\n# Python 3.13+: catch the new name, which still catches the old one\ntry:\n    re.compile(pattern)\nexcept re.PatternError as exc:   # re.error on 3.12 and earlier\n    print(exc.msg, exc.pos)",
+    "sources": [
+      "https://docs.python.org/3/library/re.html#re.PatternError",
+      "https://docs.python.org/3/library/re.html#re.escape"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "js-regex-invalid-escape-with-unicode-flag",
+    "title": "JavaScript: Invalid regular expression: /\\-/u: Invalid escape",
+    "category": "Regex",
+    "explanation": "Without the u flag, JavaScript quietly treats a backslash before an ordinary character as that character, so \\- and \\: have always worked. With the u or v flag the grammar is strict: only syntax characters and the defined escapes may follow a backslash, and anything else is a SyntaxError. The pattern was fine for years and broke the day someone added u for emoji support or a \\p{...} class. The usual culprits are \\- outside a character class and over-eager escaping in a string that was turned into a RegExp.",
+    "fix_snippet": "// Find the escape the parser rejects: run the literal in isolation\nnew RegExp('\\\\-', 'u');   // SyntaxError: Invalid escape\n\n// Drop the backslash where the character is not special anyway\n/a-b/u            // '-' only needs escaping inside [...]\n/[\\w\\-]/u         // inside a class \\- is allowed, and - at the end also works\n/[\\w-]/u\n\n// Escape only what really needs it when building patterns from strings\nconst escapeRe = (s) => s.replace(/[.*+?^${}()|[\\]\\\\\\/]/g, '\\\\$&');\nnew RegExp(escapeRe(userInput), 'u');\n\n// Firefox phrases the same failure as\n//   SyntaxError: invalid identity escape in regular expression",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Character_escape",
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/unicode"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "sed-unterminated-s-command",
+    "title": "sed: -e expression #1, char 12: unterminated `s' command",
+    "category": "Regex",
+    "explanation": "sed counted the slashes in your s command and found the wrong number. The classic cause is a path or URL in the pattern or replacement, where every / is read as a delimiter; the fix is to pick a delimiter that does not appear in the text. The other cause is argument order on macOS: BSD sed's -i takes a mandatory backup suffix, so sed -i 's/a/b/' file treats 's/a/b/' as the suffix and the filename as the script, which produces exactly this message. A trailing newline in a variable expanded into the script does the same.",
+    "fix_snippet": "# Use a different delimiter when the text contains slashes\nsed 's|/usr/local/bin|/opt/bin|g' config.txt\nsed 's#https://old.example#https://new.example#g' urls.txt\n\n# macOS (BSD sed): -i needs a suffix argument, '' means none\nsed -i '' 's/foo/bar/' file.txt\n\n# Portable form that works on both GNU and BSD sed\nsed -i.bak 's/foo/bar/' file.txt && rm file.txt.bak\n\n# A variable with a trailing newline breaks the script: strip it first\nnew=$(printf '%s' \"$new\")\nsed \"s/placeholder/${new}/\" template.txt\n\n# See which sed you have\nsed --version 2>/dev/null | head -1 || echo \"BSD sed\"",
+    "sources": [
+      "https://www.gnu.org/software/sed/manual/html_node/The-_0022s_0022-Command.html",
+      "https://www.gnu.org/software/sed/manual/html_node/Command_002dLine-Options.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "wasm-instantiate-argument-0-must-be-a-buffer-source",
+    "title": "WebAssembly: WebAssembly.instantiate(): Argument 0 must be a buffer source",
+    "category": "WebAssembly",
+    "explanation": "WebAssembly.instantiate() takes either raw bytes (an ArrayBuffer or typed array) or a compiled Module. What arrived was something else, almost always the Response object from fetch() or the promise it returned, because the code forgot to await response.arrayBuffer(). It works in a colleague's project because they used instantiateStreaming(), which is the function that does accept a Response. Node's fs.readFile gives a Buffer, which is fine, but readFile with an encoding gives a string, which is not.",
+    "fix_snippet": "// Browser: either pass the Response to the streaming variant...\nconst { instance } = await WebAssembly.instantiateStreaming(\n  fetch('/app.wasm'), imports);\n\n// ...or turn it into bytes first for instantiate()\nconst res = await fetch('/app.wasm');\nconst bytes = await res.arrayBuffer();\nconst { instance: inst2 } = await WebAssembly.instantiate(bytes, imports);\n\n// Node: readFile with no encoding returns a Buffer, which is accepted\nimport { readFile } from 'node:fs/promises';\nconst buf = await readFile('./app.wasm');          // not readFile(path, 'utf8')\nconst { instance: inst3 } = await WebAssembly.instantiate(buf, imports);\n\n// Check what you really have before the call\nconsole.log(Object.prototype.toString.call(bytes)); // [object ArrayBuffer]",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/instantiate_static",
+      "https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/instantiateStreaming_static"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "wasm-bindgen-schema-version-mismatch",
+    "title": "wasm-bindgen: rust Wasm file schema version: 0.2.92, this binary schema version",
+    "category": "WebAssembly",
+    "explanation": "The wasm-bindgen crate compiled into your .wasm and the wasm-bindgen CLI that post-processes it must be exactly the same version, because the crate embeds a custom section whose layout the CLI reads. The mismatch appears after a cargo update bumps the crate while the globally installed CLI stays put, or the other way round after cargo install. wasm-pack usually downloads a matching CLI for you, so the error there means a cached or system-wide wasm-bindgen is shadowing it.",
+    "fix_snippet": "# Which version is in the build?\ngrep -A1 'name = \"wasm-bindgen\"' Cargo.lock\n\n# Which CLI runs?\nwasm-bindgen --version\nwhich wasm-bindgen\n\n# Match the CLI to the lock file (the version in Cargo.lock wins)\ncargo install wasm-bindgen-cli --version 0.2.92 --force\n\n# Or match the crate to the CLI\ncargo update -p wasm-bindgen --precise 0.2.100\n\n# wasm-pack: clear its cached CLI so it fetches the right one\nrm -rf ~/.cache/.wasm-pack   # Linux\nrm -rf ~/Library/Caches/.wasm-pack   # macOS\nwasm-pack build --target web",
+    "sources": [
+      "https://rustwasm.github.io/docs/wasm-bindgen/reference/cli.html",
+      "https://rustwasm.github.io/docs/wasm-pack/commands/build.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "wasm-memory-could-not-allocate-memory",
+    "title": "WebAssembly: RangeError: WebAssembly.Memory(): could not allocate memory",
+    "category": "WebAssembly",
+    "explanation": "The module asked for a linear memory the engine could not reserve. On desktop that normally means an initial size in the gigabytes; on iOS Safari and low-end Android it can happen at a few hundred megabytes, because the browser caps each tab and a shared memory for threads has to be reserved up front at its maximum. It fails on the first load on some phones and not on others, which makes it look like a flaky network. Modules that each reserve a large maximum also add up: ten instances of a 1 GB maximum fail together.",
+    "fix_snippet": "# Emscripten: see what the module reserves\nwasm-objdump -x app.wasm | grep -A2 Memory\n\n# Lower the initial size and let it grow instead\nemcc main.c -o app.js -sINITIAL_MEMORY=64MB -sALLOW_MEMORY_GROWTH=1\n\n# Threads need a fixed maximum; keep it realistic for mobile\nemcc main.c -o app.js -pthread -sINITIAL_MEMORY=64MB -sMAXIMUM_MEMORY=512MB\n\n# Hand-written: initial and maximum are in 64 KiB pages\nconst mem = new WebAssembly.Memory({ initial: 256, maximum: 4096 }); // 16 MB to 256 MB\n\n# Catch it and degrade rather than crash on small devices\ntry { new WebAssembly.Memory({ initial: 16384 }); }\ncatch (e) { if (e instanceof RangeError) showLowMemoryFallback(); }",
+    "sources": [
+      "https://emscripten.org/docs/tools_reference/settings_reference.html#initial-memory",
+      "https://developer.mozilla.org/en-US/docs/WebAssembly/Reference/JavaScript_interface/Memory/Memory"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "web3-nonce-too-high",
+    "title": "Web3: nonce too high. Expected nonce to be 3 but got 27.",
+    "category": "Web3",
+    "explanation": "The node keeps a nonce per account that must increase by exactly one, and the transaction skipped ahead. Almost always the chain was reset while the wallet was not: a local Hardhat or Anvil node restarted at nonce 0, but MetaMask still remembers the 27 transactions it sent to the old instance. The same thing happens when a script tracks the nonce itself and the node was reset, or when two signers share one key. The node is not broken and the transaction is not malformed: the sender's view of the account is stale.",
+    "fix_snippet": "# What the node thinks the next nonce is\ncast nonce 0xYourAddress --rpc-url http://127.0.0.1:8545\n# or with curl\ncurl -s -X POST http://127.0.0.1:8545 -H 'content-type: application/json' \\\n  -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_getTransactionCount\",\"params\":[\"0xYourAddress\",\"pending\"]}'\n\n# MetaMask against a restarted local chain: Settings > Advanced > Clear activity tab data\n# (this resets its cached nonce for the selected network only)\n\n# Scripts: ask the node instead of counting yourself\nconst nonce = await provider.getTransactionCount(wallet.address, 'pending');\n\n# Two processes signing with the same key must share one nonce source;\n# otherwise give each its own account\n\n# Hardhat: the pending transaction may already be in the node; drop it\n# by restarting the node, since a local chain has no replacement fee rules",
+    "sources": [
+      "https://hardhat.org/hardhat-network/docs/overview",
+      "https://ethereum.org/en/developers/docs/transactions/"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "web3-erc20-transfer-amount-exceeds-allowance",
+    "title": "Web3: execution reverted: ERC20: transfer amount exceeds allowance",
+    "category": "Web3",
+    "explanation": "A contract called transferFrom on a token, and the token owner has not approved that contract to spend that much. The approval is per spender: approving a router does not approve the vault the router forwards to, and an approval of exactly the amount is spent after one use. It also goes wrong across upgrades, because a new proxy address starts with zero allowance. Tokens built on OpenZeppelin 5 raise the custom error ERC20InsufficientAllowance(spender, allowance, needed) instead, which older front ends show as a bare revert.",
+    "fix_snippet": "# Check the allowance for the exact spender the revert came from\ncast call $TOKEN \"allowance(address,address)(uint256)\" $OWNER $SPENDER --rpc-url $RPC\n\n# Approve, then call again: two transactions, in that order\ncast send $TOKEN \"approve(address,uint256)\" $SPENDER 1000000000000000000000 \\\n  --private-key $PK --rpc-url $RPC\n\n# ethers v6\nconst token = new Contract(TOKEN, erc20Abi, signer);\nconst allowance = await token.allowance(owner, SPENDER);\nif (allowance < amount) await (await token.approve(SPENDER, amount)).wait();\nawait vault.deposit(amount);\n\n# Some tokens (USDT) require the allowance to go to 0 before changing it\nawait token.approve(SPENDER, 0n);\nawait token.approve(SPENDER, amount);\n\n# Decode the OpenZeppelin 5 custom error from a raw revert\ncast 4byte-decode 0xfb8f41b2...",
+    "sources": [
+      "https://docs.openzeppelin.com/contracts/5.x/api/token/erc20",
+      "https://eips.ethereum.org/EIPS/eip-20"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "ethers-network-changed-network-error",
+    "title": "ethers: network changed: 1 => 11155111 (event=\"changed\", code=NETWORK_ERROR)",
+    "category": "Web3",
+    "explanation": "An ethers provider pins the chain it detected when it was created, and refuses to carry on when the wallet underneath it switches to another network, because contract addresses and chain ids would no longer line up. The user changed network in MetaMask, or the dapp asked them to with wallet_switchEthereumChain, while the old provider object lived on. The fix is not a retry: listen for the wallet's chainChanged event and build a new provider, or in ethers v6 pass \"any\" so the BrowserProvider follows the switch.",
+    "fix_snippet": "// ethers v6: let the provider follow network switches\nimport { BrowserProvider } from 'ethers';\nlet provider = new BrowserProvider(window.ethereum, 'any');\n\n// Or recreate it when the wallet tells you the chain changed\nwindow.ethereum.on('chainChanged', (chainIdHex) => {\n  provider = new BrowserProvider(window.ethereum);\n  // re-create contracts and signers that were bound to the old provider\n});\n\n// ethers v5 equivalent\n// const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');\n\n// Many dapps simply reload, which MetaMask used to do for you\nwindow.ethereum.on('chainChanged', () => window.location.reload());\n\n// Check which chain the wallet is really on\nconsole.log(await window.ethereum.request({ method: 'eth_chainId' }));",
+    "sources": [
+      "https://docs.ethers.org/v6/api/providers/#BrowserProvider",
+      "https://docs.metamask.io/wallet/reference/provider-api/#chainchanged"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "sbt-outofmemoryerror-metaspace",
+    "title": "sbt: java.lang.OutOfMemoryError: Metaspace",
+    "category": "Scala",
+    "explanation": "Metaspace holds class definitions, and an sbt server that has been running all day accumulates a fresh set every time you reload the build, run tests in the same JVM or let a plugin create classloaders. It fills up after a number of iterations rather than on any particular command, which is why the same compile succeeds in a fresh shell. Raising the heap with -Xmx does nothing, because Metaspace is a separate region; you either cap it higher, let it be collected, or restart the session more often.",
+    "fix_snippet": "# What limits is the running sbt JVM using?\nps -o args= -p \"$(pgrep -f sbt-launch | head -1)\" | tr ' ' '\\n' | grep -E 'Xmx|Metaspace'\n\n# Per project: .sbtopts is read by the sbt runner script\ncat >> .sbtopts <<'EOF'\n-J-Xmx4G\n-J-XX:MaxMetaspaceSize=1G\n-J-XX:+UseG1GC\nEOF\n\n# Per machine instead: ~/.sbt/.sbtopts or\nexport SBT_OPTS=\"-Xmx4G -XX:MaxMetaspaceSize=1G\"\n\n# Fork tests so their classes die with the forked JVM\n# build.sbt\nThis / Test / fork := true\n\n# Still growing? restart the server rather than the shell\nsbt \"shutdown\"",
+    "sources": [
+      "https://www.scala-sbt.org/1.x/docs/Troubleshoot-Memory-Issues.html",
+      "https://www.scala-sbt.org/1.x/docs/Forking.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "scala-forward-reference-extends-over-definition",
+    "title": "Scala: forward reference extends over definition of value total",
+    "category": "Scala",
+    "explanation": "Inside a block, a method body or a script, definitions are evaluated top to bottom and may not be used before the line that defines them. The error names the value whose definition the reference jumped over. It catches people moving code out of a class, where members can reference each other in any order, into a main method or a worksheet, where they cannot. Local defs are the exception, since a def is not evaluated until called, which is why reordering sometimes fixes it and sometimes just moves the error.",
+    "fix_snippet": "// The failing shape: `rate` is used before its line runs\ndef report(): Unit = {\n  val total = items.map(_.price * rate).sum   // forward reference\n  val rate = 1.2\n}\n\n// Fix 1: order the vals so each is defined before use\ndef report(): Unit = {\n  val rate = 1.2\n  val total = items.map(_.price * rate).sum\n}\n\n// Fix 2: make the later one lazy when the order is forced by readability\nlazy val rate = 1.2\n\n// Fix 3: a def is fine to reference early; it is evaluated on call\ndef rate = 1.2\n\n// Fix 4: move the definitions up to class or object level,\n// where members may refer to each other in any order",
+    "sources": [
+      "https://scala-lang.org/files/archive/spec/2.13/04-basic-declarations-and-definitions.html",
+      "https://docs.scala-lang.org/tour/basics.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "scala-object-javaconverters-is-deprecated",
+    "title": "Scala: object JavaConverters in package collection is deprecated (since 2.13.0)",
+    "category": "Scala",
+    "explanation": "Scala 2.13 rebuilt the collections library and moved the Java interop helpers to scala.jdk.CollectionConverters, which has the same asScala and asJava extension methods. The old import still compiles, with this warning, in 2.13 and Scala 3, but turns into an error under -Xfatal-warnings or -Werror, which is how it breaks a build that was green yesterday. The even older scala.collection.JavaConversions, which converted implicitly, is gone altogether.",
+    "fix_snippet": "// Find every old import\ngrep -rn \"collection.JavaConverters\\|collection.JavaConversions\" src/\n\n// Scala 2.13 and Scala 3\nimport scala.jdk.CollectionConverters._\nval list: java.util.List[String] = Seq(\"a\", \"b\").asJava\nval seq = javaList.asScala.toSeq\n\n// Scala 3 can use the given-style import\nimport scala.jdk.CollectionConverters.*\n\n// Cross-building with 2.12? Add the compatibility shim, which provides\n// scala.jdk.CollectionConverters on 2.12 as well\nlibraryDependencies += \"org.scala-lang.modules\" %% \"scala-collection-compat\" % \"2.12.0\"\n\n// Option and function converters moved alongside\nimport scala.jdk.OptionConverters._\nimport scala.jdk.FunctionConverters._",
+    "sources": [
+      "https://www.scala-lang.org/api/current/scala/jdk/CollectionConverters$.html",
+      "https://docs.scala-lang.org/overviews/collections-2.13/conversions-between-java-and-scala-collections.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "grpc-not-found-code-5",
+    "title": "gRPC: NOT_FOUND (code 5)",
+    "category": "gRPC",
+    "explanation": "The server ran the handler and reported that the thing the request named does not exist: a user id, a resource name, a file. It is an application status, not a transport one, so the connection, the TLS and the routing are all fine. Do not confuse it with a missing method or a proxy returning a 404 page, which gRPC maps to UNIMPLEMENTED instead. Servers should return NOT_FOUND only for the specific entity in the request; for a whole class of resource that is unavailable, FAILED_PRECONDITION is the documented choice.",
+    "fix_snippet": "# Call the method directly and read the status detail the server attached\ngrpcurl -plaintext -d '{\"id\":\"42\"}' api.internal:50051 users.v1.Users/GetUser\n\n# Compare with a known-good id to prove it is the data and not the service\ngrpcurl -plaintext -d '{\"id\":\"1\"}' api.internal:50051 users.v1.Users/GetUser\n\n# Go client: branch on the code rather than the message text\nst, _ := status.FromError(err)\nif st.Code() == codes.NotFound {\n    // treat as a cache miss, do not retry\n}\n\n# Go server: return it with a useful message\nreturn nil, status.Errorf(codes.NotFound, \"user %s not found\", req.GetId())\n\n# Python server\ncontext.abort(grpc.StatusCode.NOT_FOUND, f\"user {request.id} not found\")",
+    "sources": [
+      "https://grpc.io/docs/guides/status-codes/",
+      "https://github.com/grpc/grpc/blob/master/doc/statuscodes.md"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "grpc-already-exists-code-6",
+    "title": "gRPC: ALREADY_EXISTS (code 6)",
+    "category": "gRPC",
+    "explanation": "A create call collided with an entity that is already there. Seen once, it is a duplicate name or id in the request. Seen in bursts, it is nearly always a retry: the first attempt succeeded on the server but the client timed out or the connection dropped before the response arrived, and the automatic retry then ran the create a second time. The cure is idempotency, not catching the error: accept a client-generated request id or resource id so the second attempt returns the same resource.",
+    "fix_snippet": "# Prove the first call succeeded: look the entity up\ngrpcurl -plaintext -d '{\"name\":\"orders/123\"}' api.internal:50051 orders.v1.Orders/GetOrder\n\n# Check whether client-side retries are on for this method\n# (a retry policy in the service config, or a deadline shorter than the server's work)\ngrep -rn \"retryPolicy\\|maxAttempts\" ./config\n\n# Server (Go): make create idempotent on the client's id\nif existing, err := store.Get(req.GetOrderId()); err == nil {\n    return existing, nil   // same request, same answer\n}\nreturn nil, status.Errorf(codes.AlreadyExists, \"order %s exists\", req.GetOrderId())\n\n# Client (Go): treat it as success when the id was yours\nif status.Code(err) == codes.AlreadyExists {\n    resp, err = client.GetOrder(ctx, &pb.GetOrderRequest{Name: name})\n}",
+    "sources": [
+      "https://grpc.io/docs/guides/status-codes/",
+      "https://google.aip.dev/155"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "grpc-out-of-range-code-11",
+    "title": "gRPC: OUT_OF_RANGE (code 11)",
+    "category": "gRPC",
+    "explanation": "The request was well formed but asked for something past the end: a page token beyond the last page, a byte offset past the file length, a timestamp outside the retained window. It differs from INVALID_ARGUMENT in that the same request would have been valid at a different moment or against a different resource, and from NOT_FOUND in that the resource exists. Clients paging with an offset instead of the server's next_page_token hit it whenever the collection shrinks between calls.",
+    "fix_snippet": "# Reproduce with the smallest request and move the boundary\ngrpcurl -plaintext -d '{\"name\":\"files/a\",\"offset\":0,\"length\":1}' api:50051 files.v1.Files/Read\ngrpcurl -plaintext -d '{\"name\":\"files/a\",\"offset\":999999,\"length\":1}' api:50051 files.v1.Files/Read\n\n# Paging: use the token the server gave you, never a computed offset\nresp = client.ListItems(ListItemsRequest(page_size=100, page_token=token))\ntoken = resp.next_page_token   # empty string means you are done\n\n# Go server: return it with the bound that was exceeded\nif req.GetOffset() > size {\n    return nil, status.Errorf(codes.OutOfRange,\n        \"offset %d exceeds size %d\", req.GetOffset(), size)\n}\n\n# Clients: do not retry; adjust the range and ask again",
+    "sources": [
+      "https://grpc.io/docs/guides/status-codes/",
+      "https://github.com/grpc/grpc/blob/master/doc/statuscodes.md"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "terraform-provider-configuration-not-present",
+    "title": "Terraform: Error: Provider configuration not present",
+    "category": "Terraform",
+    "explanation": "The state still holds resources that were created by a provider block, or a provider alias, that no longer exists in the configuration. It typically follows deleting a module call or an aliased provider in one go: Terraform needs that provider to plan the destroy of the resources it manages, and now it has nothing to run. Removing the resource blocks first does not help, since the state entries are what matter. Either put the provider back until the resources are destroyed, or tell Terraform to forget them.",
+    "fix_snippet": "# Which state entries still reference the missing provider?\nterraform state list\nterraform state show 'module.legacy.aws_instance.app' | head -5\n\n# Option 1: restore the provider block (or alias) temporarily,\n# destroy the resources, then remove both together\nterraform destroy -target='module.legacy'\n\n# Option 2: keep the real resources but drop them from state\nterraform state rm 'module.legacy'\n\n# Option 3 (Terraform 1.7+): declarative forget, reviewed in the plan\ncat >> main.tf <<'EOF'\nremoved {\n  from = module.legacy\n  lifecycle { destroy = false }\n}\nEOF\nterraform plan",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/language/modules/develop/providers",
+      "https://developer.hashicorp.com/terraform/language/resources/syntax#removing-resources"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "terraform-saved-plan-is-stale",
+    "title": "Terraform: Error: Saved plan is stale",
+    "category": "Terraform",
+    "explanation": "A plan file is a promise about a specific state serial, and the state moved on before the apply ran. Someone else applied in between, a second pipeline ran against the same workspace, or a manual terraform apply happened from a laptop. Terraform refuses on purpose, because applying the old plan would overwrite their changes. It is the plan that is stale, not the configuration, so the fix is to plan again, not to force anything.",
+    "fix_snippet": "# See who moved the state: the serial and lineage are in the backend\nterraform state pull | head -5\n\n# Re-plan and apply from the fresh plan\nterraform plan -out=tfplan\nterraform apply tfplan\n\n# In CI, make plan and apply run in the same job, or pass the plan\n# as an artifact and apply it within minutes of creating it\n\n# Stop concurrent runs in GitHub Actions\n# concurrency:\n#   group: terraform-${{ github.ref }}\n#   cancel-in-progress: false\n\n# Check nobody is holding a lock from a crashed run\nterraform force-unlock <LOCK_ID>   # only when you are sure the run is dead",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/cli/commands/plan#out-filename",
+      "https://developer.hashicorp.com/terraform/cli/commands/apply#plan-file"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "terraform-backend-configuration-changed",
+    "title": "Terraform: Error: Backend configuration changed",
+    "category": "Terraform",
+    "explanation": "The backend block, or the -backend-config values you pass, differ from what is recorded in .terraform/terraform.tfstate from the last init. Terraform will not guess whether you want to move the state to the new location or just point at a different one. Common triggers are renaming the S3 key, switching from local to remote, or a CI job that passes a per-environment bucket into a directory that was last initialised for another environment. Pick the flag that matches your intent.",
+    "fix_snippet": "# What does the working directory think the backend is?\ncat .terraform/terraform.tfstate | head -20\n\n# The state should move with you (local -> remote, or bucket rename)\nterraform init -migrate-state\n\n# The new location already holds the right state; just point at it\nterraform init -reconfigure\n\n# CI running several environments from one checkout: keep .terraform\n# out of the cache, or use workspaces instead of per-env backends\nrm -rf .terraform && terraform init -backend-config=env/prod.tfbackend\n\n# Confirm after switching\nterraform state list | head",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/cli/commands/init#backend-initialization",
+      "https://developer.hashicorp.com/terraform/language/backend#changing-configuration"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "ansible-could-not-match-supplied-host-pattern",
+    "title": "Ansible: [WARNING]: Could not match supplied host pattern, ignoring: webservers",
+    "category": "Ansible",
+    "explanation": "The play's hosts line names a group or host that the inventory Ansible loaded does not contain, so the play runs against nothing and finishes green with \"skipping: no hosts matched\". The pattern is usually right and the inventory is wrong: the command picked up the default /etc/ansible/hosts because -i was omitted, ansible.cfg in the current directory was not read because it is world-writable, or a dynamic inventory plugin returned no hosts because its credentials failed silently. Group names are case sensitive and a trailing comma turns a single host into an inline inventory.",
+    "fix_snippet": "# Which inventory is actually in use, and what is in it?\nansible-config dump --only-changed | grep -i inventory\nansible-inventory -i inventory/ --graph\n\n# Test the pattern directly\nansible -i inventory/ webservers --list-hosts\n\n# A world-writable directory makes Ansible ignore its ansible.cfg\nchmod o-w .\n\n# Dynamic inventory: run the plugin and read its errors\nansible-inventory -i inventory/aws_ec2.yml --list -vvv 2>&1 | tail -20\n\n# Single host from the command line needs the trailing comma\nansible-playbook -i 'db1.example.com,' site.yml",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html",
+      "https://docs.ansible.com/ansible/latest/reference_appendices/config.html#cfg-in-world-writable-dir"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "ansible-module-failure-see-stdout-stderr",
+    "title": "Ansible: MODULE FAILURE See stdout/stderr for the exact error",
+    "category": "Ansible",
+    "explanation": "The module was copied to the target and executed, but it crashed before it could print the JSON that Ansible expects back. The message is a wrapper; the cause is in the module_stdout and module_stderr fields that -vvv reveals. Most often the remote Python is missing, too old for the collection, or the wrong interpreter was discovered, so the traceback is a SyntaxError or ImportError from Python 2 or 3.6. Other causes are a full /tmp, a MOTD that writes to stdout on login, or sudo printing a prompt.",
+    "fix_snippet": "# Re-run with enough verbosity to see the module's own output\nansible-playbook -i inventory site.yml -vvv --limit web1 2>&1 | grep -A20 module_stderr\n\n# Which Python did Ansible pick on the target?\nansible -i inventory web1 -m setup -a 'filter=ansible_python*'\n\n# Pin it when discovery guesses wrong\n# inventory/group_vars/all.yml\nansible_python_interpreter: /usr/bin/python3\n\n# No Python at all on a fresh image? Bootstrap it with the raw module\nansible -i inventory web1 -m raw -a 'apt-get install -y python3' -b\n\n# Noisy login shells break the protocol; test what a non-interactive\n# session prints\nssh web1 'true' | cat -A\n\n# Check the remote temp directory can be written\nansible -i inventory web1 -m shell -a 'df -h /tmp && ls -ld ~/.ansible/tmp'",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html",
+      "https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html#cmdoption-ansible-playbook-v"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "ansible-a-worker-was-found-in-a-dead-state",
+    "title": "Ansible: ERROR! A worker was found in a dead state",
+    "category": "Ansible",
+    "explanation": "Ansible forks one worker process per host in a batch, and one of them died without reporting back. On Linux the usual reason is the kernel's OOM killer taking out a fork when forks is set high on a small controller, or a module pulling in a large file as a variable. On macOS it is Objective-C fork safety: a Python library in the worker (often the Keychain or urllib proxy lookup) initialises after fork and the OS kills the process. The task that was running is a bystander; the controller is what needs attention.",
+    "fix_snippet": "# Linux: was it the OOM killer?\ndmesg -T | grep -i -E 'killed process|out of memory' | tail\njournalctl -k --since '10 min ago' | grep -i oom\n\n# Reduce parallelism, or give the controller more memory\nansible-playbook site.yml -f 5\n# or in ansible.cfg:  [defaults]\\nforks = 5\n\n# macOS: disable fork safety for the Ansible process\nexport OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES\nexport no_proxy='*'\nansible-playbook site.yml\n\n# Get the real traceback from the dead worker\nANSIBLE_DEBUG=1 ansible-playbook site.yml 2>&1 | grep -B5 -A20 Traceback | head -60\n\n# Large files: use copy/fetch rather than reading them into variables with slurp/lookup",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/reference_appendices/config.html#default-forks",
+      "https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "github-actions-process-completed-with-exit-code-1",
+    "title": "GitHub Actions: Error: Process completed with exit code 1.",
+    "category": "CI/CD",
+    "explanation": "This line is the runner reporting that a run step's shell exited non-zero; the actual failure is further up in that step's log. When the same commands pass locally, the difference is usually the shell: Actions runs bash with -e and -o pipefail, so a command that fails in the middle of a pipe, or a grep that matches nothing, stops the step even though an interactive shell would carry on. The other quiet culprit is an unset variable or secret that is empty on pull requests from forks.",
+    "fix_snippet": "# Read the step log from the top, not the bottom; expand the failing step\n# and search for 'error', 'not found' or the last command echoed\n\n# Reproduce the Actions shell locally\nbash --noprofile --norc -eo pipefail -c 'grep TODO src/*.ts | wc -l'\n\n# Commands that are allowed to fail\n- run: |\n    grep -r TODO src/ || true\n    npm audit --audit-level=high || echo \"audit found issues\"\n\n# A pipe whose first command may fail\n- run: set +o pipefail; grep pattern file | head -5\n\n# Turn on the runner's own tracing to see what executed\n# Settings > Secrets and variables > Actions > Variables\n#   ACTIONS_STEP_DEBUG = true\n\n# Check that the variable you rely on is set on this event\n- run: test -n \"$TOKEN\" || { echo 'TOKEN is empty (fork PR?)'; exit 1; }",
+    "sources": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell",
+      "https://docs.github.com/en/actions/how-tos/monitor-workflows/enable-debug-logging"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "jenkins-rejected-access-exception-scripts-not-permitted",
+    "title": "Jenkins: RejectedAccessException: Scripts not permitted to use method",
+    "category": "CI/CD",
+    "explanation": "Declarative and scripted pipelines run in the Groovy sandbox, which only allows methods on an approved list. The pipeline called something outside it, often an ordinary Java method such as String.execute, a Date formatter or a static helper in a shared library class, and the sandbox stopped it. It appears after a plugin upgrade tightens the list, or when code moves from a Jenkinsfile into a shared library class that is not under vars/. Each new signature needs an administrator's approval, which is deliberate: the rejected call runs with the controller's full privileges.",
+    "fix_snippet": "# Approve the exact signature an admin is happy with\n# Manage Jenkins > Security > In-process Script Approval\n\n# Approve from the CLI or a script console when there are many\n# (Jenkins script console)\n# org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval.get()\n#     .approveSignature('method java.lang.String execute')\n\n# Better: move the call into a shared library under vars/ or src/ marked\n# as trusted (a global library loaded by the controller runs outside the sandbox)\n# @Library('platform') _\n\n# Avoid the common offenders inside the Jenkinsfile\nsh 'date +%F'                  # instead of new Date().format(...)\nsh(script: 'git rev-parse HEAD', returnStdout: true).trim()   # instead of \"\".execute()\n\n# Confirm which plugin version enforces the list\n# Manage Jenkins > Plugins > Installed > Script Security",
+    "sources": [
+      "https://www.jenkins.io/doc/book/managing/script-approval/",
+      "https://www.jenkins.io/doc/book/pipeline/shared-libraries/"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "gitlab-ci-job-failed-system-failure-prepare-environment",
+    "title": "GitLab CI: ERROR: Job failed (system failure): prepare environment",
+    "category": "CI/CD",
+    "explanation": "The runner could not get a shell ready before your script started, so the failure is on the runner host, not in your .gitlab-ci.yml. With the shell executor the cause is almost always the gitlab-runner user's login profile: Ubuntu's default .bash_logout runs clear_console, which fails in a non-interactive session, and any profile line that errors or prints a prompt breaks the handshake. Docker executors show the same message when the daemon is unreachable or the image cannot be pulled, and the detail sits in the runner's log rather than the job log.",
+    "fix_snippet": "# On the runner host: read what the runner itself logged\nsudo journalctl -u gitlab-runner --since '10 min ago' | tail -40\n\n# Shell executor: remove the profile files that run on login\nsudo rm -f /home/gitlab-runner/.bash_logout\nsudo rm -f /home/gitlab-runner/.bash_profile\n\n# Confirm a non-interactive login shell works cleanly for that user\nsudo -u gitlab-runner bash -lc 'echo ok'\n\n# Docker executor: can the runner talk to the daemon and pull the image?\nsudo -u gitlab-runner docker info | head -5\nsudo -u gitlab-runner docker pull alpine:3.20\n\n# Check the executor and shell in the runner's config\nsudo grep -E 'executor|shell' /etc/gitlab-runner/config.toml",
+    "sources": [
+      "https://docs.gitlab.com/runner/shells/#shell-profile-loading",
+      "https://docs.gitlab.com/runner/faq/"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "prometheus-expected-a-valid-start-token-got-invalid",
+    "title": "Prometheus: expected a valid start token, got \"<\" (\"INVALID\") while parsing",
+    "category": "Monitoring",
+    "explanation": "The scrape got a 200 response but the body starts with an angle bracket, so Prometheus received HTML rather than the text exposition format. That means the path is wrong (the app serves metrics at /actuator/prometheus or /api/metrics, not /metrics), a login page or SSO proxy answered instead of the exporter, or a single-page app's catch-all route returned index.html. The target shows as down even though the host is reachable, which sends people off to check firewalls.",
+    "fix_snippet": "# Fetch exactly what Prometheus fetched\ncurl -sS -i http://app:8080/metrics | head -20\n\n# Look for a redirect to a login page or an HTML 200\ncurl -sS -o /dev/null -w '%{http_code} %{redirect_url} %{content_type}\\n' http://app:8080/metrics\n\n# Spring Boot, Django, Rails and others use their own paths\n# prometheus.yml\n- job_name: app\n  metrics_path: /actuator/prometheus\n  static_configs:\n    - targets: ['app:8080']\n\n# Behind an auth proxy, give Prometheus credentials rather than hitting the login page\n  basic_auth:\n    username: prometheus\n    password_file: /etc/prometheus/app.pass\n\n# Validate a body by hand with promtool\ncurl -s http://app:8080/actuator/prometheus | promtool check metrics",
+    "sources": [
+      "https://prometheus.io/docs/instrumenting/exposition_formats/",
+      "https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "grafana-invalid-api-key",
+    "title": "Grafana: {\"message\":\"invalid API key\"}",
+    "category": "Monitoring",
+    "explanation": "Grafana rejected the bearer token sent to its HTTP API. Beyond the plain typo, two things cause this in otherwise working automation. Legacy API keys were deprecated in Grafana 9 and removed in later releases in favour of service account tokens, so a long-lived provisioning script breaks on upgrade. And tokens are scoped to one organisation: a token minted in org 1 is \"invalid\" against a dashboard in org 2 even though it is perfectly real. Expired tokens give the same message, with no hint that they expired.",
+    "fix_snippet": "# Does the token work at all, and for which org?\ncurl -sS -H \"Authorization: Bearer $GRAFANA_TOKEN\" https://grafana.example.com/api/org\n\n# List service accounts and their tokens (needs an admin login)\ncurl -sS -u admin:\"$ADMIN_PW\" https://grafana.example.com/api/serviceaccounts/search\n\n# Create a service account and a token to replace a legacy API key\ncurl -sS -u admin:\"$ADMIN_PW\" -H 'content-type: application/json' \\\n  -d '{\"name\":\"provisioner\",\"role\":\"Editor\"}' https://grafana.example.com/api/serviceaccounts\ncurl -sS -u admin:\"$ADMIN_PW\" -H 'content-type: application/json' \\\n  -d '{\"name\":\"ci\",\"secondsToLive\":7776000}' \\\n  https://grafana.example.com/api/serviceaccounts/<id>/tokens\n\n# Target another org with the same token: switch the account's org first,\n# or mint a token from a service account that lives in that org",
+    "sources": [
+      "https://grafana.com/docs/grafana/latest/administration/service-accounts/",
+      "https://grafana.com/docs/grafana/latest/developers/http_api/serviceaccount/"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "otel-collector-error-decoding-exporters-unknown-type-logging",
+    "title": "OpenTelemetry Collector: error decoding 'exporters': unknown type: \"logging\"",
+    "category": "Monitoring",
+    "explanation": "The logging exporter, which most tutorials still show, was deprecated in favour of the debug exporter and then removed from the collector distributions in 2024, so a config that worked on last year's image fails to start on the current one. The same message with a different name means the component is not compiled into the distribution you are running: otelcol (core) ships far fewer receivers and exporters than otelcol-contrib, and a custom build made with the builder only contains what its manifest lists.",
+    "fix_snippet": "# What components does this binary actually have?\notelcol components | grep -A40 exporters:\n\n# Replace logging with debug\n# before\n#   exporters:\n#     logging:\n#       loglevel: debug\n# after\nexporters:\n  debug:\n    verbosity: detailed\nservice:\n  pipelines:\n    traces:\n      exporters: [debug, otlp]\n\n# Validate without starting\notelcol validate --config=config.yaml\n\n# Need a component core does not have? use the contrib image\n# docker run otel/opentelemetry-collector-contrib:0.115.0 ...",
+    "sources": [
+      "https://github.com/open-telemetry/opentelemetry-collector/blob/main/exporter/debugexporter/README.md",
+      "https://opentelemetry.io/docs/collector/configuration/"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "dotnet-netsdk1004-assets-file-project-assets-json-not-found",
+    "title": ".NET: NETSDK1004: Assets file 'obj/project.assets.json' not found",
+    "category": "C#",
+    "explanation": "The build needs the dependency graph that restore writes to obj/, and it is not there. Usually the build was run with --no-restore, by design in CI or a Dockerfile, and the restore step that was meant to come first either ran for a different project path or ran in a different layer or working directory. It also appears when obj/ is in .dockerignore, when a solution restore skipped a project that is not in the .sln, or when a Linux restore is reused by a Windows build with different RuntimeIdentifiers.",
+    "fix_snippet": "# Does the assets file exist where MSBuild looks?\nls obj/project.assets.json\n\n# Just restore, then build\ndotnet restore MyApp.csproj\ndotnet build MyApp.csproj --no-restore\n\n# Dockerfile: restore in the same directory the build runs in,\n# and copy obj/ forward if the build is in a later stage\n# COPY *.csproj ./\n# RUN dotnet restore\n# COPY . ./\n# RUN dotnet publish -c Release --no-restore -o /app\n\n# Make sure obj/ is not excluded between stages\ngrep -n obj .dockerignore\n\n# Runtime-specific builds need a matching restore\ndotnet restore -r linux-x64 && dotnet publish -r linux-x64 --no-restore",
+    "sources": [
+      "https://learn.microsoft.com/en-us/dotnet/core/tools/sdk-errors/netsdk1004",
+      "https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-restore"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "efcore-second-operation-started-on-this-context-instance",
+    "title": "EF Core: A second operation was started on this context instance",
+    "category": "C#",
+    "explanation": "A DbContext is not thread safe and refuses to run two queries at once. The usual shape is Task.WhenAll over several queries on the same context, or a forgotten await that lets the next line start before the previous query finishes. In ASP.NET Core the subtler version is a singleton service holding a scoped DbContext, so every concurrent request shares one instance and the error appears only under load. Blazor Server hits it too, because a circuit outlives the request scope.",
+    "fix_snippet": "// Find the missing await: the compiler warns with CS4014\n// dotnet build 2>&1 | grep CS4014\n\n// Run queries one after another on a shared context\nvar users = await db.Users.ToListAsync();\nvar orders = await db.Orders.ToListAsync();\n\n// Need real parallelism? one context per query\nvar t1 = Task.Run(async () => { using var c = factory.CreateDbContext(); return await c.Users.ToListAsync(); });\n\n// Register a factory and create short-lived contexts (Blazor Server, background work)\nbuilder.Services.AddDbContextFactory<AppDbContext>(o => o.UseNpgsql(cs));\n\n// Check lifetimes: a singleton must not take a scoped DbContext\n// builder.Services.AddSingleton<ReportService>();   <- inject IDbContextFactory here instead",
+    "sources": [
+      "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/#avoiding-dbcontext-threading-issues",
+      "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/#using-a-dbcontext-factory-eg-for-blazor"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "aspnet-core-http-error-500-30-app-failed-to-start",
+    "title": "ASP.NET Core: HTTP Error 500.30 - ASP.NET Core app failed to start",
+    "category": "C#",
+    "explanation": "IIS, or Azure App Service, started the process in-process and it threw before Kestrel began listening, so the ASP.NET Core Module returns this page instead of your app. The exception is not on the page; it is in the Windows Application event log and, if stdout logging is on, in the logs folder. Usual causes are a missing environment variable or connection string on the server, a configuration file that is valid locally but not deployed, a DI registration that fails at startup, or the hosting bundle being older than the app's target framework.",
+    "fix_snippet": "# Windows Server: read the exception from the event log\nGet-WinEvent -LogName Application -MaxEvents 20 |\n  Where-Object { $_.ProviderName -like 'IIS AspNetCore*' } |\n  Select-Object -ExpandProperty Message\n\n# Turn on stdout logging in web.config while you diagnose, then off again\n# <aspNetCore processPath=\"dotnet\" arguments=\".\\MyApp.dll\"\n#   stdoutLogEnabled=\"true\" stdoutLogFile=\".\\logs\\stdout\" hostingModel=\"inprocess\" />\nmkdir logs\n\n# Azure App Service: Kudu console\n#   https://<app>.scm.azurewebsites.net/DebugConsole -> LogFiles\\Application\n\n# Run the app directly on the server to see the exception immediately\ndotnet .\\MyApp.dll\n\n# Is the hosting bundle new enough for the target framework?\ndotnet --list-runtimes",
+    "fix_snippet_windows": "# Windows Server: read the exception from the event log\nGet-WinEvent -LogName Application -MaxEvents 20 |\n  Where-Object { $_.ProviderName -like 'IIS AspNetCore*' } |\n  Select-Object -ExpandProperty Message\n\n# Turn on stdout logging in web.config while you diagnose, then off again\n# <aspNetCore processPath=\"dotnet\" arguments=\".\\MyApp.dll\"\n#   stdoutLogEnabled=\"true\" stdoutLogFile=\".\\logs\\stdout\" hostingModel=\"inprocess\" />\nNew-Item -ItemType Directory -Force logs\n\n# Run the app directly to see the exception immediately\ndotnet .\\MyApp.dll\n\n# Is the hosting bundle new enough for the target framework?\ndotnet --list-runtimes",
+    "sources": [
+      "https://learn.microsoft.com/en-us/aspnet/core/test/troubleshoot-azure-iis#50030-in-process-startup-failure",
+      "https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/logging-and-diagnostics"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "pytest-modulenotfounderror-no-module-named-project-package",
+    "title": "pytest: ModuleNotFoundError: No module named 'myproject'",
+    "category": "Testing",
+    "explanation": "The test file imports your package and Python cannot find it, even though the same import works in the shell. The difference is sys.path: python -m pytest adds the current directory to it, the bare pytest command does not, so the two commands behave differently on the same tree. pytest's default import mode also inserts each test file's rootdir, which depends on where __init__.py files are, and a src/ layout keeps the package out of the path on purpose until it is installed. The reliable fix is to install the project in editable mode or declare pythonpath in the config.",
+    "fix_snippet": "# Confirm the two commands differ\npytest -q tests/ 2>&1 | tail -3\npython -m pytest -q tests/ 2>&1 | tail -3\n\n# Best: install the package into the environment you test with\npip install -e .\n\n# Or tell pytest where the code is (pyproject.toml)\n[tool.pytest.ini_options]\npythonpath = [\"src\"]\ntestpaths = [\"tests\"]\n\n# Or stop the rootdir guesswork entirely\n[tool.pytest.ini_options]\naddopts = \"--import-mode=importlib\"\n\n# See which rootdir and config pytest picked up\npytest --co -q | head -3",
+    "sources": [
+      "https://docs.pytest.org/en/stable/explanation/goodpractices.html#choosing-an-import-mode",
+      "https://docs.pytest.org/en/stable/explanation/pythonpath.html"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "jest-test-environment-jest-environment-jsdom-cannot-be-found",
+    "title": "Jest: Test environment jest-environment-jsdom cannot be found",
+    "category": "Testing",
+    "explanation": "Jest 28 stopped bundling the jsdom environment, so a config that says testEnvironment: 'jsdom' now needs jest-environment-jsdom installed as a separate dev dependency, with a major version matching Jest. It appears right after a Jest upgrade and in fresh clones where the lock file was regenerated. Projects that only test Node code should set testEnvironment to node instead, which is also the default, and React Testing Library projects sometimes end up with a jsdom major that is older than Jest expects.",
+    "fix_snippet": "# Install the environment matching your Jest major\nnpm ls jest\nnpm install --save-dev jest-environment-jsdom@29\n\n# jest.config.js\nmodule.exports = { testEnvironment: 'jsdom' };\n\n# Per file, when only a few tests need a DOM\n/**\n * @jest-environment jsdom\n */\n\n# Node-only project? drop the setting (node is the default)\n\n# Jest 30 pairs with jest-environment-jsdom 30; keep the majors aligned\nnpm install --save-dev jest@30 jest-environment-jsdom@30",
+    "sources": [
+      "https://jestjs.io/docs/configuration#testenvironment-string",
+      "https://jestjs.io/docs/upgrading-to-jest28"
+    ],
+    "dateAdded": "2026-11-10"
+  },
+  {
+    "id": "cypress-cy-visit-failed-trying-to-load",
+    "title": "Cypress: cy.visit() failed trying to load: http://localhost:3000/",
+    "category": "Testing",
+    "explanation": "Cypress made an HTTP request to the URL before opening it in the browser and got a connection refused or a non-2xx status. In CI the overwhelming cause is a race: the dev server is started in the background and the tests begin before it is listening. Locally it is a server that is not running at all, or running on another port because the default one was taken. A 4xx or 5xx from the page itself produces the same wording, so read the status line in the message before assuming it is the server not being up.",
+    "fix_snippet": "# Is anything listening?\ncurl -sS -o /dev/null -w '%{http_code}\\n' http://localhost:3000/\n\n# CI: wait for the server before running the tests\nnpx start-server-and-test 'npm run dev' http://localhost:3000 'npx cypress run'\n# or\nnpx wait-on http://localhost:3000 && npx cypress run\n\n# GitHub Actions with the official action\n- uses: cypress-io/github-action@v6\n  with:\n    start: npm run dev\n    wait-on: 'http://localhost:3000'\n\n# Set baseUrl once rather than repeating the host in every visit\n# cypress.config.js\ne2e: { baseUrl: 'http://localhost:3000' }\n\n# Page is up but returns 500? let the test see it instead of failing early\ncy.visit('/', { failOnStatusCode: false })",
+    "sources": [
+      "https://docs.cypress.io/app/references/error-messages",
+      "https://docs.cypress.io/app/continuous-integration/overview"
+    ],
+    "dateAdded": "2026-11-10"
   }
 ]

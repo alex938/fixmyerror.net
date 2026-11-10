@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Mon, 26 Oct 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>.NET: NETSDK1004: Assets file &apos;obj/project.assets.json&apos; not found</title>
+      <link>https://fixmyerror.net/errors/dotnet-netsdk1004-assets-file-project-assets-json-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-netsdk1004-assets-file-project-assets-json-not-found.html</guid>
+      <category>C#</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The build needs the dependency graph that restore writes to obj/, and it is not there. Usually the build was run with --no-restore, by design in CI or a Dockerfile, and the restore step that was meant to come first either ran for a different project path or ran in a different layer or working…</description>
+    </item>
+    <item>
+      <title>Airflow: DagBag import timeout for /opt/airflow/dags/etl.py after 30.0s</title>
+      <link>https://fixmyerror.net/errors/airflow-dagbag-import-timeout.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-dagbag-import-timeout.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The scheduler re-parses every DAG file every few seconds and gives each file 30 seconds by default. The file was not slow to import because of its size: top-level code in it is doing real work at parse time, typically a Variable.get(), a database query or an HTTP call to build the task list…</description>
+    </item>
+    <item>
+      <title>Ansible: [WARNING]: Could not match supplied host pattern, ignoring: webservers</title>
+      <link>https://fixmyerror.net/errors/ansible-could-not-match-supplied-host-pattern.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-could-not-match-supplied-host-pattern.html</guid>
+      <category>Ansible</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The play&apos;s hosts line names a group or host that the inventory Ansible loaded does not contain, so the play runs against nothing and finishes green with &quot;skipping: no hosts matched&quot;. The pattern is usually right and the inventory is wrong: the command picked up the default /etc/ansible/hosts…</description>
+    </item>
+    <item>
+      <title>Ansible: ERROR! A worker was found in a dead state</title>
+      <link>https://fixmyerror.net/errors/ansible-a-worker-was-found-in-a-dead-state.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-a-worker-was-found-in-a-dead-state.html</guid>
+      <category>Ansible</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Ansible forks one worker process per host in a batch, and one of them died without reporting back. On Linux the usual reason is the kernel&apos;s OOM killer taking out a fork when forks is set high on a small controller, or a module pulling in a large file as a variable. On macOS it is Objective-C fork…</description>
+    </item>
+    <item>
+      <title>Ansible: MODULE FAILURE See stdout/stderr for the exact error</title>
+      <link>https://fixmyerror.net/errors/ansible-module-failure-see-stdout-stderr.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-module-failure-see-stdout-stderr.html</guid>
+      <category>Ansible</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The module was copied to the target and executed, but it crashed before it could print the JSON that Ansible expects back. The message is a wrapper; the cause is in the module_stdout and module_stderr fields that -vvv reveals. Most often the remote Python is missing, too old for the collection, or…</description>
+    </item>
+    <item>
+      <title>ASP.NET Core: HTTP Error 500.30 - ASP.NET Core app failed to start</title>
+      <link>https://fixmyerror.net/errors/aspnet-core-http-error-500-30-app-failed-to-start.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aspnet-core-http-error-500-30-app-failed-to-start.html</guid>
+      <category>C#</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>IIS, or Azure App Service, started the process in-process and it threw before Kestrel began listening, so the ASP.NET Core Module returns this page instead of your app. The exception is not on the page; it is in the Windows Application event log and, if stdout logging is on, in the logs folder…</description>
+    </item>
+    <item>
+      <title>Cypress: cy.visit() failed trying to load: http://localhost:3000/</title>
+      <link>https://fixmyerror.net/errors/cypress-cy-visit-failed-trying-to-load.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cypress-cy-visit-failed-trying-to-load.html</guid>
+      <category>Testing</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Cypress made an HTTP request to the URL before opening it in the browser and got a connection refused or a non-2xx status. In CI the overwhelming cause is a race: the dev server is started in the background and the tests begin before it is listening. Locally it is a server that is not running at…</description>
+    </item>
+    <item>
+      <title>EF Core: A second operation was started on this context instance</title>
+      <link>https://fixmyerror.net/errors/efcore-second-operation-started-on-this-context-instance.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/efcore-second-operation-started-on-this-context-instance.html</guid>
+      <category>C#</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A DbContext is not thread safe and refuses to run two queries at once. The usual shape is Task.WhenAll over several queries on the same context, or a forgotten await that lets the next line start before the previous query finishes. In ASP.NET Core the subtler version is a singleton service holding…</description>
+    </item>
+    <item>
+      <title>ethers: network changed: 1 =&gt; 11155111 (event=&quot;changed&quot;, code=NETWORK_ERROR)</title>
+      <link>https://fixmyerror.net/errors/ethers-network-changed-network-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ethers-network-changed-network-error.html</guid>
+      <category>Web3</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>An ethers provider pins the chain it detected when it was created, and refuses to carry on when the wallet underneath it switches to another network, because contract addresses and chain ids would no longer line up. The user changed network in MetaMask, or the dapp asked them to with…</description>
+    </item>
+    <item>
+      <title>GitHub Actions: Error: Process completed with exit code 1.</title>
+      <link>https://fixmyerror.net/errors/github-actions-process-completed-with-exit-code-1.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-process-completed-with-exit-code-1.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This line is the runner reporting that a run step&apos;s shell exited non-zero; the actual failure is further up in that step&apos;s log. When the same commands pass locally, the difference is usually the shell: Actions runs bash with -e and -o pipefail, so a command that fails in the middle of a pipe, or a…</description>
+    </item>
+    <item>
+      <title>GitLab CI: ERROR: Job failed (system failure): prepare environment</title>
+      <link>https://fixmyerror.net/errors/gitlab-ci-job-failed-system-failure-prepare-environment.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gitlab-ci-job-failed-system-failure-prepare-environment.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The runner could not get a shell ready before your script started, so the failure is on the runner host, not in your .gitlab-ci.yml. With the shell executor the cause is almost always the gitlab-runner user&apos;s login profile: Ubuntu&apos;s default .bash_logout runs clear_console, which fails in a…</description>
+    </item>
+    <item>
+      <title>Grafana: {&quot;message&quot;:&quot;invalid API key&quot;}</title>
+      <link>https://fixmyerror.net/errors/grafana-invalid-api-key.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-invalid-api-key.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Grafana rejected the bearer token sent to its HTTP API. Beyond the plain typo, two things cause this in otherwise working automation. Legacy API keys were deprecated in Grafana 9 and removed in later releases in favour of service account tokens, so a long-lived provisioning script breaks on…</description>
+    </item>
+    <item>
+      <title>gRPC: ALREADY_EXISTS (code 6)</title>
+      <link>https://fixmyerror.net/errors/grpc-already-exists-code-6.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-already-exists-code-6.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A create call collided with an entity that is already there. Seen once, it is a duplicate name or id in the request. Seen in bursts, it is nearly always a retry: the first attempt succeeded on the server but the client timed out or the connection dropped before the response arrived, and the…</description>
+    </item>
+    <item>
+      <title>gRPC: NOT_FOUND (code 5)</title>
+      <link>https://fixmyerror.net/errors/grpc-not-found-code-5.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-not-found-code-5.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The server ran the handler and reported that the thing the request named does not exist: a user id, a resource name, a file. It is an application status, not a transport one, so the connection, the TLS and the routing are all fine. Do not confuse it with a missing method or a proxy returning a 404…</description>
+    </item>
+    <item>
+      <title>gRPC: OUT_OF_RANGE (code 11)</title>
+      <link>https://fixmyerror.net/errors/grpc-out-of-range-code-11.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-out-of-range-code-11.html</guid>
+      <category>gRPC</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The request was well formed but asked for something past the end: a page token beyond the last page, a byte offset past the file length, a timestamp outside the retained window. It differs from INVALID_ARGUMENT in that the same request would have been valid at a different moment or against a…</description>
+    </item>
+    <item>
+      <title>JavaScript: Invalid regular expression: /\-/u: Invalid escape</title>
+      <link>https://fixmyerror.net/errors/js-regex-invalid-escape-with-unicode-flag.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/js-regex-invalid-escape-with-unicode-flag.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Without the u flag, JavaScript quietly treats a backslash before an ordinary character as that character, so \- and \: have always worked. With the u or v flag the grammar is strict: only syntax characters and the defined escapes may follow a backslash, and anything else is a SyntaxError. The…</description>
+    </item>
+    <item>
+      <title>Jenkins: RejectedAccessException: Scripts not permitted to use method</title>
+      <link>https://fixmyerror.net/errors/jenkins-rejected-access-exception-scripts-not-permitted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jenkins-rejected-access-exception-scripts-not-permitted.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Declarative and scripted pipelines run in the Groovy sandbox, which only allows methods on an approved list. The pipeline called something outside it, often an ordinary Java method such as String.execute, a Date formatter or a static helper in a shared library class, and the sandbox stopped it. It…</description>
+    </item>
+    <item>
+      <title>Jest: Test environment jest-environment-jsdom cannot be found</title>
+      <link>https://fixmyerror.net/errors/jest-test-environment-jest-environment-jsdom-cannot-be-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-test-environment-jest-environment-jsdom-cannot-be-found.html</guid>
+      <category>Testing</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Jest 28 stopped bundling the jsdom environment, so a config that says testEnvironment: &apos;jsdom&apos; now needs jest-environment-jsdom installed as a separate dev dependency, with a major version matching Jest. It appears right after a Jest upgrade and in fresh clones where the lock file was regenerated…</description>
+    </item>
+    <item>
+      <title>OpenTelemetry Collector: error decoding &apos;exporters&apos;: unknown type: &quot;logging&quot;</title>
+      <link>https://fixmyerror.net/errors/otel-collector-error-decoding-exporters-unknown-type-logging.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/otel-collector-error-decoding-exporters-unknown-type-logging.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The logging exporter, which most tutorials still show, was deprecated in favour of the debug exporter and then removed from the collector distributions in 2024, so a config that worked on last year&apos;s image fails to start on the current one. The same message with a different name means the…</description>
+    </item>
+    <item>
+      <title>Prometheus: expected a valid start token, got &quot;&lt;&quot; (&quot;INVALID&quot;) while parsing</title>
+      <link>https://fixmyerror.net/errors/prometheus-expected-a-valid-start-token-got-invalid.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-expected-a-valid-start-token-got-invalid.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The scrape got a 200 response but the body starts with an angle bracket, so Prometheus received HTML rather than the text exposition format. That means the path is wrong (the app serves metrics at /actuator/prometheus or /api/metrics, not /metrics), a login page or SSO proxy answered instead of…</description>
+    </item>
+    <item>
+      <title>pytest: ModuleNotFoundError: No module named &apos;myproject&apos;</title>
+      <link>https://fixmyerror.net/errors/pytest-modulenotfounderror-no-module-named-project-package.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pytest-modulenotfounderror-no-module-named-project-package.html</guid>
+      <category>Testing</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The test file imports your package and Python cannot find it, even though the same import works in the shell. The difference is sys.path: python -m pytest adds the current directory to it, the bare pytest command does not, so the two commands behave differently on the same tree. pytest&apos;s default…</description>
+    </item>
+    <item>
+      <title>Python: re.error: unterminated character set at position 0</title>
+      <link>https://fixmyerror.net/errors/python-re-unterminated-character-set.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-unterminated-character-set.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>An opening square bracket starts a character class, and the parser never found the matching closing one. Nine times out of ten the pattern was meant to match a literal bracket, as in stripping &quot;[INFO]&quot; from log lines, and the fix is to escape it or to use re.escape() on text that came from a…</description>
+    </item>
+    <item>
+      <title>sbt: java.lang.OutOfMemoryError: Metaspace</title>
+      <link>https://fixmyerror.net/errors/sbt-outofmemoryerror-metaspace.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sbt-outofmemoryerror-metaspace.html</guid>
+      <category>Scala</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Metaspace holds class definitions, and an sbt server that has been running all day accumulates a fresh set every time you reload the build, run tests in the same JVM or let a plugin create classloaders. It fills up after a number of iterations rather than on any particular command, which is why…</description>
+    </item>
+    <item>
+      <title>Scala: forward reference extends over definition of value total</title>
+      <link>https://fixmyerror.net/errors/scala-forward-reference-extends-over-definition.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-forward-reference-extends-over-definition.html</guid>
+      <category>Scala</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Inside a block, a method body or a script, definitions are evaluated top to bottom and may not be used before the line that defines them. The error names the value whose definition the reference jumped over. It catches people moving code out of a class, where members can reference each other in…</description>
+    </item>
+    <item>
+      <title>Scala: object JavaConverters in package collection is deprecated (since 2.13.0)</title>
+      <link>https://fixmyerror.net/errors/scala-object-javaconverters-is-deprecated.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-object-javaconverters-is-deprecated.html</guid>
+      <category>Scala</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Scala 2.13 rebuilt the collections library and moved the Java interop helpers to scala.jdk.CollectionConverters, which has the same asScala and asJava extension methods. The old import still compiles, with this warning, in 2.13 and Scala 3, but turns into an error under -Xfatal-warnings or…</description>
+    </item>
+    <item>
+      <title>sed: -e expression #1, char 12: unterminated `s&apos; command</title>
+      <link>https://fixmyerror.net/errors/sed-unterminated-s-command.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sed-unterminated-s-command.html</guid>
+      <category>Regex</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>sed counted the slashes in your s command and found the wrong number. The classic cause is a path or URL in the pattern or replacement, where every / is read as a delimiter; the fix is to pick a delimiter that does not appear in the text. The other cause is argument order on macOS: BSD sed&apos;s -i…</description>
+    </item>
+    <item>
+      <title>Snowflake: Object &apos;ANALYTICS.PUBLIC.ORDERS&apos; does not exist or not authorized.</title>
+      <link>https://fixmyerror.net/errors/snowflake-object-does-not-exist-or-not-authorized.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/snowflake-object-does-not-exist-or-not-authorized.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Snowflake deliberately gives the same message whether the table is missing or your role simply cannot see it, so a privilege gap looks like a typo. Visibility needs USAGE on the database and the schema as well as SELECT on the table, and it is checked against the role active in your session, not…</description>
+    </item>
+    <item>
+      <title>Spark: SparkUpgradeException: You may get a different result</title>
+      <link>https://fixmyerror.net/errors/spark-sparkupgradeexception-different-result-due-to-upgrading.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-sparkupgradeexception-different-result-due-to-upgrading.html</guid>
+      <category>BigData</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Spark 3 switched from the hybrid Julian/Gregorian calendar to the proleptic Gregorian one, so dates before 1582-10-15 and timestamps before 1900 in Parquet or Avro files written by Spark 2 can read back a few days off. Rather than silently guess, Spark refuses the read until you say which calendar…</description>
+    </item>
+    <item>
+      <title>Terraform: Error: Backend configuration changed</title>
+      <link>https://fixmyerror.net/errors/terraform-backend-configuration-changed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-backend-configuration-changed.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The backend block, or the -backend-config values you pass, differ from what is recorded in .terraform/terraform.tfstate from the last init. Terraform will not guess whether you want to move the state to the new location or just point at a different one. Common triggers are renaming the S3 key…</description>
+    </item>
+    <item>
+      <title>Terraform: Error: Provider configuration not present</title>
+      <link>https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The state still holds resources that were created by a provider block, or a provider alias, that no longer exists in the configuration. It typically follows deleting a module call or an aliased provider in one go: Terraform needs that provider to plan the destroy of the resources it manages, and…</description>
+    </item>
+    <item>
+      <title>Terraform: Error: Saved plan is stale</title>
+      <link>https://fixmyerror.net/errors/terraform-saved-plan-is-stale.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-saved-plan-is-stale.html</guid>
+      <category>Terraform</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A plan file is a promise about a specific state serial, and the state moved on before the apply ran. Someone else applied in between, a second pipeline ran against the same workspace, or a manual terraform apply happened from a laptop. Terraform refuses on purpose, because applying the old plan…</description>
+    </item>
+    <item>
+      <title>wasm-bindgen: rust Wasm file schema version: 0.2.92, this binary schema version</title>
+      <link>https://fixmyerror.net/errors/wasm-bindgen-schema-version-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-bindgen-schema-version-mismatch.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The wasm-bindgen crate compiled into your .wasm and the wasm-bindgen CLI that post-processes it must be exactly the same version, because the crate embeds a custom section whose layout the CLI reads. The mismatch appears after a cargo update bumps the crate while the globally installed CLI stays…</description>
+    </item>
+    <item>
+      <title>Web3: execution reverted: ERC20: transfer amount exceeds allowance</title>
+      <link>https://fixmyerror.net/errors/web3-erc20-transfer-amount-exceeds-allowance.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-erc20-transfer-amount-exceeds-allowance.html</guid>
+      <category>Web3</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A contract called transferFrom on a token, and the token owner has not approved that contract to spend that much. The approval is per spender: approving a router does not approve the vault the router forwards to, and an approval of exactly the amount is spent after one use. It also goes wrong…</description>
+    </item>
+    <item>
+      <title>Web3: nonce too high. Expected nonce to be 3 but got 27.</title>
+      <link>https://fixmyerror.net/errors/web3-nonce-too-high.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-nonce-too-high.html</guid>
+      <category>Web3</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The node keeps a nonce per account that must increase by exactly one, and the transaction skipped ahead. Almost always the chain was reset while the wallet was not: a local Hardhat or Anvil node restarted at nonce 0, but MetaMask still remembers the 27 transactions it sent to the old instance. The…</description>
+    </item>
+    <item>
+      <title>WebAssembly: RangeError: WebAssembly.Memory(): could not allocate memory</title>
+      <link>https://fixmyerror.net/errors/wasm-memory-could-not-allocate-memory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-memory-could-not-allocate-memory.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The module asked for a linear memory the engine could not reserve. On desktop that normally means an initial size in the gigabytes; on iOS Safari and low-end Android it can happen at a few hundred megabytes, because the browser caps each tab and a shared memory for threads has to be reserved up…</description>
+    </item>
+    <item>
+      <title>WebAssembly: WebAssembly.instantiate(): Argument 0 must be a buffer source</title>
+      <link>https://fixmyerror.net/errors/wasm-instantiate-argument-0-must-be-a-buffer-source.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-instantiate-argument-0-must-be-a-buffer-source.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Tue, 10 Nov 2026 00:00:00 GMT</pubDate>
+      <description>WebAssembly.instantiate() takes either raw bytes (an ArrayBuffer or typed array) or a compiled Module. What arrived was something else, almost always the Response object from fetch() or the promise it returned, because the code forgot to await response.arrayBuffer(). It works in a colleague&apos;s…</description>
+    </item>
     <item>
       <title>Apache: AH00161: server reached MaxRequestWorkers setting, consider raising</title>
       <link>https://fixmyerror.net/errors/apache-ah00161-server-reached-maxrequestworkers.html</link>
@@ -1319,294 +1607,6 @@
       <category>Performance</category>
       <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
       <description>Before Go 1.25, GOMAXPROCS defaulted to the number of CPUs on the node and ignored the container&apos;s CPU limit. A pod limited to 2 CPUs on a 64 core node would run 64 threads, burn through its CFS quota in a few milliseconds and then be throttled for the rest of the period. Go 1.25 reads the cgroup…</description>
-    </item>
-    <item>
-      <title>Google API: Request had insufficient authentication scopes (403)</title>
-      <link>https://fixmyerror.net/errors/google-api-insufficient-authentication-scopes.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/google-api-insufficient-authentication-scopes.html</guid>
-      <category>API</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The token is valid, but it was minted without the OAuth scope this method needs. IAM roles can be perfectly correct and the call still fails. It is common on Compute Engine VMs whose service account was given narrow access scopes at creation, and with user tokens that were granted before a new…</description>
-    </item>
-    <item>
-      <title>Grafana: origin not allowed</title>
-      <link>https://fixmyerror.net/errors/grafana-origin-not-allowed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-origin-not-allowed.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Grafana compares the browser&apos;s Origin header with the host it thinks it is served on. When they differ, it rejects anything that changes data, such as saving a dashboard or logging in. Grafana itself is usually fine: the reverse proxy is rewriting the Host header, or root_url does not match the…</description>
-    </item>
-    <item>
-      <title>GraphQL: Abstract type &quot;SearchResult&quot; must resolve to an Object type at runtime</title>
-      <link>https://fixmyerror.net/errors/graphql-abstract-type-must-resolve-to-object-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-abstract-type-must-resolve-to-object-type.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A field returns a union or interface, and the server could not work out which concrete type a returned object is. graphql-js looks at a __typename property, then a resolveType function, then isTypeOf on each member. A plain row from the database has none of them, so the error appears when the…</description>
-    </item>
-    <item>
-      <title>GraphQL: Cannot query field &quot;email&quot; on type &quot;User&quot;</title>
-      <link>https://fixmyerror.net/errors/graphql-cannot-query-field-on-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-cannot-query-field-on-type.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The server&apos;s schema has no field by that name on that type, so the query fails validation before any resolver runs. When the field plainly exists in the code, the client is talking to another deployment, a gateway with an old supergraph, or it generated its types from a stale schema. A union or…</description>
-    </item>
-    <item>
-      <title>Loki: Maximum active stream limit exceeded, reduce the number of active streams</title>
-      <link>https://fixmyerror.net/errors/loki-maximum-active-stream-limit-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-maximum-active-stream-limit-exceeded.html</guid>
-      <category>Logging</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Every unique set of labels is its own stream in Loki, and the tenant has gone over its stream limit. That nearly always means a high cardinality value got into the labels, such as a request ID, user ID, pod hash or full path. Raising the limit only postpones the problem. Move the value out of the…</description>
-    </item>
-    <item>
-      <title>Microsoft Graph: Authorization_RequestDenied, Insufficient privileges</title>
-      <link>https://fixmyerror.net/errors/microsoft-graph-authorization-requestdenied-insufficient-privileges.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/microsoft-graph-authorization-requestdenied-insufficient-privileges.html</guid>
-      <category>API</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The app&apos;s token lacks the Graph permission this call needs. Usually it was added in the portal but admin consent was never granted, or it was added as a delegated permission while the app authenticates as itself and needs the application permission. A token issued before consent will not pick up…</description>
-    </item>
-    <item>
-      <title>mount: wrong fs type, bad option, bad superblock on /dev/sdb1</title>
-      <link>https://fixmyerror.net/errors/mount-wrong-fs-type-bad-option-bad-superblock.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mount-wrong-fs-type-bad-option-bad-superblock.html</guid>
-      <category>Storage</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>mount gives this one generic message for several unrelated failures, and the real reason is only in the kernel log. For NFS or CIFS it nearly always means the helper package (nfs-common or cifs-utils) is not installed. For a block device it is usually a disk that was never formatted, the wrong -t…</description>
-    </item>
-    <item>
-      <title>perf: Access to performance monitoring and observability operations is limited</title>
-      <link>https://fixmyerror.net/errors/perf-event-paranoid-access-limited.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/perf-event-paranoid-access-limited.html</guid>
-      <category>Performance</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The kernel&apos;s perf_event_paranoid setting stops unprivileged users profiling, and most distributions ship it at 2, while Debian and Ubuntu kernels carry a patch for stricter levels that block it entirely. In a container the setting comes from the host kernel and the seccomp profile also blocks…</description>
-    </item>
-    <item>
-      <title>Prometheus: many-to-many matching not allowed: matching labels must be unique</title>
-      <link>https://fixmyerror.net/errors/promql-many-to-many-matching-not-allowed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/promql-many-to-many-matching-not-allowed.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>You combined two vectors with a binary operator and on the labels Prometheus matched on, both sides had more than one series. Each result has to come from exactly one pair. The query may have worked for weeks and then broken when a second instance, a restarted pod or a new label value added…</description>
-    </item>
-    <item>
-      <title>Prometheus: vector cannot contain metrics with the same labelset</title>
-      <link>https://fixmyerror.net/errors/promql-vector-cannot-contain-metrics-with-same-labelset.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/promql-vector-cannot-contain-metrics-with-same-labelset.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A function such as rate(), or a label_replace() call, dropped the metric name or rewrote a label, so two series that used to differ now have identical labels. A query result cannot hold two series with the same labels. It usually shows up when a selector matches several metric names with a regex…</description>
-    </item>
-    <item>
-      <title>RabbitMQ: PRECONDITION_FAILED - delivery acknowledgement on channel 1 timed out</title>
-      <link>https://fixmyerror.net/errors/rabbitmq-delivery-acknowledgement-timed-out.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-delivery-acknowledgement-timed-out.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A consumer held a message unacknowledged for longer than consumer_timeout, 30 minutes by default, so the broker closed the channel and requeued the message. The consumer may be fine but slow, or it may have hung. Because the message goes back on the queue, a long job can end up processed several…</description>
-    </item>
-    <item>
-      <title>Slow DNS in Kubernetes pods: each lookup tries every search domain first</title>
-      <link>https://fixmyerror.net/errors/kubernetes-dns-ndots-slow-lookups.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kubernetes-dns-ndots-slow-lookups.html</guid>
-      <category>DNS</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Pods get ndots:5 in resolv.conf, so any name with fewer than five dots, api.example.com included, is first tried with every cluster search domain appended. One external lookup becomes six or more queries, doubled for A and AAAA. Under load that adds latency and conntrack races that look like…</description>
-    </item>
-    <item>
-      <title>Stripe: No such customer; a similar object exists in test mode</title>
-      <link>https://fixmyerror.net/errors/stripe-no-such-customer-similar-object-test-mode.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/stripe-no-such-customer-similar-object-test-mode.html</guid>
-      <category>API</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The ID is real, but it belongs to the other mode. Test and live data in Stripe are entirely separate, so an ID saved during testing cannot be used with a live key. This usually appears straight after going live, when the database still holds customer or price IDs created against the test key.</description>
-    </item>
-    <item>
-      <title>System.Text.Json: A possible object cycle was detected</title>
-      <link>https://fixmyerror.net/errors/system-text-json-possible-object-cycle-detected.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/system-text-json-possible-object-cycle-detected.html</guid>
-      <category>C#</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The serialiser followed references round in a circle, typically an EF Core entity whose navigation property points back at its parent, and stopped at a depth of 64. Newtonsoft.Json shows the same problem as a self referencing loop. Returning entities straight from a controller is what usually…</description>
-    </item>
-    <item>
-      <title>The bucket you are attempting to access must be addressed using the specified</title>
-      <link>https://fixmyerror.net/errors/s3-must-be-addressed-using-the-specified-endpoint.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-must-be-addressed-using-the-specified-endpoint.html</guid>
-      <category>Storage</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This is S3&apos;s PermanentRedirect. The bucket exists, but in a different region from the endpoint the client sent the request to. The credentials and the bucket policy are fine. It usually turns up when a client defaults to us-east-1, or a hard-coded endpoint survives after the bucket was recreated…</description>
-    </item>
-    <item>
-      <title>watchdog: BUG: soft lockup - CPU#3 stuck for 22s!</title>
-      <link>https://fixmyerror.net/errors/linux-watchdog-soft-lockup-cpu-stuck.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-watchdog-soft-lockup-cpu-stuck.html</guid>
-      <category>Performance</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A CPU spent over twice the watchdog threshold in kernel code without letting the scheduler run. On physical hardware that points to a driver or kernel bug. On a virtual machine it is usually the host: the vCPU was not scheduled because the host is overcommitted, or the guest was paused for a…</description>
-    </item>
-    <item>
-      <title>Airflow: Broken DAG: [/opt/airflow/dags/etl.py] No module named &apos;x&apos;</title>
-      <link>https://fixmyerror.net/errors/airflow-broken-dag-no-module-named.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-broken-dag-no-module-named.html</guid>
-      <category>BigData</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The DAG processor could not import the file, so the DAG vanishes from the UI and a red banner appears instead. The module is missing from the environment the scheduler or DAG processor runs in, which is often not the one you tested in: a package installed in the webserver image only, or a helper…</description>
-    </item>
-    <item>
-      <title>AWS Lambda: The runtime parameter of nodejs16.x is no longer supported</title>
-      <link>https://fixmyerror.net/errors/lambda-runtime-parameter-no-longer-supported.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-runtime-parameter-no-longer-supported.html</guid>
-      <category>Serverless</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The runtime has passed its deprecation date and Lambda now blocks creating or updating functions that use it. Existing functions keep running, which is why the failure appears on an unrelated code change: the deploy touches the function configuration and the old runtime string is rejected. Bumping…</description>
-    </item>
-    <item>
-      <title>AWS Lambda: TooManyRequestsException: Rate Exceeded.</title>
-      <link>https://fixmyerror.net/errors/lambda-toomanyrequestsexception-rate-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-toomanyrequestsexception-rate-exceeded.html</guid>
-      <category>Serverless</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Lambda refused the invocation because the function hit its concurrency ceiling, which is the account&apos;s regional limit (1,000 by default, lower on new accounts) or the function&apos;s own reserved concurrency. It is a limit on requests running at the same moment, not requests per second, so a function…</description>
-    </item>
-    <item>
-      <title>Bundler: Your bundle only supports platforms [&quot;arm64-darwin-23&quot;]</title>
-      <link>https://fixmyerror.net/errors/bundler-bundle-only-supports-platforms.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bundler-bundle-only-supports-platforms.html</guid>
-      <category>Ruby</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Gemfile.lock records the platforms it was resolved for, and it was generated on a Mac, so the Linux CI runner or Docker image is not on the list. Bundler refuses rather than guess, because platform-specific gems such as nokogiri and ffi ship different binaries. The fix is to add the target…</description>
-    </item>
-    <item>
-      <title>C++: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.32&apos; not found</title>
-      <link>https://fixmyerror.net/errors/cpp-glibcxx-version-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-glibcxx-version-not-found.html</guid>
-      <category>C++</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The binary was built with a newer GCC than the machine it is running on, and it needs a libstdc++ symbol version the system library does not have. Nothing is wrong with the code: it works on the build box because that box has the newer library. It shows up when copying binaries to an older distro…</description>
-    </item>
-    <item>
-      <title>C++: error: use of deleted function</title>
-      <link>https://fixmyerror.net/errors/cpp-use-of-deleted-function.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-use-of-deleted-function.html</guid>
-      <category>C++</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The code tries to call a function that has been explicitly deleted, and nine times out of ten that function is a copy constructor. Types such as std::unique_ptr, std::thread and std::mutex cannot be copied, so passing one by value, pushing it into a vector or capturing it in a lambda by copy…</description>
-    </item>
-    <item>
-      <title>C++: pure virtual method called, terminate called without an active exception</title>
-      <link>https://fixmyerror.net/errors/cpp-pure-virtual-method-called.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-pure-virtual-method-called.html</guid>
-      <category>C++</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A pure virtual function was called through an object whose derived part does not exist at that moment. It almost always means a virtual call from a base class constructor or destructor, where the object is only the base type, or a call on an object that another thread has already started…</description>
-    </item>
-    <item>
-      <title>Cloudflare Workers: Error 1102: Worker exceeded resource limits</title>
-      <link>https://fixmyerror.net/errors/cloudflare-workers-error-1102-exceeded-resource-limits.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-workers-error-1102-exceeded-resource-limits.html</guid>
-      <category>Serverless</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The Worker used more CPU time or memory than its plan allows and was stopped mid-request. CPU time counts only while your code is actually computing, so waiting on fetch() is free, but parsing a large JSON body, hashing or rendering a big page is not. A Worker that runs fine in development can hit…</description>
-    </item>
-    <item>
-      <title>CloudFront: 502 ERROR The request could not be satisfied (origin SSL failure)</title>
-      <link>https://fixmyerror.net/errors/cloudfront-502-could-not-connect-ssl-origin.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudfront-502-could-not-connect-ssl-origin.html</guid>
-      <category>Caching</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>CloudFront connected to the origin over HTTPS but the TLS negotiation failed, so it returned a 502 instead. The certificate on the origin must match the origin domain name configured in CloudFront, not the viewer&apos;s hostname, and must chain to a public CA. Pointing CloudFront at a load balancer&apos;s…</description>
-    </item>
-    <item>
-      <title>CloudFront: 504 ERROR The request could not be satisfied (origin timeout)</title>
-      <link>https://fixmyerror.net/errors/cloudfront-504-could-not-connect-to-origin.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudfront-504-could-not-connect-to-origin.html</guid>
-      <category>Caching</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>CloudFront reached for your origin and either could not open a connection or got no response in time, so the viewer sees a CloudFront error page. The origin often looks healthy when you test it directly, because the problem is on CloudFront&apos;s path: a security group or firewall that only allows…</description>
-    </item>
-    <item>
-      <title>Composer: Your lock file does not contain a compatible set of packages</title>
-      <link>https://fixmyerror.net/errors/composer-lock-file-not-compatible-set-of-packages.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/composer-lock-file-not-compatible-set-of-packages.html</guid>
-      <category>PHP</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>composer install found that the versions pinned in composer.lock cannot run here, almost always because of the PHP version or a missing extension, not a problem with the lock file itself. The lock was generated on a machine with a newer PHP or with ext-intl or ext-gd installed, and the server or…</description>
-    </item>
-    <item>
-      <title>Gateway API: HTTPRoute Accepted=False, reason NoMatchingParent</title>
-      <link>https://fixmyerror.net/errors/gateway-api-httproute-no-matching-parent.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gateway-api-httproute-no-matching-parent.html</guid>
-      <category>Ingress</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The HTTPRoute names a Gateway in parentRefs, but no listener on that Gateway will take it, so the route is ignored and traffic never arrives. The usual causes are a sectionName or port that matches no listener, a hostname outside the listener&apos;s hostname, or a route in a namespace the listener&apos;s…</description>
-    </item>
-    <item>
-      <title>grep: Invalid range end</title>
-      <link>https://fixmyerror.net/errors/grep-invalid-range-end.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grep-invalid-range-end.html</guid>
-      <category>Regex</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>A bracket expression contains a range whose end sorts before its start. In POSIX brackets a backslash is literal, so [\w-.] means the range from w to a full stop, not a word character and a hyphen. Ranges like [a-Z] also depend on the locale&apos;s collation order, which is why the same command works…</description>
-    </item>
-    <item>
-      <title>gRPC: StatusCode.UNKNOWN, Exception calling application</title>
-      <link>https://fixmyerror.net/errors/grpc-python-statuscode-unknown-exception-calling-application.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-python-statuscode-unknown-exception-calling-application.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The server&apos;s handler raised an exception it did not turn into a gRPC status, so the framework reported UNKNOWN (code 2) and the client learns nothing useful. The real traceback is in the server&apos;s log, not the client&apos;s. Other languages behave the same way: an uncaught Java exception or a panic…</description>
-    </item>
-    <item>
-      <title>gRPC: tls: first record does not look like a TLS handshake</title>
-      <link>https://fixmyerror.net/errors/grpc-tls-first-record-does-not-look-like-tls-handshake.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-tls-first-record-does-not-look-like-tls-handshake.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The client started a TLS handshake and the server answered in plain text, which means the client uses TLS credentials and the server, or whatever is in front of it, listens without TLS. The reverse mismatch shows as the server logging a bogus greeting or an HTTP/2 frame error. A proxy that…</description>
-    </item>
-    <item>
-      <title>gRPC: UNAVAILABLE, GOAWAY received, ENHANCE_YOUR_CALM, too_many_pings</title>
-      <link>https://fixmyerror.net/errors/grpc-goaway-enhance-your-calm-too-many-pings.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-goaway-enhance-your-calm-too-many-pings.html</guid>
-      <category>gRPC</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The client sent HTTP/2 keepalive pings more often than the server permits, so the server closed the connection and every call in flight failed. Client and server keepalive settings are configured separately and a client tuned to ping every few seconds will be cut off by a server using the default…</description>
-    </item>
-    <item>
-      <title>ingress-nginx: failed calling webhook &quot;validate.nginx.ingress.kubernetes.io&quot;</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-failed-calling-webhook-validate.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-failed-calling-webhook-validate.html</guid>
-      <category>Ingress</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The API server tried to ask the ingress-nginx admission webhook whether your Ingress is valid and could not reach it at all, so nothing about your manifest has been judged yet. It usually means the controller pod is not running, a NetworkPolicy or private cluster firewall blocks the control plane…</description>
-    </item>
-    <item>
-      <title>ingress-nginx: host &quot;example.com&quot; and path &quot;/&quot; is already defined in ingress</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-host-and-path-already-defined.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-host-and-path-already-defined.html</guid>
-      <category>Ingress</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>The admission webhook rejected the Ingress because another Ingress, possibly in a different namespace, already claims exactly the same host and path. ingress-nginx merges every Ingress into one nginx config, so two owners for one location would be ambiguous. It often catches out a blue and green…</description>
-    </item>
-    <item>
-      <title>Keycloak: Cookie not found. Please make sure cookies are enabled</title>
-      <link>https://fixmyerror.net/errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/keycloak-cookie-not-found-make-sure-cookies-enabled.html</guid>
-      <category>Auth</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>Keycloak sets a cookie when the login page loads and expects it back when the form is submitted, and it did not come back. Browsers are rarely at fault: behind a reverse proxy Keycloak often thinks it is on plain HTTP or the wrong hostname, so it issues a cookie the browser will not return…</description>
-    </item>
-    <item>
-      <title>Laravel: No application encryption key has been specified.</title>
-      <link>https://fixmyerror.net/errors/laravel-no-application-encryption-key-specified.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-no-application-encryption-key-specified.html</guid>
-      <category>PHP</category>
-      <pubDate>Tue, 29 Sep 2026 00:00:00 GMT</pubDate>
-      <description>APP_KEY is empty in the environment Laravel actually loaded, so it cannot encrypt cookies or sessions. On a fresh clone that just means .env was never created. In production it is usually a cached config from before the key was set, or a container whose environment does not include the variable…</description>
     </item>
   </channel>
 </rss>
