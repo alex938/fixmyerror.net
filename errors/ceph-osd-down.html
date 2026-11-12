@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ceph: OSD down","name":"Ceph: OSD down","description":"A Ceph Object Storage Daemon is not running, reducing cluster redundancy and potentially causing degraded performance. Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/ceph-osd-down.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ceph-osd-down.html"},"inLanguage":"en-GB","articleSection":"Storage","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-11-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.ceph.com/en/latest/rados/troubleshooting/troubleshooting-osd/"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ceph: OSD down","name":"Ceph: OSD down","description":"A Ceph Object Storage Daemon is not running, reducing cluster redundancy and potentially causing degraded performance. Includes a copy-paste fix and how to…","url":"https://fixmyerror.net/errors/ceph-osd-down.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/ceph-osd-down.html"},"inLanguage":"en-GB","articleSection":"Storage","proficiencyLevel":"Expert","datePublished":"2026-02-11","dateModified":"2026-11-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://docs.ceph.com/en/latest/rados/troubleshooting/troubleshooting-osd/"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Storage errors","item":"https://fixmyerror.net/categories/storage.html"},{"@type":"ListItem","position":3,"name":"Ceph: OSD down","item":"https://fixmyerror.net/errors/ceph-osd-down.html"}]}</script>
 </head>
 <body>
@@ -119,14 +119,14 @@ journalctl -u ceph-osd@0 --since &#039;10 min ago&#039;</code></pre>
             <ul class="link-list">
                 <li><a href="../errors/s3-kms-access-denied-decrypt.html">AWS S3: Access Denied on an object encrypted with KMS<span class="sub">The bucket policy allows the read but the caller has no permission on the KMS key, so S3…</span></a></li>
                 <li><a href="../errors/s3-bucket-not-found.html">AWS S3: Bucket does not exist<span class="sub">Specified S3 bucket doesn&#039;t exist or is in different region.</span></a></li>
+                <li><a href="../errors/s3-nosuchkey-the-specified-key-does-not-exist.html">AWS S3: NoSuchKey: The specified key does not exist<span class="sub">S3 looked for exactly the key you sent and found nothing, and exact means byte for byte: keys…</span></a></li>
                 <li><a href="../errors/s3-signature-does-not-match.html">AWS S3: SignatureDoesNotMatch<span class="sub">The SigV4 signature computed by the client differs from the one S3 computed. Causes: wrong…</span></a></li>
                 <li><a href="../errors/ebs-volume-not-available.html">AWS: EBS volume not available in AZ<span class="sub">An EBS volume cannot be attached to an EC2 instance because they are in different…</span></a></li>
                 <li><a href="../errors/storage-azure-blob-lease-conflict.html">Azure Blob: Lease conflict<span class="sub">Blob is leased by another client. Cannot modify until lease expires or is released.</span></a></li>
                 <li><a href="../errors/azure-blob-authorizationpermissionmismatch.html">Azure Storage: AuthorizationPermissionMismatch<span class="sub">You are signed in with Entra ID, and your role lets you manage the storage account but not…</span></a></li>
                 <li><a href="../errors/storage-quota-exceeded-browser.html">Browser: Storage quota exceeded<span class="sub">localStorage or IndexedDB quota exceeded. Browser has storage limits per origin.</span></a></li>
-                <li><a href="../errors/storage-gcs-signed-url-expired.html">Google Cloud Storage: Signed URL expired<span class="sub">GCS signed URL has exceeded its expiration time. Need to generate new signed URL.</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/storage.html">See all 19 Storage errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/storage.html">See all 22 Storage errors →</a></p>
         </section>
 
             <section class="block">
@@ -191,7 +191,7 @@ journalctl -u ceph-osd@0 --since &#039;10 min ago&#039;</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1299 documented errors across 57 categories. Last updated 10 November 2026.</p>
+                <p>FixMyError.net has 1335 documented errors across 57 categories. Last updated 12 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

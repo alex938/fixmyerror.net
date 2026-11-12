@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Tue, 10 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>AWS S3: NoSuchKey: The specified key does not exist</title>
+      <link>https://fixmyerror.net/errors/s3-nosuchkey-the-specified-key-does-not-exist.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-nosuchkey-the-specified-key-does-not-exist.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>S3 looked for exactly the key you sent and found nothing, and exact means byte for byte: keys are case-sensitive, a leading slash is part of the name, and a space encoded as + is not the same key as one encoded as %20. You only see NoSuchKey if you hold s3:ListBucket on the bucket. Without it S3…</description>
+    </item>
+    <item>
+      <title>bash: ./app: cannot execute binary file: Exec format error</title>
+      <link>https://fixmyerror.net/errors/bash-cannot-execute-binary-file-exec-format-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-cannot-execute-binary-file-exec-format-error.html</guid>
+      <category>Shell</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The kernel recognised the file as a program, but not one this machine can run, and bash is passing on what the kernel said. Almost always it is the wrong CPU architecture: an x86-64 binary on an ARM machine such as a Raspberry Pi, a Graviton instance or a container on Apple Silicon, or the…</description>
+    </item>
+    <item>
+      <title>bash: declare: -A: invalid option</title>
+      <link>https://fixmyerror.net/errors/bash-declare-a-invalid-option.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-declare-a-invalid-option.html</guid>
+      <category>Shell</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Associative arrays arrived in bash 4.0, and the script is being run by something older. In practice that means macOS, which still ships bash 3.2 as /bin/bash for licensing reasons, however new the operating system is. The script works on Linux and in CI and fails on a Mac, or works in your…</description>
+    </item>
+    <item>
+      <title>bash: syntax error: unexpected end of file</title>
+      <link>https://fixmyerror.net/errors/bash-syntax-error-unexpected-end-of-file.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-syntax-error-unexpected-end-of-file.html</guid>
+      <category>Shell</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Bash reached the end of the script while still waiting for something to close: a fi, done, esac or closing brace, an unterminated quote, or a here-document whose end marker never matched. The line number it reports is the last line of the file, which is no help, because the real mistake can be…</description>
+    </item>
+    <item>
+      <title>Cargo: failed to run custom build command for `openssl-sys`</title>
+      <link>https://fixmyerror.net/errors/cargo-failed-to-run-custom-build-command-for-openssl-sys.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cargo-failed-to-run-custom-build-command-for-openssl-sys.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Your Rust code is fine. The openssl-sys crate has a build script that looks for the system OpenSSL headers through pkg-config, and it could not find them. It appears on fresh machines, in slim Docker images and when cross-compiling, which is why the same project builds on a colleague&apos;s laptop…</description>
+    </item>
+    <item>
+      <title>CoreDNS: plugin/loop: Loop (127.0.0.1:55953 -&gt; :53) detected for zone &quot;.&quot;</title>
+      <link>https://fixmyerror.net/errors/coredns-plugin-loop-detected-for-zone.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/coredns-plugin-loop-detected-for-zone.html</guid>
+      <category>DNS</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>CoreDNS sent a test query upstream and received it back, so it exits on purpose instead of forwarding in circles until it runs out of memory. The pod then sits in CrashLoopBackOff and cluster DNS is down. The cause is on the node, not in CoreDNS: the kubelet hands pods the node&apos;s /etc/resolv.conf…</description>
+    </item>
+    <item>
+      <title>Ecto: (Ecto.NoResultsError) expected at least one result but got none in query</title>
+      <link>https://fixmyerror.net/errors/ecto-noresultserror-expected-at-least-one-result.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-noresultserror-expected-at-least-one-result.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A bang function (Repo.get!, Repo.get_by!, Repo.one!) found no row. In a Phoenix controller that is often intended: the error carries a 404 status through Plug.Exception, so in production the visitor gets a not found page. In development you see the debug error page instead, which makes it look…</description>
+    </item>
+    <item>
+      <title>Elixir: (CaseClauseError) no case clause matching: {:error, :timeout}</title>
+      <link>https://fixmyerror.net/errors/elixir-caseclauseerror-no-case-clause-matching.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-caseclauseerror-no-case-clause-matching.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A case expression received a value none of its clauses cover, and that value is printed after the colon. It is almost always an error tuple from a function whose happy path you matched and whose failures you did not, so it only shows up when a dependency misbehaves: an HTTP client timing out, a…</description>
+    </item>
+    <item>
+      <title>Elixir: (UndefinedFunctionError) function nil.id/0 is undefined</title>
+      <link>https://fixmyerror.net/errors/elixir-undefinedfunctionerror-function-nil-id-0-is-undefined.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-undefinedfunctionerror-function-nil-id-0-is-undefined.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>You wrote user.id and user was nil. Elixir reads the dot as a function call on a module when the left side is an atom, and nil is an atom, so instead of a null error you get a complaint about a function on a module called nil. The real question is where the nil came from: Repo.get and Map.get…</description>
+    </item>
+    <item>
+      <title>Fluent Bit: [warn] [engine] failed to flush chunk</title>
+      <link>https://fixmyerror.net/errors/fluent-bit-engine-failed-to-flush-chunk.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/fluent-bit-engine-failed-to-flush-chunk.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This line is the engine reporting that an output plugin asked for a retry, not the reason for it. The cause is on the line just above, or in the destination&apos;s response: Elasticsearch rejecting a mapping, a 429 from an overloaded backend, a TLS failure, or a name that does not resolve from inside…</description>
+    </item>
+    <item>
+      <title>Go: cannot use names (variable of type []string) as []any value in argument</title>
+      <link>https://fixmyerror.net/errors/go-cannot-use-string-slice-as-any-slice-value.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-cannot-use-string-slice-as-any-slice-value.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A string can be passed where any is expected, so it is natural to assume a []string fits a []any. It does not. The two slices have different memory layouts, since each any is a two-word interface value, and Go will not convert a whole slice behind your back because that costs an allocation and a…</description>
+    </item>
+    <item>
+      <title>Go: context deadline exceeded (Client.Timeout exceeded while awaiting headers)</title>
+      <link>https://fixmyerror.net/errors/go-context-deadline-exceeded-client-timeout-awaiting-headers.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-context-deadline-exceeded-client-timeout-awaiting-headers.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The http.Client gave up because its Timeout ran out before the server sent response headers. That one timer covers the whole exchange: DNS, connect, TLS, sending the request and waiting. So the cause may be a slow server, but equally a DNS lookup that hangs, or a timeout shorter than the…</description>
+    </item>
+    <item>
+      <title>Go: json: cannot unmarshal string into Go struct field User.age of type int</title>
+      <link>https://fixmyerror.net/errors/go-json-cannot-unmarshal-string-into-go-struct-field.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-json-cannot-unmarshal-string-into-go-struct-field.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The JSON is valid, it just does not have the shape of your struct. The message names the JSON type that arrived (string), the field it was heading for (User.age) and the Go type declared there (int). Typical causes are an API that puts its numbers in quotes, a field that is sometimes an object and…</description>
+    </item>
+    <item>
+      <title>GraphQL: Schema must contain uniquely named types but contains multiple types</title>
+      <link>https://fixmyerror.net/errors/graphql-schema-must-contain-uniquely-named-types.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-schema-must-contain-uniquely-named-types.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Two different type objects with the same name reached the schema, and the message ends with that name. With SDL it is a type defined in two files, where the second should have been extend type. In code-first setups it is more subtle: the same definition is evaluated twice, for example an enum or…</description>
+    </item>
+    <item>
+      <title>GraphQL: Subscription field must return Async Iterable. Received: undefined.</title>
+      <link>https://fixmyerror.net/errors/graphql-subscription-field-must-return-async-iterable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-subscription-field-must-return-async-iterable.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The server asked your subscription for a stream of events and got something else. Nearly always the resolver map has the wrong shape: a subscription field must be an object with a subscribe function that returns an async iterator, not a plain function like a query resolver. Other causes are…</description>
+    </item>
+    <item>
+      <title>GraphQL: Variable &quot;$id&quot; of type &quot;String&quot; used in position expecting type &quot;ID!&quot;</title>
+      <link>https://fixmyerror.net/errors/graphql-variable-used-in-position-expecting-type.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-variable-used-in-position-expecting-type.html</guid>
+      <category>GraphQL</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The type you declared for the variable in the operation header does not fit the argument you passed it to. Validation happens before any resolver runs and compares the declarations only, so the value you send is irrelevant: a perfectly good id still fails if the header says String and the field…</description>
+    </item>
+    <item>
+      <title>haproxy: backend app_servers has no server available!</title>
+      <link>https://fixmyerror.net/errors/haproxy-backend-has-no-server-available.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/haproxy-backend-has-no-server-available.html</guid>
+      <category>Proxy</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Every server in that backend is marked down, so HAProxy answers 503 by itself without contacting anything. The servers may be perfectly healthy. What failed is the health check: it requests a path that now returns a redirect or 404, it sends no Host header to an application that requires one, it…</description>
+    </item>
+    <item>
+      <title>InvalidObjectState: The operation is not valid for the object&apos;s storage class</title>
+      <link>https://fixmyerror.net/errors/s3-invalidobjectstate-operation-not-valid-for-storage-class.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-invalidobjectstate-operation-not-valid-for-storage-class.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The object exists but is archived. Anything in S3 Glacier Flexible Retrieval or Deep Archive, and objects that Intelligent-Tiering has moved to its archive tiers, cannot be read with a plain GET. It has to be restored first, which takes minutes to hours depending on the tier you pay for. It tends…</description>
+    </item>
+    <item>
+      <title>Java: InaccessibleObjectException: module java.base does not &quot;opens java.lang&quot;</title>
+      <link>https://fixmyerror.net/errors/java-inaccessibleobjectexception-module-does-not-opens.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-inaccessibleobjectexception-module-does-not-opens.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A library tried to use reflection on a private member of a JDK class, and the module system refused. Up to Java 16 this was only a warning about illegal reflective access. From Java 17, JEP 403 made strong encapsulation the default and removed the switch that relaxed it. So the code did not…</description>
+    </item>
+    <item>
+      <title>Java: LazyInitializationException: could not initialize proxy - no Session</title>
+      <link>https://fixmyerror.net/errors/hibernate-lazyinitializationexception-no-session.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/hibernate-lazyinitializationexception-no-session.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>You touched a lazy association after the Hibernate session that loaded the entity had closed. The entity looks complete, but the collection or proxy inside it is a placeholder that needs a live session to fetch its rows. It typically appears when an entity leaves a @Transactional service and is…</description>
+    </item>
+    <item>
+      <title>Java: NoClassDefFoundError: javax/xml/bind/JAXBException</title>
+      <link>https://fixmyerror.net/errors/java-noclassdeffounderror-javax-xml-bind-jaxbexception.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/java-noclassdeffounderror-javax-xml-bind-jaxbexception.html</guid>
+      <category>Java</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>JAXB used to ship inside the JDK. It was deprecated in Java 9 and removed in Java 11 by JEP 320, along with JAX-WS, javax.activation, javax.annotation and CORBA. Code built for Java 8 therefore starts fine and fails the first time something touches XML binding, often deep inside an old Hibernate…</description>
+    </item>
+    <item>
+      <title>nginx: [emerg] host not found in upstream &quot;backend&quot; in /etc/nginx/nginx.conf</title>
+      <link>https://fixmyerror.net/errors/nginx-emerg-host-not-found-in-upstream.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-emerg-host-not-found-in-upstream.html</guid>
+      <category>Proxy</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>nginx resolves hostnames in proxy_pass and upstream blocks once, when it loads the configuration, using the system resolver. If one name fails at that moment the whole configuration is rejected, and nginx will not start or reload at all. That is why it bites at boot, before the network or DNS is…</description>
+    </item>
+    <item>
+      <title>nginx: an upstream response is buffered to a temporary file</title>
+      <link>https://fixmyerror.net/errors/nginx-upstream-response-buffered-to-temporary-file.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-upstream-response-buffered-to-temporary-file.html</guid>
+      <category>Proxy</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A warning, not a failure. The response from the backend was larger than the memory buffers nginx sets aside for it (proxy_buffers, 8 buffers of 4k or 8k by default), so the rest was spooled to disk while the client downloads at its own pace. Requests still succeed. It matters when it happens…</description>
+    </item>
+    <item>
+      <title>page allocation failure: order:4, mode:0x40cc0(GFP_KERNEL|__GFP_COMP)</title>
+      <link>https://fixmyerror.net/errors/page-allocation-failure-order-4.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/page-allocation-failure-order-4.html</guid>
+      <category>Performance</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The kernel needed 2 to the power of order contiguous pages, here 16 pages or 64 KiB in one piece, and could not find a run that long. It is a fragmentation problem more than a shortage: free memory can be plentiful but chopped into small pieces after a long uptime. Network drivers using jumbo…</description>
+    </item>
+    <item>
+      <title>rcu: INFO: rcu_sched self-detected stall on CPU</title>
+      <link>https://fixmyerror.net/errors/rcu-sched-self-detected-stall-on-cpu.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rcu-sched-self-detected-stall-on-cpu.html</guid>
+      <category>Performance</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A CPU went about 21 seconds without passing a point where the kernel&apos;s RCU mechanism can make progress, meaning something ran in kernel mode without yielding or with interrupts off. RCU is only the messenger. On bare metal the cause is a driver or kernel bug, a slow serial console flooded with…</description>
+    </item>
+    <item>
+      <title>rndc: connect failed: 127.0.0.1#953: connection refused</title>
+      <link>https://fixmyerror.net/errors/rndc-connect-failed-connection-refused.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rndc-connect-failed-connection-refused.html</guid>
+      <category>DNS</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>rndc talks to named over a control channel on TCP port 953, and nothing accepted the connection. Most of the time named is simply not running, and the interesting question is why: a zone file or named.conf error stopped it at start-up, and the reload you just tried was the first time anyone…</description>
+    </item>
+    <item>
+      <title>rsyslogd: imjournal: begin to drop messages due to rate-limiting</title>
+      <link>https://fixmyerror.net/errors/rsyslog-imjournal-begin-to-drop-messages-rate-limiting.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rsyslog-imjournal-begin-to-drop-messages-rate-limiting.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>rsyslog reads the systemd journal through imjournal, which has its own rate limit: by default 20000 messages per 600 seconds. A burst above that is discarded from /var/log/messages and from anything rsyslog forwards, while the same lines are still in the journal. That is why journalctl shows…</description>
+    </item>
+    <item>
+      <title>Rust: borrowed value does not live long enough (E0597)</title>
+      <link>https://fixmyerror.net/errors/rust-borrowed-value-does-not-live-long-enough-e0597.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-borrowed-value-does-not-live-long-enough-e0597.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A reference is being kept for longer than the value it points at exists. The compiler marks three places: where the borrow starts, where the value is dropped, and where the reference is still used afterwards. The usual shapes are returning a reference to a local variable, pushing a reference to a…</description>
+    </item>
+    <item>
+      <title>Rust: missing lifetime specifier (E0106)</title>
+      <link>https://fixmyerror.net/errors/rust-missing-lifetime-specifier-e0106.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-missing-lifetime-specifier-e0106.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A function returns a reference, or a struct holds one, and the compiler cannot tell what it borrows from. With one reference parameter it assumes the result borrows from that. With two or more, or none, it will not guess. The annotation does not make anything live longer, it only states which…</description>
+    </item>
+    <item>
+      <title>systemd-resolved: DNSSEC validation failed for question example.com IN A</title>
+      <link>https://fixmyerror.net/errors/systemd-resolved-dnssec-validation-failed-no-signature.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-resolved-dnssec-validation-failed-no-signature.html</guid>
+      <category>DNS</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>systemd-resolved is validating DNSSEC itself, and the answer arrived without the signatures it needs (the line usually ends in no-signature). The domain is normally fine. The server it forwards to, often a home router, hotel network or corporate DNS proxy, strips or mangles DNSSEC records, so…</description>
+    </item>
+    <item>
+      <title>TCP: out of memory -- consider tuning tcp_mem</title>
+      <link>https://fixmyerror.net/errors/tcp-out-of-memory-consider-tuning-tcp-mem.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/tcp-out-of-memory-consider-tuning-tcp-mem.html</guid>
+      <category>Performance</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The kernel&apos;s TCP stack has hit its global memory ceiling, the third value of net.ipv4.tcp_mem, which is counted in pages across all sockets. The machine can have gigabytes free, because this is a separate budget. Once over it, the kernel prunes receive queues and drops segments, so the symptom is…</description>
+    </item>
+    <item>
+      <title>TypeScript: Element implicitly has an &apos;any&apos; type because expression of type</title>
+      <link>https://fixmyerror.net/errors/ts7053-element-implicitly-has-an-any-type-index.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts7053-element-implicitly-has-an-any-type-index.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This is TS7053. You indexed an object with a key the compiler cannot prove is one of its properties, typically a plain string from user input, Object.keys or a function parameter. Under noImplicitAny the result would be any, so it is reported. The message continues with &quot;can&apos;t be used to index…</description>
+    </item>
+    <item>
+      <title>TypeScript: This syntax is not allowed when &apos;erasableSyntaxOnly&apos; is enabled</title>
+      <link>https://fixmyerror.net/errors/ts1294-syntax-not-allowed-erasablesyntaxonly.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts1294-syntax-not-allowed-erasablesyntaxonly.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This is TS1294. TypeScript 5.8 added erasableSyntaxOnly for projects that run .ts files directly, such as Node&apos;s built-in type stripping. Stripping can only delete type annotations, it cannot generate code, so any syntax with runtime behaviour is rejected: enum, namespace with values, constructor…</description>
+    </item>
+    <item>
+      <title>TypeScript: Top-level &apos;await&apos; expressions are only allowed when the &apos;module&apos;</title>
+      <link>https://fixmyerror.net/errors/ts1378-top-level-await-module-option.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ts1378-top-level-await-module-option.html</guid>
+      <category>TypeScript</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This is TS1378. Top-level await only exists in ES modules, so the compiler refuses it when it is going to emit CommonJS or target a runtime older than ES2017. The message goes on to list the module settings that qualify. Fixing tsconfig is half of it: Node also has to load the output as a module…</description>
+    </item>
+    <item>
+      <title>umount: /mnt/data: target is busy</title>
+      <link>https://fixmyerror.net/errors/umount-target-is-busy.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/umount-target-is-busy.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Something still has the filesystem in use, and it is often not an open file. A shell whose current directory is inside the mount is enough, as is a process started from there, a nested mount underneath, a loop device, swap on the volume, an NFS export, or a container that bind-mounted the path…</description>
+    </item>
+    <item>
+      <title>Winston: [winston] Attempt to write logs with no transports</title>
+      <link>https://fixmyerror.net/errors/winston-attempt-to-write-logs-with-no-transports.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/winston-attempt-to-write-logs-with-no-transports.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A logger was used that has nowhere to write. It usually means you called the default winston export (winston.info) while your transports were added to a separate logger made with createLogger, or two copies of winston are installed and the configured one is not the one being imported. It also…</description>
+    </item>
     <item>
       <title>.NET: NETSDK1004: Assets file &apos;obj/project.assets.json&apos; not found</title>
       <link>https://fixmyerror.net/errors/dotnet-netsdk1004-assets-file-project-assets-json-not-found.html</link>
@@ -1319,294 +1607,6 @@
       <category>Ruby</category>
       <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
       <description>Ruby 3.0 separated keyword arguments from positional ones, so a hash passed where a method expects keywords is now counted as an extra positional argument. Code that ran on Ruby 2.7, perhaps with a deprecation warning nobody read, fails after the upgrade. The usual places are wrappers that forward…</description>
-    </item>
-    <item>
-      <title>Ruby: Psych::BadAlias: Unknown alias: default</title>
-      <link>https://fixmyerror.net/errors/ruby-psych-4-bad-alias-unknown-alias.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-psych-4-bad-alias-unknown-alias.html</guid>
-      <category>Ruby</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Psych 4, the YAML library that ships with Ruby 3.1 onwards, made YAML.load safe by default, and safe loading refuses aliases such as &lt;&lt;: *default unless asked. Files that have always used anchors, database.yml above all, fail when an older gem or Rails version loads them with the plain call. The…</description>
-    </item>
-    <item>
-      <title>Rust: Could not find specification for target &quot;wasm32-wasi&quot;</title>
-      <link>https://fixmyerror.net/errors/rust-wasm32-wasi-target-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-wasm32-wasi-target-not-found.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Rust renamed the wasm32-wasi target to wasm32-wasip1 to make room for WASI 0.2, then removed the old name entirely in Rust 1.84. Build scripts, CI workflows and tutorials that still say wasm32-wasi fail as soon as the toolchain updates, though no code changed. The output is the same WASI preview 1…</description>
-    </item>
-    <item>
-      <title>sbt: found version conflict(s) in library dependencies</title>
-      <link>https://fixmyerror.net/errors/sbt-found-version-conflicts-binary-incompatible.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sbt-found-version-conflicts-binary-incompatible.html</guid>
-      <category>Scala</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Two dependencies need different versions of the same library, sbt picked the newer one, and the version scheme that library declares says the two are not binary compatible. Since sbt 1.5 that is an error rather than a warning, because it tends to end in a NoSuchMethodError at runtime. It typically…</description>
-    </item>
-    <item>
-      <title>Scala 3: Implicit parameters should be provided with a `using` clause</title>
-      <link>https://fixmyerror.net/errors/scala-3-implicit-parameters-using-clause.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-3-implicit-parameters-using-clause.html</guid>
-      <category>Scala</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>From Scala 3.7 the compiler warns when you pass an argument to an implicit parameter list by plain application, as in xs.sorted(ord). Scala 3 wants the call site to say using, so a reader can tell the argument fills an implicit slot. It arrives in large numbers when an existing codebase upgrades…</description>
-    </item>
-    <item>
-      <title>Scala module 2.15.2 requires Jackson Databind version &gt;= 2.15.0 and &lt; 2.16.0</title>
-      <link>https://fixmyerror.net/errors/jackson-scala-module-requires-databind-version.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/jackson-scala-module-requires-databind-version.html</guid>
-      <category>Scala</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>jackson-module-scala refuses to register unless jackson-databind on the classpath has the same minor version, and something else pulled databind up or down. In Spark jobs the usual culprit is the Jackson that Spark itself ships, which is why the job runs locally and fails once submitted to the…</description>
-    </item>
-    <item>
-      <title>Solidity: CompilerError: Stack too deep. Try compiling with --via-ir</title>
-      <link>https://fixmyerror.net/errors/solidity-stack-too-deep.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/solidity-stack-too-deep.html</guid>
-      <category>Web3</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The EVM can only reach the top 16 slots of its stack, and the function the error points at needs more than that for its locals, parameters and return values at once. The legacy code generator cannot move values to memory to make room, so it gives up. The IR pipeline can, which is why the compiler…</description>
-    </item>
-    <item>
-      <title>Svelte 5: Using `&lt;slot&gt;` to render parent content is deprecated</title>
-      <link>https://fixmyerror.net/errors/svelte-5-slot-element-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-slot-element-deprecated.html</guid>
-      <category>Svelte</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>In Svelte 5, content passed into a component arrives as snippets and is rendered with {@render}; survives only for compatibility. The warning appears once a component runs in runes mode, which is why it shows up after migrating a single file. A component cannot use both styles, so convert its…</description>
-    </item>
-    <item>
-      <title>Svelte 5: Using `on:click` to listen to the click event is deprecated</title>
-      <link>https://fixmyerror.net/errors/svelte-5-on-directive-event-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-on-directive-event-deprecated.html</guid>
-      <category>Svelte</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Svelte 5 treats DOM event handlers as ordinary attributes, onclick={...}, so the on: directive is deprecated in runes mode, and one component cannot mix the two forms. Event modifiers such as |preventDefault went too, which means a plain search and replace is not enough. Component events change as…</description>
-    </item>
-    <item>
-      <title>SvelteKit: Error: Not found: /favicon.ico</title>
-      <link>https://fixmyerror.net/errors/sveltekit-error-not-found-favicon.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-error-not-found-favicon.html</guid>
-      <category>Svelte</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The browser asked for /favicon.ico, no route or static file matched, and SvelteKit logged the 404 the same way it logs any error. The page itself is fine. It fills the dev server log because browsers request the icon on their own whether or not the HTML links one, and the same message with another…</description>
-    </item>
-    <item>
-      <title>The argument type &apos;String?&apos; can&apos;t be assigned to the parameter type &apos;String&apos;.</title>
-      <link>https://fixmyerror.net/errors/dart-argument-type-nullable-string-cant-be-assigned.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-argument-type-nullable-string-cant-be-assigned.html</guid>
-      <category>Dart</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Under sound null safety a type ending in ? might be null, and Dart will not pass it where a non-nullable value is required until you show it is not. The value usually comes from a map lookup, a nullable field or a parsed model, all of which are nullable even when you know the data is there. Adding…</description>
-    </item>
-    <item>
-      <title>Traefik: middleware &quot;default-redirect@kubernetescrd&quot; does not exist</title>
-      <link>https://fixmyerror.net/errors/traefik-middleware-does-not-exist.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/traefik-middleware-does-not-exist.html</guid>
-      <category>Ingress</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A router refers to a middleware by a name Traefik cannot find. With the Kubernetes CRD provider the full name is namespace-name@kubernetescrd, so a Middleware in another namespace, or an annotation that leaves out the namespace prefix, points at nothing. Traefik keeps running and drops only that…</description>
-    </item>
-    <item>
-      <title>WebAssembly: Refused to compile or instantiate WebAssembly module</title>
-      <link>https://fixmyerror.net/errors/wasm-refused-to-compile-csp-wasm-unsafe-eval.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-refused-to-compile-csp-wasm-unsafe-eval.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The page&apos;s Content Security Policy blocks WebAssembly compilation. Browsers treat compiling Wasm much like eval, so a script-src without &apos;wasm-unsafe-eval&apos; stops it even when the .wasm file comes from your own origin. It often appears only in production or in a browser extension, because the…</description>
-    </item>
-    <item>
-      <title>Windows: The requested operation requires elevation (error 740)</title>
-      <link>https://fixmyerror.net/errors/windows-requested-operation-requires-elevation-740.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-requested-operation-requires-elevation-740.html</guid>
-      <category>Windows</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The program&apos;s manifest says it must run as administrator, and the process starting it is not elevated, so Windows refuses rather than showing a UAC prompt. That is why the same installer works when double-clicked but fails from a script, a scheduled task, a CI agent or an ordinary terminal. Being…</description>
-    </item>
-    <item>
-      <title>Windows: The RPC server is unavailable (0x800706BA)</title>
-      <link>https://fixmyerror.net/errors/windows-rpc-server-is-unavailable-0x800706ba.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-rpc-server-is-unavailable-0x800706ba.html</guid>
-      <category>Windows</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The client could not complete a remote procedure call to the target machine. RPC first contacts the endpoint mapper on TCP 135, then switches to a dynamic high port, and a firewall that allows 135 but not the high range is the classic cause. It surfaces in WMI, remote management, domain joins and…</description>
-    </item>
-    <item>
-      <title>Windows: You can&apos;t access this shared folder (guest access blocked)</title>
-      <link>https://fixmyerror.net/errors/windows-smb-unauthenticated-guest-access-blocked.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-smb-unauthenticated-guest-access-blocked.html</guid>
-      <category>Windows</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Windows 11 24H2 refuses SMB guest logons and requires SMB signing by default, so a NAS, a router USB share or an old Samba server that lets anyone in as guest stops working after the upgrade, while other PCs still connect. The share is fine; the client is refusing to talk to it without…</description>
-    </item>
-    <item>
-      <title>Xcode: No signing certificate &quot;iOS Development&quot; found</title>
-      <link>https://fixmyerror.net/errors/xcode-no-signing-certificate-ios-development-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-no-signing-certificate-ios-development-found.html</guid>
-      <category>Apple</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The project wants to sign with a development certificate whose private key is not in this Mac&apos;s keychain. The certificate may well exist in your developer account, but without its key it cannot sign anything, which is why a project that builds on a colleague&apos;s Mac or your old one fails on a new…</description>
-    </item>
-    <item>
-      <title>Ansible: &apos;dict object&apos; has no attribute &apos;stdout&apos;</title>
-      <link>https://fixmyerror.net/errors/ansible-dict-object-has-no-attribute-stdout.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-dict-object-has-no-attribute-stdout.html</guid>
-      <category>Ansible</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The variable exists but does not have the key you asked for. Usually that&apos;s because the task that registered it was skipped, so all it holds is skipped and changed. Or the task ran in a loop, and then the output sits under results, one entry per item. Printing the whole variable shows which of the…</description>
-    </item>
-    <item>
-      <title>Ansible: Failed to set permissions on the temporary files Ansible needs</title>
-      <link>https://fixmyerror.net/errors/ansible-failed-to-set-permissions-temporary-files.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-failed-to-set-permissions-temporary-files.html</guid>
-      <category>Ansible</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This happens with become_user set to an unprivileged account such as postgres. Ansible uploads the module as the SSH user, and that account then has to read it. Ansible tries setfacl first, then other methods, and refuses to make the file world readable unless you tell it to. Installing the acl…</description>
-    </item>
-    <item>
-      <title>Ansible: Timeout (12s) waiting for privilege escalation prompt</title>
-      <link>https://fixmyerror.net/errors/ansible-timeout-waiting-for-privilege-escalation-prompt.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-timeout-waiting-for-privilege-escalation-prompt.html</guid>
-      <category>Ansible</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Ansible ran sudo and waited for a password prompt or a success marker that never came within the timeout. It is rarely a wrong password. More often sudo itself is slow because the host cannot resolve its own hostname, a login banner or sudo lecture is in the way, or become_method does not match…</description>
-    </item>
-    <item>
-      <title>Apollo Client: Could not find &quot;client&quot; in the context or passed in as an option</title>
-      <link>https://fixmyerror.net/errors/apollo-could-not-find-client-in-context.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-could-not-find-client-in-context.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A useQuery or useMutation hook ran outside an ApolloProvider. When the provider clearly wraps the app, there are two copies of @apollo/client in node_modules, so the hook and the provider use different React contexts. Tests that render a component without a MockedProvider fail in the same way.</description>
-    </item>
-    <item>
-      <title>AWS SQS: The specified queue does not exist or you do not have access to it</title>
-      <link>https://fixmyerror.net/errors/sqs-specified-queue-does-not-exist.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sqs-specified-queue-does-not-exist.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>SQS gives the same answer whether the queue is missing or you lack permission, so you cannot tell which from the message. Most often the queue exists in another region or account from the one the client is using. Or the code built a URL from the queue name instead of calling GetQueueUrl. A queue…</description>
-    </item>
-    <item>
-      <title>Azure Storage: AuthorizationPermissionMismatch</title>
-      <link>https://fixmyerror.net/errors/azure-blob-authorizationpermissionmismatch.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/azure-blob-authorizationpermissionmismatch.html</guid>
-      <category>Storage</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>You are signed in with Entra ID, and your role lets you manage the storage account but not read its data. Owner and Contributor only cover the control plane. Blob access needs a data role such as Storage Blob Data Reader or Contributor. The portal hides this because it falls back to the account…</description>
-    </item>
-    <item>
-      <title>bash: !&quot;: event not found</title>
-      <link>https://fixmyerror.net/errors/bash-event-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-event-not-found.html</guid>
-      <category>Shell</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>In an interactive shell, an exclamation mark in double quotes triggers history expansion, and bash tried to find a previous command beginning with whatever followed it. The same line works fine in a script, where history expansion is off, which is why it puzzles people. Single quotes stop it…</description>
-    </item>
-    <item>
-      <title>bash: [: : integer expression expected</title>
-      <link>https://fixmyerror.net/errors/bash-integer-expression-expected.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-integer-expression-expected.html</guid>
-      <category>Shell</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A numeric comparison such as -gt or -eq got something that is not a whole number. The text between the colons is the bad value: empty means the variable was unset or a command printed nothing. A trailing carriage return from a Windows file or a decimal like 3.5 cause the same error, since the…</description>
-    </item>
-    <item>
-      <title>bash: [: too many arguments</title>
-      <link>https://fixmyerror.net/errors/bash-test-too-many-arguments.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-test-too-many-arguments.html</guid>
-      <category>Shell</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A variable inside single brackets was left unquoted and its value contained spaces, or a glob that matched several files. So [ was handed more words than it can parse. Because it depends on the data, the script works for months and then breaks the first time a filename or answer has a space in it.</description>
-    </item>
-    <item>
-      <title>C#: Collection was modified; enumeration operation may not execute</title>
-      <link>https://fixmyerror.net/errors/csharp-collection-was-modified-enumeration.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-collection-was-modified-enumeration.html</guid>
-      <category>C#</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>You added or removed items in a List or Dictionary while a foreach was still walking it, and the enumerator noticed the version change. In a single thread the fix is simple. If the loop body never touches the collection, another thread does, and taking a copy only hides a race that needs a lock or…</description>
-    </item>
-    <item>
-      <title>C#: CS0246 The type or namespace name could not be found</title>
-      <link>https://fixmyerror.net/errors/csharp-cs0246-type-or-namespace-could-not-be-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-cs0246-type-or-namespace-could-not-be-found.html</guid>
-      <category>C#</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The compiler cannot see the type at all. It might be a missing using directive or NuGet package, but just as often the package is there and targets a different framework than the project. Or the type sits in a project that is not referenced. When the IDE is happy and dotnet build is not, a stale…</description>
-    </item>
-    <item>
-      <title>Connection to node -1 could not be established. Broker may not be available.</title>
-      <link>https://fixmyerror.net/errors/kafka-broker-may-not-be-available.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-broker-may-not-be-available.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Node -1 is the bootstrap server, so the client could not even make its first connection. If bootstrap works and a later node fails, the broker is returning advertised.listeners that the client cannot reach, such as a container hostname or localhost. That is why Kafka in Docker often works from…</description>
-    </item>
-    <item>
-      <title>dig: status: SERVFAIL with EDE: 6 (DNSSEC Bogus)</title>
-      <link>https://fixmyerror.net/errors/dig-servfail-ede-dnssec-bogus.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dig-servfail-ede-dnssec-bogus.html</guid>
-      <category>DNS</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The resolver fetched the answer but its DNSSEC signatures did not validate, so it refused to return it. Extended DNS Errors (RFC 8914) now say which kind of failure you hit. The usual cause is a botched key rollover or a DS record left at the registrar after moving DNS provider. Every validating…</description>
-    </item>
-    <item>
-      <title>DNS problem: NXDOMAIN looking up TXT for _acme-challenge.example.com</title>
-      <link>https://fixmyerror.net/errors/acme-dns-problem-nxdomain-looking-up-txt.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/acme-dns-problem-nxdomain-looking-up-txt.html</guid>
-      <category>DNS</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Let&apos;s Encrypt queried the authoritative servers for the DNS-01 challenge record and was told the name does not exist. The record often is there, just in a zone that is not authoritative. That might be an old provider still listed, a private split horizon zone, or a CNAME delegation pointing at a…</description>
-    </item>
-    <item>
-      <title>Ecto: (Ecto.Query.CastError) value &quot;abc&quot; in where cannot be cast to type :id</title>
-      <link>https://fixmyerror.net/errors/ecto-query-casterror-cannot-be-cast-to-type-id.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-query-casterror-cannot-be-cast-to-type-id.html</guid>
-      <category>Elixir</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A value went into a query uncast, usually a path or query parameter straight from Phoenix, and it does not match the field&apos;s type. Ecto raises before the database ever sees the query. It is a 500 in production when it should have been a 404 or 400, so the fix is to validate at the edge, not to…</description>
-    </item>
-    <item>
-      <title>Elasticsearch: Limit of total fields [1000] has been exceeded</title>
-      <link>https://fixmyerror.net/errors/elasticsearch-limit-of-total-fields-exceeded.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elasticsearch-limit-of-total-fields-exceeded.html</guid>
-      <category>Logging</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Dynamic mapping adds a new field for every new key it sees, and JSON logs whose keys contain IDs, headers or arbitrary user data keep inventing new ones until the index reaches its field limit. Further documents are then rejected, so logs vanish without any error in the application. Raising the…</description>
-    </item>
-    <item>
-      <title>Elixir: (ArgumentError) errors were found at the given arguments</title>
-      <link>https://fixmyerror.net/errors/elixir-argumenterror-errors-were-found-at-the-given-arguments.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-argumenterror-errors-were-found-at-the-given-arguments.html</guid>
-      <category>Elixir</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This is OTP&apos;s wording for a bad argument passed to a built-in function, and the line after it names the argument and the reason, such as &quot;1st argument: not an already existing atom&quot;. The usual causes are String.to_existing_atom on user input, an :ets call on a table that no longer exists because…</description>
-    </item>
-    <item>
-      <title>Elixir: protocol Jason.Encoder not implemented for %MyApp.User{}</title>
-      <link>https://fixmyerror.net/errors/elixir-jason-encoder-not-implemented.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-jason-encoder-not-implemented.html</guid>
-      <category>Elixir</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Jason will encode maps but not structs it has not been told about, because a struct could contain secrets or other private fields. The surprise is that a plain map encodes fine. The struct only turns up when a Repo result or an association ends up in a json/2 call. Elixir 1.18 has a built-in JSON…</description>
-    </item>
-    <item>
-      <title>Error response from daemon: configured logging driver does not support reading</title>
-      <link>https://fixmyerror.net/errors/docker-logs-configured-logging-driver-does-not-support-reading.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/docker-logs-configured-logging-driver-does-not-support-reading.html</guid>
-      <category>Logging</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The container sends its logs to a driver such as syslog, gelf, fluentd or awslogs, so they never touch the local disk and docker logs has nothing to read. Docker 20.10 added dual logging to keep a local copy, but it can be turned off in daemon.json. The logs have usually arrived safely at their…</description>
-    </item>
-    <item>
-      <title>Go: high tail latency in a container, GOMAXPROCS above the CPU limit</title>
-      <link>https://fixmyerror.net/errors/go-gomaxprocs-above-container-cpu-limit.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/go-gomaxprocs-above-container-cpu-limit.html</guid>
-      <category>Performance</category>
-      <pubDate>Fri, 02 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Before Go 1.25, GOMAXPROCS defaulted to the number of CPUs on the node and ignored the container&apos;s CPU limit. A pod limited to 2 CPUs on a 64 core node would run 64 threads, burn through its CFS quota in a few milliseconds and then be throttled for the rest of the period. Go 1.25 reads the cgroup…</description>
     </item>
   </channel>
 </rss>

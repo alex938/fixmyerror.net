@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>502 Bad Gateway: Cause and Fix | FixMyError.net</title>
-    <meta name="description" content="The server received an invalid response from an upstream service. Usually indicates the backend server is down or misconfigured. Includes a copy-paste fix…">
+    <meta name="description" content="This comes from the proxy, not from your application. nginx, a load balancer or a CDN forwarded the request, and what came back from the upstream was not a…">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <link rel="canonical" href="https://fixmyerror.net/errors/502-bad-gateway.html">
 
@@ -14,7 +14,7 @@
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://fixmyerror.net/errors/502-bad-gateway.html">
     <meta property="og:title" content="502 Bad Gateway: cause and fix">
-    <meta property="og:description" content="The server received an invalid response from an upstream service. Usually indicates the backend server is down or misconfigured. Includes a copy-paste fix…">
+    <meta property="og:description" content="This comes from the proxy, not from your application. nginx, a load balancer or a CDN forwarded the request, and what came back from the upstream was not a…">
     <meta property="og:image" content="https://fixmyerror.net/og-image.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
@@ -25,7 +25,7 @@
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="502 Bad Gateway: cause and fix">
-    <meta name="twitter:description" content="The server received an invalid response from an upstream service. Usually indicates the backend server is down or misconfigured. Includes a copy-paste fix…">
+    <meta name="twitter:description" content="This comes from the proxy, not from your application. nginx, a load balancer or a CDN forwarded the request, and what came back from the upstream was not a…">
     <meta name="twitter:image" content="https://fixmyerror.net/og-image.png">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"502 Bad Gateway","name":"502 Bad Gateway","description":"The server received an invalid response from an upstream service. Usually indicates the backend server is down or misconfigured. Includes a copy-paste fix…","url":"https://fixmyerror.net/errors/502-bad-gateway.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/502-bad-gateway.html"},"inLanguage":"en-GB","articleSection":"HTTP","proficiencyLevel":"Expert","datePublished":"2025-10-12","dateModified":"2026-11-10","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"502 Bad Gateway","name":"502 Bad Gateway","description":"This comes from the proxy, not from your application. nginx, a load balancer or a CDN forwarded the request, and what came back from the upstream was not a…","url":"https://fixmyerror.net/errors/502-bad-gateway.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/502-bad-gateway.html"},"inLanguage":"en-GB","articleSection":"HTTP","proficiencyLevel":"Expert","datePublished":"2025-10-12","dateModified":"2026-11-12","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502","https://www.rfc-editor.org/rfc/rfc9110.html#name-502-bad-gateway"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"HTTP errors","item":"https://fixmyerror.net/categories/http.html"},{"@type":"ListItem","position":3,"name":"502 Bad Gateway","item":"https://fixmyerror.net/errors/502-bad-gateway.html"}]}</script>
 </head>
 <body>
@@ -69,19 +69,26 @@
                 <span class="badge badge-muted">Added 12 October 2025</span>
             </div>
             <h1 class="page-title">502 Bad Gateway</h1>
-            <p class="page-lede">The server received an invalid response from an upstream service. Usually indicates the backend server is down or misconfigured.</p>
+            <p class="page-lede">This comes from the proxy, not from your application. nginx, a load balancer or a CDN forwarded the request, and what came back from the upstream was not a usable HTTP response: the connection was refused, reset part-way, or closed before any headers arrived. So the application is down, crashing mid-request, listening on a different port or socket from the one the proxy is configured with, or being killed for memory. It is intermittent when only some instances are unhealthy, or when the app closes idle keep-alive connections sooner than the proxy expects.</p>
 
             <section class="block">
                 <h2>Quick fix</h2>
                 <p>Read the commands before running them. Anything that restarts a service, deletes data or changes permissions should be tried on a non-production system first.</p>
                 <div class="code-wrap">
                     <div class="code-head"><span>Quick fix</span><button class="copy-button" type="button" data-copy-target="fix-502-bad-gateway">Copy</button></div>
-                    <pre class="code-block" id="fix-502-bad-gateway"><code># Check upstream service
-sudo systemctl status nginx
-# Check Nginx config
-nginx -t
-# Restart if needed
-sudo systemctl restart nginx</code></pre>
+                    <pre class="code-block" id="fix-502-bad-gateway"><code># 1. The proxy log names the upstream and the exact failure
+sudo tail -n 50 /var/log/nginx/error.log | grep upstream
+# 2. Is the application running, and did it restart recently
+sudo systemctl status myapp --no-pager | head -15
+# 3. Is it listening where the proxy thinks it is
+sudo ss -ltnp | grep -E &#039;:8080|sock&#039;
+sudo nginx -T | grep -nE &#039;proxy_pass|fastcgi_pass|upstream&#039;
+# 4. Talk to the upstream directly, bypassing the proxy
+curl -sv http://127.0.0.1:8080/health 2&gt;&amp;1 | tail -15
+# 5. A process killed for memory looks like a 502 from outside
+sudo dmesg -T | grep -iE &#039;out of memory|killed process&#039; | tail -5
+# 6. Intermittent: the app&#039;s keep-alive must outlast the proxy&#039;s idle timeout
+#    nginx upstream keepalive_timeout 60s, application keep-alive 65s or more</code></pre>
                 </div>
             </section>
 
@@ -109,7 +116,7 @@ sudo systemctl restart nginx</code></pre>
         <section class="block">
             <h2>Authoritative references</h2>
             <p>Primary documentation for this error, worth reading before applying any fix in production.</p>
-            <p><a class="source-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> developer.mozilla.org</a></p>
+            <p><a class="source-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> developer.mozilla.org</a> <a class="source-link" href="https://www.rfc-editor.org/rfc/rfc9110.html#name-502-bad-gateway" target="_blank" rel="noopener noreferrer nofollow"><span aria-hidden="true">📖</span> rfc-editor.org</a></p>
         </section>
 
         <section class="block">
@@ -117,12 +124,12 @@ sudo systemctl restart nginx</code></pre>
             <ul class="link-list">
                 <li><a href="../errors/http-100-continue-timeout.html">100-continue timeout / Expect: 100-continue stalls<span class="sub">The client sent Expect: 100-continue and is waiting before streaming the body, but the proxy…</span></a></li>
                 <li><a href="../errors/http-400-bad-request.html">400 Bad Request<span class="sub">The server could not parse the request due to malformed syntax: bad JSON body, illegal…</span></a></li>
-                <li><a href="../errors/401-unauthorized.html">401 Unauthorized<span class="sub">The request requires authentication credentials. The client must authenticate to get the…</span></a></li>
+                <li><a href="../errors/401-unauthorized.html">401 Unauthorized<span class="sub">Despite the name, this is about authentication, not authorisation: the server could not…</span></a></li>
                 <li><a href="../errors/http-402-payment-required.html">402 Payment Required<span class="sub">Reserved in the original HTTP specification and now used by many SaaS APIs to signal that the…</span></a></li>
-                <li><a href="../errors/403-forbidden.html">403 Forbidden<span class="sub">The server understood the request but refuses to authorise it. Often due to insufficient…</span></a></li>
-                <li><a href="../errors/404-not-found.html">404 Not Found<span class="sub">The requested resource could not be found on the server. URL may be incorrect or resource was…</span></a></li>
+                <li><a href="../errors/403-forbidden.html">403 Forbidden<span class="sub">The server knows who you are, or does not care, and the answer is still no. Sending…</span></a></li>
+                <li><a href="../errors/404-not-found.html">404 Not Found<span class="sub">The server was reached and answered, it just has nothing mapped to that path. That rules out…</span></a></li>
                 <li><a href="../errors/http-409-conflict.html">409 Conflict<span class="sub">The request conflicts with the current resource state. Typical causes include duplicate…</span></a></li>
-                <li><a href="../errors/http-410-gone.html">410 Gone<span class="sub">The resource was intentionally removed and is not expected to return. Unlike 404, 410 tells…</span></a></li>
+                <li><a href="../errors/http-410-gone.html">410 Gone<span class="sub">The server is saying the resource used to live here and was removed on purpose, with no…</span></a></li>
             </ul>
             <p style="margin-top:14px"><a href="../categories/http.html">See all 49 HTTP errors →</a></p>
         </section>
@@ -141,7 +148,7 @@ sudo systemctl restart nginx</code></pre>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
                     <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
                     <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">24</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
-                    <li><a href="../categories/frontend.html"><span class="card-title">Frontend <span class="card-count">23</span></span><span class="card-desc">Hydration mismatches, bundler resolution, layout shift and font loading.</span></a></li>
+                    <li><a href="../categories/dns.html"><span class="card-title">DNS <span class="card-count">23</span></span><span class="card-desc">NXDOMAIN, SERVFAIL, timeouts, propagation and delegation problems.</span></a></li>
                 </ul>
             </section>
 
@@ -189,7 +196,7 @@ sudo systemctl restart nginx</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1299 documented errors across 57 categories. Last updated 10 November 2026.</p>
+                <p>FixMyError.net has 1335 documented errors across 57 categories. Last updated 12 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>
