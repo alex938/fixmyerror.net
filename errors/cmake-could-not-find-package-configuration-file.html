@@ -131,12 +131,12 @@ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpk
                 <li><a href="../errors/cpp-format-is-not-a-member-of-std.html">C++: error: &#039;format&#039; is not a member of &#039;std&#039;<span class="sub">std::format is C++20 and lives in , which needs both the C++20 flag and a recent enough…</span></a></li>
                 <li><a href="../errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html">C++: error: &#039;uint8_t&#039; does not name a type<span class="sub">The file uses fixed-width integer types without including , and only ever compiled because…</span></a></li>
                 <li><a href="../errors/cpp-invalid-use-of-incomplete-type.html">C++: error: invalid use of incomplete type &#039;class Foo&#039;<span class="sub">The compiler has seen a forward declaration of Foo but not its definition, and this line…</span></a></li>
+                <li><a href="../errors/cpp-narrowing-conversion-wnarrowing.html">C++: error: narrowing conversion of &#039;x&#039; from &#039;int&#039; to &#039;char&#039; [-Wnarrowing]<span class="sub">Brace initialisation refuses any conversion that could lose information, such as int to char…</span></a></li>
+                <li><a href="../errors/cpp-passing-const-as-this-argument-discards-qualifiers.html">C++: error: passing &#039;const Foo&#039; as &#039;this&#039; argument discards qualifiers<span class="sub">You called a member function that is not marked const on an object that is const. The object…</span></a></li>
                 <li><a href="../errors/cpp-use-of-deleted-function.html">C++: error: use of deleted function<span class="sub">The code tries to call a function that has been explicitly deleted, and nine times out of ten…</span></a></li>
                 <li><a href="../errors/cpp-pure-virtual-method-called.html">C++: pure virtual method called, terminate called without an active exception<span class="sub">A pure virtual function was called through an object whose derived part does not exist at…</span></a></li>
-                <li><a href="../errors/cpp-relocation-recompile-with-fpic.html">C++: relocation R_X86_64_32S can not be used when making a shared object<span class="sub">A shared library must be loadable at any address, so every object in it needs position…</span></a></li>
-                <li><a href="../errors/cpp-undefined-behaviour-sanitizer-signed-overflow.html">C++: runtime error: signed integer overflow (UBSan)<span class="sub">Signed integer overflow is undefined behaviour in C and C++. The program may appear to work…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/c-plus-plus.html">See all 20 C++ errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/c-plus-plus.html">See all 23 C++ errors →</a></p>
         </section>
 
             <section class="block">
@@ -201,7 +201,7 @@ cmake -S . -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpk
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1335 documented errors across 57 categories. Last updated 12 November 2026.</p>
+                <p>FixMyError.net has 1371 documented errors across 57 categories. Last updated 12 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

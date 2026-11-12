@@ -124,15 +124,15 @@ kubectl apply -f ingress.yaml</code></pre>
             <h2>Related Ingress errors</h2>
             <ul class="link-list">
                 <li><a href="../errors/aws-load-balancer-controller-couldnt-auto-discover-subnets.html">AWS Load Balancer Controller: couldn&#039;t auto-discover subnets<span class="sub">The controller builds an ALB by finding subnets tagged for load balancers, and none in the…</span></a></li>
+                <li><a href="../errors/cert-manager-acme-ratelimited-too-many-certificates.html">cert-manager: 429 urn:ietf:params:acme:error:rateLimited: too many certificates<span class="sub">Let&#039;s Encrypt has stopped issuing for this name, and cert-manager is only relaying the…</span></a></li>
                 <li><a href="../errors/cert-manager-failed-to-determine-a-valid-solver-configuration.html">cert-manager: Failed to determine a valid solver configuration<span class="sub">None of the solvers on the Issuer matches the domains being requested, so cert-manager has no…</span></a></li>
                 <li><a href="../errors/certmanager-challenge-pending.html">cert-manager: Order is pending / challenge failed to propagate<span class="sub">cert-manager created an ACME order but the challenge never validated. For HTTP-01 the…</span></a></li>
                 <li><a href="../errors/gateway-api-httproute-no-matching-parent.html">Gateway API: HTTPRoute Accepted=False, reason NoMatchingParent<span class="sub">The HTTPRoute names a Gateway in parentRefs, but no listener on that Gateway will take it, so…</span></a></li>
+                <li><a href="../errors/gateway-api-httproute-resolvedrefs-refnotpermitted.html">Gateway API: HTTPRoute ResolvedRefs=False, reason RefNotPermitted<span class="sub">The route was accepted by the Gateway but one of its backendRefs points at a Service in a…</span></a></li>
                 <li><a href="../errors/ingress-nginx-plain-http-request-sent-to-https-port.html">ingress-nginx: 400 The plain HTTP request was sent to HTTPS port<span class="sub">The controller is speaking plain HTTP to a backend that only accepts HTTPS, and the backend&#039;s…</span></a></li>
-                <li><a href="../errors/ingress-nginx-failed-calling-webhook-validate.html">ingress-nginx: failed calling webhook &quot;validate.nginx.ingress.kubernetes.io&quot;<span class="sub">The API server tried to ask the ingress-nginx admission webhook whether your Ingress is valid…</span></a></li>
-                <li><a href="../errors/ingress-nginx-service-does-not-have-any-active-endpoint.html">ingress-nginx: Service does not have any active Endpoint<span class="sub">The controller resolved the Ingress to a Service but the Service selects no ready Pods, so it…</span></a></li>
-                <li><a href="../errors/ingress-nginx-upstream-timed-out-110.html">ingress-nginx: upstream timed out (110: Connection timed out)<span class="sub">The controller gave up waiting for the backend and returned 504 after its own timeout, which…</span></a></li>
+                <li><a href="../errors/ingress-nginx-annotation-group-contains-risky-annotation.html">ingress-nginx: annotation group ServerSnippet contains risky annotation<span class="sub">The admission webhook refused the Ingress because one of its annotations is rated above the…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/ingress.html">See all 20 Ingress errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/ingress.html">See all 23 Ingress errors →</a></p>
         </section>
 
             <section class="block">
@@ -197,7 +197,7 @@ kubectl apply -f ingress.yaml</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1335 documented errors across 57 categories. Last updated 12 November 2026.</p>
+                <p>FixMyError.net has 1371 documented errors across 57 categories. Last updated 12 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

@@ -130,11 +130,11 @@ sudo rabbitmqctl authenticate_user app &quot;secret&quot;</code></pre>
                 <li><a href="../errors/celery-received-unregistered-task-of-type.html">Celery: Received unregistered task of type &#039;myapp.tasks.send_email&#039;<span class="sub">The worker took a message off the queue but has never imported the module that defines the…</span></a></li>
                 <li><a href="../errors/celery-worker-lost.html">Celery: WorkerLostError<span class="sub">A Celery worker process died unexpectedly during task execution, often due to OOM kill…</span></a></li>
                 <li><a href="../errors/kafka-broker-may-not-be-available.html">Connection to node -1 could not be established. Broker may not be available.<span class="sub">Node -1 is the bootstrap server, so the client could not even make its first connection. If…</span></a></li>
+                <li><a href="../errors/kafka-commitfailedexception-offset-commit-cannot-be-completed.html">Kafka: CommitFailedException: Offset commit cannot be completed<span class="sub">By the time the consumer tried to commit, the group had already thrown it out and given its…</span></a></li>
                 <li><a href="../errors/kafka-leader-not-available.html">Kafka: LEADER_NOT_AVAILABLE<span class="sub">Partition has no elected leader. Broker down, ISR empty, or topic just created and metadata…</span></a></li>
-                <li><a href="../errors/kafka-offset-out-of-range.html">Kafka: Offset out of range<span class="sub">Consumer trying to read from offset that doesn&#039;t exist. Data retention deleted old messages.</span></a></li>
-                <li><a href="../errors/kafka-record-too-large.html">Kafka: RecordTooLargeException<span class="sub">A message exceeded a size limit. Three separate limits must agree: the producer&#039;s…</span></a></li>
+                <li><a href="../errors/kafka-not-enough-replicas.html">Kafka: NOT_ENOUGH_REPLICAS (fewer in-sync replicas than required)<span class="sub">A producer using acks=all tried to write to a partition whose in-sync replica set has shrunk…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/messagequeue.html">See all 20 MessageQueue errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/messagequeue.html">See all 23 MessageQueue errors →</a></p>
         </section>
 
             <section class="block">
@@ -199,7 +199,7 @@ sudo rabbitmqctl authenticate_user app &quot;secret&quot;</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1335 documented errors across 57 categories. Last updated 12 November 2026.</p>
+                <p>FixMyError.net has 1371 documented errors across 57 categories. Last updated 12 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

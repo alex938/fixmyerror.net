@@ -9,6 +9,54 @@
     <lastBuildDate>Thu, 12 Nov 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
     <item>
+      <title>ActionController::ParameterMissing: param is missing or the value is empty: user</title>
+      <link>https://fixmyerror.net/errors/rails-actioncontroller-parametermissing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-actioncontroller-parametermissing.html</guid>
+      <category>Ruby</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>params.require(:user) found no user key, or found it empty. The controller is fine: the request did not have the shape it expects. Typical reasons are a JSON body sent without a Content-Type of application/json, so Rails never parsed it, attributes sent at the top level instead of nested under…</description>
+    </item>
+    <item>
+      <title>Android: Cleartext HTTP traffic to 10.0.2.2 not permitted</title>
+      <link>https://fixmyerror.net/errors/android-cleartext-http-traffic-not-permitted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-cleartext-http-traffic-not-permitted.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The app tried a plain http:// request and the platform blocked it before anything left the device. Since Android 9 (API 28) cleartext is off by default for apps targeting that level or higher, so the server never sees the call and its logs stay empty. It usually bites during development, when the…</description>
+    </item>
+    <item>
+      <title>Android: Inconsistent JVM-target compatibility detected for tasks</title>
+      <link>https://fixmyerror.net/errors/android-inconsistent-jvm-target-compatibility.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/android-inconsistent-jvm-target-compatibility.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The Java and Kotlin compilers in the same module are aiming at different bytecode versions, for example compileDebugJavaWithJavac at 1.8 and compileDebugKotlin at 17. It became a hard error with Gradle 8, which is why it appears after an Android Studio or Gradle plugin upgrade with no change to…</description>
+    </item>
+    <item>
+      <title>Apache: AH00072: make_sock: could not bind to address [::]:80</title>
+      <link>https://fixmyerror.net/errors/apache-ah00072-make-sock-could-not-bind-to-address.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-ah00072-make-sock-could-not-bind-to-address.html</guid>
+      <category>WebServer</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Apache could not open its listening socket, and the text just before AH00072 says why. &apos;(98)Address already in use&apos; means another process holds the port, very often nginx, a second Apache, or a container publishing port 80. It can also be Apache colliding with itself: the same Listen line in two…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: EROFS: read-only file system, open &apos;/var/task/output.json&apos;</title>
+      <link>https://fixmyerror.net/errors/aws-lambda-erofs-read-only-file-system.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-lambda-erofs-read-only-file-system.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Your code tried to write somewhere other than /tmp. The deployment package is mounted read-only at /var/task, and so is everything else in the filesystem apart from /tmp. It tends to appear with code that ran happily on a laptop or in a container: a library caching next to its own files, a…</description>
+    </item>
+    <item>
+      <title>AWS Lambda: The role defined for the function cannot be assumed by Lambda.</title>
+      <link>https://fixmyerror.net/errors/aws-lambda-role-cannot-be-assumed-by-lambda.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-lambda-role-cannot-be-assumed-by-lambda.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Lambda tried to take on the function&apos;s execution role and IAM said no. The permissions attached to the role are irrelevant here: what matters is the trust policy, which must name lambda.amazonaws.com as a principal allowed to call sts:AssumeRole. When it appears on the first deploy and then goes…</description>
+    </item>
+    <item>
       <title>AWS S3: NoSuchKey: The specified key does not exist</title>
       <link>https://fixmyerror.net/errors/s3-nosuchkey-the-specified-key-does-not-exist.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/s3-nosuchkey-the-specified-key-does-not-exist.html</guid>
@@ -41,12 +89,60 @@
       <description>Bash reached the end of the script while still waiting for something to close: a fi, done, esac or closing brace, an unterminated quote, or a here-document whose end marker never matched. The line number it reports is the last line of the file, which is no help, because the real mistake can be…</description>
     </item>
     <item>
+      <title>C++: error: narrowing conversion of &apos;x&apos; from &apos;int&apos; to &apos;char&apos; [-Wnarrowing]</title>
+      <link>https://fixmyerror.net/errors/cpp-narrowing-conversion-wnarrowing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-narrowing-conversion-wnarrowing.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Brace initialisation refuses any conversion that could lose information, such as int to char, double to int, or a signed value into an unsigned type. The same assignment written with = or parentheses compiles without comment, which is why this appears when code is modernised to use braces or when…</description>
+    </item>
+    <item>
+      <title>C++: error: passing &apos;const Foo&apos; as &apos;this&apos; argument discards qualifiers</title>
+      <link>https://fixmyerror.net/errors/cpp-passing-const-as-this-argument-discards-qualifiers.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-passing-const-as-this-argument-discards-qualifiers.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>You called a member function that is not marked const on an object that is const. The object is the hidden &apos;this&apos; argument, and the compiler will not silently drop its constness. The call site is often innocent: the object became const because it arrived as a const reference, because you are…</description>
+    </item>
+    <item>
+      <title>Cannot register the hard disk because a hard disk with UUID already exists</title>
+      <link>https://fixmyerror.net/errors/virtualbox-cannot-register-hard-disk-uuid-already-exists.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/virtualbox-cannot-register-hard-disk-uuid-already-exists.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Every virtual disk carries a UUID in its header, and VirtualBox keeps a registry of the ones it knows. Copying a .vdi or .vmdk in the file manager copies the UUID too, so adding the copy looks like registering the same disk twice from a different path. The same thing happens when a VM folder is…</description>
+    </item>
+    <item>
       <title>Cargo: failed to run custom build command for `openssl-sys`</title>
       <link>https://fixmyerror.net/errors/cargo-failed-to-run-custom-build-command-for-openssl-sys.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/cargo-failed-to-run-custom-build-command-for-openssl-sys.html</guid>
       <category>Rust</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>Your Rust code is fine. The openssl-sys crate has a build script that looks for the system OpenSSL headers through pkg-config, and it could not find them. It appears on fresh machines, in slim Docker images and when cross-compiling, which is why the same project builds on a colleague&apos;s laptop…</description>
+    </item>
+    <item>
+      <title>cert-manager: 429 urn:ietf:params:acme:error:rateLimited: too many certificates</title>
+      <link>https://fixmyerror.net/errors/cert-manager-acme-ratelimited-too-many-certificates.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cert-manager-acme-ratelimited-too-many-certificates.html</guid>
+      <category>Ingress</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Let&apos;s Encrypt has stopped issuing for this name, and cert-manager is only relaying the refusal. The usual trigger is the duplicate certificate limit: five certificates for the exact same set of hostnames in seven days. You reach it by deleting the TLS Secret to &apos;retry&apos;, or by rebuilding a cluster…</description>
+    </item>
+    <item>
+      <title>Cloud Run: The user-provided container failed to start and listen on the port</title>
+      <link>https://fixmyerror.net/errors/cloud-run-container-failed-to-start-and-listen-on-port.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cloud-run-container-failed-to-start-and-listen-on-port.html</guid>
+      <category>Serverless</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Cloud Run started your container and nothing answered on the expected port before the startup deadline. The message blames the port, but that is only one of four usual causes. The server may be bound to 127.0.0.1, which is unreachable from outside the container, or to a hard-coded port instead of…</description>
+    </item>
+    <item>
+      <title>CocoaPods could not find compatible versions for pod &quot;FirebaseCore&quot;</title>
+      <link>https://fixmyerror.net/errors/cocoapods-could-not-find-compatible-versions-for-pod.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cocoapods-could-not-find-compatible-versions-for-pod.html</guid>
+      <category>Mobile</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>CocoaPods could not find one version of the pod that satisfies everything asking for it. Read the lines under the error, because they say which of three different problems you have. &apos;None of your spec sources contain a spec&apos; means the local copy of the spec repo is out of date. &apos;Podfile.lock&apos; in…</description>
     </item>
     <item>
       <title>CoreDNS: plugin/loop: Loop (127.0.0.1:55953 -&gt; :53) detected for zone &quot;.&quot;</title>
@@ -87,6 +183,46 @@
       <category>Logging</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>This line is the engine reporting that an output plugin asked for a retry, not the reason for it. The cause is on the line just above, or in the destination&apos;s response: Elasticsearch rejecting a mapping, a 429 from an overloaded backend, a TLS failure, or a name that does not resolve from inside…</description>
+    </item>
+    <item>
+      <title>Gateway API: HTTPRoute ResolvedRefs=False, reason RefNotPermitted</title>
+      <link>https://fixmyerror.net/errors/gateway-api-httproute-resolvedrefs-refnotpermitted.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/gateway-api-httproute-resolvedrefs-refnotpermitted.html</guid>
+      <category>Ingress</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The route was accepted by the Gateway but one of its backendRefs points at a Service in a different namespace, and nothing in that namespace allows it. Cross-namespace references are denied by default: the owner of the target namespace has to publish a ReferenceGrant naming the route&apos;s namespace…</description>
+    </item>
+    <item>
+      <title>git: error: src refspec main does not match any</title>
+      <link>https://fixmyerror.net/errors/git-src-refspec-main-does-not-match-any.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-src-refspec-main-does-not-match-any.html</guid>
+      <category>Git</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>You asked Git to push a branch called main and there is no such branch locally, so there is nothing to send. Two causes cover nearly every case. Either the repository has no commits yet, and a branch does not exist until its first commit, or your local branch has a different name, typically…</description>
+    </item>
+    <item>
+      <title>git: fatal: not a git repository (or any of the parent directories): .git</title>
+      <link>https://fixmyerror.net/errors/git-fatal-not-a-git-repository.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-fatal-not-a-git-repository.html</guid>
+      <category>Git</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Git walked up from the current directory to the filesystem root and found no usable .git. Most of the time you are simply in the wrong folder, or the project was downloaded as a zip rather than cloned. The confusing cases are the ones where .git does exist: a submodule or worktree whose .git is a…</description>
+    </item>
+    <item>
+      <title>git: fatal: The current branch feature has no upstream branch.</title>
+      <link>https://fixmyerror.net/errors/git-current-branch-has-no-upstream-branch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/git-current-branch-has-no-upstream-branch.html</guid>
+      <category>Git</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A bare git push needs to know which remote branch the current one is paired with, and a branch you created locally has no pairing until you set one. It is not a permissions problem and nothing is wrong with the remote. Branches you check out from the remote are paired automatically, which is why…</description>
+    </item>
+    <item>
+      <title>GitHub API: 401 Bad credentials</title>
+      <link>https://fixmyerror.net/errors/github-api-401-bad-credentials.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-api-401-bad-credentials.html</guid>
+      <category>API</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>GitHub did not recognise the token at all, which is different from a 403 or 404 where the token is fine but lacks access. The token has expired, been revoked, been mangled on the way in, or been sent to the wrong host. Mangling is the common one in CI: a trailing newline in the secret, quotes…</description>
     </item>
     <item>
       <title>Go: cannot use names (variable of type []string) as []any value in argument</title>
@@ -145,6 +281,14 @@
       <description>Every server in that backend is marked down, so HAProxy answers 503 by itself without contacting anything. The servers may be perfectly healthy. What failed is the health check: it requests a path that now returns a redirect or 404, it sends no Host header to an application that requires one, it…</description>
     </item>
     <item>
+      <title>ingress-nginx: annotation group ServerSnippet contains risky annotation</title>
+      <link>https://fixmyerror.net/errors/ingress-nginx-annotation-group-contains-risky-annotation.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-annotation-group-contains-risky-annotation.html</guid>
+      <category>Ingress</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The admission webhook refused the Ingress because one of its annotations is rated above the risk level the controller accepts. Since v1.12 the default ceiling is High, and the snippet annotations are rated Critical, so manifests that applied cleanly for years are rejected straight after a…</description>
+    </item>
+    <item>
       <title>InvalidObjectState: The operation is not valid for the object&apos;s storage class</title>
       <link>https://fixmyerror.net/errors/s3-invalidobjectstate-operation-not-valid-for-storage-class.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/s3-invalidobjectstate-operation-not-valid-for-storage-class.html</guid>
@@ -177,12 +321,44 @@
       <description>JAXB used to ship inside the JDK. It was deprecated in Java 9 and removed in Java 11 by JEP 320, along with JAX-WS, javax.activation, javax.annotation and CORBA. Code built for Java 8 therefore starts fine and fails the first time something touches XML binding, often deep inside an old Hibernate…</description>
     </item>
     <item>
+      <title>Kafka: CommitFailedException: Offset commit cannot be completed</title>
+      <link>https://fixmyerror.net/errors/kafka-commitfailedexception-offset-commit-cannot-be-completed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-commitfailedexception-offset-commit-cannot-be-completed.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>By the time the consumer tried to commit, the group had already thrown it out and given its partitions to someone else. The cause is slow processing, not the commit: the gap between two poll() calls exceeded max.poll.interval.ms (five minutes by default), so the coordinator assumed the consumer…</description>
+    </item>
+    <item>
+      <title>Kafka: NOT_ENOUGH_REPLICAS (fewer in-sync replicas than required)</title>
+      <link>https://fixmyerror.net/errors/kafka-not-enough-replicas.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-not-enough-replicas.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A producer using acks=all tried to write to a partition whose in-sync replica set has shrunk below min.insync.replicas, and the broker refused rather than accept a write it could not make durable. The producer is behaving correctly: the cluster is short of healthy replicas. Typically a broker is…</description>
+    </item>
+    <item>
+      <title>Laravel: The stream or file &quot;storage/logs/laravel.log&quot; could not be opened</title>
+      <link>https://fixmyerror.net/errors/laravel-log-could-not-be-opened-in-append-mode.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/laravel-log-could-not-be-opened-in-append-mode.html</guid>
+      <category>PHP</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Laravel tried to write a log line and the web server&apos;s user is not allowed to. Because it happens while logging, it hides the error you actually wanted to read. The file often exists and looks fine, it is just owned by someone else: an artisan command run with sudo, as root from cron, or by the…</description>
+    </item>
+    <item>
       <title>nginx: [emerg] host not found in upstream &quot;backend&quot; in /etc/nginx/nginx.conf</title>
       <link>https://fixmyerror.net/errors/nginx-emerg-host-not-found-in-upstream.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-emerg-host-not-found-in-upstream.html</guid>
       <category>Proxy</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>nginx resolves hostnames in proxy_pass and upstream blocks once, when it loads the configuration, using the system resolver. If one name fails at that moment the whole configuration is rejected, and nginx will not start or reload at all. That is why it bites at boot, before the network or DNS is…</description>
+    </item>
+    <item>
+      <title>nginx: [emerg] unknown directive &quot;stream&quot; in /etc/nginx/nginx.conf:12</title>
+      <link>https://fixmyerror.net/errors/nginx-emerg-unknown-directive.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-emerg-unknown-directive.html</guid>
+      <category>WebServer</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>nginx reached a word it does not recognise as a directive. If the word is a real directive (stream, brotli, more_set_headers, geoip2), the module that provides it is not compiled in or not loaded, which is common after moving a config between distributions or to the official Docker image. If the…</description>
     </item>
     <item>
       <title>nginx: an upstream response is buffered to a temporary file</title>
@@ -193,12 +369,68 @@
       <description>A warning, not a failure. The response from the backend was larger than the memory buffers nginx sets aside for it (proxy_buffers, 8 buffers of 4k or 8k by default), so the rest was spooled to disk while the client downloads at its own pace. Requests still succeed. It matters when it happens…</description>
     </item>
     <item>
+      <title>nginx: connect() to unix:/run/php/php8.3-fpm.sock failed</title>
+      <link>https://fixmyerror.net/errors/nginx-connect-to-unix-php-fpm-sock-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-connect-to-unix-php-fpm-sock-failed.html</guid>
+      <category>WebServer</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>nginx tried to hand a request to PHP-FPM over a Unix socket and could not, so the visitor gets a 502. The code in brackets tells you which half is wrong. &apos;(2: No such file or directory)&apos; means no socket exists at that path: PHP-FPM is stopped, or it is a different PHP version from the one named in…</description>
+    </item>
+    <item>
       <title>page allocation failure: order:4, mode:0x40cc0(GFP_KERNEL|__GFP_COMP)</title>
       <link>https://fixmyerror.net/errors/page-allocation-failure-order-4.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/page-allocation-failure-order-4.html</guid>
       <category>Performance</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>The kernel needed 2 to the power of order contiguous pages, here 16 pages or 64 KiB in one piece, and could not find a run that long. It is a fragmentation problem more than a shortage: free memory can be plentiful but chopped into small pieces after a long uptime. Network drivers using jumbo…</description>
+    </item>
+    <item>
+      <title>PHP Warning: PHP Startup: Unable to load dynamic library &apos;pdo_mysql&apos;</title>
+      <link>https://fixmyerror.net/errors/php-startup-unable-to-load-dynamic-library.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-startup-unable-to-load-dynamic-library.html</guid>
+      <category>PHP</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>An ini file tells PHP to load an extension and the matching .so or .dll is not in the extension directory, or is there but was built for a different PHP. It is most often left over from an upgrade: the ini line for the old version survived, or the package for the new version (php8.4-mysql, say)…</description>
+    </item>
+    <item>
+      <title>PHP: require(vendor/autoload.php): Failed to open stream</title>
+      <link>https://fixmyerror.net/errors/php-require-vendor-autoload-failed-to-open-stream.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-require-vendor-autoload-failed-to-open-stream.html</guid>
+      <category>PHP</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The vendor directory is not where the script is looking. Usually it does not exist at all: vendor is left out of version control on purpose, so a fresh clone or a deploy that only copies tracked files has no dependencies until composer install runs. The other cause is a relative path. require…</description>
+    </item>
+    <item>
+      <title>Postfix: mail for example.com loops back to myself</title>
+      <link>https://fixmyerror.net/errors/postfix-mail-for-domain-loops-back-to-myself.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postfix-mail-for-domain-loops-back-to-myself.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Postfix looked up where to deliver mail for the domain, found that the answer is this very machine, and yet has not been told that it is the final destination for that domain. Rather than relay to itself for ever, it bounces the message. The MX record is doing its job. What is missing is the…</description>
+    </item>
+    <item>
+      <title>Proxmox: cluster not ready - no quorum? (500)</title>
+      <link>https://fixmyerror.net/errors/proxmox-cluster-not-ready-no-quorum.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/proxmox-cluster-not-ready-no-quorum.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This node cannot see more than half of the cluster&apos;s votes, so Proxmox has made /etc/pve read-only. That blocks anything needing a config change: starting or creating guests, editing settings, sometimes logging in. Running guests are not stopped. It is a safety measure against two halves of a…</description>
+    </item>
+    <item>
+      <title>RabbitMQ: PRECONDITION_FAILED - unknown delivery tag 1</title>
+      <link>https://fixmyerror.net/errors/rabbitmq-precondition-failed-unknown-delivery-tag.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-precondition-failed-unknown-delivery-tag.html</guid>
+      <category>MessageQueue</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The broker was asked to acknowledge a delivery it has no record of on that channel, and it closes the channel in response. Delivery tags are counters scoped to a single channel, so the tag is only meaningful where the message arrived. The three ways to get here: acknowledging the same message…</description>
+    </item>
+    <item>
+      <title>Rails: A server is already running (pid: 1, file: tmp/pids/server.pid)</title>
+      <link>https://fixmyerror.net/errors/rails-a-server-is-already-running.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-a-server-is-already-running.html</guid>
+      <category>Ruby</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Rails found tmp/pids/server.pid and refused to start a second server. Often nothing is running: the last server was killed without a chance to tidy up, and the pid file outlived it. In Docker this is close to guaranteed, because the project directory is bind mounted so the file survives the…</description>
     </item>
     <item>
       <title>rcu: INFO: rcu_sched self-detected stall on CPU</title>
@@ -225,6 +457,14 @@
       <description>rsyslog reads the systemd journal through imjournal, which has its own rate limit: by default 20000 messages per 600 seconds. A burst above that is discarded from /var/log/messages and from anything rsyslog forwards, while the same lines are still in the journal. That is why journalctl shows…</description>
     </item>
     <item>
+      <title>Ruby: NoMethodError: undefined method &apos;name&apos; for nil</title>
+      <link>https://fixmyerror.net/errors/ruby-nomethoderror-undefined-method-for-nil.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-nomethoderror-undefined-method-for-nil.html</guid>
+      <category>Ruby</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Something you expected to be an object was nil when you called a method on it. The line in the backtrace is where it was used, not where it became nil, so the real question is which lookup came back empty: a find_by with no match, a hash key that is a string where you used a symbol, an instance…</description>
+    </item>
+    <item>
       <title>Rust: borrowed value does not live long enough (E0597)</title>
       <link>https://fixmyerror.net/errors/rust-borrowed-value-does-not-live-long-enough-e0597.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/rust-borrowed-value-does-not-live-long-enough-e0597.html</guid>
@@ -241,6 +481,30 @@
       <description>A function returns a reference, or a struct holds one, and the compiler cannot tell what it borrows from. With one reference parameter it assumes the result borrows from that. With two or more, or none, it will not guess. The annotation does not make anything live longer, it only states which…</description>
     </item>
     <item>
+      <title>Slack API: missing_scope</title>
+      <link>https://fixmyerror.net/errors/slack-api-missing-scope.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/slack-api-missing-scope.html</guid>
+      <category>API</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The token is valid but was never granted the permission this method needs. The response tells you exactly what is wrong: needed lists the scope the method wants, provided lists what the token carries. The step people miss is that adding a scope in the app settings changes nothing for tokens…</description>
+    </item>
+    <item>
+      <title>SMTP: 550 5.4.1 Recipient address rejected: Access denied</title>
+      <link>https://fixmyerror.net/errors/smtp-550-5-4-1-recipient-address-rejected-access-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-5-4-1-recipient-address-rejected-access-denied.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Despite the wording, nobody has blocked the sender. This is Microsoft 365 saying the recipient address does not exist in the receiving organisation&apos;s directory. A feature called Directory-Based Edge Blocking rejects mail for unknown recipients at the edge, before any spam filtering. For a sender…</description>
+    </item>
+    <item>
+      <title>SMTP: 550 5.7.515 Access denied, sending domain [example.com] does not meet</title>
+      <link>https://fixmyerror.net/errors/smtp-550-5-7-515-access-denied-sending-domain.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-5-7-515-access-denied-sending-domain.html</guid>
+      <category>Email</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Outlook.com, Hotmail and Live refused the message because the domain in the From header does not meet Microsoft&apos;s rules for high-volume senders, enforced since May 2025. Domains sending more than about 5,000 messages a day to those mailboxes need SPF and DKIM to pass and a DMARC record of at least…</description>
+    </item>
+    <item>
       <title>systemd-resolved: DNSSEC validation failed for question example.com IN A</title>
       <link>https://fixmyerror.net/errors/systemd-resolved-dnssec-validation-failed-no-signature.html</link>
       <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-resolved-dnssec-validation-failed-no-signature.html</guid>
@@ -255,6 +519,14 @@
       <category>Performance</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>The kernel&apos;s TCP stack has hit its global memory ceiling, the third value of net.ipv4.tcp_mem, which is counted in pages across all sockets. The machine can have gigabytes free, because this is a separate budget. Once over it, the kernel prunes receive queues and drops segments, so the symptom is…</description>
+    </item>
+    <item>
+      <title>Telegram Bot API: 409 Conflict: terminated by other getUpdates request</title>
+      <link>https://fixmyerror.net/errors/telegram-bot-api-409-conflict-terminated-by-other-getupdates.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/telegram-bot-api-409-conflict-terminated-by-other-getupdates.html</guid>
+      <category>API</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Two processes are long polling with the same bot token, and Telegram only lets one of them hold the connection, so each keeps knocking the other off. Your code is almost never at fault. Look for a second copy: the old container still running during a rolling deploy, a bot left running on your…</description>
     </item>
     <item>
       <title>TypeScript: Element implicitly has an &apos;any&apos; type because expression of type</title>
@@ -287,6 +559,22 @@
       <category>Storage</category>
       <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
       <description>Something still has the filesystem in use, and it is often not an open file. A shell whose current directory is inside the mount is enough, as is a process started from there, a nested mount underneath, a loop device, swap on the volume, an NFS export, or a container that bind-mounted the path…</description>
+    </item>
+    <item>
+      <title>Vagrant was unable to mount VirtualBox shared folders</title>
+      <link>https://fixmyerror.net/errors/vagrant-unable-to-mount-virtualbox-shared-folders.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/vagrant-unable-to-mount-virtualbox-shared-folders.html</guid>
+      <category>Virtualization</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The virtual machine booted, but the guest has no working vboxsf filesystem driver, so /vagrant cannot be mounted. That driver comes from the VirtualBox Guest Additions, which are kernel modules built for one specific kernel inside the guest. A box whose additions are much older than your…</description>
+    </item>
+    <item>
+      <title>WARNING: ThreadSanitizer: data race (pid=12345)</title>
+      <link>https://fixmyerror.net/errors/threadsanitizer-data-race.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/threadsanitizer-data-race.html</guid>
+      <category>C++</category>
+      <pubDate>Thu, 12 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Two threads touched the same memory without synchronisation and at least one of them wrote to it. The report gives two stacks: the access that tripped the check and the earlier conflicting one, plus where the memory was allocated. It is a real bug even if the program has never visibly misbehaved…</description>
     </item>
     <item>
       <title>Winston: [winston] Attempt to write logs with no transports</title>
@@ -1319,294 +1607,6 @@
       <category>Regex</category>
       <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
       <description>Reusing a named group in different alternatives, as in (?\d{4})-\d{2}|\d{2}/(?\d{4}), only became legal in ES2025. Chrome 125, Firefox 129 and Safari 17 accept it; older browsers, older Node versions and some bundler parsers throw at the moment the script loads. A pattern that passes every test on…</description>
-    </item>
-    <item>
-      <title>libvirt: Cannot access storage file (as uid:107, gid:107): Permission denied</title>
-      <link>https://fixmyerror.net/errors/libvirt-cannot-access-storage-file-permission-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/libvirt-cannot-access-storage-file-permission-denied.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The system libvirt daemon starts QEMU as an unprivileged user (qemu or libvirt-qemu, uid 107 on many distributions), not as you. That user needs search permission on every directory leading to the disk image, so an image in your home directory fails even when the file itself is world readable. On…</description>
-    </item>
-    <item>
-      <title>Loki: error at least one label pair is required per stream</title>
-      <link>https://fixmyerror.net/errors/loki-at-least-one-label-pair-required.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-at-least-one-label-pair-required.html</guid>
-      <category>Logging</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Loki indexes streams by their labels and will not accept a push whose stream has none. The shipper is configured, but its relabelling dropped every label: commonly a Promtail or Alloy relabel rule with action keep or labeldrop matching too much, or Kubernetes discovery labels that start with __…</description>
-    </item>
-    <item>
-      <title>Microsoft Entra ID: AADSTS50076: Due to a configuration change made by your</title>
-      <link>https://fixmyerror.net/errors/entra-aadsts50076-must-use-mfa.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts50076-must-use-mfa.html</guid>
-      <category>Auth</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A Conditional Access policy requires multi-factor authentication for this sign-in, and the client used a flow that cannot show an MFA prompt: the resource owner password grant, a legacy SMTP or IMAP client, or a script calling with a username and password. Interactive sign-ins from the same…</description>
-    </item>
-    <item>
-      <title>Microsoft Entra ID: AADSTS700016: Application with identifier was not found</title>
-      <link>https://fixmyerror.net/errors/entra-aadsts700016-application-not-found-in-directory.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts700016-application-not-found-in-directory.html</guid>
-      <category>Auth</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The client_id in the request does not exist in the tenant the request was sent to. Usually the app is single tenant and the code points at /common or /organizations, or a user from another organisation is signing in to an app that was never made multi-tenant. Copying the object ID instead of the…</description>
-    </item>
-    <item>
-      <title>Next.js: Failed to set Next.js data cache, items over 2MB can not be cached</title>
-      <link>https://fixmyerror.net/errors/nextjs-failed-to-set-data-cache-over-2mb.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nextjs-failed-to-set-data-cache-over-2mb.html</guid>
-      <category>Caching</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The App Router stores fetch() responses in its data cache, and refuses any single response over 2MB. The page still renders, but that fetch runs again on every request, so a page you expected to be static quietly hits your API each time. It usually shows up when an endpoint grows past the limit…</description>
-    </item>
-    <item>
-      <title>OAuth 2: {&quot;error&quot;:&quot;unsupported_grant_type&quot;}</title>
-      <link>https://fixmyerror.net/errors/oauth2-unsupported-grant-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/oauth2-unsupported-grant-type.html</guid>
-      <category>Auth</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The token endpoint did not see a grant_type it accepts. Far more often than a genuinely unsupported grant, the parameter is there but unreadable: OAuth 2 requires the token request as application/x-www-form-urlencoded, and many HTTP clients send a JSON body by default. The server finds no…</description>
-    </item>
-    <item>
-      <title>Postfix: 450 4.1.8 Sender address rejected: Domain not found</title>
-      <link>https://fixmyerror.net/errors/postfix-450-sender-address-rejected-domain-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/postfix-450-sender-address-rejected-domain-not-found.html</guid>
-      <category>Email</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The receiving Postfix has reject_unknown_sender_domain enabled and could not find an A or MX record for the domain in your MAIL FROM address. It is a 4xx, so the sender retries and the mail sits in the queue. Common causes are an application sending from an internal name like app.local, a server…</description>
-    </item>
-    <item>
-      <title>Prometheus: opening storage failed: lock DB directory: resource temporarily</title>
-      <link>https://fixmyerror.net/errors/prometheus-opening-storage-failed-lock-db-directory.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-opening-storage-failed-lock-db-directory.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Another Prometheus process already holds the lock file in the data directory. Two Prometheus servers must never share a TSDB directory, so this check is protecting your data. It normally means an old process never exited, a second container or systemd unit points at the same volume, or a…</description>
-    </item>
-    <item>
-      <title>Python: --- Logging error --- TypeError: not all arguments converted</title>
-      <link>https://fixmyerror.net/errors/python-logging-error-not-all-arguments-converted.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/python-logging-error-not-all-arguments-converted.html</guid>
-      <category>Logging</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The logging module formats messages lazily with the % operator, and a call like logger.info(&quot;user&quot;, user_id) passes an argument with no %s to put it in. Logging deliberately does not raise: it prints this block to stderr and drops the message, so the program carries on and the log you wanted is…</description>
-    </item>
-    <item>
-      <title>sed: -e expression #1, char 15: unknown option to `s&apos;</title>
-      <link>https://fixmyerror.net/errors/sed-unknown-option-to-s.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sed-unknown-option-to-s.html</guid>
-      <category>Regex</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>sed ended the s command early because the pattern or replacement contained the delimiter, nearly always a / inside a path or URL. Everything after that slash is read as flags, and the first character that is not a valid flag triggers the error. It typically appears when a shell variable is…</description>
-    </item>
-    <item>
-      <title>SMTP: 530 5.7.0 Must issue a STARTTLS command first</title>
-      <link>https://fixmyerror.net/errors/smtp-530-must-issue-starttls-first.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-530-must-issue-starttls-first.html</guid>
-      <category>Email</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The server requires an encrypted session before it will accept AUTH or MAIL FROM, and the client went straight in over plain text. Usually the client is configured for port 25 or 587 with TLS switched off, or it is set to implicit TLS mode on a port that expects STARTTLS. The opposite mismatch…</description>
-    </item>
-    <item>
-      <title>SMTP: 550 5.7.25 The IP address sending this message does not have a PTR record</title>
-      <link>https://fixmyerror.net/errors/smtp-550-5-7-25-no-ptr-record.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/smtp-550-5-7-25-no-ptr-record.html</guid>
-      <category>Email</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Gmail checks that the sending IP has reverse DNS, and that the name it points to resolves forward to the same IP. The PTR record lives with whoever owns the IP block, usually your hosting provider, not in your own DNS zone, which is why adding records to your domain changes nothing. New VPS hosts…</description>
-    </item>
-    <item>
-      <title>Spark: [CAST_INVALID_INPUT] The value &apos;abc&apos; of the type &quot;STRING&quot; cannot be cast</title>
-      <link>https://fixmyerror.net/errors/spark-4-cast-invalid-input-ansi.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-4-cast-invalid-input-ansi.html</guid>
-      <category>BigData</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Spark 4.0 turned ANSI SQL mode on by default. A cast that used to quietly return NULL for a malformed value now fails the whole query, and so do integer overflow and division by zero ([DIVIDE_BY_ZERO]). Jobs that ran for years start failing on the first dirty row after the upgrade, and the bad…</description>
-    </item>
-    <item>
-      <title>Spark: UnsupportedFileSystemException: No FileSystem for scheme &quot;s3&quot;</title>
-      <link>https://fixmyerror.net/errors/spark-no-filesystem-for-scheme-s3.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-no-filesystem-for-scheme-s3.html</guid>
-      <category>BigData</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Hadoop does not ship an implementation for the plain s3:// scheme outside Amazon EMR. Open source Spark talks to S3 through the s3a:// connector in the hadoop-aws jar, which is not on the classpath of a stock Spark download. The same path works on EMR or Databricks, which bundle their own S3…</description>
-    </item>
-    <item>
-      <title>Vagrant: The IP address configured for the host-only network is not within</title>
-      <link>https://fixmyerror.net/errors/vagrant-host-only-ip-not-within-allowed-ranges.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/vagrant-host-only-ip-not-within-allowed-ranges.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>VirtualBox 6.1.28 started restricting host-only networks to 192.168.56.0/21 on Linux and macOS. Vagrantfiles that have used addresses like 10.0.0.10 or 192.168.33.10 for years stop working after a VirtualBox update, and Vagrant passes on the refusal. The address is fine as an address; VirtualBox…</description>
-    </item>
-    <item>
-      <title>WSL: HCS_E_HYPERV_NOT_INSTALLED</title>
-      <link>https://fixmyerror.net/errors/wsl-hcs-e-hyperv-not-installed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wsl-hcs-e-hyperv-not-installed.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>WSL 2 runs its distros in a lightweight virtual machine, and Windows could not create it. Either the Virtual Machine Platform feature is off, or hardware virtualisation (Intel VT-x, AMD SVM) is disabled in the firmware. A BIOS update or reset often turns it back off silently, which is why WSL can…</description>
-    </item>
-    <item>
-      <title>Apache: AH01071: Got error &apos;Primary script unknown&apos;</title>
-      <link>https://fixmyerror.net/errors/apache-ah01071-primary-script-unknown.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apache-ah01071-primary-script-unknown.html</guid>
-      <category>WebServer</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The message is PHP-FPM&apos;s, relayed by Apache: the script path Apache sent over FastCGI does not exist, or cannot be read, from PHP-FPM&apos;s point of view. Usually the handler builds the path from the wrong document root, or PHP-FPM runs in a container where the code lives somewhere else. The browser…</description>
-    </item>
-    <item>
-      <title>App Store Connect: ITMS-91053: Missing API declaration</title>
-      <link>https://fixmyerror.net/errors/app-store-itms-91053-missing-api-declaration.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/app-store-itms-91053-missing-api-declaration.html</guid>
-      <category>Apple</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Since May 2024 Apple rejects uploads that call certain &quot;required reason&quot; APIs, such as UserDefaults, file timestamps or system boot time, without a privacy manifest saying why. The call is often in a third-party SDK rather than your code, so updating the dependency to a version that ships its own…</description>
-    </item>
-    <item>
-      <title>C++: error: &apos;format&apos; is not a member of &apos;std&apos;</title>
-      <link>https://fixmyerror.net/errors/cpp-format-is-not-a-member-of-std.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-format-is-not-a-member-of-std.html</guid>
-      <category>C++</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>std::format is C++20 and lives in , which needs both the C++20 flag and a recent enough standard library: GCC 13, Clang 17 with libc++, or Visual Studio 2019 16.10. GCC still defaults to C++17, so one build file without the flag is enough. On macOS the deployment target matters as well as the…</description>
-    </item>
-    <item>
-      <title>C++: error: &apos;uint8_t&apos; does not name a type</title>
-      <link>https://fixmyerror.net/errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-gcc-13-uint8-t-does-not-name-a-type.html</guid>
-      <category>C++</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The file uses fixed-width integer types without including , and only ever compiled because another standard header pulled it in indirectly. GCC 13 trimmed those internal includes in libstdc++, so code that built for years breaks on upgrade, often inside a third-party library. The same happens with…</description>
-    </item>
-    <item>
-      <title>C++: terminate called after throwing an instance of &apos;std::bad_alloc&apos;</title>
-      <link>https://fixmyerror.net/errors/cpp-terminate-called-std-bad-alloc.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-terminate-called-std-bad-alloc.html</guid>
-      <category>C++</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>An allocation asked for more memory than the allocator could provide, nothing caught the exception, and the runtime aborted. On Linux, real memory exhaustion usually brings the OOM killer instead, so this message more often means one absurd request: a negative length converted to size_t, a size…</description>
-    </item>
-    <item>
-      <title>Dart: Bad state: No element</title>
-      <link>https://fixmyerror.net/errors/dart-bad-state-no-element.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-bad-state-no-element.html</guid>
-      <category>Dart</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>firstWhere, first, last or single ran on a collection with nothing in it, or nothing matching, and these throw a StateError rather than returning null. It tends to pass in testing and fail in use, because the list is only sometimes empty: an empty API response, a search with no hits, a list read…</description>
-    </item>
-    <item>
-      <title>Emscripten: RuntimeError: Aborted(). Build with -sASSERTIONS for more info.</title>
-      <link>https://fixmyerror.net/errors/emscripten-aborted-build-with-assertions.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/emscripten-aborted-build-with-assertions.html</guid>
-      <category>WebAssembly</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Emscripten&apos;s runtime hit a fatal condition and called abort(), but release builds leave out assertions to save size, so the reason was thrown away. Behind the empty brackets is usually a failed allocation, a C++ exception in a build without exception support, or a call into the module before the…</description>
-    </item>
-    <item>
-      <title>ethers v6: Cannot read properties of undefined (reading &apos;Web3Provider&apos;)</title>
-      <link>https://fixmyerror.net/errors/ethers-v6-cannot-read-web3provider.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ethers-v6-cannot-read-web3provider.html</guid>
-      <category>Web3</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>ethers v6 removed the providers, utils and constants namespaces, so v5 code such as ethers.providers.Web3Provider or ethers.utils.parseEther reads a property of undefined. It usually appears when a fresh npm install pulled v6 into a project or tutorial written for v5. The classes still exist…</description>
-    </item>
-    <item>
-      <title>Flutter: Looking up a deactivated widget&apos;s ancestor is unsafe</title>
-      <link>https://fixmyerror.net/errors/flutter-looking-up-deactivated-widget-ancestor.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-looking-up-deactivated-widget-ancestor.html</guid>
-      <category>Dart</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Code used a BuildContext after its widget had left the tree, almost always after an await: the user navigated away or the dialog closed, then the callback carried on and called Navigator.of(context) or ScaffoldMessenger.of(context). The context object still exists but has nowhere in the tree to…</description>
-    </item>
-    <item>
-      <title>ingress-nginx: 400 The plain HTTP request was sent to HTTPS port</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-plain-http-request-sent-to-https-port.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-plain-http-request-sent-to-https-port.html</guid>
-      <category>Ingress</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The controller is speaking plain HTTP to a backend that only accepts HTTPS, and the backend&apos;s own web server answers with this 400. ingress-nginx proxies to pods over HTTP unless told otherwise; it does not guess TLS from a Service port of 443. Apps that terminate their own TLS, such as Argo CD or…</description>
-    </item>
-    <item>
-      <title>Ingress: spec.rules[0].http.paths[0].pathType: Required value</title>
-      <link>https://fixmyerror.net/errors/ingress-pathtype-required-value.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-pathtype-required-value.html</guid>
-      <category>Ingress</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>networking.k8s.io/v1 made pathType mandatory on every path, where the old v1beta1 API filled it in for you. Manifests and Helm charts converted by changing only the apiVersion fail validation here, and usually on the backend fields next, since those changed shape too. The choice matters: Prefix…</description>
-    </item>
-    <item>
-      <title>macOS: zsh: killed ./app (Killed: 9) on Apple silicon</title>
-      <link>https://fixmyerror.net/errors/macos-zsh-killed-invalid-code-signature.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-zsh-killed-invalid-code-signature.html</guid>
-      <category>Apple</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>On Apple silicon every arm64 executable must carry a valid code signature, even if only an ad hoc one, and the kernel kills it at launch if the signature no longer matches the file. The program is usually fine: something changed it after linking, such as install_name_tool, strip or a patch script…</description>
-    </item>
-    <item>
-      <title>MetaMask Tx Signature: User denied transaction signature (4001)</title>
-      <link>https://fixmyerror.net/errors/web3-user-denied-transaction-signature-4001.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-user-denied-transaction-signature-4001.html</guid>
-      <category>Web3</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Code 4001 is the EIP-1193 &quot;user rejected&quot; error: the person clicked Reject or closed the wallet popup, nothing reached the chain and no gas was spent. It is a normal outcome rather than a fault, so an app that reports it as a crash, or retries it, is the bug. ethers wraps it as ACTION_REJECTED. If…</description>
-    </item>
-    <item>
-      <title>nginx: [warn] conflicting server name &quot;example.com&quot; on 0.0.0.0:80, ignored</title>
-      <link>https://fixmyerror.net/errors/nginx-conflicting-server-name-ignored.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-conflicting-server-name-ignored.html</guid>
-      <category>WebServer</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Two server blocks on the same address and port both claim the same server_name, so nginx keeps the first one it read and ignores the other for that name. Because it is only a warning the reload succeeds, and the symptom is that your edits seem to have no effect. The usual cause is a leftover copy…</description>
-    </item>
-    <item>
-      <title>nginx: the &quot;listen ... http2&quot; directive is deprecated, use the &quot;http2&quot; directive</title>
-      <link>https://fixmyerror.net/errors/nginx-listen-http2-directive-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-listen-http2-directive-deprecated.html</guid>
-      <category>WebServer</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Since nginx 1.25.1, HTTP/2 is switched on with its own http2 directive rather than a parameter on listen. The old form still works for now, so this is only a warning and nginx -t passes, which makes it easy to ignore. It turns up on every reload once nginx is upgraded underneath configs copied…</description>
-    </item>
-    <item>
-      <title>PHP 8.1: Passing null to parameter #1 ($string) of type string is deprecated</title>
-      <link>https://fixmyerror.net/errors/php-81-passing-null-to-parameter-deprecated.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-81-passing-null-to-parameter-deprecated.html</guid>
-      <category>PHP</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Built-in functions used to treat null as an empty string or zero. PHP 8.1 deprecated that, so trim(null), strlen(null) and friends now log a deprecation, and a future major version is set to make it a TypeError. The null usually comes from a missing form field, a nullable database column or a…</description>
-    </item>
-    <item>
-      <title>PHP: count(): Argument #1 ($value) must be of type Countable|array, null given</title>
-      <link>https://fixmyerror.net/errors/php-8-count-must-be-countable-array-null-given.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-8-count-must-be-countable-array-null-given.html</guid>
-      <category>PHP</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Since PHP 8.0, count() throws a TypeError for anything that is not an array or a Countable object. PHP 7.2 only warned, and before that count(null) quietly returned 0, so code that counted a value which might be null worked for years and breaks on upgrade. The fix belongs where the null comes…</description>
-    </item>
-    <item>
-      <title>PHP: Warning: Cannot modify header information - headers already sent by</title>
-      <link>https://fixmyerror.net/errors/php-cannot-modify-header-information-headers-already-sent.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/php-cannot-modify-header-information-headers-already-sent.html</guid>
-      <category>PHP</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Something was written to the response before header(), setcookie() or session_start() ran, and once the first byte has gone out the headers are fixed. The message names the file and line where output started, and the output is often invisible: whitespace after a closing ?&gt;, a UTF-8 byte order…</description>
-    </item>
-    <item>
-      <title>Rails: could not obtain a connection from the pool within 5.000 seconds</title>
-      <link>https://fixmyerror.net/errors/rails-could-not-obtain-connection-from-pool.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-could-not-obtain-connection-from-pool.html</guid>
-      <category>Ruby</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Each thread that touches the database needs its own connection, and every connection in the pool stayed checked out for longer than checkout_timeout. The cause is rarely a slow database: it is usually a pool smaller than the number of threads, such as Puma threads or Sidekiq concurrency set higher…</description>
-    </item>
-    <item>
-      <title>Ruby 3: ArgumentError: wrong number of arguments (given 2, expected 1)</title>
-      <link>https://fixmyerror.net/errors/ruby-3-wrong-number-of-arguments-keyword-separation.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ruby-3-wrong-number-of-arguments-keyword-separation.html</guid>
-      <category>Ruby</category>
-      <pubDate>Fri, 09 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Ruby 3.0 separated keyword arguments from positional ones, so a hash passed where a method expects keywords is now counted as an extra positional argument. Code that ran on Ruby 2.7, perhaps with a deprecation warning nobody read, fails after the upgrade. The usual places are wrappers that forward…</description>
     </item>
   </channel>
 </rss>

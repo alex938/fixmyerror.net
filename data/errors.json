@@ -14579,7 +14579,7 @@
     "fix_snippet": "# Install the environment matching your Jest major\nnpm ls jest\nnpm install --save-dev jest-environment-jsdom@29\n\n# jest.config.js\nmodule.exports = { testEnvironment: 'jsdom' };\n\n# Per file, when only a few tests need a DOM\n/**\n * @jest-environment jsdom\n */\n\n# Node-only project? drop the setting (node is the default)\n\n# Jest 30 pairs with jest-environment-jsdom 30; keep the majors aligned\nnpm install --save-dev jest@30 jest-environment-jsdom@30",
     "sources": [
       "https://jestjs.io/docs/configuration#testenvironment-string",
-      "https://jestjs.io/docs/upgrading-to-jest28"
+      "https://jestjs.io/blog/2022/04/25/jest-28"
     ],
     "dateAdded": "2026-11-10"
   },
@@ -14988,6 +14988,417 @@
     "fix_snippet": "# 1. Which URLs trigger it, and how often\nsudo grep 'buffered to a temporary file' /var/log/nginx/error.log | grep -oE 'request: \"[A-Z]+ [^ ?\"]+' | sort | uniq -c | sort -rn | head\n# 2. Buffer settings currently in force\nsudo nginx -T 2>/dev/null | grep -nE 'proxy_buffer|proxy_busy|proxy_max_temp|proxy_temp_path'\n# 3. Where the temp files go and how much room there is\ndf -h /var/lib/nginx /var/cache/nginx 2>/dev/null\n# 4. API responses a little over the default: give them more memory\n#    proxy_buffer_size 16k;\n#    proxy_buffers 16 16k;\n#    proxy_busy_buffers_size 32k;\n# 5. Large downloads and streams: pass them straight through on that route\n#    location /downloads/ { proxy_buffering off; proxy_pass http://backend; }\n# 6. Or keep buffering in memory but never spill to disk\n#    proxy_max_temp_file_size 0;\n# 7. Test and reload\nsudo nginx -t && sudo systemctl reload nginx",
     "sources": [
       "https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "gateway-api-httproute-resolvedrefs-refnotpermitted",
+    "title": "Gateway API: HTTPRoute ResolvedRefs=False, reason RefNotPermitted",
+    "category": "Ingress",
+    "explanation": "The route was accepted by the Gateway but one of its backendRefs points at a Service in a different namespace, and nothing in that namespace allows it. Cross-namespace references are denied by default: the owner of the target namespace has to publish a ReferenceGrant naming the route's namespace. Until then the controller answers 500 for that rule, so the route looks attached and healthy at a glance while every request fails. The same reason appears on a Gateway whose TLS certificateRef lives in another namespace.",
+    "fix_snippet": "# 1. Read the condition and its message, which names the offending reference\nkubectl get httproute my-route -n apps -o jsonpath='{.status.parents[*].conditions}' | jq .\n# 2. See which namespace each backendRef points at\nkubectl get httproute my-route -n apps -o jsonpath='{.spec.rules[*].backendRefs}' | jq .\n# 3. Check whether a grant already exists in the target namespace\nkubectl get referencegrant -n backend -o yaml\n# 4. Create the grant in the namespace that owns the Service, not the route\ncat <<'EOF' | kubectl apply -f -\napiVersion: gateway.networking.k8s.io/v1beta1\nkind: ReferenceGrant\nmetadata:\n  name: allow-apps-routes\n  namespace: backend\nspec:\n  from:\n    - group: gateway.networking.k8s.io\n      kind: HTTPRoute\n      namespace: apps\n  to:\n    - group: \"\"\n      kind: Service\nEOF",
+    "sources": [
+      "https://gateway-api.sigs.k8s.io/reference/api-types/referencegrant/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "ingress-nginx-annotation-group-contains-risky-annotation",
+    "title": "ingress-nginx: annotation group ServerSnippet contains risky annotation",
+    "category": "Ingress",
+    "explanation": "The admission webhook refused the Ingress because one of its annotations is rated above the risk level the controller accepts. Since v1.12 the default ceiling is High, and the snippet annotations are rated Critical, so manifests that applied cleanly for years are rejected straight after a controller upgrade. Setting allow-snippet-annotations to true is no longer enough by itself: the risk level has to be raised as well. Both are off by default because a snippet lets anyone who can create an Ingress read the controller's secrets.",
+    "fix_snippet": "# 1. Confirm the controller version and which annotation was refused\nkubectl -n ingress-nginx get deploy ingress-nginx-controller -o jsonpath='{.spec.template.spec.containers[0].image}'; echo\nkubectl apply --dry-run=server -f ingress.yaml\n# 2. See what the controller currently allows\nkubectl -n ingress-nginx get configmap ingress-nginx-controller -o yaml | grep -E 'snippet|risk'\n# 3. Best fix: replace the snippet with a first-class annotation where one exists\n#    nginx.ingress.kubernetes.io/proxy-body-size, proxy-read-timeout, enable-cors ...\n# 4. If you must keep snippets, opt in to both settings\nkubectl -n ingress-nginx patch configmap ingress-nginx-controller --type merge \\\n  -p '{\"data\":{\"allow-snippet-annotations\":\"true\",\"annotations-risk-level\":\"Critical\"}}'\n# 5. With Helm, make it permanent in values.yaml\n#    controller:\n#      allowSnippetAnnotations: true\n#      config:\n#        annotations-risk-level: Critical\n# 6. Only do this on clusters where every Ingress author is trusted",
+    "sources": [
+      "https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations-risk/",
+      "https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "cert-manager-acme-ratelimited-too-many-certificates",
+    "title": "cert-manager: 429 urn:ietf:params:acme:error:rateLimited: too many certificates",
+    "category": "Ingress",
+    "explanation": "Let's Encrypt has stopped issuing for this name, and cert-manager is only relaying the refusal. The usual trigger is the duplicate certificate limit: five certificates for the exact same set of hostnames in seven days. You reach it by deleting the TLS Secret to 'retry', or by rebuilding a cluster or namespace repeatedly, because each rebuild orders a fresh certificate. Nothing in the cluster can clear it. The message carries a retry-after time, and retrying sooner only keeps the limit topped up.",
+    "fix_snippet": "# 1. Read the exact limit and the retry-after time\nkubectl describe order -A | grep -B2 -A6 rateLimited\nkubectl get certificaterequest -A\n# 2. Stop the retries so you do not keep hitting the limit\nkubectl -n apps get certificate\n# 3. Count what has been issued for the name this week (public CT logs)\ncurl -s 'https://crt.sh/?q=app.example.com&output=json' | jq -r '.[].not_before' | sort | tail -10\n# 4. A different set of names is a different bucket: adding a SAN gets you a\n#    certificate now if you cannot wait\n#    dnsNames: [app.example.com, www.app.example.com]\n# 5. Test against staging, which has far higher limits, and switch back after\n#    server: https://acme-staging-v02.api.letsencrypt.org/directory\n# 6. Keep the Secret: back it up before tearing a cluster down\nkubectl -n apps get secret app-tls -o yaml > app-tls.backup.yaml",
+    "sources": [
+      "https://letsencrypt.org/docs/rate-limits/",
+      "https://cert-manager.io/docs/troubleshooting/acme/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "git-fatal-not-a-git-repository",
+    "title": "git: fatal: not a git repository (or any of the parent directories): .git",
+    "category": "Git",
+    "explanation": "Git walked up from the current directory to the filesystem root and found no usable .git. Most of the time you are simply in the wrong folder, or the project was downloaded as a zip rather than cloned. The confusing cases are the ones where .git does exist: a submodule or worktree whose .git is a one-line file pointing at a path that has since moved, a .git with a missing or empty HEAD after a disk problem, or a GIT_DIR variable left set in the shell.",
+    "fix_snippet": "# 1. Where are you, and is there a .git here or above?\npwd\nls -la .git 2>/dev/null || echo \"no .git in this directory\"\n# 2. Ask Git what it thinks the repository root is\ngit rev-parse --show-toplevel\n# 3. Rule out a stray environment variable\nenv | grep -E '^GIT_(DIR|WORK_TREE)='\n# 4. If .git is a file, check the path it points at still exists\ncat .git\n# 5. If .git is a directory, HEAD must exist and name a ref\ncat .git/HEAD\n# 6. Fixes, depending on what you found:\n#    wrong folder          -> cd into the clone\n#    never a repository    -> git init, or git clone <url>\n#    stale worktree path   -> git worktree repair   (run from the main clone)\n#    stale submodule path  -> git submodule update --init --recursive",
+    "sources": [
+      "https://git-scm.com/docs/gitrepository-layout",
+      "https://git-scm.com/docs/git-rev-parse"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "git-src-refspec-main-does-not-match-any",
+    "title": "git: error: src refspec main does not match any",
+    "category": "Git",
+    "explanation": "You asked Git to push a branch called main and there is no such branch locally, so there is nothing to send. Two causes cover nearly every case. Either the repository has no commits yet, and a branch does not exist until its first commit, or your local branch has a different name, typically master, while the instructions you copied from the hosting site say main. The remote is not involved at all, which is why checking credentials or the URL gets you nowhere.",
+    "fix_snippet": "# 1. Which branches actually exist locally?\ngit branch --list\n# 2. Is there at least one commit?\ngit log --oneline -1\n# 3a. No commits yet: make one, then push\ngit add -A\ngit commit -m \"Initial commit\"\ngit push -u origin main\n# 3b. The branch is called master: rename it to match the remote\ngit branch -M main\ngit push -u origin main\n# 3c. Or push it under its current name\ngit push -u origin HEAD\n# 4. Make new repositories start on main from now on\ngit config --global init.defaultBranch main",
+    "sources": [
+      "https://git-scm.com/docs/git-push"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "git-current-branch-has-no-upstream-branch",
+    "title": "git: fatal: The current branch feature has no upstream branch.",
+    "category": "Git",
+    "explanation": "A bare git push needs to know which remote branch the current one is paired with, and a branch you created locally has no pairing until you set one. It is not a permissions problem and nothing is wrong with the remote. Branches you check out from the remote are paired automatically, which is why push works on some branches and not on the one you just made. Since Git 2.37 you can have the pairing created on the first push and never see this again.",
+    "fix_snippet": "# 1. See which branches track something (look for [origin/...])\ngit branch -vv\n# 2. Push and record the upstream in one go\ngit push -u origin feature\n# 3. Or do it without typing the branch name\ngit push -u origin HEAD\n# 4. Make it automatic for every new branch (Git 2.37 or newer)\ngit --version\ngit config --global push.autoSetupRemote true\n# 5. If the remote branch already exists and you only need the pairing\ngit fetch origin\ngit branch --set-upstream-to=origin/feature feature",
+    "sources": [
+      "https://git-scm.com/docs/git-push",
+      "https://git-scm.com/docs/git-config"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "telegram-bot-api-409-conflict-terminated-by-other-getupdates",
+    "title": "Telegram Bot API: 409 Conflict: terminated by other getUpdates request",
+    "category": "API",
+    "explanation": "Two processes are long polling with the same bot token, and Telegram only lets one of them hold the connection, so each keeps knocking the other off. Your code is almost never at fault. Look for a second copy: the old container still running during a rolling deploy, a bot left running on your laptop, two replicas, or a hot reloader that started a new poller without stopping the old one. A similar 409 mentioning a webhook means a webhook is set, and polling is refused while it is.",
+    "fix_snippet": "# 1. Is a webhook set? Polling and webhooks are mutually exclusive\ncurl -s \"https://api.telegram.org/bot$BOT_TOKEN/getWebhookInfo\" | jq .\n# 2. If you want polling, remove the webhook\ncurl -s \"https://api.telegram.org/bot$BOT_TOKEN/deleteWebhook\" | jq .\n# 3. Hunt for the second poller\npgrep -af \"bot|telegram\"\ndocker ps --format \"{{.Names}}\\t{{.Image}}\\t{{.Status}}\"\nkubectl get deploy -A -o wide | grep -i bot\n# 4. Run exactly one polling instance: replicas 1, and no overlap on deploy\n#    strategy:\n#      type: Recreate\n# 5. Unsure who else has the token? Revoke it in @BotFather (/revoke) and\n#    give the new one to a single process\n# 6. Need more than one instance? Switch to a webhook behind a load balancer",
+    "sources": [
+      "https://core.telegram.org/bots/api"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "slack-api-missing-scope",
+    "title": "Slack API: missing_scope",
+    "category": "API",
+    "explanation": "The token is valid but was never granted the permission this method needs. The response tells you exactly what is wrong: needed lists the scope the method wants, provided lists what the token carries. The step people miss is that adding a scope in the app settings changes nothing for tokens already issued. The app has to be reinstalled to the workspace to mint a token with the new scope. Also check you are using the right kind of token, since bot (xoxb) and user (xoxp) tokens have separate scope lists.",
+    "fix_snippet": "# 1. Read needed and provided from the failing call\ncurl -s -H \"Authorization: Bearer $SLACK_TOKEN\" \\\n  \"https://slack.com/api/conversations.history?channel=C0123456789\" | jq '{ok, error, needed, provided}'\n# 2. See every scope the token really has (x-oauth-scopes response header)\ncurl -s -D - -o /dev/null -H \"Authorization: Bearer $SLACK_TOKEN\" \\\n  https://slack.com/api/auth.test | grep -i x-oauth-scopes\n# 3. Which kind of token is it?\necho \"$SLACK_TOKEN\" | cut -c1-4    # xoxb = bot, xoxp = user\n# 4. Add the needed scope under OAuth & Permissions, in the matching list\n#    (Bot Token Scopes or User Token Scopes)\n# 5. Reinstall the app to the workspace, then copy the NEW token into your secrets\n# 6. Run step 2 again to confirm the scope is now present",
+    "sources": [
+      "https://docs.slack.dev/reference/scopes/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "github-api-401-bad-credentials",
+    "title": "GitHub API: 401 Bad credentials",
+    "category": "API",
+    "explanation": "GitHub did not recognise the token at all, which is different from a 403 or 404 where the token is fine but lacks access. The token has expired, been revoked, been mangled on the way in, or been sent to the wrong host. Mangling is the common one in CI: a trailing newline in the secret, quotes stored as part of the value, or a variable that is empty so the header reads 'Bearer '. GitHub also revokes tokens automatically when it finds them in a public repository, and removes ones unused for a year.",
+    "fix_snippet": "# 1. Test the token on its own, outside your application\ncurl -s -o /dev/null -w \"%{http_code}\\n\" -H \"Authorization: Bearer $GITHUB_TOKEN\" https://api.github.com/user\n# 2. Is the variable empty, or carrying whitespace or quotes?\nprintf \"%s\" \"$GITHUB_TOKEN\" | wc -c\nprintf \"%s\" \"$GITHUB_TOKEN\" | head -c 4; echo    # ghp_, github_pat_, ghs_, gho_\nprintf \"%s\" \"$GITHUB_TOKEN\" | od -c | tail -2\n# 3. Check what the gh CLI is using and whether it still works\ngh auth status\n# 4. GitHub Enterprise Server has its own host: a github.com token fails there\n#    https://HOSTNAME/api/v3/user\n# 5. Look at Settings > Developer settings > Personal access tokens for the\n#    expiry date, then regenerate and update the secret\n# 6. Installation tokens (ghs_) last one hour: mint a new one per job",
+    "sources": [
+      "https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api",
+      "https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "kafka-commitfailedexception-offset-commit-cannot-be-completed",
+    "title": "Kafka: CommitFailedException: Offset commit cannot be completed",
+    "category": "MessageQueue",
+    "explanation": "By the time the consumer tried to commit, the group had already thrown it out and given its partitions to someone else. The cause is slow processing, not the commit: the gap between two poll() calls exceeded max.poll.interval.ms (five minutes by default), so the coordinator assumed the consumer was stuck. The records you just handled will be delivered again to the new owner, which is how this turns into duplicates. Heartbeats run on a separate thread, so the consumer can look alive while this happens.",
+    "fix_snippet": "# 1. Watch the group: frequent rebalances and changing members confirm it\nkafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group\nkafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group my-group --state\n# 2. Measure how long one batch really takes in your handler (log it)\n# 3. Fetch less per poll so a batch fits comfortably in the interval\n#    max.poll.records=100            (default 500)\n# 4. Or allow more time between polls if single records are slow\n#    max.poll.interval.ms=600000     (default 300000)\n# 5. Do not block the poll loop on slow I/O: hand work to a pool and\n#    pause() the partitions until it drains, then resume()\n# 6. Make the handler idempotent, because redelivery after a rebalance is normal\n# 7. Reduce rebalance churn on deploys with static membership\n#    group.instance.id=worker-1",
+    "sources": [
+      "https://kafka.apache.org/documentation/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "rabbitmq-precondition-failed-unknown-delivery-tag",
+    "title": "RabbitMQ: PRECONDITION_FAILED - unknown delivery tag 1",
+    "category": "MessageQueue",
+    "explanation": "The broker was asked to acknowledge a delivery it has no record of on that channel, and it closes the channel in response. Delivery tags are counters scoped to a single channel, so the tag is only meaningful where the message arrived. The three ways to get here: acknowledging the same message twice, acknowledging on a different channel (often after a reconnect opened a new one), or calling ack on a consumer that was started in automatic acknowledgement mode, where the broker already considers the message done.",
+    "fix_snippet": "# 1. See whether the consumer is in manual or automatic ack mode\nrabbitmqctl list_consumers queue_name channel_pid ack_required\n# 2. Check the broker log for the channel that was closed\nsudo journalctl -u rabbitmq-server --since \"10 min ago\" | grep -i \"unknown delivery tag\"\n# 3. Pick one mode and stick to it\n#    manual:    channel.basic_consume(queue, on_message, auto_ack=False)\n#               ... then exactly one basic_ack per delivery\n#    automatic: auto_ack=True and never call basic_ack\n# 4. Ack on the channel the message came in on, never a pooled or new one\n#    def on_message(ch, method, properties, body):\n#        handle(body)\n#        ch.basic_ack(delivery_tag=method.delivery_tag)\n# 5. Look for a second ack in error paths: an ack in the handler plus one\n#    in a finally block is the usual culprit\n# 6. After a reconnect, drop tags from the old channel: the messages were\n#    requeued and will arrive again with new tags",
+    "sources": [
+      "https://www.rabbitmq.com/docs/confirms",
+      "https://www.rabbitmq.com/docs/channels"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "kafka-not-enough-replicas",
+    "title": "Kafka: NOT_ENOUGH_REPLICAS (fewer in-sync replicas than required)",
+    "category": "MessageQueue",
+    "explanation": "A producer using acks=all tried to write to a partition whose in-sync replica set has shrunk below min.insync.replicas, and the broker refused rather than accept a write it could not make durable. The producer is behaving correctly: the cluster is short of healthy replicas. Typically a broker is down or lagging, or the topic was created with replication factor equal to min.insync.replicas, which leaves no room to lose a single broker. Consumers carry on reading throughout, which makes it look like a client bug.",
+    "fix_snippet": "# 1. Find partitions that are under their minimum\nkafka-topics.sh --bootstrap-server localhost:9092 --describe --under-min-isr-partitions\n# 2. Compare Replicas with Isr for the topic\nkafka-topics.sh --bootstrap-server localhost:9092 --describe --topic orders\n# 3. Check the topic and broker setting\nkafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name orders --describe\n# 4. Which brokers are up?\nkafka-broker-api-versions.sh --bootstrap-server localhost:9092 | grep -c \"id:\"\n# 5. Real fix: bring the missing broker back and let it catch up\n# 6. If replication factor equals min.insync.replicas, there is no headroom.\n#    The usual shape is RF 3 with min ISR 2: add replicas with\n#    kafka-reassign-partitions.sh, or lower the minimum\nkafka-configs.sh --bootstrap-server localhost:9092 --entity-type topics --entity-name orders \\\n  --alter --add-config min.insync.replicas=2\n# 7. Do not switch the producer to acks=1 to make the error go away",
+    "sources": [
+      "https://kafka.apache.org/documentation/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "android-inconsistent-jvm-target-compatibility",
+    "title": "Android: Inconsistent JVM-target compatibility detected for tasks",
+    "category": "Mobile",
+    "explanation": "The Java and Kotlin compilers in the same module are aiming at different bytecode versions, for example compileDebugJavaWithJavac at 1.8 and compileDebugKotlin at 17. It became a hard error with Gradle 8, which is why it appears after an Android Studio or Gradle plugin upgrade with no change to your own code. Kotlin follows the JDK that Gradle runs on unless told otherwise, while Java follows compileOptions, so a newer JDK on the machine is enough to pull them apart. In Flutter and React Native apps the module named is often a plugin, not yours.",
+    "fix_snippet": "# 1. Note which module and which two versions the message names\n./gradlew :app:compileDebugKotlin 2>&1 | grep -A3 \"Inconsistent JVM\"\n# 2. See which JDK Gradle is running on\n./gradlew --version\n# 3. Simplest fix: one toolchain for both compilers, in the module build file\n#    kotlin {\n#        jvmToolchain(17)\n#    }\n# 4. Or set both sides explicitly so they match\n#    android {\n#        compileOptions {\n#            sourceCompatibility = JavaVersion.VERSION_17\n#            targetCompatibility = JavaVersion.VERSION_17\n#        }\n#    }\n#    kotlin { compilerOptions { jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17 } }\n# 5. If the module is a third-party plugin, update it before patching it\n# 6. Last resort while you migrate, in gradle.properties\n#    kotlin.jvm.target.validation.mode=warning",
+    "sources": [
+      "https://kotlinlang.org/docs/gradle-configure-project.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "android-cleartext-http-traffic-not-permitted",
+    "title": "Android: Cleartext HTTP traffic to 10.0.2.2 not permitted",
+    "category": "Mobile",
+    "explanation": "The app tried a plain http:// request and the platform blocked it before anything left the device. Since Android 9 (API 28) cleartext is off by default for apps targeting that level or higher, so the server never sees the call and its logs stay empty. It usually bites during development, when the API runs on your machine without TLS, or after raising targetSdk on an older app. With OkHttp the same block is reported as 'CLEARTEXT communication to host not permitted by network security policy'.",
+    "fix_snippet": "# 1. Confirm it is the platform and not the network\nadb logcat -d | grep -iE \"cleartext|UnknownServiceException\" | tail -5\n# 2. Best fix: use https for anything that is not your own machine\n# 3. For local development only, allow named hosts.\n#    res/xml/network_security_config.xml:\n#    <network-security-config>\n#      <domain-config cleartextTrafficPermitted=\"true\">\n#        <domain includeSubdomains=\"false\">10.0.2.2</domain>\n#        <domain includeSubdomains=\"false\">localhost</domain>\n#      </domain-config>\n#    </network-security-config>\n# 4. Point the manifest at it\n#    <application android:networkSecurityConfig=\"@xml/network_security_config\" ...>\n# 5. Keep the exception out of release builds: put the file under\n#    src/debug/res/xml/ so only the debug variant carries it\n# 6. Avoid android:usesCleartextTraffic=\"true\", which opens every host\n# 7. Rebuild and reinstall: the config is read at install time\n./gradlew installDebug",
+    "sources": [
+      "https://developer.android.com/privacy-and-security/security-config"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "cocoapods-could-not-find-compatible-versions-for-pod",
+    "title": "CocoaPods could not find compatible versions for pod \"FirebaseCore\"",
+    "category": "Mobile",
+    "explanation": "CocoaPods could not find one version of the pod that satisfies everything asking for it. Read the lines under the error, because they say which of three different problems you have. 'None of your spec sources contain a spec' means the local copy of the spec repo is out of date. 'Podfile.lock' in the list means an old pinned version is fighting a new requirement. 'Required a higher minimum deployment target' means the pod exists but your iOS platform line is too low for it.",
+    "fix_snippet": "# 1. Read the full message: note every requirement listed and the last line\ncd ios && pod install 2>&1 | sed -n \"/could not find compatible/,/^$/p\"\n# 2. Out-of-date specs: refresh them as part of the install\npod install --repo-update\n# 3. Lock file conflict: let that one pod move, not the whole project\npod update FirebaseCore\n# 4. Deployment target too low: see what the pod needs, then raise yours\npod spec cat FirebaseCore | grep -i deployment_target\n#    Podfile:  platform :ios, '15.0'\n# 5. Two libraries wanting incompatible versions: find who asks for what\ngrep -n -B2 -A6 \"FirebaseCore\" Podfile.lock | head -40\n# 6. Flutter or React Native: upgrade the plugins together, then\nrm -rf Pods Podfile.lock && pod install --repo-update",
+    "sources": [
+      "https://guides.cocoapods.org/using/troubleshooting.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "cpp-passing-const-as-this-argument-discards-qualifiers",
+    "title": "C++: error: passing 'const Foo' as 'this' argument discards qualifiers",
+    "category": "C++",
+    "explanation": "You called a member function that is not marked const on an object that is const. The object is the hidden 'this' argument, and the compiler will not silently drop its constness. The call site is often innocent: the object became const because it arrived as a const reference, because you are inside another const member function, or because it is the key of a std::map or an element of a std::set. Clang words it as 'this argument to member function has type const Foo, but function is not marked const'.",
+    "fix_snippet": "// 1. If the function does not change the object, say so. This is the usual fix.\nclass Foo {\npublic:\n    int size() const { return n_; }   // add const after the parameter list\nprivate:\n    int n_ = 0;\n};\n\n// 2. Declaration and definition must both carry it\n//    int Foo::size() const { return n_; }\n\n// 3. If it really does modify the object, take a non-const reference instead\n//    void update(Foo& f);        // not: const Foo& f\n\n// 4. operator[] on a const std::map is the classic trap: it may insert.\n//    Use at() or find() instead\n//    int v = m.at(key);\n\n// 5. A cache or mutex inside a logically const function: mark it mutable\n//    mutable std::mutex mu_;\n// 6. Do not reach for const_cast: writing to a truly const object is undefined",
+    "sources": [
+      "https://isocpp.org/wiki/faq/const-correctness"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "cpp-narrowing-conversion-wnarrowing",
+    "title": "C++: error: narrowing conversion of 'x' from 'int' to 'char' [-Wnarrowing]",
+    "category": "C++",
+    "explanation": "Brace initialisation refuses any conversion that could lose information, such as int to char, double to int, or a signed value into an unsigned type. The same assignment written with = or parentheses compiles without comment, which is why this appears when code is modernised to use braces or when a struct member's type is changed. A constant that fits is allowed, so char c{65} is fine while char c{x} is not. GCC treats it as an error for non-constants from C++11 on; Clang reports it as -Wc++11-narrowing.",
+    "fix_snippet": "// 1. Reproduce it in isolation\nint x = 300;\n// char c{x};                       // error: narrowing conversion\n\n// 2. If the conversion is intended, say so explicitly\nchar c{static_cast<char>(x)};\n\n// 3. Better: fix the type so no conversion is needed\nint wide{x};\nstd::size_t n{v.size()};            // not: int n{v.size()}\n\n// 4. Arrays and aggregates are checked element by element\n// std::array<float, 2> a{1.0, d};  // d is double: narrowing\nstd::array<float, 2> a{1.0f, static_cast<float>(d)};\n\n// 5. Check the value really fits before casting\n//    assert(x >= CHAR_MIN && x <= CHAR_MAX);\n\n// 6. Legacy code you cannot touch yet: downgrade it for that target only\n//    g++ -Wno-narrowing ...        clang++ -Wno-c++11-narrowing ...",
+    "sources": [
+      "https://en.cppreference.com/cpp/language/list_initialization",
+      "https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "threadsanitizer-data-race",
+    "title": "WARNING: ThreadSanitizer: data race (pid=12345)",
+    "category": "C++",
+    "explanation": "Two threads touched the same memory without synchronisation and at least one of them wrote to it. The report gives two stacks: the access that tripped the check and the earlier conflicting one, plus where the memory was allocated. It is a real bug even if the program has never visibly misbehaved, because a data race is undefined behaviour and the optimiser is entitled to assume it cannot happen. TSan only sees code paths that actually run, so a clean run proves nothing about paths your tests did not reach.",
+    "fix_snippet": "# 1. Build with TSan, debug info and frame pointers so the stacks are readable\nclang++ -fsanitize=thread -g -O1 -fno-omit-frame-pointer app.cpp -o app -pthread\n# 2. Run and keep the reports; make CI fail when one is found\nTSAN_OPTIONS=\"halt_on_error=1 second_deadlock_stack=1 log_path=tsan\" ./app\n# 3. Read both stacks: \"Write of size 4 at ...\" and \"Previous read of size 4 at ...\"\n#    The variable they share is what needs protecting\n# 4. Fix by kind:\n#    plain counter or flag   -> std::atomic<int> / std::atomic<bool>\n#    compound state          -> one std::mutex, taken with std::scoped_lock\n#    one-time initialisation -> std::call_once or a function-local static\n# 5. Everything in the process must be built with -fsanitize=thread,\n#    including static libraries, or you get false reports\n# 6. A race inside a third-party library can be parked in a suppressions file\n#    echo \"race:third_party::Cache::get\" > tsan.supp\n#    TSAN_OPTIONS=\"suppressions=tsan.supp\" ./app\n# 7. TSan cannot be combined with AddressSanitizer: use separate builds",
+    "sources": [
+      "https://clang.llvm.org/docs/ThreadSanitizer.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "php-require-vendor-autoload-failed-to-open-stream",
+    "title": "PHP: require(vendor/autoload.php): Failed to open stream",
+    "category": "PHP",
+    "explanation": "The vendor directory is not where the script is looking. Usually it does not exist at all: vendor is left out of version control on purpose, so a fresh clone or a deploy that only copies tracked files has no dependencies until composer install runs. The other cause is a relative path. require 'vendor/autoload.php' is resolved against the working directory, so the same script works from the project root and fails from cron, a subdirectory, or a web server whose document root is public/.",
+    "fix_snippet": "# 1. Does the file exist?\nls -l vendor/autoload.php\n# 2. If not, install the dependencies from the lock file\ncomposer install\n# 3. On a server, skip dev packages and optimise the autoloader\ncomposer install --no-dev --optimize-autoloader\n# 4. No composer on the box? Check before assuming\ncommand -v composer || echo \"composer is not installed\"\n# 5. If the file exists, the path is wrong. Anchor it to the script, not the cwd\n#    require __DIR__ . '/vendor/autoload.php';        // script in project root\n#    require __DIR__ . '/../vendor/autoload.php';     // script in public/\n# 6. Check what the failing process sees\nphp -r 'echo getcwd(), PHP_EOL;'\n# 7. In a Docker image, make sure vendor is not hidden by a bind mount\n#    and that .dockerignore does not exclude composer.lock",
+    "sources": [
+      "https://getcomposer.org/doc/01-basic-usage.md"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "laravel-log-could-not-be-opened-in-append-mode",
+    "title": "Laravel: The stream or file \"storage/logs/laravel.log\" could not be opened",
+    "category": "PHP",
+    "explanation": "Laravel tried to write a log line and the web server's user is not allowed to. Because it happens while logging, it hides the error you actually wanted to read. The file often exists and looks fine, it is just owned by someone else: an artisan command run with sudo, as root from cron, or by the deploy user created laravel.log first, and PHP-FPM running as www-data cannot append to it. On Red Hat family systems with correct ownership, SELinux is the remaining suspect.",
+    "fix_snippet": "# 1. Who owns the log, and who is PHP running as?\nls -l storage/logs/\nps -o user= -C php-fpm8.3 | sort -u\n# 2. Give the web user the two directories Laravel writes to\nsudo chown -R www-data:www-data storage bootstrap/cache\nsudo chmod -R ug+rwX storage bootstrap/cache\n# 3. Stop it recurring: run artisan and the scheduler as the same user\nsudo -u www-data php artisan cache:clear\n#    crontab -u www-data -e\n#    * * * * * cd /var/www/app && php artisan schedule:run >> /dev/null 2>&1\n# 4. Deploy user and web user differ? Share a group and keep it on new files\nsudo usermod -aG www-data deploy\nsudo find storage bootstrap/cache -type d -exec chmod g+s {} +\n# 5. SELinux (RHEL, Rocky, Alma): label the directories as writable\nsudo semanage fcontext -a -t httpd_sys_rw_content_t \"/var/www/app/storage(/.*)?\"\nsudo restorecon -Rv /var/www/app/storage\n# 6. Never chmod 777: it works, and it lets any local user rewrite your app state",
+    "sources": [
+      "https://laravel.com/docs/12.x/deployment"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "php-startup-unable-to-load-dynamic-library",
+    "title": "PHP Warning: PHP Startup: Unable to load dynamic library 'pdo_mysql'",
+    "category": "PHP",
+    "explanation": "An ini file tells PHP to load an extension and the matching .so or .dll is not in the extension directory, or is there but was built for a different PHP. It is most often left over from an upgrade: the ini line for the old version survived, or the package for the new version (php8.4-mysql, say) was never installed. The command line and PHP-FPM read different ini files, so one can warn while the other is fine. It is a warning, so PHP carries on and fails later with a 'could not find driver' style error.",
+    "fix_snippet": "# 1. Which PHP is this, and where does it look for extensions?\nphp -v\nphp -i | grep -E \"^extension_dir|Loaded Configuration File|Scan this dir\"\n# 2. Is the file there?\nls \"$(php -r 'echo ini_get(\"extension_dir\");')\" | grep -i pdo\n# 3. Find the ini line that asks for it\ngrep -rn \"pdo_mysql\" /etc/php/ 2>/dev/null\n# 4. Missing file: install the extension for THIS version (Debian, Ubuntu)\nsudo apt install php8.4-mysql\n#    RHEL family:  sudo dnf install php-mysqlnd\n#    Docker:       RUN docker-php-ext-install pdo_mysql\n# 5. Stale line for an extension you do not use: disable it\nsudo phpdismod pdo_mysql\n# 6. Listed twice (compiled in and loaded again)? Remove the extension= line\nphp -m | grep -i pdo\n# 7. Restart FPM so the web side picks up the change\nsudo systemctl restart php8.4-fpm",
+    "sources": [
+      "https://www.php.net/manual/en/ini.core.php",
+      "https://www.php.net/manual/en/install.pecl.intro.php"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "rails-a-server-is-already-running",
+    "title": "Rails: A server is already running (pid: 1, file: tmp/pids/server.pid)",
+    "category": "Ruby",
+    "explanation": "Rails found tmp/pids/server.pid and refused to start a second server. Often nothing is running: the last server was killed without a chance to tidy up, and the pid file outlived it. In Docker this is close to guaranteed, because the project directory is bind mounted so the file survives the container, and the pid inside is usually 1, which in the new container is a live process. Older versions print 'A server is already running. Check tmp/pids/server.pid.' for the same thing.",
+    "fix_snippet": "# 1. Is the process in the pid file actually alive, and is it a Rails server?\ncat tmp/pids/server.pid\nps -p \"$(cat tmp/pids/server.pid)\" -o pid,command\n# 2. Is anything listening on the port?\nlsof -iTCP:3000 -sTCP:LISTEN\n# 3a. A real server is running: stop it properly\nkill -INT \"$(cat tmp/pids/server.pid)\"\n# 3b. Nothing is running: the file is stale, remove it\nrm -f tmp/pids/server.pid\nbin/rails server\n# 4. Docker: clear it on every start, in the entrypoint or the compose command\n#    command: bash -c \"rm -f tmp/pids/server.pid && bin/rails server -b 0.0.0.0\"\n# 5. Or keep the pid file out of the mounted project directory altogether\n#    bin/rails server --pid /tmp/server.pid\n# 6. Make sure tmp/pids is in .gitignore and .dockerignore",
+    "sources": [
+      "https://guides.rubyonrails.org/command_line.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "ruby-nomethoderror-undefined-method-for-nil",
+    "title": "Ruby: NoMethodError: undefined method 'name' for nil",
+    "category": "Ruby",
+    "explanation": "Something you expected to be an object was nil when you called a method on it. The line in the backtrace is where it was used, not where it became nil, so the real question is which lookup came back empty: a find_by with no match, a hash key that is a string where you used a symbol, an instance variable never set on this code path. The wording changed recently. Ruby 3.3 dropped ':NilClass' from the end and 3.4 swapped the backtick for a plain quote, so alert rules and error grouping keyed on the old text stop matching after an upgrade.",
+    "fix_snippet": "# 1. Find the receiver: it is whatever sits left of .name on the reported line\n#    app/views/orders/show.html.erb:12   <%= @order.customer.name %>\n# 2. Reproduce in a console and walk the chain one step at a time\nbin/rails console\n#    order = Order.find(42)\n#    order.customer          # => nil  <- this is the real problem\n# 3. Decide what nil means here, then handle it on purpose\n#    absence is valid:   @order.customer&.name || \"Guest\"\n#    absence is a bug:   Customer.find(id)      # raises RecordNotFound, not nil\n#    hash lookups:       params.fetch(:user)    # raises KeyError with the key\n# 4. Common sources of a surprise nil\n#    find_by / first / detect with no match\n#    h[\"key\"] versus h[:key]\n#    @ivar misspelt (instance variables default to nil without warning)\n# 5. Do not scatter &. everywhere: it moves the nil further from its cause\n# 6. Update log and alert patterns for the 3.4 wording\ngrep -rn 'undefined method `' config/ lib/ 2>/dev/null",
+    "sources": [
+      "https://docs.ruby-lang.org/en/3.4/NoMethodError.html",
+      "https://www.ruby-lang.org/en/news/2024/12/25/ruby-3-4-0-released/"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "rails-actioncontroller-parametermissing",
+    "title": "ActionController::ParameterMissing: param is missing or the value is empty: user",
+    "category": "Ruby",
+    "explanation": "params.require(:user) found no user key, or found it empty. The controller is fine: the request did not have the shape it expects. Typical reasons are a JSON body sent without a Content-Type of application/json, so Rails never parsed it, attributes sent at the top level instead of nested under user, or a form where every field was blank or only a file input that was left empty. Rails answers 400 Bad Request in production. Rails 8 adds params.expect and words it 'or the value is empty or invalid'.",
+    "fix_snippet": "# 1. Look at what actually arrived: the Parameters line in the log\ngrep -n \"Parameters:\" log/development.log | tail -3\n# 2. Send a request with the right shape and content type\ncurl -i -X POST http://localhost:3000/users \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"user\": {\"name\": \"Ada\", \"email\": \"ada@example.com\"}}'\n# 3. Check the form builds nested names (user[name], not name)\n#    <%= form_with model: @user do |f| %>   gives user[name]\n#    <%= form_with url: users_path do |f| %> gives name, unless scope: :user\n# 4. Rails 8: one call that requires and permits\n#    params.expect(user: [:name, :email])\n# 5. A key that is genuinely optional should not be required\n#    params.fetch(:user, {}).permit(:name, :email)\n# 6. API clients deserve a clear message rather than a bare 400\n#    rescue_from ActionController::ParameterMissing do |e|\n#      render json: { error: e.message }, status: :bad_request\n#    end",
+    "sources": [
+      "https://api.rubyonrails.org/classes/ActionController/ParameterMissing.html",
+      "https://api.rubyonrails.org/classes/ActionController/Parameters.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "apache-ah00072-make-sock-could-not-bind-to-address",
+    "title": "Apache: AH00072: make_sock: could not bind to address [::]:80",
+    "category": "WebServer",
+    "explanation": "Apache could not open its listening socket, and the text just before AH00072 says why. '(98)Address already in use' means another process holds the port, very often nginx, a second Apache, or a container publishing port 80. It can also be Apache colliding with itself: the same Listen line in two files, such as ports.conf and a virtual host. '(13)Permission denied' is a different problem: either Apache was started as a non-root user on a port below 1024, or SELinux does not allow httpd on that port.",
+    "fix_snippet": "# 1. Get the full line, including the (98) or (13) in front of AH00072\nsudo journalctl -u apache2 -u httpd --since \"5 min ago\" | grep -B1 AH00072\n# 2. Who is holding the port?\nsudo ss -ltnp | grep -E \":(80|443)\\s\"\n# 3. If it is nginx or another server, stop it or move one of them\nsudo systemctl stop nginx && sudo systemctl disable nginx\n# 4. If nothing else has it, look for a duplicate Listen\ngrep -rnE \"^\\s*Listen\" /etc/apache2/ /etc/httpd/ 2>/dev/null\n# 5. Check the config, then start\nsudo apachectl configtest\nsudo systemctl start apache2    # httpd on RHEL family\n# 6. (13)Permission denied on a non-standard port with SELinux enforcing\nsudo semanage port -l | grep http_port_t\nsudo semanage port -a -t http_port_t -p tcp 8081\n# 7. A stale Apache that systemd lost track of\npgrep -a \"apache2|httpd\"",
+    "sources": [
+      "https://httpd.apache.org/docs/2.4/bind.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "nginx-emerg-unknown-directive",
+    "title": "nginx: [emerg] unknown directive \"stream\" in /etc/nginx/nginx.conf:12",
+    "category": "WebServer",
+    "explanation": "nginx reached a word it does not recognise as a directive. If the word is a real directive (stream, brotli, more_set_headers, geoip2), the module that provides it is not compiled in or not loaded, which is common after moving a config between distributions or to the official Docker image. If the word looks like nonsense or like part of a value, the problem is the line above: a missing semicolon, a curly quote pasted from a document, or a byte order mark at the top of a file saved on Windows.",
+    "fix_snippet": "# 1. Test the config and note the file and line\nsudo nginx -t\n# 2. Look at that line and the one before it, showing hidden characters\nsudo sed -n '10,12p' /etc/nginx/nginx.conf | cat -A | cut -c1-120\n# 3. Is the module built in, or available to load?\nnginx -V 2>&1 | tr \" \" \"\\n\" | grep -E \"stream|brotli|headers-more|geoip\"\nls /usr/lib/nginx/modules/ /usr/share/nginx/modules/ 2>/dev/null\n# 4. Dynamic module: install it, then load it at the very top of nginx.conf\nsudo apt install libnginx-mod-stream\n#    load_module modules/ngx_stream_module.so;\n# 5. Right directive, wrong place: stream {} sits beside http {}, not inside it\n# 6. Strip a byte order mark or Windows line endings\nsudo sed -i '1s/^\\xEF\\xBB\\xBF//; s/\\r$//' /etc/nginx/conf.d/site.conf\n# 7. Test again before reloading\nsudo nginx -t && sudo systemctl reload nginx",
+    "sources": [
+      "https://nginx.org/en/docs/ngx_core_module.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "nginx-connect-to-unix-php-fpm-sock-failed",
+    "title": "nginx: connect() to unix:/run/php/php8.3-fpm.sock failed",
+    "category": "WebServer",
+    "explanation": "nginx tried to hand a request to PHP-FPM over a Unix socket and could not, so the visitor gets a 502. The code in brackets tells you which half is wrong. '(2: No such file or directory)' means no socket exists at that path: PHP-FPM is stopped, or it is a different PHP version from the one named in fastcgi_pass, which is what happens after a distribution upgrade. '(13: Permission denied)' means the socket is there but the nginx worker user may not open it. '(11: Resource temporarily unavailable)' means FPM is up but its backlog is full.",
+    "fix_snippet": "# 1. Read the code in brackets\nsudo tail -n 20 /var/log/nginx/error.log | grep \"fpm.sock\"\n# 2. Which sockets exist, and who owns them?\nls -l /run/php/\n# 3. Is FPM running, and which version?\nsystemctl list-units \"php*-fpm*\" --no-pager\n# 4. What does nginx point at, and what does FPM listen on?\ngrep -rn \"fastcgi_pass\" /etc/nginx/\ngrep -rnE \"^listen( |=|\\.)\" /etc/php/*/fpm/pool.d/\n# 5. (2) Make the two agree, then start FPM\n#    fastcgi_pass unix:/run/php/php8.4-fpm.sock;\nsudo systemctl enable --now php8.4-fpm\n# 6. (13) Let the nginx user open the socket, in the pool file\n#    listen.owner = www-data\n#    listen.group = www-data\n#    listen.mode  = 0660\ngrep -E \"^user\" /etc/nginx/nginx.conf\n# 7. Apply\nsudo systemctl restart php8.4-fpm && sudo nginx -t && sudo systemctl reload nginx",
+    "sources": [
+      "https://www.php.net/manual/en/install.fpm.configuration.php",
+      "https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "aws-lambda-erofs-read-only-file-system",
+    "title": "AWS Lambda: EROFS: read-only file system, open '/var/task/output.json'",
+    "category": "Serverless",
+    "explanation": "Your code tried to write somewhere other than /tmp. The deployment package is mounted read-only at /var/task, and so is everything else in the filesystem apart from /tmp. It tends to appear with code that ran happily on a laptop or in a container: a library caching next to its own files, a relative path that resolves into /var/task, a tool that writes to the home directory. Python reports the same thing as '[Errno 30] Read-only file system'. Remember that /tmp is per execution environment, so it is neither shared between concurrent invocations nor guaranteed to persist.",
+    "fix_snippet": "# 1. Find the path in the error, then find who writes to it\ngrep -rnE \"writeFile|createWriteStream|open\\(.*['\\\"]w\" src/ | head\n# 2. Write under /tmp instead\n#    Node:    fs.writeFileSync(path.join(os.tmpdir(), 'output.json'), data)\n#    Python:  open(os.path.join(tempfile.gettempdir(), 'output.json'), 'w')\n# 3. Point libraries that cache by default at /tmp with environment variables\naws lambda update-function-configuration --function-name my-fn \\\n  --environment \"Variables={HOME=/tmp,XDG_CACHE_HOME=/tmp/.cache,HF_HOME=/tmp/hf}\"\n# 4. /tmp is 512 MB by default: raise it if you need more (up to 10240 MB)\naws lambda update-function-configuration --function-name my-fn \\\n  --ephemeral-storage Size=2048\n# 5. Clean up large files before returning, because warm environments keep /tmp\n# 6. Data that must outlive the invocation belongs in S3, or on EFS if it\n#    has to be a real filesystem",
+    "sources": [
+      "https://docs.aws.amazon.com/lambda/latest/dg/configuration-ephemeral-storage.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "aws-lambda-role-cannot-be-assumed-by-lambda",
+    "title": "AWS Lambda: The role defined for the function cannot be assumed by Lambda.",
+    "category": "Serverless",
+    "explanation": "Lambda tried to take on the function's execution role and IAM said no. The permissions attached to the role are irrelevant here: what matters is the trust policy, which must name lambda.amazonaws.com as a principal allowed to call sts:AssumeRole. When it appears on the first deploy and then goes away, it is timing: the role was created a second or two earlier and IAM had not finished propagating it. A third case is a role that was deleted and recreated under the same name, which the function no longer recognises until it is set again.",
+    "fix_snippet": "# 1. Which role does the function use?\naws lambda get-function-configuration --function-name my-fn --query Role --output text\n# 2. Read its trust policy\naws iam get-role --role-name my-fn-role --query 'Role.AssumeRolePolicyDocument'\n# 3. It must contain this statement\ncat > trust.json <<'EOF'\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Principal\": { \"Service\": \"lambda.amazonaws.com\" },\n    \"Action\": \"sts:AssumeRole\"\n  }]\n}\nEOF\naws iam update-assume-role-policy --role-name my-fn-role --policy-document file://trust.json\n# 4. Role recreated with the same name: set it on the function again\naws lambda update-function-configuration --function-name my-fn \\\n  --role arn:aws:iam::123456789012:role/my-fn-role\n# 5. Brand new role in the same deploy: wait a few seconds and retry the create",
+    "sources": [
+      "https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html",
+      "https://docs.aws.amazon.com/lambda/latest/dg/troubleshooting-deployment.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "cloud-run-container-failed-to-start-and-listen-on-port",
+    "title": "Cloud Run: The user-provided container failed to start and listen on the port",
+    "category": "Serverless",
+    "explanation": "Cloud Run started your container and nothing answered on the expected port before the startup deadline. The message blames the port, but that is only one of four usual causes. The server may be bound to 127.0.0.1, which is unreachable from outside the container, or to a hard-coded port instead of the PORT variable. The process may have crashed during start-up, in which case the real error is in the logs. Or the image was built on an Apple Silicon machine for arm64 and cannot run on Cloud Run's amd64 hosts.",
+    "fix_snippet": "# 1. Read the logs of the failed revision: a crash shows up here\ngcloud run services logs read my-service --region europe-west1 --limit 50\n# 2. Reproduce it locally the way Cloud Run runs it\ndocker run --rm -e PORT=8080 -p 8080:8080 europe-west1-docker.pkg.dev/my-project/app/api:latest\ncurl -i http://localhost:8080/\n# 3. Listen on all interfaces, on $PORT\n#    Node:     app.listen(process.env.PORT || 8080, '0.0.0.0')\n#    Python:   gunicorn --bind :$PORT app:app\n#    Go:       http.ListenAndServe(\":\"+os.Getenv(\"PORT\"), nil)\n# 4. Check the image architecture: it must include linux/amd64\ndocker image inspect --format \"{{.Os}}/{{.Architecture}}\" europe-west1-docker.pkg.dev/my-project/app/api:latest\ndocker buildx build --platform linux/amd64 -t europe-west1-docker.pkg.dev/my-project/app/api:latest --push .\n# 5. If the app really listens elsewhere, tell Cloud Run\ngcloud run services update my-service --region europe-west1 --port 3000\n# 6. Slow start (migrations, model loading): give it CPU during start-up\ngcloud run services update my-service --region europe-west1 --cpu-boost",
+    "sources": [
+      "https://docs.cloud.google.com/run/docs/troubleshooting",
+      "https://docs.cloud.google.com/run/docs/container-contract"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "smtp-550-5-7-515-access-denied-sending-domain",
+    "title": "SMTP: 550 5.7.515 Access denied, sending domain [example.com] does not meet",
+    "category": "Email",
+    "explanation": "Outlook.com, Hotmail and Live refused the message because the domain in the From header does not meet Microsoft's rules for high-volume senders, enforced since May 2025. Domains sending more than about 5,000 messages a day to those mailboxes need SPF and DKIM to pass and a DMARC record of at least p=none that aligns with one of them. The usual gap is alignment: mail sent through a provider passes SPF and DKIM for the provider's domain, not yours, so DMARC still fails. Mail to Gmail can be fine while this bounces.",
+    "fix_snippet": "# 1. Check the three records for the domain in your From address\ndig +short TXT example.com | grep -i spf\ndig +short TXT _dmarc.example.com\ndig +short TXT selector1._domainkey.example.com\n# 2. Send a message to a mailbox you control and read Authentication-Results.\n#    You want all three, with domains matching your From address:\n#    spf=pass smtp.mailfrom=example.com\n#    dkim=pass header.d=example.com\n#    dmarc=pass header.from=example.com\n# 3. No DMARC record at all: publish a monitoring policy to start\n#    _dmarc.example.com  TXT  \"v=DMARC1; p=none; rua=mailto:dmarc@example.com\"\n# 4. DKIM signed by your provider's domain: set up a custom signing domain\n#    in the provider, so header.d becomes example.com\n# 5. SPF failing: add the provider's include and stay under 10 DNS lookups\n#    \"v=spf1 include:_spf.provider.example ~all\"\n# 6. Allow for DNS propagation, then resend. Rejections stop once the\n#    records validate; there is no delisting form for this code",
+    "sources": [
+      "https://techcommunity.microsoft.com/blog/microsoftdefenderforoffice365blog/strengthening-email-ecosystem-outlook%E2%80%99s-new-requirements-for-high%E2%80%90volume-senders/4399730",
+      "https://learn.microsoft.com/en-us/defender-office-365/email-authentication-about"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "postfix-mail-for-domain-loops-back-to-myself",
+    "title": "Postfix: mail for example.com loops back to myself",
+    "category": "Email",
+    "explanation": "Postfix looked up where to deliver mail for the domain, found that the answer is this very machine, and yet has not been told that it is the final destination for that domain. Rather than relay to itself for ever, it bounces the message. The MX record is doing its job. What is missing is the domain in mydestination, virtual_mailbox_domains, virtual_alias_domains or relay_domains. It also happens on a backup MX with no route to the primary, and behind NAT where Postfix does not know its own public address.",
+    "fix_snippet": "# 1. Where does DNS send mail for the domain?\ndig +short MX example.com\n# 2. Which domains does this server accept as its own?\npostconf mydestination virtual_mailbox_domains virtual_alias_domains relay_domains\n# 3a. Local Unix accounts: add the domain to mydestination\nsudo postconf -e \"mydestination = \\$myhostname, localhost.\\$mydomain, localhost, example.com\"\n# 3b. Virtual mailboxes (Dovecot and friends): list it there instead\nsudo postconf -e \"virtual_mailbox_domains = example.com\"\n# 3c. This box is only a gateway: relay the domain to the real server\nsudo postconf -e \"relay_domains = example.com\"\necho \"example.com  smtp:[mail.internal.example.com]:25\" | sudo tee -a /etc/postfix/transport\nsudo postmap /etc/postfix/transport\nsudo postconf -e \"transport_maps = hash:/etc/postfix/transport\"\n# 4. Behind NAT: tell Postfix its public address\nsudo postconf -e \"proxy_interfaces = 203.0.113.10\"\n# 5. Never list one domain in two of those classes. Reload and retry the queue\nsudo postfix check && sudo systemctl reload postfix && sudo postqueue -f",
+    "sources": [
+      "https://www.postfix.org/postconf.5.html",
+      "https://www.postfix.org/VIRTUAL_README.html"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "smtp-550-5-4-1-recipient-address-rejected-access-denied",
+    "title": "SMTP: 550 5.4.1 Recipient address rejected: Access denied",
+    "category": "Email",
+    "explanation": "Despite the wording, nobody has blocked the sender. This is Microsoft 365 saying the recipient address does not exist in the receiving organisation's directory. A feature called Directory-Based Edge Blocking rejects mail for unknown recipients at the edge, before any spam filtering. For a sender it nearly always means a typo or a mailbox that has been removed. For the receiving admin it means the address is real but invisible to Exchange Online: a mail-enabled public folder, an on-premises mailbox that was never synchronised, or a brand new address that has not propagated yet.",
+    "fix_snippet": "# If you are the sender\n# 1. Check the address character by character, and confirm it with the recipient\n# 2. Confirm the domain really is hosted on Microsoft 365\ndig +short MX example.com     # *.mail.protection.outlook.com\n\n# If you are the receiving admin (Exchange Online PowerShell)\n# 3. Does the address exist as any kind of recipient?\nGet-EXORecipient -Identity \"info@example.com\" | Format-List Name,RecipientTypeDetails\n# 4. See how the domain is configured\nGet-AcceptedDomain | Format-Table Name,DomainName,DomainType\n# 5. Hybrid: make sure the on-premises recipient has synchronised\n#    Start-ADSyncSyncCycle -PolicyType Delta      (on the Entra Connect server)\n# 6. Recipients that cannot be synchronised (public folders, a third-party\n#    system behind you): turn edge blocking off for that domain\nSet-AcceptedDomain -Identity example.com -DomainType InternalRelay\n# 7. New mailbox or alias: allow up to an hour before testing again",
+    "sources": [
+      "https://learn.microsoft.com/en-us/exchange/mail-flow-best-practices/use-directory-based-edge-blocking"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "vagrant-unable-to-mount-virtualbox-shared-folders",
+    "title": "Vagrant was unable to mount VirtualBox shared folders",
+    "category": "Virtualization",
+    "explanation": "The virtual machine booted, but the guest has no working vboxsf filesystem driver, so /vagrant cannot be mounted. That driver comes from the VirtualBox Guest Additions, which are kernel modules built for one specific kernel inside the guest. A box whose additions are much older than your VirtualBox, or a guest that has had a kernel update since they were built, loses the module. It is why a box that worked last month breaks after you upgrade VirtualBox on the host or run a full package upgrade inside the guest.",
+    "fix_snippet": "# 1. Compare the host VirtualBox version with the additions in the guest\nVBoxManage --version\nvagrant ssh -c \"sudo modinfo vboxguest 2>/dev/null | grep ^version; uname -r\"\n# 2. Is the module loaded at all?\nvagrant ssh -c \"lsmod | grep vbox\"\n# 3. Easiest fix: let a plugin rebuild the additions to match the host\nvagrant plugin install vagrant-vbguest\nvagrant reload\n# 4. If the rebuild fails, the guest lacks kernel headers. Debian or Ubuntu:\nvagrant ssh -c \"sudo apt-get update && sudo apt-get install -y build-essential dkms linux-headers-\\$(uname -r)\"\nvagrant vbguest --do install && vagrant reload\n# 5. Or pick up a newer build of the box\nvagrant box update && vagrant destroy -f && vagrant up\n# 6. Do not need live two-way sync? Use rsync and skip the additions entirely\n#    config.vm.synced_folder \".\", \"/vagrant\", type: \"rsync\"",
+    "sources": [
+      "https://developer.hashicorp.com/vagrant/docs/synced-folders/virtualbox"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "proxmox-cluster-not-ready-no-quorum",
+    "title": "Proxmox: cluster not ready - no quorum? (500)",
+    "category": "Virtualization",
+    "explanation": "This node cannot see more than half of the cluster's votes, so Proxmox has made /etc/pve read-only. That blocks anything needing a config change: starting or creating guests, editing settings, sometimes logging in. Running guests are not stopped. It is a safety measure against two halves of a cluster making conflicting changes, and it means a two-node cluster stops accepting changes whenever either node is down. The fault is usually the corosync network between nodes, not the node showing the message.",
+    "fix_snippet": "# 1. How many votes are expected and how many are present?\npvecm status\n# 2. Which nodes can this one see?\npvecm nodes\ncorosync-cfgtool -s\n# 3. Check the cluster services and recent corosync messages\nsystemctl status corosync pve-cluster --no-pager\njournalctl -u corosync --since \"30 min ago\" | tail -30\n# 4. Test the cluster network to the other nodes (latency matters too)\nping -c 5 10.10.10.12\n# 5. Real fix: bring the missing nodes or the link between them back\n# 6. Emergency only, with the other nodes definitely powered off: let this\n#    node act alone so you can start guests. Reverts when quorum returns\npvecm expected 1\n# 7. Two-node cluster: add a third vote so one node can fail safely\n#    pvecm qdevice setup 10.10.10.50",
+    "sources": [
+      "https://pve.proxmox.com/wiki/Cluster_Manager"
+    ],
+    "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "virtualbox-cannot-register-hard-disk-uuid-already-exists",
+    "title": "Cannot register the hard disk because a hard disk with UUID already exists",
+    "category": "Virtualization",
+    "explanation": "Every virtual disk carries a UUID in its header, and VirtualBox keeps a registry of the ones it knows. Copying a .vdi or .vmdk in the file manager copies the UUID too, so adding the copy looks like registering the same disk twice from a different path. The same thing happens when a VM folder is moved and the registry still remembers the old location. Renaming the file does not help, because the identity is inside the file, not in its name.",
+    "fix_snippet": "# 1. List the disks VirtualBox knows and find the clashing UUID\nVBoxManage list hdds\n# 2. Read the UUID stored in the file you are trying to add\nVBoxManage showmediuminfo disk \"/vms/copy/disk.vdi\"\n# 3a. It is a copy and you want both: give the copy a new UUID\nVBoxManage internalcommands sethduuid \"/vms/copy/disk.vdi\"\n# 3b. The original was moved or deleted: drop the stale registry entry\nVBoxManage closemedium disk 2c1b0f3e-1111-2222-3333-444455556666\n# 4. Attach the disk to the machine\nVBoxManage storageattach \"my-vm\" --storagectl \"SATA\" --port 0 --device 0 \\\n  --type hdd --medium \"/vms/copy/disk.vdi\"\n# 5. Next time, clone instead of copying: it writes a fresh UUID for you\nVBoxManage clonemedium disk \"/vms/orig/disk.vdi\" \"/vms/copy/disk.vdi\"\n# 6. A disk with snapshots has a parent UUID as well. Clone the whole VM\n#    (VBoxManage clonevm) instead of fixing those by hand",
+    "sources": [
+      "https://docs.oracle.com/en/virtualization/virtualbox/7.1/user/vboxmanage.html"
     ],
     "dateAdded": "2026-11-12"
   }
