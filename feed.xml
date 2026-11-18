@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Thu, 12 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>AADSTS50020: User account from identity provider does not exist in tenant</title>
+      <link>https://fixmyerror.net/errors/entra-aadsts50020-user-does-not-exist-in-tenant.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/entra-aadsts50020-user-does-not-exist-in-tenant.html</guid>
+      <category>Auth</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The person signed in successfully, but with an account that does not belong to the tenant the app sent them to, and they have not been invited as a guest there. Very often the app registration is fine and the URL is wrong: an app meant for any organisation or personal Microsoft accounts is still…</description>
+    </item>
+    <item>
+      <title>Airflow: AirflowNotFoundException: The conn_id `postgres_default` isn&apos;t defined</title>
+      <link>https://fixmyerror.net/errors/airflow-conn-id-isnt-defined.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-conn-id-isnt-defined.html</guid>
+      <category>BigData</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A hook or operator asked for a connection that none of Airflow&apos;s backends could supply. Airflow looks in a secrets backend if one is configured, then AIRFLOW_CONN_* environment variables, then the metadata database. The catch is that the lookup happens on the worker running the task, not on the…</description>
+    </item>
+    <item>
+      <title>Auth.js: MissingSecret: Please define a `secret`</title>
+      <link>https://fixmyerror.net/errors/authjs-missingsecret-please-define-a-secret.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/authjs-missingsecret-please-define-a-secret.html</guid>
+      <category>Auth</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Auth.js encrypts its session cookie and signs its tokens with a secret, and in production it will not start without one. Version 5 reads AUTH_SECRET, while NextAuth.js 4 read NEXTAUTH_SECRET, so an upgrade that kept the old variable name is a common cause. In development a fallback is used, which…</description>
+    </item>
+    <item>
+      <title>Dart: A value of type &apos;Future&lt;String&gt;&apos; can&apos;t be assigned to a variable of type</title>
+      <link>https://fixmyerror.net/errors/dart-future-string-cant-be-assigned-to-string.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dart-future-string-cant-be-assigned-to-string.html</guid>
+      <category>Dart</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>You called an async function and used its result directly, but an async function returns a Future that completes later, not the value itself. Usually an await is missing. The awkward case is when you cannot await because you are in a synchronous function such as a widget build method or a…</description>
+    </item>
+    <item>
+      <title>Delta Lake: A schema mismatch detected when writing to the Delta table</title>
+      <link>https://fixmyerror.net/errors/delta-schema-mismatch-detected-when-writing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/delta-schema-mismatch-detected-when-writing.html</guid>
+      <category>BigData</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Delta checks every write against the schema stored in the table log and refuses anything that does not fit: a new column, a renamed one, or a type that differs (an int arriving where the table has a long). Plain Parquet would have written the file and left the problem for the next reader, which is…</description>
+    </item>
+    <item>
+      <title>DISM: Error: 0x800f081f The source files could not be found.</title>
+      <link>https://fixmyerror.net/errors/dism-0x800f081f-source-files-could-not-be-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/dism-0x800f081f-source-files-could-not-be-found.html</guid>
+      <category>Windows</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>DISM needs clean copies of system files to repair the component store or to add a feature such as .NET Framework 3.5, and it could not get them. By default it downloads them from Windows Update, so the error usually means that route is blocked: a WSUS server or group policy that does not allow…</description>
+    </item>
+    <item>
+      <title>ethers: execution reverted (unknown custom error)</title>
+      <link>https://fixmyerror.net/errors/ethers-execution-reverted-unknown-custom-error.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ethers-execution-reverted-unknown-custom-error.html</guid>
+      <category>Web3</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The contract reverted with a Solidity custom error, but the ABI you gave ethers does not include that error, so it cannot decode the four byte selector in the data field. It has become far more common since OpenZeppelin Contracts 5 replaced its revert strings with custom errors: what used to read…</description>
+    </item>
+    <item>
+      <title>Flutter: Don&apos;t use &apos;BuildContext&apos;s across async gaps.</title>
+      <link>https://fixmyerror.net/errors/flutter-dont-use-buildcontext-across-async-gaps.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-dont-use-buildcontext-across-async-gaps.html</guid>
+      <category>Dart</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>This is the use_build_context_synchronously lint. After an await, the widget that owns the BuildContext may have been removed from the tree, so using that context for Navigator, ScaffoldMessenger or Theme can throw or act on the wrong screen. It is easy to trigger by awaiting an HTTP call and then…</description>
+    </item>
+    <item>
+      <title>Flutter: Navigator operation requested with a context that does not include</title>
+      <link>https://fixmyerror.net/errors/flutter-navigator-operation-requested-without-navigator.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/flutter-navigator-operation-requested-without-navigator.html</guid>
+      <category>Dart</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Navigator.of(context) walks up the tree from the context you pass, and found no Navigator above it. The Navigator is created by MaterialApp or CupertinoApp, so a context from the widget whose build method returns MaterialApp sits above it, not below. That is why a button placed directly in the…</description>
+    </item>
+    <item>
+      <title>getrandom: the wasm*-unknown-unknown targets are not supported by default</title>
+      <link>https://fixmyerror.net/errors/rust-getrandom-wasm32-unknown-unknown-not-supported.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-getrandom-wasm32-unknown-unknown-not-supported.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>wasm32-unknown-unknown has no operating system, so the getrandom crate has no source of randomness to call and refuses to compile rather than guess. You rarely depend on it directly: rand, uuid and many crypto crates pull it in. In the browser the answer is to use crypto.getRandomValues through…</description>
+    </item>
+    <item>
+      <title>gRPC Python: ModuleNotFoundError: No module named &apos;helloworld_pb2&apos;</title>
+      <link>https://fixmyerror.net/errors/grpc-python-no-module-named-pb2.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-python-no-module-named-pb2.html</guid>
+      <category>gRPC</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The generated _pb2_grpc.py file imports its sibling as a top level module (import helloworld_pb2), which only works when that folder is on sys.path. The generated files themselves are fine. Once you move them into a package such as myapp/protos, the import fails. The import path in generated code…</description>
+    </item>
+    <item>
+      <title>gRPC: unexpected HTTP status code received from server: 502 (Bad Gateway)</title>
+      <link>https://fixmyerror.net/errors/grpc-unexpected-http-status-code-502-bad-gateway.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unexpected-http-status-code-502-bad-gateway.html</guid>
+      <category>gRPC</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The response did not come from a gRPC server at all. Something in between, a load balancer, ingress or reverse proxy, answered with an ordinary HTTP error page, and the client maps the HTTP status onto a gRPC code: 502, 503 and 504 become UNAVAILABLE, 401 becomes UNAUTHENTICATED. The &quot;unexpected…</description>
+    </item>
+    <item>
+      <title>JavaScript: Invalid regular expression: Invalid named capture referenced</title>
+      <link>https://fixmyerror.net/errors/js-regex-invalid-named-capture-referenced.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/js-regex-invalid-named-capture-referenced.html</guid>
+      <category>Regex</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The pattern has a \k backreference, but there is no group called that name. Usually it is a typo or a group that was renamed in one place only. The less obvious cause is that once a regex has any named group, or uses the u or v flag, \k is always parsed as a named backreference, so a pattern that…</description>
+    </item>
+    <item>
+      <title>macOS: codesign: errSecInternalComponent</title>
+      <link>https://fixmyerror.net/errors/macos-codesign-errsecinternalcomponent.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/macos-codesign-errsecinternalcomponent.html</guid>
+      <category>Apple</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>codesign found your signing identity but could not use its private key. Despite the vague name, this almost always means the keychain holding the key is locked, or macOS wanted to ask for permission and had no screen to show the dialog on. That is why signing works in Xcode on the desktop and…</description>
+    </item>
+    <item>
+      <title>ParserError: Source &quot;@openzeppelin/contracts/token/ERC20/ERC20.sol&quot; not found</title>
+      <link>https://fixmyerror.net/errors/solidity-parsererror-source-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/solidity-parsererror-source-not-found.html</guid>
+      <category>Web3</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>solc itself knows nothing about npm or git submodules: it only resolves an import through the include paths and remappings the build tool passes in. Hardhat maps @openzeppelin/ to node_modules, Foundry maps it through remappings to lib/, so the error means that mapping is missing or points at a…</description>
+    </item>
+    <item>
+      <title>PHP: Warning: preg_match(): Unknown modifier &apos;d&apos;</title>
+      <link>https://fixmyerror.net/errors/php-preg-match-unknown-modifier.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/php-preg-match-unknown-modifier.html</guid>
+      <category>Regex</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>PCRE patterns in PHP must be wrapped in delimiters, and PHP treats the first character as the opening one. When the same character appears again unescaped inside the pattern, PHP takes it as the closing delimiter and reads everything after it as flags, so the letter after the stray slash is…</description>
+    </item>
+    <item>
+      <title>protobuf: TypeError: Descriptors cannot be created directly.</title>
+      <link>https://fixmyerror.net/errors/protobuf-descriptors-cannot-be-created-directly.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/protobuf-descriptors-cannot-be-created-directly.html</guid>
+      <category>gRPC</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A _pb2.py file was generated by a protoc older than 3.19, and the installed protobuf runtime (4.21 or later) no longer accepts that style of generated code. Nothing in your code needs to change: the generated files are just out of date. It often appears after an unrelated upgrade pulls in a newer…</description>
+    </item>
+    <item>
+      <title>Python: re.error: multiple repeat at position 2</title>
+      <link>https://fixmyerror.net/errors/python-re-multiple-repeat.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/python-re-multiple-repeat.html</guid>
+      <category>Regex</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Two quantifiers are stacked on the same thing, such as a** or x{2}*, so the pattern compiler cannot tell what the second one should repeat. It most often comes from building a pattern out of user input or a filename containing + or *, without escaping it. Python 3.11 added possessive quantifiers…</description>
+    </item>
+    <item>
+      <title>Redis: CLUSTERDOWN Hash slot not served</title>
+      <link>https://fixmyerror.net/errors/redis-clusterdown-hash-slot-not-served.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-clusterdown-hash-slot-not-served.html</guid>
+      <category>Caching</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Every key in Redis Cluster hashes to one of 16384 slots, and the node you asked has no record of any master owning the slot for your key. Usually a master failed and no replica was available to promote, or a resharding or a fresh cluster setup left some slots unassigned. By default the whole…</description>
+    </item>
+    <item>
+      <title>Scala: ambiguous reference to overloaded definition</title>
+      <link>https://fixmyerror.net/errors/scala-ambiguous-reference-to-overloaded-definition.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-ambiguous-reference-to-overloaded-definition.html</guid>
+      <category>Scala</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>More than one overload of the method fits the arguments and the compiler has no rule that makes one more specific. It turns up mostly with Java APIs: since Scala 2.12 a lambda can convert to any Java functional interface, so executor.submit(() =&gt; work()) fits both submit(Runnable) and…</description>
+    </item>
+    <item>
+      <title>Scala: class Foo needs to be abstract</title>
+      <link>https://fixmyerror.net/errors/scala-class-needs-to-be-abstract.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-class-needs-to-be-abstract.html</guid>
+      <category>Scala</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The class extends a trait or abstract class but leaves at least one abstract member without a body. Often you did write the method, but with a signature that differs slightly: a different parameter type, a missing type parameter, or a Java interface method with a generic argument. That defines a…</description>
+    </item>
+    <item>
+      <title>Scala: implicit conversion method x should be enabled</title>
+      <link>https://fixmyerror.net/errors/scala-implicit-conversion-should-be-enabled.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/scala-implicit-conversion-should-be-enabled.html</guid>
+      <category>Scala</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Implicit conversions are a feature you must opt into, and defining one (Scala 2) or relying on one (Scala 3) without doing so produces this feature warning. On its own it is only a warning, but builds that turn warnings into errors with -Xfatal-warnings or -Werror then fail, which is why it can…</description>
+    </item>
+    <item>
+      <title>Spark: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter</title>
+      <link>https://fixmyerror.net/errors/spark-unresolved-column-with-suggestion.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spark-unresolved-column-with-suggestion.html</guid>
+      <category>BigData</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The analyser could not match a name in your query to any column available at that point in the plan. Most often the column is genuinely missing because a CSV was read without header=true, or a select earlier in the chain dropped it. Case and punctuation also catch people out: a column called…</description>
+    </item>
+    <item>
+      <title>Spring Security: [authorization_request_not_found]</title>
+      <link>https://fixmyerror.net/errors/spring-security-authorization-request-not-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-security-authorization-request-not-found.html</guid>
+      <category>Auth</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>When OAuth 2 login starts, Spring Security stores the authorisation request, with its state value, in the HTTP session. When the provider redirects back, it looks that request up again, and this error means the session it finds is a different one. Load balancers without sticky sessions, an app…</description>
+    </item>
+    <item>
+      <title>Spring: DefaultSerializer requires a Serializable payload but received an object</title>
+      <link>https://fixmyerror.net/errors/spring-redis-defaultserializer-requires-serializable-payload.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-redis-defaultserializer-requires-serializable-payload.html</guid>
+      <category>Caching</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>With no serialiser configured, Spring&apos;s Redis cache and RedisTemplate fall back to JDK serialisation, which only accepts classes that implement java.io.Serializable. A DTO or entity that does not is rejected the first time @Cacheable tries to store it. Adding Serializable makes the error go away…</description>
+    </item>
+    <item>
+      <title>Svelte 5: A component is attempting to bind to a non-bindable property</title>
+      <link>https://fixmyerror.net/errors/svelte-5-bind-not-bindable.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-bind-not-bindable.html</guid>
+      <category>Svelte</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>In Svelte 4 every exported prop could be bound by the parent. In Svelte 5 runes mode, props are read-only to the parent by default, and the child has to opt in to two-way binding with $bindable(). So a parent that still writes bind:value on a component migrated to $props() throws this at runtime…</description>
+    </item>
+    <item>
+      <title>Svelte 5: Hydration failed because the initial UI does not match</title>
+      <link>https://fixmyerror.net/errors/svelte-5-hydration-mismatch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-hydration-mismatch.html</guid>
+      <category>Svelte</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Svelte 5 hydrates by walking the server&apos;s HTML in the order it expects, and the DOM it found was a different shape. Very often the server output was correct but the browser rearranged it: invalid nesting such as a div inside a p, or an a inside an a, is silently repaired by the HTML parser. Markup…</description>
+    </item>
+    <item>
+      <title>SvelteKit: Cannot use relative URL (/api/items) with global fetch</title>
+      <link>https://fixmyerror.net/errors/sveltekit-cannot-use-relative-url-with-global-fetch.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/sveltekit-cannot-use-relative-url-with-global-fetch.html</guid>
+      <category>Svelte</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>On the server there is no current page to resolve /api/items against, so the platform fetch only accepts absolute URLs. SvelteKit gives you its own fetch that can, and also calls your endpoints in process and forwards cookies. The error means the code used the global fetch instead: usually a load…</description>
+    </item>
+    <item>
+      <title>TypeError: Failed to execute &apos;addAll&apos; on &apos;Cache&apos;: Request failed</title>
+      <link>https://fixmyerror.net/errors/service-worker-cache-addall-request-failed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/service-worker-cache-addall-request-failed.html</guid>
+      <category>Caching</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>cache.addAll() is all or nothing: if any single URL in the list fails to fetch or returns a status outside 200 to 299, the whole call rejects and nothing is cached. That rejection fails the service worker install event, so the new worker never activates and the site keeps running on the old one…</description>
+    </item>
+    <item>
+      <title>wasm-ld: error: undefined symbol: my_function</title>
+      <link>https://fixmyerror.net/errors/wasm-ld-error-undefined-symbol.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-ld-error-undefined-symbol.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The linker found a call to a function whose body was in none of the inputs. In native builds the same code may link because a system library supplies the symbol, but for WebAssembly every library must itself be compiled with emcc or clang for wasm32. A static library built for the host is ignored…</description>
+    </item>
+    <item>
+      <title>Web3: reverted with panic code 0x11 (Arithmetic operation underflowed or</title>
+      <link>https://fixmyerror.net/errors/web3-reverted-with-panic-code-0x11.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/web3-reverted-with-panic-code-0x11.html</guid>
+      <category>Web3</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Since Solidity 0.8 every addition, subtraction and multiplication is checked, and an overflow or underflow reverts with Panic(0x11) instead of wrapping around. In practice it is nearly always an underflow: subtracting more than a balance holds, decrementing a counter at zero, or computing a…</description>
+    </item>
+    <item>
+      <title>WebAssembly: RuntimeError: float unrepresentable in integer range</title>
+      <link>https://fixmyerror.net/errors/wasm-float-unrepresentable-in-integer-range.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/wasm-float-unrepresentable-in-integer-range.html</guid>
+      <category>WebAssembly</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The module converted a float to an integer with an instruction that traps when the value does not fit: NaN, infinity, or anything outside the integer&apos;s range. Native code usually gets away with this because x86 quietly returns a junk value, so the bug only shows up once compiled to WebAssembly…</description>
+    </item>
+    <item>
+      <title>Windows: Error 1069: The service did not start due to a logon failure.</title>
+      <link>https://fixmyerror.net/errors/windows-error-1069-service-logon-failure.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-error-1069-service-logon-failure.html</guid>
+      <category>Windows</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The service is set to run as a specific account, and Windows could not log that account on. Almost always the password stored in the service configuration is out of date, because services do not pick up a password change on the account. It can also mean the account is locked or disabled, or that…</description>
+    </item>
+    <item>
+      <title>winget: No package found matching input criteria.</title>
+      <link>https://fixmyerror.net/errors/winget-no-package-found-matching-input-criteria.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/winget-no-package-found-matching-input-criteria.html</guid>
+      <category>Windows</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>winget searched its sources and nothing matched what you typed. Often the package exists but the query was the display name and you passed it with --id, or the msstore source is disabled or failing, which is common on managed machines and Windows Server. Running winget under SYSTEM or in a fresh…</description>
+    </item>
+    <item>
+      <title>Xcode: error: Multiple commands produce &apos;.../App.app/Info.plist&apos;</title>
+      <link>https://fixmyerror.net/errors/xcode-multiple-commands-produce.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-multiple-commands-produce.html</guid>
+      <category>Apple</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Two build steps would write the same file in the product, and since the new build system in Xcode 10 that is an error, not a silent overwrite. By far the commonest cause is Info.plist ticked as a member of the app target, so it is both processed as the Info.plist and copied as a resource. Other…</description>
+    </item>
+    <item>
+      <title>xcodebuild: error: Unable to find a destination matching the provided</title>
+      <link>https://fixmyerror.net/errors/xcodebuild-unable-to-find-destination-matching-specifier.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/xcodebuild-unable-to-find-destination-matching-specifier.html</guid>
+      <category>Apple</category>
+      <pubDate>Wed, 18 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The -destination you passed does not match any simulator or device available to this Xcode. Usually the named simulator does not exist under that exact name and OS version, or the OS runtime is not installed: since Xcode 15 the iOS simulator runtime is a separate download, so a freshly installed…</description>
+    </item>
     <item>
       <title>ActionController::ParameterMissing: param is missing or the value is empty: user</title>
       <link>https://fixmyerror.net/errors/rails-actioncontroller-parametermissing.html</link>
@@ -1319,294 +1607,6 @@
       <category>MessageQueue</category>
       <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
       <description>Consumer groups and transactions need the internal __consumer_offsets topic, and the broker cannot find a healthy leader for the partition that owns your group. On a fresh single-broker dev cluster the classic cause is offsets.topic.replication.factor left at its default of 3, so the topic can…</description>
-    </item>
-    <item>
-      <title>Kubernetes Ingress Controller Fake Certificate served instead of yours</title>
-      <link>https://fixmyerror.net/errors/ingress-nginx-kubernetes-ingress-controller-fake-certificate.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ingress-nginx-kubernetes-ingress-controller-fake-certificate.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>ingress-nginx serves its built-in self-signed certificate whenever it cannot match the request to a usable TLS secret. The secret may be missing or in a different namespace from the Ingress, the hostname in spec.tls may not match spec.rules, or the client is not sending SNI at all. cert-manager…</description>
-    </item>
-    <item>
-      <title>LeakSanitizer: detected memory leaks</title>
-      <link>https://fixmyerror.net/errors/cpp-leaksanitizer-detected-memory-leaks.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-leaksanitizer-detected-memory-leaks.html</guid>
-      <category>C++</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>LeakSanitizer runs when the process exits and reports heap blocks that nothing points to any more. It is on by default with AddressSanitizer on Linux, which is why it starts failing tests the day someone enables -fsanitize=address. Direct leaks are the ones to fix first; indirect leaks are usually…</description>
-    </item>
-    <item>
-      <title>nf_conntrack: table full, dropping packet</title>
-      <link>https://fixmyerror.net/errors/nf-conntrack-table-full-dropping-packet.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nf-conntrack-table-full-dropping-packet.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The kernel tracks every connection passing through netfilter, and that table has a fixed size. Once it fills, new connections are silently dropped, which looks like random timeouts under load rather than an error. It is common on busy load balancers, NAT gateways and Kubernetes nodes where…</description>
-    </item>
-    <item>
-      <title>nginx: no resolver defined to resolve backend.example.com</title>
-      <link>https://fixmyerror.net/errors/nginx-no-resolver-defined-to-resolve.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-no-resolver-defined-to-resolve.html</guid>
-      <category>Proxy</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>When proxy_pass contains a variable, nginx resolves the hostname at request time instead of at startup, and that needs its own resolver directive: it does not read /etc/resolv.conf. People add the variable on purpose so nginx starts even when the backend is down, or so it picks up DNS changes…</description>
-    </item>
-    <item>
-      <title>nginx: SSL_do_handshake() failed while SSL handshaking to upstream</title>
-      <link>https://fixmyerror.net/errors/nginx-ssl-do-handshake-failed-ssl-handshaking-to-upstream.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/nginx-ssl-do-handshake-failed-ssl-handshaking-to-upstream.html</guid>
-      <category>Proxy</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>nginx reached the HTTPS backend but the TLS handshake failed, and the usual reason surprises people: nginx does not send SNI to upstreams by default. A backend behind a CDN, a cloud load balancer or any shared host picks its certificate by SNI, so without it the handshake is refused with a…</description>
-    </item>
-    <item>
-      <title>RabbitMQ: ACCESS_REFUSED - Login was refused using authentication mechanism</title>
-      <link>https://fixmyerror.net/errors/rabbitmq-access-refused-login-was-refused-plain.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rabbitmq-access-refused-login-was-refused-plain.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The broker rejected the username and password, but the credentials are not always what is wrong. The default guest user is restricted to localhost, so guest/guest works on your machine and fails from another container or host. The other common causes are a user with no permissions on the virtual…</description>
-    </item>
-    <item>
-      <title>S3: SlowDown: Please reduce your request rate (503)</title>
-      <link>https://fixmyerror.net/errors/s3-slowdown-please-reduce-your-request-rate.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-slowdown-please-reduce-your-request-rate.html</guid>
-      <category>Storage</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>S3 is throttling requests to one key prefix, not your whole account. Each prefix supports around 3,500 writes and 5,500 reads a second, and a burst that lands on a single prefix (every object under logs/2026-10-17/, say) hits that ceiling while the rest of the bucket is idle. It also appears…</description>
-    </item>
-    <item>
-      <title>S3: The requested bucket name is not available (BucketAlreadyExists)</title>
-      <link>https://fixmyerror.net/errors/s3-bucket-already-exists-namespace-shared.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-bucket-already-exists-namespace-shared.html</guid>
-      <category>Storage</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Bucket names are global across every AWS account in a partition, so somebody else already owns this one, possibly years ago. BucketAlreadyOwnedByYou is the friendlier variant and means you created it yourself, usually in another region or an earlier Terraform run. A name deleted recently can also…</description>
-    </item>
-    <item>
-      <title>Slack API: not_in_channel</title>
-      <link>https://fixmyerror.net/errors/slack-api-not-in-channel.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/slack-api-not-in-channel.html</guid>
-      <category>API</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The bot token is valid and has chat:write, but the app has not been added to the channel it is posting to. Slack treats that as membership, not permission, so adding more scopes will not help. It often shows up when a webhook-style integration moves to chat.postMessage, or when the channel ID in…</description>
-    </item>
-    <item>
-      <title>Squid: ERR_ACCESS_DENIED Access control configuration prevents your request</title>
-      <link>https://fixmyerror.net/errors/squid-err-access-denied.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/squid-err-access-denied.html</guid>
-      <category>Proxy</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The request reached Squid and Squid itself refused it: the destination site is fine. Squid walks http_access rules top to bottom and the first match wins, so a client network missing from localnet, a CONNECT to a port outside SSL_ports, or a new allow rule placed below http_access deny all will…</description>
-    </item>
-    <item>
-      <title>Structure needs cleaning</title>
-      <link>https://fixmyerror.net/errors/linux-structure-needs-cleaning-euclean.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-structure-needs-cleaning-euclean.html</guid>
-      <category>Storage</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This is EUCLEAN, the kernel saying the filesystem found corrupt metadata and refused to trust it. On XFS and ext4 it usually follows an unclean shutdown, a failing disk or a virtual disk that lost writes. The file or directory named in the error is only where the damage was noticed: the repair has…</description>
-    </item>
-    <item>
-      <title>sudo: a terminal is required to read the password</title>
-      <link>https://fixmyerror.net/errors/sudo-a-terminal-is-required-to-read-the-password.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/sudo-a-terminal-is-required-to-read-the-password.html</guid>
-      <category>Shell</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>sudo wanted a password but had no terminal to ask on, because the command ran over ssh without a TTY, from cron, in a CI job or inside an Ansible or Docker step. The same command works when you type it interactively because there you have a terminal and possibly a cached sudo timestamp. The fix is…</description>
-    </item>
-    <item>
-      <title>This operation has been blocked as a potential Cross-Site Request Forgery (CSRF)</title>
-      <link>https://fixmyerror.net/errors/apollo-server-blocked-potential-csrf.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/apollo-server-blocked-potential-csrf.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Apollo Server 4 turns on CSRF prevention by default. It refuses GET requests and &quot;simple&quot; POSTs (form-encoded, multipart or text/plain) unless they carry a header a browser cannot add cross-site without a preflight. Normal JSON clients are unaffected, so it usually bites curl one-liners, health…</description>
-    </item>
-    <item>
-      <title>Twilio 21608: Trial accounts cannot send messages to unverified numbers</title>
-      <link>https://fixmyerror.net/errors/twilio-21608-trial-accounts-unverified-numbers.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/twilio-21608-trial-accounts-unverified-numbers.html</guid>
-      <category>API</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The request is fine; the account is still on a trial, and trials may only message numbers verified on that account. It catches teams whose staging works because every developer verified their own phone, then fails the first time a real customer number is used. Upgrading the account removes the…</description>
-    </item>
-    <item>
-      <title>Using degraded feature set UDP instead of UDP+EDNS0 for DNS server</title>
-      <link>https://fixmyerror.net/errors/systemd-resolved-degraded-feature-set-udp-edns0.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/systemd-resolved-degraded-feature-set-udp-edns0.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>systemd-resolved probes each upstream server for EDNS0 and DNSSEC support and steps down when replies look broken. The upstream is usually a home router or ISP resolver that mangles or drops EDNS0 packets. On its own the message is noise, but if lookups are also slow or failing it means resolved…</description>
-    </item>
-    <item>
-      <title>zone example.com/IN: NS &apos;ns1.example.com&apos; has no address records (A or AAAA)</title>
-      <link>https://fixmyerror.net/errors/named-checkzone-ns-has-no-address-records.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/named-checkzone-ns-has-no-address-records.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The zone lists a name server inside itself but never gives that server an A or AAAA record, so nobody could find it. BIND refuses to load the zone rather than serve a delegation that cannot work. Frequent causes are a typo in the glue name, a missing trailing dot that turned ns1.example.com. into…</description>
-    </item>
-    <item>
-      <title>.NET: BinaryFormatter serialization and deserialization have been removed</title>
-      <link>https://fixmyerror.net/errors/dotnet-9-binaryformatter-removed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-9-binaryformatter-removed.html</guid>
-      <category>C#</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>.NET 9 removed the BinaryFormatter implementation: the type still compiles, but every call throws PlatformNotSupportedException. It was deprecated because deserialising untrusted data with it allows remote code execution. Code that has not touched it directly often still hits it through an old…</description>
-    </item>
-    <item>
-      <title>.NET: NETSDK1045: The current .NET SDK does not support targeting .NET 10.0</title>
-      <link>https://fixmyerror.net/errors/dotnet-netsdk1045-sdk-does-not-support-targeting.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dotnet-netsdk1045-sdk-does-not-support-targeting.html</guid>
-      <category>C#</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The project&apos;s TargetFramework is newer than the SDK doing the build. Installing the new runtime is not enough, you need the matching SDK. The usual surprise is a global.json pinning an older SDK, or a CI image or Visual Studio install that lags behind, so the project builds on one machine and not…</description>
-    </item>
-    <item>
-      <title>Airflow: DAG.__init__() got an unexpected keyword argument &apos;schedule_interval&apos;</title>
-      <link>https://fixmyerror.net/errors/airflow-3-unexpected-keyword-schedule-interval.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/airflow-3-unexpected-keyword-schedule-interval.html</guid>
-      <category>BigData</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Airflow 3 removed the schedule_interval and timetable arguments that had been deprecated since 2.4; a DAG now takes a single schedule argument. Every DAG file written for Airflow 2 fails to import after the upgrade and shows up as a Broken DAG, even though nothing in the file changed. The same…</description>
-    </item>
-    <item>
-      <title>Alertmanager: Notify for alerts failed: notify retry canceled after 16 attempts</title>
-      <link>https://fixmyerror.net/errors/alertmanager-notify-retry-canceled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/alertmanager-notify-retry-canceled.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Alertmanager tried to deliver a notification until the group&apos;s retry window ran out, and every attempt failed. The line itself only says it gave up; the reason follows it, usually a webhook returning 4xx, a Slack or Teams URL that was revoked, an SMTP relay rejecting the login, or DNS and proxy…</description>
-    </item>
-    <item>
-      <title>Ansible: [WARNING]: Platform linux on host web1 is using the discovered Python</title>
-      <link>https://fixmyerror.net/errors/ansible-discovered-python-interpreter-warning.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-discovered-python-interpreter-warning.html</guid>
-      <category>Ansible</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Ansible had to guess which Python to run modules with on the managed host, and warns because a later package install could change the answer. It is harmless on its own, but the same guessing is behind confusing failures elsewhere: a module that says a library is missing when you installed it for a…</description>
-    </item>
-    <item>
-      <title>Ansible: Conditionals must have a boolean result</title>
-      <link>https://fixmyerror.net/errors/ansible-2-19-conditionals-must-have-boolean-result.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-2-19-conditionals-must-have-boolean-result.html</guid>
-      <category>Ansible</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>ansible-core 2.19 rewrote templating and stopped guessing the truthiness of non-boolean values in when, until, failed_when and changed_when. A condition like when: my_var, where my_var holds the string &quot;false&quot; or a list, used to be coerced quietly and sometimes wrongly; now it fails the task…</description>
-    </item>
-    <item>
-      <title>Ansible: ERROR! the role &apos;nginx&apos; was not found in</title>
-      <link>https://fixmyerror.net/errors/ansible-role-was-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-role-was-not-found.html</guid>
-      <category>Ansible</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Ansible searched its role path and found no directory with that name. The search starts relative to the playbook file, not the directory you run the command from, so moving a playbook into a subfolder breaks roles that sat next to it. Roles from Galaxy also need installing on each machine that…</description>
-    </item>
-    <item>
-      <title>ASP.NET Core: Synchronous operations are disallowed. Call ReadAsync or set</title>
-      <link>https://fixmyerror.net/errors/aspnet-core-synchronous-operations-are-disallowed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/aspnet-core-synchronous-operations-are-disallowed.html</guid>
-      <category>C#</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Kestrel and IIS block synchronous reads and writes on the request and response bodies, because a blocked thread per request starves the thread pool under load. The exception usually comes from a library rather than your code: an XmlSerializer, an old Newtonsoft.Json formatter, or a…</description>
-    </item>
-    <item>
-      <title>AWS Lambda: Runtime.HandlerNotFound: index.handler is undefined or not exported</title>
-      <link>https://fixmyerror.net/errors/lambda-runtime-handler-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-runtime-handler-not-found.html</guid>
-      <category>Serverless</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Lambda found and loaded the file named in the handler setting, but that file has no export called handler. The usual causes are a default export instead of a named one, a build step that puts the file in dist/ while the handler setting still says index, or a TypeScript build that was never run so…</description>
-    </item>
-    <item>
-      <title>AWS Lambda: Runtime.UserCodeSyntaxError: Cannot use import statement outside</title>
-      <link>https://fixmyerror.net/errors/lambda-cannot-use-import-statement-outside-module.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/lambda-cannot-use-import-statement-outside-module.html</guid>
-      <category>Serverless</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The Node.js runtime decides whether your handler is an ES module or CommonJS from the file extension and the nearest package.json, exactly as Node does locally. An index.js containing import statements is treated as CommonJS unless package.json says &quot;type&quot;: &quot;module&quot;. Locally a bundler or ts-node…</description>
-    </item>
-    <item>
-      <title>Azure Functions: No job functions found. Try making your job classes</title>
-      <link>https://fixmyerror.net/errors/azure-functions-no-job-functions-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/azure-functions-no-job-functions-found.html</guid>
-      <category>Serverless</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The host started but indexed zero functions, so there is nothing to run. The message talks about public classes, which is a .NET in-process hint, yet the real cause is usually elsewhere: FUNCTIONS_WORKER_RUNTIME not matching the code, a .NET isolated app deployed with the in-process setting, a…</description>
-    </item>
-    <item>
-      <title>Cloudflare: cf-cache-status: DYNAMIC</title>
-      <link>https://fixmyerror.net/errors/cloudflare-cf-cache-status-dynamic.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cloudflare-cf-cache-status-dynamic.html</guid>
-      <category>Caching</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>DYNAMIC means Cloudflare never considered the response for caching, which is different from a MISS. By default Cloudflare only caches static file extensions such as .css, .js and images; HTML and API responses pass straight through however long your Cache-Control max-age is. Adding headers at the…</description>
-    </item>
-    <item>
-      <title>Django: CacheKeyWarning: Cache key will cause errors if used with memcached</title>
-      <link>https://fixmyerror.net/errors/django-cache-key-warning-memcached.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/django-cache-key-warning-memcached.html</guid>
-      <category>Caching</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Memcached keys must be under 250 bytes and contain no spaces or control characters. Django warns about this on every backend so that code developed against the local memory cache does not break when it reaches a memcached production cluster. The usual culprits are keys built from URLs, search…</description>
-    </item>
-    <item>
-      <title>Fluent Bit: Action/metadata line [1] contains an unknown parameter [_type]</title>
-      <link>https://fixmyerror.net/errors/fluent-bit-elasticsearch-unknown-parameter-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/fluent-bit-elasticsearch-unknown-parameter-type.html</guid>
-      <category>Logging</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Elasticsearch 8 removed mapping types, and rejects any bulk request that still sends _type. Fluent Bit&apos;s es output sent _type: _doc by default, so a pipeline that was working breaks the moment the cluster is upgraded, with every chunk failing as HTTP 400. Every chunk is rejected, so nothing…</description>
-    </item>
-    <item>
-      <title>Grafana: Datasource ${DS_PROMETHEUS} was not found</title>
-      <link>https://fixmyerror.net/errors/grafana-datasource-ds-prometheus-was-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grafana-datasource-ds-prometheus-was-not-found.html</guid>
-      <category>Monitoring</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The dashboard was exported for sharing, which replaces every data source with a placeholder input like ${DS_PROMETHEUS}. The import screen normally asks you to map that input to a real data source, but provisioning, the HTTP API and Terraform skip that step and load the placeholder as if it were a…</description>
-    </item>
-    <item>
-      <title>gRPC: CANCELLED (code 1)</title>
-      <link>https://fixmyerror.net/errors/grpc-cancelled-code-1.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-cancelled-code-1.html</guid>
-      <category>gRPC</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The call was cancelled, almost always by the caller rather than the server. In Go the client context was cancelled (often a deferred cancel() or an HTTP request that ended), in Node and Python the client closed the call or the channel. Seen on the server, it means the client gave up and any…</description>
-    </item>
-    <item>
-      <title>gRPC: UNAVAILABLE: DNS resolution failed for service</title>
-      <link>https://fixmyerror.net/errors/grpc-dns-resolution-failed-for-service.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-dns-resolution-failed-for-service.html</guid>
-      <category>gRPC</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The channel could not turn the target into an address. Besides a plain typo, two gRPC quirks cause it: the target string uses its own URI syntax, so a scheme like http:// or a trailing path is read as part of the hostname, and C-core may use the c-ares resolver, which ignores /etc/hosts entries…</description>
-    </item>
-    <item>
-      <title>gRPC: UNAVAILABLE: failed to connect to all addresses</title>
-      <link>https://fixmyerror.net/errors/grpc-unavailable-failed-to-connect-to-all-addresses.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/grpc-unavailable-failed-to-connect-to-all-addresses.html</guid>
-      <category>gRPC</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This is the C-core wording (Python, Node&apos;s older grpc package, Ruby, C++, PHP) for a channel that resolved its target but could not open a working connection to any of the addresses. The text hides the real cause, which follows it in the debug string: connection refused, a TLS mismatch, a…</description>
-    </item>
-    <item>
-      <title>Java: PatternSyntaxException: Dangling meta character &apos;*&apos; near index 0</title>
-      <link>https://fixmyerror.net/errors/java-patternsyntaxexception-dangling-meta-character.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/java-patternsyntaxexception-dangling-meta-character.html</guid>
-      <category>Regex</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A quantifier such as *, + or ? appeared with nothing before it to repeat. It almost never comes from a regex you meant to write: String.split, replaceAll and matches all take a regular expression, so splitting on &quot;+&quot; or &quot;*&quot; as a plain separator fails. The same code works with &quot;,&quot; or &quot;;&quot; because…</description>
-    </item>
-    <item>
-      <title>JavaScript: Invalid regular expression: Duplicate capture group name</title>
-      <link>https://fixmyerror.net/errors/js-regex-duplicate-capture-group-name.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/js-regex-duplicate-capture-group-name.html</guid>
-      <category>Regex</category>
-      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Reusing a named group in different alternatives, as in (?\d{4})-\d{2}|\d{2}/(?\d{4}), only became legal in ES2025. Chrome 125, Firefox 129 and Safari 17 accept it; older browsers, older Node versions and some bundler parsers throw at the moment the script loads. A pattern that passes every test on…</description>
     </item>
   </channel>
 </rss>

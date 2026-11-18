@@ -15401,5 +15401,409 @@
       "https://docs.oracle.com/en/virtualization/virtualbox/7.1/user/vboxmanage.html"
     ],
     "dateAdded": "2026-11-12"
+  },
+  {
+    "id": "delta-schema-mismatch-detected-when-writing",
+    "title": "Delta Lake: A schema mismatch detected when writing to the Delta table",
+    "category": "BigData",
+    "explanation": "Delta checks every write against the schema stored in the table log and refuses anything that does not fit: a new column, a renamed one, or a type that differs (an int arriving where the table has a long). Plain Parquet would have written the file and left the problem for the next reader, which is why a job that worked before the switch to Delta now fails. Upstream sources that add a field are the usual trigger, and the error message lists both schemas so you can see exactly which column moved.",
+    "fix_snippet": "# 1. Compare the incoming DataFrame with the table (PySpark)\ndf.printSchema()\nspark.read.format(\"delta\").load(\"/data/orders\").printSchema()\n# 2. The extra column is expected: let this write add it\ndf.write.format(\"delta\").mode(\"append\") \\\n  .option(\"mergeSchema\", \"true\").save(\"/data/orders\")\n# 3. Or allow it for MERGE INTO and every write in the session\nspark.conf.set(\"spark.databricks.delta.schema.autoMerge.enabled\", \"true\")\n# 4. A type changed or a column was dropped: mergeSchema will not help.\n#    Rewrite the whole table with the new schema (this replaces the data)\ndf.write.format(\"delta\").mode(\"overwrite\") \\\n  .option(\"overwriteSchema\", \"true\").save(\"/data/orders\")\n# 5. Or cast the incoming column back to what the table expects\nfrom pyspark.sql.functions import col\ndf = df.withColumn(\"qty\", col(\"qty\").cast(\"long\"))",
+    "sources": [
+      "https://docs.delta.io/latest/delta-batch.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "spark-unresolved-column-with-suggestion",
+    "title": "Spark: [UNRESOLVED_COLUMN.WITH_SUGGESTION] A column or function parameter",
+    "category": "BigData",
+    "explanation": "The analyser could not match a name in your query to any column available at that point in the plan. Most often the column is genuinely missing because a CSV was read without header=true, or a select earlier in the chain dropped it. Case and punctuation also catch people out: a column called \"order id\" or \"order.id\" needs backticks, otherwise Spark reads the dot as struct field access. After a join, an ambiguous name can resolve against the wrong side. The suggestion list in the message shows what Spark can actually see.",
+    "fix_snippet": "# 1. What columns does Spark really have at this point?\ndf.printSchema()\nprint(df.columns)\n# 2. CSV read without a header gives you _c0, _c1, ...\ndf = spark.read.option(\"header\", \"true\").csv(\"s3a://bucket/orders.csv\")\n# 3. Names with spaces or dots need backticks\ndf.select(\"`order id`\", \"`customer.name`\")\ndf.selectExpr(\"`order id` AS order_id\")\n# 4. Rename once so the rest of the job is simple\ndf = df.toDF(*[c.strip().lower().replace(\" \", \"_\") for c in df.columns])\n# 5. After a join, qualify through the DataFrame you mean\njoined = orders.join(customers, orders.customer_id == customers.id)\njoined.select(orders.id, customers.name)\n# 6. In SQL, check the table the query actually reads\nspark.sql(\"DESCRIBE TABLE sales.orders\").show(truncate=False)",
+    "sources": [
+      "https://spark.apache.org/docs/latest/sql-error-conditions.html#unresolved-column-with-suggestion"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "airflow-conn-id-isnt-defined",
+    "title": "Airflow: AirflowNotFoundException: The conn_id `postgres_default` isn't defined",
+    "category": "BigData",
+    "explanation": "A hook or operator asked for a connection that none of Airflow's backends could supply. Airflow looks in a secrets backend if one is configured, then AIRFLOW_CONN_* environment variables, then the metadata database. The catch is that the lookup happens on the worker running the task, not on the machine where you created the connection, so a connection added through the UI of one environment, or an environment variable set only on the scheduler, is invisible to the worker. A typo in conn_id produces the same message.",
+    "fix_snippet": "# 1. Is the connection visible from where tasks actually run?\nairflow connections get postgres_default\nairflow connections list | grep -i postgres\n# 2. Run the same check inside a worker container\ndocker compose exec airflow-worker airflow connections get postgres_default\n# 3. Add it to the metadata database\nairflow connections add postgres_default \\\n  --conn-uri 'postgresql://etl:secret@db.internal:5432/warehouse'\n# 4. Or provide it as an environment variable on every component\n#    (scheduler, workers, triggerer). The name is upper-cased\nexport AIRFLOW_CONN_POSTGRES_DEFAULT='postgresql://etl:secret@db.internal:5432/warehouse'\n# 5. Using a secrets backend? Check the prefix it looks under\nairflow config get-value secrets backend\nairflow config get-value secrets backend_kwargs",
+    "sources": [
+      "https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "redis-clusterdown-hash-slot-not-served",
+    "title": "Redis: CLUSTERDOWN Hash slot not served",
+    "category": "Caching",
+    "explanation": "Every key in Redis Cluster hashes to one of 16384 slots, and the node you asked has no record of any master owning the slot for your key. Usually a master failed and no replica was available to promote, or a resharding or a fresh cluster setup left some slots unassigned. By default the whole cluster then refuses all commands, not just those for the missing slots, because cluster-require-full-coverage is yes. It looks like an outage of every node when only one shard is actually gone.",
+    "fix_snippet": "# 1. Overall state and how many slots are covered\nredis-cli -h 10.0.0.11 -p 6379 cluster info | grep -E 'cluster_state|slots_'\n# 2. Which nodes are failed, and which slots each master holds\nredis-cli -h 10.0.0.11 -p 6379 cluster nodes\n# 3. Let the tooling find open or uncovered slots and fix them\nredis-cli --cluster check 10.0.0.11:6379\nredis-cli --cluster fix 10.0.0.11:6379\n# 4. Bring the failed master back, or promote its replica by hand\nredis-cli -h 10.0.0.14 -p 6379 cluster failover\n# 5. Rather serve the slots you still have than nothing at all?\n#    Trades correctness on the lost shard for availability on the rest\nredis-cli -h 10.0.0.11 -p 6379 config set cluster-require-full-coverage no\n# 6. Give every master at least one replica so this recovers by itself",
+    "sources": [
+      "https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "service-worker-cache-addall-request-failed",
+    "title": "TypeError: Failed to execute 'addAll' on 'Cache': Request failed",
+    "category": "Caching",
+    "explanation": "cache.addAll() is all or nothing: if any single URL in the list fails to fetch or returns a status outside 200 to 299, the whole call rejects and nothing is cached. That rejection fails the service worker install event, so the new worker never activates and the site keeps running on the old one. The usual culprit is one stale entry in the precache list, such as a hashed asset renamed by the last build, a page that now redirects, or a path that only exists in development. The message does not say which URL it was.",
+    "fix_snippet": "// 1. Find the failing URL: DevTools > Network, tick \"Preserve log\",\n//    then Application > Service workers > \"Update\" and look for non-200s\n// 2. Or fetch each entry yourself to see which one breaks\nconst PRECACHE = ['/', '/index.html', '/app.3f9a1c.js', '/styles.css'];\nfor (const url of PRECACHE) {\n  const r = await fetch(url, { cache: 'reload' });\n  if (!r.ok) console.warn('precache failed', r.status, url);\n}\n// 3. Generate the list from the build output instead of by hand\n//    (Workbox, vite-plugin-pwa and similar do this for you)\n// 4. If some files are optional, cache them one by one so a\n//    single miss does not abort the whole install\nself.addEventListener('install', (event) => {\n  event.waitUntil(caches.open('v2').then((cache) =>\n    Promise.allSettled(PRECACHE.map((u) => cache.add(u)))));\n});",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Cache/addAll"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "spring-redis-defaultserializer-requires-serializable-payload",
+    "title": "Spring: DefaultSerializer requires a Serializable payload but received an object",
+    "category": "Caching",
+    "explanation": "With no serialiser configured, Spring's Redis cache and RedisTemplate fall back to JDK serialisation, which only accepts classes that implement java.io.Serializable. A DTO or entity that does not is rejected the first time @Cacheable tries to store it. Adding Serializable makes the error go away but leaves you with opaque binary values in Redis that break whenever the class changes. A JSON serialiser is usually the better fix, as long as you remember that entries written in the old format must be flushed.",
+    "fix_snippet": "// 1. Confirm which serialiser is in play: binary values starting\n//    with \\xac\\xed are JDK serialisation\n//    redis-cli --scan --pattern 'users::*' | head -1 | xargs redis-cli get\n// 2. Quick fix: make the cached class serialisable\npublic class UserDto implements java.io.Serializable { /* ... */ }\n// 3. Better: store JSON for every cache\n@Bean\nRedisCacheConfiguration cacheConfiguration() {\n  return RedisCacheConfiguration.defaultCacheConfig()\n    .serializeValuesWith(RedisSerializationContext.SerializationPair\n      .fromSerializer(new GenericJackson2JsonRedisSerializer()));\n}\n// 4. After switching format, clear entries written the old way\n//    redis-cli --scan --pattern 'users::*' | xargs -r redis-cli unlink",
+    "sources": [
+      "https://docs.spring.io/spring-data/redis/reference/redis/template.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "python-re-multiple-repeat",
+    "title": "Python: re.error: multiple repeat at position 2",
+    "category": "Regex",
+    "explanation": "Two quantifiers are stacked on the same thing, such as a** or x{2}*, so the pattern compiler cannot tell what the second one should repeat. It most often comes from building a pattern out of user input or a filename containing + or *, without escaping it. Python 3.11 added possessive quantifiers, so a++ and a*+ are now valid, which is why a pattern can fail on an older interpreter and compile on a newer one. From 3.13 the exception is called re.PatternError, with re.error kept as an alias.",
+    "fix_snippet": "# 1. Reproduce with the exact pattern and look at the position\npython3 -c \"import re; re.compile(r'C++ guide')\"\n# 2. Text from users or filenames: escape it before using it\npython3 -c \"import re; print(re.escape('C++ guide'))\"\n#    pattern = re.compile(re.escape(user_text))\n# 3. A literal + or * in a hand-written pattern needs a backslash\npython3 -c \"import re; print(re.findall(r'C\\+\\+', 'C++ and C'))\"\n# 4. Meant \"one or more, then optional\"? Group it first\npython3 -c \"import re; print(re.findall(r'(?:ab+)?c', 'abbc c'))\"\n# 5. Using a++ (possessive)? That needs Python 3.11 or newer\npython3 --version",
+    "sources": [
+      "https://docs.python.org/3/library/re.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "js-regex-invalid-named-capture-referenced",
+    "title": "JavaScript: Invalid regular expression: Invalid named capture referenced",
+    "category": "Regex",
+    "explanation": "The pattern has a \\k<name> backreference, but there is no group called that name. Usually it is a typo or a group that was renamed in one place only. The less obvious cause is that once a regex has any named group, or uses the u or v flag, \\k is always parsed as a named backreference, so a pattern that used to treat \\k as a plain letter k starts failing. The same mismatch in a replacement string, such as $<name>, does not throw at all: it silently inserts an empty string.",
+    "fix_snippet": "// 1. List the group names the engine actually sees\nconst re = /(?<year>\\d{4})-(?<month>\\d{2})/;\nconsole.log(Object.keys('2026-11'.match(re).groups));\n// 2. Make the backreference match a declared name exactly\n/(?<quote>['\"]).*?\\k<quote>/.test('\"hi\"');      // true\n// 3. Building the pattern from a string? Escape the backslash\nnew RegExp('(?<q>[\\'\"]).*?\\\\k<q>');\n// 4. Meant a literal k after a backslash? Write just k\n/a\\k/  // breaks once the regex has named groups or the u flag\n/ak/    // what was intended\n// 5. In replacements, a wrong $<name> is silent, so check it\n'2026-11'.replace(re, '$<month>/$<year>');",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Named_backreference"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "php-preg-match-unknown-modifier",
+    "title": "PHP: Warning: preg_match(): Unknown modifier 'd'",
+    "category": "Regex",
+    "explanation": "PCRE patterns in PHP must be wrapped in delimiters, and PHP treats the first character as the opening one. When the same character appears again unescaped inside the pattern, PHP takes it as the closing delimiter and reads everything after it as flags, so the letter after the stray slash is reported as an unknown modifier. A URL or file path inside a /.../ pattern is the classic case, as is a pattern with no delimiters at all. Because it is a warning, preg_match returns false and the code carries on as if nothing matched.",
+    "fix_snippet": "<?php\n// 1. The slash in the path ends the pattern early: Unknown modifier 'd'\n// preg_match('/api/docs/', $path);\n// 2. Pick a delimiter that does not appear in the pattern\npreg_match('#/api/docs/#', $path);\npreg_match('~^https?://example\\.com/~', $url);\n// 3. Or escape the delimiter where it appears\npreg_match('/\\/api\\/docs\\//', $path);\n// 4. User input inside a pattern: preg_quote with the delimiter\n$re = '#^' . preg_quote($prefix, '#') . '#';\n// 5. Find out why a pattern failed instead of assuming no match\nif (preg_match($re, $path) === false) {\n    error_log(preg_last_error_msg());\n}",
+    "sources": [
+      "https://www.php.net/manual/en/regexp.reference.delimiters.php"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "rust-getrandom-wasm32-unknown-unknown-not-supported",
+    "title": "getrandom: the wasm*-unknown-unknown targets are not supported by default",
+    "category": "WebAssembly",
+    "explanation": "wasm32-unknown-unknown has no operating system, so the getrandom crate has no source of randomness to call and refuses to compile rather than guess. You rarely depend on it directly: rand, uuid and many crypto crates pull it in. In the browser the answer is to use crypto.getRandomValues through JavaScript, which you opt into with a feature. The name of that feature changed between major versions (js in 0.2, wasm_js from 0.3), and a dependency tree can contain more than one version at once, so each one needs enabling.",
+    "fix_snippet": "# 1. Which getrandom versions are in the tree, and who pulls them in?\ncargo tree -i getrandom --target wasm32-unknown-unknown\n# 2. getrandom 0.2: enable the \"js\" feature in your own Cargo.toml\n#    [target.'cfg(target_arch = \"wasm32\")'.dependencies]\n#    getrandom = { version = \"0.2\", features = [\"js\"] }\n# 3. getrandom 0.3 and later: the feature is \"wasm_js\"\n#    getrandom = { version = \"0.3\", features = [\"wasm_js\"] }\n#    Some 0.3 releases also need a cfg flag; check the docs for yours:\n#    RUSTFLAGS='--cfg getrandom_backend=\"wasm_js\"'\n# 4. Rebuild for the browser\nwasm-pack build --target web\n# 5. Not running in a browser or Node? Use a WASI target instead\nrustup target add wasm32-wasip1",
+    "sources": [
+      "https://docs.rs/getrandom/latest/getrandom/"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "wasm-float-unrepresentable-in-integer-range",
+    "title": "WebAssembly: RuntimeError: float unrepresentable in integer range",
+    "category": "WebAssembly",
+    "explanation": "The module converted a float to an integer with an instruction that traps when the value does not fit: NaN, infinity, or anything outside the integer's range. Native code usually gets away with this because x86 quietly returns a junk value, so the bug only shows up once compiled to WebAssembly. Rust casts saturate and avoid it, but C and C++ code compiled with Emscripten can hit it, typically on a division by zero or an uninitialised value that becomes NaN before being cast to int.",
+    "fix_snippet": "# 1. Build with debug info so the stack trace names the function\nemcc main.c -O1 -g -o app.js\n# 2. Guard the cast in the source (C/C++)\n#    if (isnan(x) || x >= 2147483648.0 || x < -2147483648.0) x = 0;\n#    int n = (int)x;\n# 3. Or ask for saturating conversions, which clamp instead of trap\nemcc main.c -O2 -mnontrapping-fptoint -o app.js\n# 4. Check whether the module already uses saturating conversions\nwasm-objdump -d app.wasm | grep -c 'trunc_sat'\nwasm-objdump -d app.wasm | grep -c 'trunc_f64_s'\n# 5. Rust users: 'as' already saturates. If you see this, look for\n#    unchecked conversions such as to_int_unchecked",
+    "sources": [
+      "https://webassembly.github.io/spec/core/exec/numerics.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "wasm-ld-error-undefined-symbol",
+    "title": "wasm-ld: error: undefined symbol: my_function",
+    "category": "WebAssembly",
+    "explanation": "The linker found a call to a function whose body was in none of the inputs. In native builds the same code may link because a system library supplies the symbol, but for WebAssembly every library must itself be compiled with emcc or clang for wasm32. A static library built for the host is ignored or rejected. The other common cause is C++ name mangling: a C function declared in a C++ file without extern \"C\" is looked up under a mangled name that the C object does not provide.",
+    "fix_snippet": "# 1. Is the library on the link line at all, and built for wasm?\nemcc main.o -L./lib -lfoo -o app.js -v 2>&1 | grep wasm-ld\nfile lib/libfoo.a\n# 2. Does any object actually define the symbol? T means defined\nemnm lib/libfoo.a | grep my_function\nemnm main.o | grep my_function\n# 3. Mangled name (_Z...) on one side only? Declare it as C\n#    extern \"C\" int my_function(int);\n# 4. Rebuild third party code through the Emscripten wrappers\nemconfigure ./configure && emmake make\nemcmake cmake -B build && cmake --build build\n# 5. Meant to supply it from JavaScript? Use a JS library file\nemcc main.c --js-library mylib.js -o app.js",
+    "sources": [
+      "https://emscripten.org/docs/compiling/Building-Projects.html",
+      "https://emscripten.org/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "solidity-parsererror-source-not-found",
+    "title": "ParserError: Source \"@openzeppelin/contracts/token/ERC20/ERC20.sol\" not found",
+    "category": "Web3",
+    "explanation": "solc itself knows nothing about npm or git submodules: it only resolves an import through the include paths and remappings the build tool passes in. Hardhat maps @openzeppelin/ to node_modules, Foundry maps it through remappings to lib/, so the error means that mapping is missing or points at a folder that was never installed. A fresh clone without npm install or forge install is the usual case. In VS Code it often appears only in the editor, because the extension is not reading the same remappings as the build.",
+    "fix_snippet": "# 1. Is the library actually on disk?\nls node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol   # Hardhat\nls lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol  # Foundry\n# 2. Hardhat: install the package the import names\nnpm install @openzeppelin/contracts\n# 3. Foundry: install the dependency (or fetch submodules after a clone)\nforge install OpenZeppelin/openzeppelin-contracts\ngit submodule update --init --recursive\n# 4. Foundry: show the remappings it will pass to solc\nforge remappings\n# 5. Add the mapping if it is missing\necho '@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/' >> remappings.txt\n# 6. Editor only? Point the Solidity extension at remappings.txt\nforge build",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/path-resolution.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "web3-reverted-with-panic-code-0x11",
+    "title": "Web3: reverted with panic code 0x11 (Arithmetic operation underflowed or",
+    "category": "Web3",
+    "explanation": "Since Solidity 0.8 every addition, subtraction and multiplication is checked, and an overflow or underflow reverts with Panic(0x11) instead of wrapping around. In practice it is nearly always an underflow: subtracting more than a balance holds, decrementing a counter at zero, or computing a timestamp difference the wrong way round. Contracts or libraries written for 0.7 and earlier may rely on wrapping and break after an upgrade. Because it is a panic and not a require, there is no reason string pointing at the line.",
+    "fix_snippet": "# 1. Get a trace showing the line that reverted\nforge test --match-test testWithdraw -vvvv          # Foundry\nnpx hardhat test                                    # Hardhat names the failing call\n# 2. Replay a failing mainnet or testnet transaction\ncast run 0xTXHASH --rpc-url $RPC_URL\n# 3. Look for subtractions that can go below zero, e.g.\n#    balances[msg.sender] -= amount;\n#    Guard them with a clear message instead:\n#    require(balances[msg.sender] >= amount, \"insufficient balance\");\n# 4. Wrapping is genuinely intended (hashes, counters that roll over)?\n#    unchecked { counter -= 1; }\n# 5. Other panic codes: 0x12 divide by zero, 0x32 array index out of\n#    bounds, 0x01 failed assert",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/control-structures.html#panic-via-assert-and-error-via-require"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "ethers-execution-reverted-unknown-custom-error",
+    "title": "ethers: execution reverted (unknown custom error)",
+    "category": "Web3",
+    "explanation": "The contract reverted with a Solidity custom error, but the ABI you gave ethers does not include that error, so it cannot decode the four byte selector in the data field. It has become far more common since OpenZeppelin Contracts 5 replaced its revert strings with custom errors: what used to read \"ERC20: transfer amount exceeds allowance\" now arrives as ERC20InsufficientAllowance. An ABI copied by hand, or one for an interface such as IERC20 rather than the deployed contract, is the usual gap.",
+    "fix_snippet": "# 1. Take the first 4 bytes of the \"data\" field and look them up\ncast 4byte 0xfb8f41b2\ncast 4byte-decode 0xfb8f41b2000000000000000000000000...   # full data\n# 2. Or compute the selector of the error you suspect and compare\ncast sig \"ERC20InsufficientAllowance(address,uint256,uint256)\"\n# 3. Use the full compiled ABI, which includes custom errors\njq '.abi[] | select(.type==\"error\") | .name' out/MyToken.sol/MyToken.json\n# 4. Or decode it in code with the interface that declares the error\n#    const iface = new ethers.Interface([\"error ERC20InsufficientAllowance(address,uint256,uint256)\"]);\n#    iface.parseError(err.data)\n# 5. OpenZeppelin 5 allowance error? Approve before transferFrom\ncast send $TOKEN \"approve(address,uint256)\" $SPENDER 1000000 --private-key $PK",
+    "sources": [
+      "https://docs.soliditylang.org/en/latest/contracts.html#errors-and-the-revert-statement",
+      "https://docs.openzeppelin.com/contracts/5.x/api/interfaces"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "entra-aadsts50020-user-does-not-exist-in-tenant",
+    "title": "AADSTS50020: User account from identity provider does not exist in tenant",
+    "category": "Auth",
+    "explanation": "The person signed in successfully, but with an account that does not belong to the tenant the app sent them to, and they have not been invited as a guest there. Very often the app registration is fine and the URL is wrong: an app meant for any organisation or personal Microsoft accounts is still using the tenant-specific authority. It also happens when someone signs in with their personal Microsoft account by mistake, or a guest invitation was never redeemed. The tenant named in the message tells you which side to fix.",
+    "fix_snippet": "# 1. Which account types does the app accept?\naz ad app show --id <app-id> --query signInAudience\n#    AzureADMyOrg = this tenant only, AzureADMultipleOrgs = any work account,\n#    AzureADandPersonalMicrosoftAccount = also personal accounts\n# 2. Check the authority the app uses matches that audience\n#    single tenant: https://login.microsoftonline.com/<tenant-id>\n#    multi tenant:  https://login.microsoftonline.com/organizations\n#    plus personal: https://login.microsoftonline.com/common\n# 3. Opening the app to other organisations\naz ad app update --id <app-id> --sign-in-audience AzureADMultipleOrgs\n# 4. Single tenant on purpose? Invite the user as a guest instead\naz rest --method POST --url https://graph.microsoft.com/v1.0/invitations \\\n  --body '{\"invitedUserEmailAddress\":\"user@partner.com\",\"inviteRedirectUrl\":\"https://myapp.example.com\"}'\n# 5. Signed in with the wrong account? Retry in a private window",
+    "sources": [
+      "https://learn.microsoft.com/en-us/troubleshoot/entra/entra-id/app-integration/error-code-aadsts50020-user-account-identity-provider-does-not-exist"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "authjs-missingsecret-please-define-a-secret",
+    "title": "Auth.js: MissingSecret: Please define a `secret`",
+    "category": "Auth",
+    "explanation": "Auth.js encrypts its session cookie and signs its tokens with a secret, and in production it will not start without one. Version 5 reads AUTH_SECRET, while NextAuth.js 4 read NEXTAUTH_SECRET, so an upgrade that kept the old variable name is a common cause. In development a fallback is used, which is why it works locally and fails on the first deploy. Changing the secret later is safe but signs everyone out, because existing session cookies can no longer be decrypted.",
+    "fix_snippet": "# 1. Generate a strong secret (or: openssl rand -base64 33)\nnpx auth secret\n# 2. v5 reads AUTH_SECRET. Upgrading from v4? Rename the variable\ngrep -rn \"NEXTAUTH_SECRET\\|AUTH_SECRET\" .env* 2>/dev/null\n# 3. Set it where the app actually runs, not only in .env.local\nvercel env add AUTH_SECRET production\n#    or: docker run -e AUTH_SECRET=... / Kubernetes secret / systemd env\n# 4. Confirm the running process can see it (Node)\nnode -e \"console.log(Boolean(process.env.AUTH_SECRET))\"\n# 5. Or pass it explicitly in the config\n#    export const { handlers, auth } = NextAuth({ secret: process.env.AUTH_SECRET, providers: [...] })",
+    "sources": [
+      "https://authjs.dev/reference/core/errors",
+      "https://authjs.dev/getting-started/deployment"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "spring-security-authorization-request-not-found",
+    "title": "Spring Security: [authorization_request_not_found]",
+    "category": "Auth",
+    "explanation": "When OAuth 2 login starts, Spring Security stores the authorisation request, with its state value, in the HTTP session. When the provider redirects back, it looks that request up again, and this error means the session it finds is a different one. Load balancers without sticky sessions, an app restart mid-login, or a session cookie the browser refused to send are the usual causes. Running the app and the redirect URI on different hosts (localhost against 127.0.0.1) has the same effect, because the cookie belongs to the other host.",
+    "fix_snippet": "# 1. Watch the session cookie across the round trip in DevTools > Network:\n#    the JSESSIONID on /oauth2/authorization/... must match the one on\n#    /login/oauth2/code/...\n# 2. Same host both ways: redirect URI and browser URL must agree\ngrep -rn \"redirect-uri\\|redirect_uri\" src/main/resources/\n# 3. Several instances? Share sessions (or enable sticky sessions)\n#    implementation 'org.springframework.session:spring-session-data-redis'\n#    spring.session.store-type=redis   # older Spring Boot versions\n# 4. Behind a proxy or TLS terminator: honour X-Forwarded-* headers\n#    server.forward-headers-strategy=framework\n# 5. Cookie dropped on the cross-site redirect? Check SameSite and Secure\n#    server.servlet.session.cookie.same-site=lax\n#    server.servlet.session.cookie.secure=true\n# 6. More detail in the logs\n#    logging.level.org.springframework.security=DEBUG",
+    "sources": [
+      "https://docs.spring.io/spring-security/reference/servlet/oauth2/client/authorization-grants.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "winget-no-package-found-matching-input-criteria",
+    "title": "winget: No package found matching input criteria.",
+    "category": "Windows",
+    "explanation": "winget searched its sources and nothing matched what you typed. Often the package exists but the query was the display name and you passed it with --id, or the msstore source is disabled or failing, which is common on managed machines and Windows Server. Running winget under SYSTEM or in a fresh profile has the same effect, because sources are configured per user and may never have been initialised. For upgrade and uninstall, it can also mean the installed app was not installed in a way winget recognises.",
+    "fix_snippet": "# 1. Search broadly before installing by exact id\nwinget search \"visual studio code\"\nwinget search --id Microsoft.VisualStudioCode --exact\n# 2. Which sources are configured, and are they healthy?\nwinget source list\nwinget source update\n# 3. Reset sources to the defaults if one is broken (elevated)\nwinget source reset --force\n# 4. Install by exact id from a named source\nwinget install --id Microsoft.VisualStudioCode --exact --source winget\n# 5. For upgrades, see what winget thinks is installed\nwinget list --name \"Visual Studio Code\"\n# 6. Check the client version; old App Installer builds miss packages\nwinget --version",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/package-manager/winget/search",
+      "https://learn.microsoft.com/en-us/windows/package-manager/winget/source"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "dism-0x800f081f-source-files-could-not-be-found",
+    "title": "DISM: Error: 0x800f081f The source files could not be found.",
+    "category": "Windows",
+    "explanation": "DISM needs clean copies of system files to repair the component store or to add a feature such as .NET Framework 3.5, and it could not get them. By default it downloads them from Windows Update, so the error usually means that route is blocked: a WSUS server or group policy that does not allow repair content, or no internet. The other cause is pointing /Source at an install image from a different Windows build, which DISM rejects even though the files look right. Matching the build number exactly is what matters.",
+    "fix_snippet": ":: 1. Find the exact build you are running\nver\ndism /online /get-currentedition\n:: 2. Mount an ISO of the same build (say on D:) and list its images\ndism /get-wiminfo /wimfile:D:\\sources\\install.wim\n:: 3. Repair from that image (use .esd instead of .wim if that is what it has)\ndism /online /cleanup-image /restorehealth /source:wim:D:\\sources\\install.wim:1 /limitaccess\n:: 4. Adding .NET 3.5? Point at the ISO's sxs folder\ndism /online /enable-feature /featurename:NetFx3 /all /source:D:\\sources\\sxs /limitaccess\n:: 5. Under WSUS: allow repair content from Windows Update via the GPO\n::    \"Specify settings for optional component installation and component repair\"\n:: 6. Then check system files\nsfc /scannow",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/configure-a-windows-repair-source"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "windows-error-1069-service-logon-failure",
+    "title": "Windows: Error 1069: The service did not start due to a logon failure.",
+    "category": "Windows",
+    "explanation": "The service is set to run as a specific account, and Windows could not log that account on. Almost always the password stored in the service configuration is out of date, because services do not pick up a password change on the account. It can also mean the account is locked or disabled, or that it lacks the \"Log on as a service\" right, which a group policy refresh can quietly remove. The same account can log on interactively and still fail here, which makes it look like the password is fine.",
+    "fix_snippet": "# 1. Which account does the service use?\nsc.exe qc MyService\n# 2. Is that account locked, disabled or expired? (domain account)\nGet-ADUser svc-app -Properties LockedOut,Enabled,PasswordExpired,PasswordLastSet\n# 3. Look for the matching logon failure in the event log\nGet-WinEvent -FilterHashtable @{LogName='System'; Id=7038,7000} -MaxEvents 5\n# 4. Update the stored password (space after password= is required)\nsc.exe config MyService obj= \"CONTOSO\\svc-app\" password= \"NewP@ssw0rd\"\n# 5. Check the account holds \"Log on as a service\"\nsecedit /export /cfg $env:TEMP\\secpol.cfg\nSelect-String SeServiceLogonRight $env:TEMP\\secpol.cfg\n# 6. Start it again\nStart-Service MyService\n# 7. Tired of rotating passwords? Use a group managed service account",
+    "sources": [
+      "https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--1000-1299-",
+      "https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/log-on-as-a-service"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "macos-codesign-errsecinternalcomponent",
+    "title": "macOS: codesign: errSecInternalComponent",
+    "category": "Apple",
+    "explanation": "codesign found your signing identity but could not use its private key. Despite the vague name, this almost always means the keychain holding the key is locked, or macOS wanted to ask for permission and had no screen to show the dialog on. That is why signing works in Xcode on the desktop and fails over SSH, in a CI runner or in a launchd job. A key imported without allowing codesign to use it does the same thing.",
+    "fix_snippet": "# 1. Is the identity there and valid?\nsecurity find-identity -v -p codesigning\n# 2. Unlock the keychain in the same session that signs\nsecurity unlock-keychain -p \"$KEYCHAIN_PASSWORD\" ~/Library/Keychains/build.keychain-db\n# 3. Stop it locking again part way through a long build\nsecurity set-keychain-settings -lut 21600 ~/Library/Keychains/build.keychain-db\n# 4. Allow codesign to use the key without a prompt (run once after import)\nsecurity set-key-partition-list -S apple-tool:,apple:,codesign: -s \\\n  -k \"$KEYCHAIN_PASSWORD\" ~/Library/Keychains/build.keychain-db\n# 5. Make sure the keychain is in the search list\nsecurity list-keychains -d user -s build.keychain-db login.keychain-db\n# 6. Try a test signature to confirm\ncodesign --force --sign \"Developer ID Application: Example Ltd\" ./MyTool",
+    "sources": [
+      "https://developer.apple.com/documentation/security/errsecinternalcomponent"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "xcode-multiple-commands-produce",
+    "title": "Xcode: error: Multiple commands produce '.../App.app/Info.plist'",
+    "category": "Apple",
+    "explanation": "Two build steps would write the same file in the product, and since the new build system in Xcode 10 that is an error, not a silent overwrite. By far the commonest cause is Info.plist ticked as a member of the app target, so it is both processed as the Info.plist and copied as a resource. Other cases are two files with the same name in different groups landing in one bundle, or CocoaPods copying a resource that a target also copies. The full message lists both commands, which tells you which two to choose between.",
+    "fix_snippet": "# 1. Read the full error: it names both commands (e.g. ProcessInfoPlistFile\n#    and CopyPlistFile) and the target. Then in Xcode:\n#    Target > Build Phases > Copy Bundle Resources, remove Info.plist\n# 2. From the terminal: find what is copied twice\nxcodebuild -scheme App -showBuildSettings | grep INFOPLIST_FILE\ngrep -n \"Info.plist in Resources\" App.xcodeproj/project.pbxproj\n# 3. Files with the same name in different folders\nfind . -path ./Pods -prune -o -name \"*.json\" -print | xargs -n1 basename | sort | uniq -d\n# 4. CocoaPods resources clashing? Reinstall and clean\npod deintegrate && pod install\n# 5. Clean the build folder before trying again\nxcodebuild -scheme App clean\nrm -rf ~/Library/Developer/Xcode/DerivedData/App-*",
+    "sources": [
+      "https://developer.apple.com/documentation/xcode-release-notes/build-system-release-notes-for-xcode-10"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "xcodebuild-unable-to-find-destination-matching-specifier",
+    "title": "xcodebuild: error: Unable to find a destination matching the provided",
+    "category": "Apple",
+    "explanation": "The -destination you passed does not match any simulator or device available to this Xcode. Usually the named simulator does not exist under that exact name and OS version, or the OS runtime is not installed: since Xcode 15 the iOS simulator runtime is a separate download, so a freshly installed Xcode on a CI runner may have none at all. A deployment target newer than the installed runtimes also rules every simulator out. The list printed under the error shows what xcodebuild does consider valid.",
+    "fix_snippet": "# 1. What does xcodebuild accept for this scheme?\nxcodebuild -scheme App -showdestinations\n# 2. Which simulators and runtimes exist?\nxcrun simctl list devices available\nxcrun simctl list runtimes\n# 3. No iOS runtime installed? Download it (Xcode 15 and later)\nxcodebuild -downloadPlatform iOS\n# 4. Use a name and OS that appear in the lists above\nxcodebuild test -scheme App \\\n  -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest'\n# 5. Or create the simulator you asked for\nxcrun simctl create \"iPhone 16\" \"iPhone 16\" com.apple.CoreSimulator.SimRuntime.iOS-18-0\n# 6. Several Xcodes on the runner? Check which one is selected\nxcode-select -p",
+    "sources": [
+      "https://developer.apple.com/documentation/xcode/downloading-and-installing-additional-xcode-components"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "scala-ambiguous-reference-to-overloaded-definition",
+    "title": "Scala: ambiguous reference to overloaded definition",
+    "category": "Scala",
+    "explanation": "More than one overload of the method fits the arguments and the compiler has no rule that makes one more specific. It turns up mostly with Java APIs: since Scala 2.12 a lambda can convert to any Java functional interface, so executor.submit(() => work()) fits both submit(Runnable) and submit(Callable). Passing null, or a numeric literal where Java overloads take int and long, causes the same thing. Scala 3 reports it as \"Ambiguous overload\" and lists the alternatives in the same way.",
+    "fix_snippet": "// 1. Read the two alternatives the compiler lists: the fix is to make\n//    the argument fit exactly one of them\n// 2. Lambda into an overloaded Java method: say which interface you mean\nval task: Runnable = () => work()\nexecutor.submit(task)\nexecutor.submit((() => compute()): java.util.concurrent.Callable[Int])\n// 3. null argument: give it a type\njavaApi.lookup(null: String)\n// 4. Numeric literal: ascribe the type the overload expects\nbuffer.put(0: Byte)\njavaApi.setTimeout(30L)\n// 5. Your own overloads clashing? Rename one, or use default parameters\ndef load(path: String, strict: Boolean = false): Config = ???",
+    "sources": [
+      "https://docs.scala-lang.org/scala3/reference/changed-features/overload-resolution.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "scala-class-needs-to-be-abstract",
+    "title": "Scala: class Foo needs to be abstract",
+    "category": "Scala",
+    "explanation": "The class extends a trait or abstract class but leaves at least one abstract member without a body. Often you did write the method, but with a signature that differs slightly: a different parameter type, a missing type parameter, or a Java interface method with a generic argument. That defines a new overload instead of implementing the inherited one, so the original stays abstract. Scala 2.12 and Scala 3 name the missing member in the message; Scala 2.13 lists it under \"Missing implementation for\", with a stub you can paste.",
+    "fix_snippet": "// 1. Read which member is missing and copy its exact signature\n// 2. Mark your implementation with override: if the signature is off,\n//    you get \"method x overrides nothing\", which points at the mismatch\ntrait Repository[A] { def find(id: Long): Option[A] }\nclass UserRepo extends Repository[User] {\n  override def find(id: Long): Option[User] = ???   // not find(id: Int)\n}\n// 3. Did not mean to implement everything yet? Say so\nabstract class BaseRepo extends Repository[User]\n// 4. Let the build show every missing member at once\n//    sbt compile   (or scala-cli compile .)\n// 5. IDE help: Metals and IntelliJ both offer \"Implement methods\"\n//    on the class name, which generates correct signatures",
+    "sources": [
+      "https://docs.scala-lang.org/tour/traits.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "scala-implicit-conversion-should-be-enabled",
+    "title": "Scala: implicit conversion method x should be enabled",
+    "category": "Scala",
+    "explanation": "Implicit conversions are a feature you must opt into, and defining one (Scala 2) or relying on one (Scala 3) without doing so produces this feature warning. On its own it is only a warning, but builds that turn warnings into errors with -Xfatal-warnings or -Werror then fail, which is why it can break CI after a compiler flag change rather than a code change. Scala 3 moves conversions to given Conversion instances and is stricter about where they apply.",
+    "fix_snippet": "// 1. Opt in where the conversion is defined (Scala 2) or used (Scala 3)\nimport scala.language.implicitConversions\n// 2. Or for the whole build (sbt)\n//    scalacOptions += \"-language:implicitConversions\"\n// 3. Scala 3 style: a given Conversion instead of an implicit def\ngiven Conversion[Int, Meters] = Meters(_)\n// 4. Often clearer to avoid the conversion with an extension method\nextension (n: Int) def meters: Meters = Meters(n)\nval d = 5.meters\n// 5. Check whether warnings are fatal in this build\n//    sbt \"show scalacOptions\"",
+    "sources": [
+      "https://docs.scala-lang.org/scala3/book/ca-implicit-conversions.html",
+      "https://www.scala-lang.org/api/current/scala/language$.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "flutter-dont-use-buildcontext-across-async-gaps",
+    "title": "Flutter: Don't use 'BuildContext's across async gaps.",
+    "category": "Dart",
+    "explanation": "This is the use_build_context_synchronously lint. After an await, the widget that owns the BuildContext may have been removed from the tree, so using that context for Navigator, ScaffoldMessenger or Theme can throw or act on the wrong screen. It is easy to trigger by awaiting an HTTP call and then popping the route when the user has already gone back. The newer variant, \"guarded by an unrelated mounted check\", means you checked State.mounted but then used a different context, such as one from a builder.",
+    "fix_snippet": "// 1. Check the context you are about to use is still mounted\nFuture<void> _save(BuildContext context) async {\n  await api.save(form);\n  if (!context.mounted) return;\n  Navigator.of(context).pop();\n}\n// 2. Inside a State, the State's own mounted works for its own context\nawait api.save(form);\nif (!mounted) return;\nScaffoldMessenger.of(context).showSnackBar(snack);\n// 3. Or capture what you need before the await\nfinal messenger = ScaffoldMessenger.of(context);\nawait api.save(form);\nmessenger.showSnackBar(snack);\n// 4. See every occurrence in the project\n//    dart analyze | grep use_build_context_synchronously",
+    "sources": [
+      "https://dart.dev/tools/linter-rules/use_build_context_synchronously"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "flutter-navigator-operation-requested-without-navigator",
+    "title": "Flutter: Navigator operation requested with a context that does not include",
+    "category": "Dart",
+    "explanation": "Navigator.of(context) walks up the tree from the context you pass, and found no Navigator above it. The Navigator is created by MaterialApp or CupertinoApp, so a context from the widget whose build method returns MaterialApp sits above it, not below. That is why a button placed directly in the same build method as MaterialApp fails while the same code in a separate screen widget works. Calling navigation from initState or from a service with no context at all hits the same wall.",
+    "fix_snippet": "// 1. Wrong: this context belongs to the widget that creates MaterialApp\n// return MaterialApp(home: ElevatedButton(\n//   onPressed: () => Navigator.of(context).push(...), ...));\n// 2. Give the button a context below MaterialApp with Builder\nreturn MaterialApp(\n  home: Builder(builder: (innerContext) => ElevatedButton(\n    onPressed: () => Navigator.of(innerContext).pushNamed('/settings'),\n    child: const Text('Settings'),\n  )),\n);\n// 3. Or move the screen into its own widget class (the usual structure)\n// 4. Navigating from outside the tree (push notifications, services)?\nfinal navigatorKey = GlobalKey<NavigatorState>();\n// MaterialApp(navigatorKey: navigatorKey, ...)\nnavigatorKey.currentState?.pushNamed('/inbox');",
+    "sources": [
+      "https://api.flutter.dev/flutter/widgets/Navigator-class.html"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "dart-future-string-cant-be-assigned-to-string",
+    "title": "Dart: A value of type 'Future<String>' can't be assigned to a variable of type",
+    "category": "Dart",
+    "explanation": "You called an async function and used its result directly, but an async function returns a Future that completes later, not the value itself. Usually an await is missing. The awkward case is when you cannot await because you are in a synchronous function such as a widget build method or a constructor, and adding async there either is not allowed or would not wait anyway. Then the value has to arrive through FutureBuilder, a state update, or by loading it earlier.",
+    "fix_snippet": "// 1. In an async function: await the call\nFuture<void> load() async {\n  final String name = await fetchName();\n}\n// 2. In build(): do not await, render the Future with FutureBuilder\nlate final Future<String> _name = fetchName();   // create once, not per build\n@override\nWidget build(BuildContext context) => FutureBuilder<String>(\n  future: _name,\n  builder: (context, snap) => snap.hasData\n      ? Text(snap.data!)\n      : const CircularProgressIndicator(),\n);\n// 3. In a State, or load in initState and call setState when done\n// fetchName().then((v) { if (mounted) setState(() => name = v); });\n// 4. Find unawaited futures in the project\n//    dart analyze (enable the unawaited_futures lint for more)",
+    "sources": [
+      "https://dart.dev/libraries/async/async-await",
+      "https://dart.dev/tools/diagnostics/invalid_assignment"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "svelte-5-bind-not-bindable",
+    "title": "Svelte 5: A component is attempting to bind to a non-bindable property",
+    "category": "Svelte",
+    "explanation": "In Svelte 4 every exported prop could be bound by the parent. In Svelte 5 runes mode, props are read-only to the parent by default, and the child has to opt in to two-way binding with $bindable(). So a parent that still writes bind:value on a component migrated to $props() throws this at runtime. The fix belongs in the child component, not the parent, which is what makes the message confusing: it is reported where the binding is written.",
+    "fix_snippet": "<!-- 1. The child (Input.svelte) must declare the prop as bindable -->\n<script>\n  let { value = $bindable(''), ...rest } = $props();\n</script>\n<input bind:value {...rest} />\n<!-- 2. The parent can now bind as before -->\n<Input bind:value={name} />\n<!-- 3. Prefer one-way data? Pass a callback instead of binding -->\n<!--    let { value, onchange } = $props(); -->\n<!--    <Input {value} onchange={(v) => (name = v)} /> -->\n<!-- 4. Find every bind: on components in the project -->\n<!--    grep -rn \"bind:[a-z]*=\" src --include=*.svelte -->",
+    "sources": [
+      "https://svelte.dev/docs/svelte/runtime-errors#Client-errors-bind_not_bindable",
+      "https://svelte.dev/docs/svelte/$bindable"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "sveltekit-cannot-use-relative-url-with-global-fetch",
+    "title": "SvelteKit: Cannot use relative URL (/api/items) with global fetch",
+    "category": "Svelte",
+    "explanation": "On the server there is no current page to resolve /api/items against, so the platform fetch only accepts absolute URLs. SvelteKit gives you its own fetch that can, and also calls your endpoints in process and forwards cookies. The error means the code used the global fetch instead: usually a load function that did not take fetch from its argument, or a helper module that calls fetch directly. It works when the same code runs in the browser, which is why it often appears only on a full page refresh.",
+    "fix_snippet": "// 1. In load, take fetch from the event instead of using the global one\nexport async function load({ fetch }) {\n  const res = await fetch('/api/items');\n  return { items: await res.json() };\n}\n// 2. In hooks, actions and +server.js, use event.fetch\nexport const actions = {\n  default: async (event) => {\n    const res = await event.fetch('/api/items', { method: 'POST' });\n  }\n};\n// 3. Shared helper? Pass fetch in rather than importing it\nexport const getItems = (fetch) => fetch('/api/items').then((r) => r.json());\n// 4. Find calls that use the global fetch on the server\n//    grep -rn \"await fetch(\" src/routes src/lib",
+    "sources": [
+      "https://svelte.dev/docs/kit/load#Making-fetch-requests"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "svelte-5-hydration-mismatch",
+    "title": "Svelte 5: Hydration failed because the initial UI does not match",
+    "category": "Svelte",
+    "explanation": "Svelte 5 hydrates by walking the server's HTML in the order it expects, and the DOM it found was a different shape. Very often the server output was correct but the browser rearranged it: invalid nesting such as a div inside a p, or an a inside an a, is silently repaired by the HTML parser. Markup that renders differently on server and client, such as dates, random ids, or checks for the browser, does the same. Browser extensions that inject elements cause it only for some users.",
+    "fix_snippet": "# 1. The console.error just before the warning names the offending HTML.\n#    Compiler warnings flag invalid nesting during the build too:\nnpx svelte-check --threshold warning\n# 2. Fix invalid nesting, e.g. <p><div>..</div></p> -> <div><div>..</div></div>\n# 3. Values that differ between server and client: compute in the browser\n#    let now = $state(null);\n#    $effect(() => { now = new Date().toLocaleString(); });\n# 4. Client-only widgets: render after mount\n#    {#if mounted}<Chart />{/if}\n# 5. Rule out extensions: retry in a private window with them disabled\n# 6. Compare the raw server HTML with what the browser built\ncurl -s http://localhost:5173/page | grep -n \"<p\" | head",
+    "sources": [
+      "https://svelte.dev/docs/svelte/runtime-warnings#Client-warnings-hydration_mismatch"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "grpc-unexpected-http-status-code-502-bad-gateway",
+    "title": "gRPC: unexpected HTTP status code received from server: 502 (Bad Gateway)",
+    "category": "gRPC",
+    "explanation": "The response did not come from a gRPC server at all. Something in between, a load balancer, ingress or reverse proxy, answered with an ordinary HTTP error page, and the client maps the HTTP status onto a gRPC code: 502, 503 and 504 become UNAVAILABLE, 401 becomes UNAUTHENTICATED. The \"unexpected content-type text/html\" part confirms it. Usually the proxy talks HTTP/1.1 to the backend, which gRPC cannot use, or it has no healthy backend, or it connects with TLS to a plaintext port or the other way round.",
+    "fix_snippet": "# 1. Talk to the backend directly, bypassing the proxy\ngrpcurl -plaintext 10.0.0.21:50051 list\n# 2. Then through the proxy, with headers shown\ngrpcurl -v api.example.com:443 list\ncurl -sv --http2 https://api.example.com/ -o /dev/null 2>&1 | grep -E '< HTTP|server:'\n# 3. nginx: gRPC needs grpc_pass, not proxy_pass, and http2 on the listener\n#    location / { grpc_pass grpc://backend:50051; }\n# 4. Kubernetes ingress-nginx: tell it the backend speaks gRPC\n#    nginx.ingress.kubernetes.io/backend-protocol: \"GRPC\"   # or GRPCS\n# 5. AWS ALB: target group protocol version must be gRPC, and the health\n#    check must expect gRPC codes (e.g. 0-99), not HTTP 200\n# 6. Read the proxy's own log for the upstream error behind the 502",
+    "sources": [
+      "https://github.com/grpc/grpc/blob/master/doc/http-grpc-status-mapping.md"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "protobuf-descriptors-cannot-be-created-directly",
+    "title": "protobuf: TypeError: Descriptors cannot be created directly.",
+    "category": "gRPC",
+    "explanation": "A _pb2.py file was generated by a protoc older than 3.19, and the installed protobuf runtime (4.21 or later) no longer accepts that style of generated code. Nothing in your code needs to change: the generated files are just out of date. It often appears after an unrelated upgrade pulls in a newer protobuf, and the stale _pb2.py file may not even be yours but inside a third party package. The traceback shows which file it is.",
+    "fix_snippet": "# 1. Which runtime is installed, and which file failed?\npython -m pip show protobuf grpcio-tools | grep -E '^(Name|Version)'\n# 2. Your own generated code: regenerate with a current grpcio-tools\npython -m pip install --upgrade grpcio-tools\npython -m grpc_tools.protoc -I protos --python_out=. --grpc_python_out=. \\\n  --pyi_out=. protos/service.proto\n# 3. Stale file inside a dependency: upgrade that package instead\npython -m pip install --upgrade <package-from-traceback>\n# 4. Cannot regenerate yet? Pin the old runtime as a stopgap\npython -m pip install \"protobuf<=3.20.3\"\n# 5. Or use the slow pure Python implementation temporarily\nexport PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python",
+    "sources": [
+      "https://protobuf.dev/news/2022-05-06/"
+    ],
+    "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "grpc-python-no-module-named-pb2",
+    "title": "gRPC Python: ModuleNotFoundError: No module named 'helloworld_pb2'",
+    "category": "gRPC",
+    "explanation": "The generated _pb2_grpc.py file imports its sibling as a top level module (import helloworld_pb2), which only works when that folder is on sys.path. The generated files themselves are fine. Once you move them into a package such as myapp/protos, the import fails. The import path in generated code mirrors the path of the .proto file relative to the -I include directory, so the lasting fix is to lay the .proto files out like the Python package and generate from the project root.",
+    "fix_snippet": "# 1. See the import the generated code uses\ngrep -n \"^import\\|^from\" myapp/protos/helloworld_pb2_grpc.py\n# 2. Put the .proto where its Python module should live, then generate\n#    from the root so the path becomes part of the import\npython -m grpc_tools.protoc -I . \\\n  --python_out=. --grpc_python_out=. --pyi_out=. \\\n  myapp/protos/helloworld.proto\n#    -> from myapp.protos import helloworld_pb2 as ...\n# 3. Make sure the folders are packages (or use namespace packages)\ntouch myapp/__init__.py myapp/protos/__init__.py\n# 4. Run from the project root so \"myapp\" is importable\npython -m myapp.server\n# 5. Quick stopgap only: add the generated folder to sys.path\n#    PYTHONPATH=myapp/protos python -m myapp.server",
+    "sources": [
+      "https://grpc.io/docs/languages/python/basics/"
+    ],
+    "dateAdded": "2026-11-18"
   }
 ]
