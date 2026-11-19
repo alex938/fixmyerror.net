@@ -15805,5 +15805,416 @@
       "https://grpc.io/docs/languages/python/basics/"
     ],
     "dateAdded": "2026-11-18"
+  },
+  {
+    "id": "fetch-request-with-get-head-method-cannot-have-body",
+    "title": "fetch: Request with GET/HEAD method cannot have body",
+    "category": "Client",
+    "explanation": "The Fetch standard forbids a body on GET and HEAD requests, so the browser rejects the call before anything reaches the network. It usually comes from a shared wrapper that always attaches JSON, or from code ported from axios or curl that sent filters in a GET body, which some servers tolerate. Node's built-in fetch enforces the same rule, so it fails in tests too. Filters for a GET belong in the query string; if the API really needs a body, it should be a POST.",
+    "fix_snippet": "// 1. The stack trace points at the fetch() call that sent the body\n// 2. Move GET parameters into the query string\nconst params = new URLSearchParams({ q: 'disk full', page: '2' });\nconst res = await fetch(`/api/search?${params}`);\n// 3. A shared wrapper should only attach a body when there is one\nasync function api(url, { method = 'GET', data } = {}) {\n  const init = { method, headers: {} };\n  if (data !== undefined && !['GET', 'HEAD'].includes(method)) {\n    init.headers['Content-Type'] = 'application/json';\n    init.body = JSON.stringify(data);\n  }\n  return fetch(url, init);\n}\n// 4. The endpoint genuinely needs a JSON body: make it a POST\nawait fetch('/api/search', { method: 'POST',\n  headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(filters) });",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/RequestInit"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "atob-string-to-be-decoded-is-not-correctly-encoded",
+    "title": "atob: The string to be decoded is not correctly encoded",
+    "category": "Client",
+    "explanation": "atob() only accepts standard Base64: letters, digits, + and /, padded with = to a multiple of four characters. The usual culprit is Base64url, which swaps + and / for - and _ and drops the padding, and is what JWTs, WebAuthn and plenty of APIs emit. A value that was URL-encoded on the way in (%2B, %3D) fails the same way. Even once it parses, atob() returns a binary string, so anything beyond plain ASCII needs a proper UTF-8 decode afterwards.",
+    "fix_snippet": "// 1. Look at exactly what you are decoding, and its length\nconsole.log(JSON.stringify(input), input.length % 4);\n// 2. Base64url (JWTs, WebAuthn): map back to standard Base64 and pad\nfunction fromBase64Url(s) {\n  s = s.replace(/-/g, '+').replace(/_/g, '/');\n  while (s.length % 4) s += '=';\n  return atob(s);\n}\n// 3. URL-encoded on the way in? Undo that first\nconst raw = atob(decodeURIComponent(input));\n// 4. atob gives bytes as a binary string: decode UTF-8 text properly\nconst bytes = Uint8Array.from(fromBase64Url(input), c => c.charCodeAt(0));\nconst text = new TextDecoder().decode(bytes);\n// 5. Current browsers can do it in one step\n// Uint8Array.fromBase64(input, { alphabet: 'base64url' })",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Window/atob"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "failed-to-read-localstorage-access-is-denied",
+    "title": "Failed to read the 'localStorage' property from 'Window': Access is denied",
+    "category": "Client",
+    "explanation": "Chrome throws this the moment code touches window.localStorage on a page where storage is blocked for that origin. The common case is your page running in an iframe on someone else's site with third-party cookies blocked; it also happens when the user blocks all site data, and in sandboxed iframes without allow-same-origin. Because the property access itself throws, not just setItem, one bare reference at module load can take down the whole app.",
+    "fix_snippet": "// 1. Is the page framed by another site? Check in the console\nconsole.log(window.top === window ? 'top level' : 'in an iframe', document.referrer);\n// 2. Wrap every access: the getter throws, not only setItem\nfunction safeStorage() {\n  try {\n    const s = window.localStorage;\n    s.setItem('__probe__', '1'); s.removeItem('__probe__');\n    return s;\n  } catch {\n    return null;   // fall back to memory, or skip persistence\n  }\n}\nconst theme = safeStorage()?.getItem('theme') ?? 'light';\n// 3. A sandboxed iframe you control needs allow-same-origin\n// <iframe sandbox=\"allow-scripts allow-same-origin\" src=\"...\">\n// 4. Embedded widget: ask for storage access from a user click\n// await document.requestStorageAccess();",
+    "sources": [
+      "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage",
+      "https://developer.mozilla.org/en-US/docs/Web/API/Storage_Access_API"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "terraform-unsupported-attribute",
+    "title": "Terraform: Error: Unsupported attribute",
+    "category": "Terraform",
+    "explanation": "A reference such as aws_instance.web.public_ip or module.vpc.subnet_ids points at an attribute the object does not have. For resources it is usually a typo or something a provider renamed in a major version. For modules it is almost always a missing output: a module only exposes what it declares in an output block, whatever the resources inside are called. A resource using count or for_each triggers it too, because it is a list or map that needs indexing before you can reach an attribute.",
+    "fix_snippet": "# 1. Check what the object really has\nterraform console\n> aws_instance.web\n> keys(module.vpc)\n# 2. Module values only exist if the module declares an output\n#    modules/vpc/outputs.tf\noutput \"private_subnet_ids\" {\n  value = aws_subnet.private[*].id\n}\n# 3. count and for_each resources must be indexed first\n#    aws_instance.web.public_ip          (wrong)\n#    aws_instance.web[0].public_ip       (count)\n#    aws_instance.web[\"api\"].public_ip   (for_each)\n#    aws_instance.web[*].public_ip       (all of them, as a list)\n# 4. Renamed in a provider upgrade? Check what you are running\nterraform version\nterraform providers",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/language/values/outputs",
+      "https://developer.hashicorp.com/terraform/language/expressions/references"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "terraform-for-each-must-be-a-map-or-set-of-strings",
+    "title": "Terraform: the \"for_each\" argument must be a map, or set of strings",
+    "category": "Terraform",
+    "explanation": "for_each needs a stable key for every instance, so it accepts only a map or a set of strings. A list is refused because its keys would be positions: remove one item and everything after it would be renumbered and replaced, which is exactly the problem for_each exists to avoid. Variables typed list(string), the result of split() and module outputs are the usual sources. toset() fixes a list of strings; for a list of objects, build a map keyed by a field that will not change.",
+    "fix_snippet": "# 1. See the type Terraform has for the value\nterraform console\n> type(var.bucket_names)\n# 2. A list of strings: convert it to a set\nresource \"aws_s3_bucket\" \"this\" {\n  for_each = toset(var.bucket_names)\n  bucket   = each.key\n}\n# 3. A list of objects: key it by something stable, never the index\nresource \"aws_iam_user\" \"this\" {\n  for_each = { for u in var.users : u.name => u }\n  name     = each.key\n  tags     = { team = each.value.team }\n}\n# 4. Moving from count? Map old addresses so nothing is replaced\nmoved {\n  from = aws_s3_bucket.this[0]\n  to   = aws_s3_bucket.this[\"logs\"]\n}",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/language/meta-arguments/for_each"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "terraform-unsupported-terraform-core-version",
+    "title": "Terraform: Error: Unsupported Terraform Core version",
+    "category": "Terraform",
+    "explanation": "A terraform block somewhere in the configuration sets required_version, and the binary you are running falls outside it. Every module is checked, including ones you did not write, so upgrading a registry module can bring this in without any change to your own code. It turns up most on CI runners and colleagues' machines pinned to an older release, and the other way round when a constraint such as ~> 1.5.0 rules out anything newer than 1.5.x.",
+    "fix_snippet": "# 1. Which version are you running, and which file set the constraint?\nterraform version\ngrep -rn \"required_version\" --include='*.tf' . .terraform/modules\n# 2. Install a version the constraint allows (tfenv shown; mise and asdf work too)\ntfenv list-remote | head\ntfenv install 1.9.8\ntfenv use 1.9.8\n# 3. Pin it in the repo so everyone and CI pick the same one\necho \"1.9.8\" > .terraform-version\n# 4. Your own constraint too tight? Loosen it on purpose\nterraform {\n  required_version = \">= 1.5.0, < 2.0.0\"\n}\n# 5. Re-initialise with the new binary\nterraform init -upgrade",
+    "sources": [
+      "https://developer.hashicorp.com/terraform/language/expressions/version-constraints"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "ansible-is-not-a-valid-attribute-for-a-play",
+    "title": "Ansible: ERROR! 'apt' is not a valid attribute for a Play",
+    "category": "Ansible",
+    "explanation": "Ansible read a key at play level and it is not a play keyword such as hosts, become or tasks. Nearly always a module has been written straight under the play, the tasks: line is missing, or indentation has slipped so a task sits beside hosts instead of inside the list. Running a file of tasks directly with ansible-playbook does the same thing, because each task gets read as a play. Inside a block or role the equivalent mistake reports 'for a Task' or 'for a Block' instead.",
+    "fix_snippet": "# 1. Let Ansible point at the structure problem\nansible-playbook site.yml --syntax-check\n# 2. Wrong: the module sits at play level\n- hosts: web\n  become: true\n  apt:\n    name: nginx\n# 3. Right: modules go inside the tasks list\n- hosts: web\n  become: true\n  tasks:\n    - name: Install nginx\n      ansible.builtin.apt:\n        name: nginx\n        state: present\n# 4. Running a tasks file? Import it from a play instead\n#    - ansible.builtin.import_tasks: tasks/nginx.yml\n# 5. ansible-lint catches this and the indentation slips around it\nansible-lint site.yml",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "ansible-could-not-find-or-access",
+    "title": "Ansible: Could not find or access 'nginx.conf.j2'",
+    "category": "Ansible",
+    "explanation": "The copy, template or script module looked for its source file on the control node and could not find it. A relative src is resolved against the role's files/ or templates/ directory, or the playbook's own directory, not the directory you ran the command from, which is why the same path works in one place and fails in another. The 'Searched in' list printed under the error shows every path Ansible tried. If the file lives on the managed host rather than the controller, copy needs remote_src: true.",
+    "fix_snippet": "# 1. Read the \"Searched in\" list under the error: it tells the whole story\nansible-playbook site.yml 2>&1 | grep -A12 \"Could not find or access\"\n# 2. In a role, put the file where the module looks for it\n#    roles/nginx/templates/nginx.conf.j2   (template)\n#    roles/nginx/files/nginx.conf          (copy, script)\nls roles/nginx/templates roles/nginx/files\n# 3. Then refer to it by name only\n- ansible.builtin.template:\n    src: nginx.conf.j2\n    dest: /etc/nginx/nginx.conf\n# 4. Outside a role, anchor the path to the playbook\n#    src: \"{{ playbook_dir }}/files/nginx.conf\"\n# 5. The file is already on the managed host, not the controller\n- ansible.builtin.copy:\n    src: /opt/build/app.conf\n    dest: /etc/app/app.conf\n    remote_src: true",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/playbook_guide/playbook_pathing.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "ansible-unsupported-parameters-for-module",
+    "title": "Ansible: Unsupported parameters for (ansible.builtin.copy) module: dest_path",
+    "category": "Ansible",
+    "explanation": "Every module checks its arguments against a fixed list before it runs, and one of yours is not on it. Typos and options borrowed from a similar module are common, but the confusing case is a version mismatch: the documentation you are reading describes a newer release of the module or collection than the one installed on your controller, so a recently added option does not exist there yet. The error ends with the parameters your installed version does accept.",
+    "fix_snippet": "# 1. The message ends with \"Supported parameters include\": read it\n# 2. Read the docs for the version actually installed\nansible-doc ansible.builtin.copy | less\nansible-doc community.docker.docker_container | grep -n \"image_name_mismatch\"\n# 3. Which ansible-core and collection versions does this controller have?\nansible --version\nansible-galaxy collection list community.docker\n# 4. Option added in a newer collection release: upgrade it\nansible-galaxy collection install community.docker --upgrade\n# 5. Pin it so every controller and CI agree\n#    collections/requirements.yml\n#    collections:\n#      - name: community.docker\n#        version: \">=4.0.0\"\nansible-galaxy collection install -r collections/requirements.yml",
+    "sources": [
+      "https://docs.ansible.com/ansible/latest/cli/ansible-doc.html",
+      "https://docs.ansible.com/ansible/latest/collections_guide/collections_installing.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "github-actions-upload-artifact-no-files-were-found",
+    "title": "GitHub Actions: No files were found with the provided path",
+    "category": "CI/CD",
+    "explanation": "actions/upload-artifact matched nothing, and by default it only warns and carries on, so the real failure shows up later when a download or deploy job finds nothing to work with. The path is relative to the workspace, not to the working-directory of an earlier run step. A build that wrote its output elsewhere, a skipped build step, or uploading from a different job (each job starts on a fresh runner) all cause it. Since v4, files and folders starting with a dot are left out unless you opt in.",
+    "fix_snippet": "# 1. List what the build actually produced, just before the upload\n- run: ls -la && find . -maxdepth 3 -type d -name dist\n# 2. Paths are relative to the workspace, not a step's working-directory\n- uses: actions/upload-artifact@v4\n  with:\n    name: web-build\n    path: frontend/dist/\n    if-no-files-found: error     # fail here, not three jobs later\n# 3. Dotfiles and dot folders (.next/, .output/) need opting in\n#    include-hidden-files: true\n# 4. Each job gets a fresh runner: build and upload in the same job,\n#    then download in the next one\n- uses: actions/download-artifact@v4\n  with:\n    name: web-build\n    path: frontend/dist/",
+    "sources": [
+      "https://github.com/actions/upload-artifact"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "github-actions-unable-to-resolve-action-unable-to-find-version",
+    "title": "GitHub Actions: Unable to resolve action `org/deploy@v3`, unable to find version",
+    "category": "CI/CD",
+    "explanation": "Before any step runs, the runner downloads every action named in uses:, and this one points at a tag, branch or commit that does not exist in that repository. Many actions keep a moving major tag such as v4 next to v4.2.1, but not all do, so a version copied from a README may only exist as a full tag, or not yet at all. A private action in another repository fails with 'repository not found' instead, which is a sharing setting rather than a missing version.",
+    "fix_snippet": "# 1. Which refs does the action really have?\ngit ls-remote --tags https://github.com/org/deploy | tail -n 20\ngh release list --repo org/deploy --limit 10\n# 2. Use a ref that exists, ideally a full commit SHA with a comment\n- uses: org/deploy@3f1c2a9e8b7d6c5f4e3a2b1c0d9e8f7a6b5c4d3e  # v3.1.0\n# 3. Action in a subdirectory of a repo? owner/repo/path@ref\n- uses: org/actions/deploy@v3\n# 4. Private action in another repo (\"repository not found\"):\n#    in that repo go to Settings > Actions > General > Access\n#    and allow repositories in the organisation to use it\n# 5. Let Dependabot keep pinned versions current\n#    .github/dependabot.yml\n#    updates:\n#      - package-ecosystem: github-actions\n#        directory: /\n#        schedule: { interval: weekly }",
+    "sources": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "github-actions-waiting-for-a-runner-to-pick-up-this-job",
+    "title": "GitHub Actions: Waiting for a runner to pick up this job...",
+    "category": "CI/CD",
+    "explanation": "The job is queued, but no available runner carries every label listed in runs-on, so GitHub keeps waiting instead of failing. A misspelt label never matches, and neither does a self-hosted runner that is offline, missing one of the labels, or in a runner group this repository is not allowed to use. On hosted runners it can simply be your plan's concurrency limit, in which case the job starts once others finish. Nothing in the job's own log will say which.",
+    "fix_snippet": "# 1. Compare runs-on with the labels your runners actually have\ngh api repos/OWNER/REPO/actions/runners --jq '.runners[] | {name, status, labels: [.labels[].name]}'\n# 2. Organisation runners, and the groups that control who may use them\ngh api orgs/ORG/actions/runners --jq '.runners[] | {name, status}'\ngh api orgs/ORG/actions/runner-groups --jq '.runner_groups[] | {name, visibility}'\n# 3. A runner must carry every label, so keep the list short\n#    runs-on: [self-hosted, linux, x64]\n# 4. Hosted runner? Use a current image label\n#    runs-on: ubuntu-24.04\n# 5. On the runner machine: is the service up and connected?\ncd ~/actions-runner && sudo ./svc.sh status\ntail -n 50 _diag/Runner_*.log",
+    "sources": [
+      "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "prometheus-field-not-found-in-type-config-plain",
+    "title": "Prometheus: field scrape_config not found in type config.plain",
+    "category": "Monitoring",
+    "explanation": "Prometheus parses its YAML strictly, so a key it does not recognise is fatal: the server will not start, or a reload is rejected and the old config stays live. config.plain is the top level of the file, so the key is either misspelt (scrape_config for scrape_configs) or indented so that it lands outside its parent. Other type names in the message, such as config.ScrapeConfig, tell you which block the stray key is sitting in.",
+    "fix_snippet": "# 1. Validate before restarting or reloading\npromtool check config /etc/prometheus/prometheus.yml\n# 2. The line number in the error is the unknown key; compare its\n#    spelling and indentation with the expected shape\nscrape_configs:\n  - job_name: node\n    static_configs:\n      - targets: ['10.0.0.5:9100']\n# 3. Running in Docker? Validate the file the container really mounts\ndocker run --rm -v \"$PWD/prometheus.yml:/p.yml\" --entrypoint promtool \\\n  prom/prometheus check config /p.yml\n# 4. A failed reload leaves the old config running: confirm it applied\ncurl -s localhost:9090/api/v1/status/config | head -n 20\njournalctl -u prometheus -n 30 | grep -iE \"loading config|reloading config\"",
+    "sources": [
+      "https://prometheus.io/docs/prometheus/latest/configuration/configuration/"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "prometheus-query-would-load-too-many-samples-into-memory",
+    "title": "Prometheus: query processing would load too many samples into memory",
+    "category": "Monitoring",
+    "explanation": "Prometheus caps how many samples one query may hold in memory at once (--query.max-samples, 50 million by default) and aborts the query rather than risk running out of memory. The limit counts samples touched, not rows returned, so a long range with a small step, a [30d] range vector over many series, or a Grafana panel at high resolution across a wide time window can hit it while the answer looks tiny. Raising the flag only moves the problem; reading less is the fix.",
+    "fix_snippet": "# 1. How many series does the selector match? That is the multiplier\n#    count(http_requests_total)\n#    count by (__name__) ({job=\"api\"})\n# 2. Aggregate early and narrow the selector\n#    sum by (status) (rate(http_requests_total{job=\"api\"}[5m]))\n# 3. Long ranges: query a recording rule instead of raw series\n#    rules.yml\ngroups:\n  - name: api\n    rules:\n      - record: job_status:http_requests:rate5m\n        expr: sum by (job, status) (rate(http_requests_total[5m]))\npromtool check rules rules.yml\n# 4. Grafana: raise the panel's Min interval so the step grows with the range\n# 5. Last resort, with the memory to back it\n#    --query.max-samples=100000000",
+    "sources": [
+      "https://prometheus.io/docs/prometheus/latest/command-line/prometheus/",
+      "https://prometheus.io/docs/practices/rules/"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "alertmanager-undefined-receiver-used-in-route",
+    "title": "Alertmanager: undefined receiver \"slack-ops\" used in route",
+    "category": "Monitoring",
+    "explanation": "Every route in the Alertmanager config names a receiver, and the name must match a receivers entry exactly, case included. This is checked when the file loads, so on startup Alertmanager refuses to run, and on a reload it quietly keeps the previous config: alerts carry on going to the old place and your change looks ignored. A typo, a receiver deleted while a child route still points at it, or Helm values that define routes and receivers in different places are the usual causes.",
+    "fix_snippet": "# 1. Validate the file the way Alertmanager will load it\namtool check-config /etc/alertmanager/alertmanager.yml\n# 2. List the names used on each side and compare them\ngrep -nE '^\\s*(- )?receiver:' /etc/alertmanager/alertmanager.yml\ngrep -nE '^\\s*- name:' /etc/alertmanager/alertmanager.yml\n# 3. Every route's receiver needs a matching entry\nroute:\n  receiver: default\n  routes:\n    - matchers: ['team=\"ops\"']\n      receiver: slack-ops\nreceivers:\n  - name: default\n  - name: slack-ops\n    slack_configs:\n      - channel: '#ops-alerts'\n        api_url_file: /etc/alertmanager/slack_url\n# 4. Reload, then check the running config really changed\ncurl -X POST localhost:9093/-/reload\namtool config show --alertmanager.url=http://localhost:9093 | head",
+    "sources": [
+      "https://prometheus.io/docs/alerting/latest/configuration/"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "csharp-sequence-contains-no-elements",
+    "title": "C#: System.InvalidOperationException: Sequence contains no elements",
+    "category": "C#",
+    "explanation": "A LINQ operator that has to return a value found nothing to return. First(), Single(), Last(), and Min(), Max() or Average() over a non-nullable type all throw on an empty sequence rather than make something up. With EF Core it usually means the filter matched no rows, often because an ID came from another environment or a global query filter (soft delete, tenant scoping) is hiding the row. Decide what 'none' means at that point; wrapping it in a try is not a fix.",
+    "fix_snippet": "// 1. The stack trace names the operator: First, Single, Last, Min, Max, Average\n// 2. \"None\" is a valid answer: use the OrDefault form and handle null\nvar user = await db.Users.FirstOrDefaultAsync(u => u.Email == email);\nif (user is null) return Results.NotFound();\n// 3. Aggregates over a possibly empty set: project to a nullable type\ndecimal? max = await db.Orders.Where(o => o.CustomerId == id)\n                              .MaxAsync(o => (decimal?)o.Total);\n// 4. In memory: supply your own default\nvar latest = items.DefaultIfEmpty(fallback).Max();\n// 5. Row exists but EF Core cannot see it? A global filter may hide it\nvar raw = await db.Users.IgnoreQueryFilters()\n                        .FirstOrDefaultAsync(u => u.Email == email);\n// 6. Log the SQL that ran to see the real WHERE clause\n//    optionsBuilder.LogTo(Console.WriteLine, LogLevel.Information);",
+    "sources": [
+      "https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.first",
+      "https://learn.microsoft.com/en-us/ef/core/querying/filters"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "efcore-cannot-access-a-disposed-context-instance",
+    "title": "EF Core: Cannot access a disposed context instance",
+    "category": "C#",
+    "explanation": "The DbContext was disposed when its dependency injection scope ended, and something carried on using it. In ASP.NET Core that scope is the HTTP request, so anything that outlives the request trips it: an async void method, a Task started with Task.Run or never awaited, an IQueryable returned and enumerated later, or a scoped context captured by a singleton or BackgroundService. It tends to be intermittent because it is a race against the request finishing.",
+    "fix_snippet": "// 1. Look for async void and fire-and-forget calls (run in a shell)\n//    grep -rnE \"async void|_ = .*Async\\(|Task\\.Run\\(\" --include=*.cs src/\n// 2. Await all the way up, and return materialised results, not IQueryable\npublic async Task<List<Order>> GetOrdersAsync(int id) =>\n    await _db.Orders.Where(o => o.CustomerId == id).ToListAsync();\n// 3. Singletons and BackgroundService: create a scope per unit of work\npublic class Worker(IServiceScopeFactory scopes) : BackgroundService {\n  protected override async Task ExecuteAsync(CancellationToken ct) {\n    using var scope = scopes.CreateScope();\n    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();\n    await db.SaveChangesAsync(ct);\n  }\n}\n// 4. Or register a factory and create short-lived contexts yourself\nbuilder.Services.AddDbContextFactory<AppDbContext>(o => o.UseNpgsql(cs));\nawait using var db = await dbFactory.CreateDbContextAsync();",
+    "sources": [
+      "https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/",
+      "https://learn.microsoft.com/en-us/dotnet/core/extensions/scoped-service"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "csharp-formatexception-input-string-was-not-in-a-correct-format",
+    "title": "C#: FormatException: Input string was not in a correct format",
+    "category": "C#",
+    "explanation": "int.Parse, decimal.Parse, Convert.ToInt32 and friends throw this when the text is not a number in the format they expect. Empty strings and stray characters are the obvious causes. The one that works on your machine and fails on a server is culture: decimal.Parse(\"1.5\") uses the current culture, and on a German or French system the dot is not the decimal separator. Since .NET 8 the message quotes the bad value, which makes the cause easier to spot.",
+    "fix_snippet": "// 1. Log the exact value, with brackets so whitespace shows\n_logger.LogWarning(\"Parsing [{Raw}]\", raw);\n// 2. Untrusted input: TryParse and handle the failure\nif (!int.TryParse(raw, out var qty)) return Results.BadRequest(\"qty must be a number\");\n// 3. Machine-written data (JSON, CSV, config): always invariant culture\nvar price = decimal.Parse(raw, NumberStyles.Number, CultureInfo.InvariantCulture);\n// 4. Input typed by a person in their own locale: say which culture\nvar de = decimal.Parse(\"1.234,50\", NumberStyles.Number, new CultureInfo(\"de-DE\"));\n// 5. Check which culture the server process actually runs with\nConsole.WriteLine(CultureInfo.CurrentCulture.Name);\n// 6. Containers: invariant globalisation mode changes this too\n//    <InvariantGlobalization>true</InvariantGlobalization>",
+    "sources": [
+      "https://learn.microsoft.com/en-us/dotnet/standard/base-types/parsing-numeric"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "jest-did-not-exit-one-second-after-the-test-run-has-completed",
+    "title": "Jest: Jest did not exit one second after the test run has completed.",
+    "category": "Testing",
+    "explanation": "The tests passed, but something they started is still holding Node's event loop open: a database pool, an HTTP server, a setInterval, an open socket. Jest waits for the process to drain and prints this instead of exiting, which in CI can mean the job hangs until it times out. --detectOpenHandles shows where each leftover handle was created. --forceExit makes the symptom go away but leaves the leak in place, so use it only once you know what is open.",
+    "fix_snippet": "# 1. Ask Jest which handles are still open, and where they came from\nnpx jest --detectOpenHandles --runInBand\n// 2. Close whatever each test file opened\nlet server, pool;\nbeforeAll(() => { pool = new Pool(cfg); server = app.listen(0); });\nafterAll(async () => {\n  await pool.end();\n  await new Promise(resolve => server.close(resolve));\n});\n// 3. Timers: clear them, and restore real timers after fake ones\nafterEach(() => { jest.clearAllTimers(); jest.useRealTimers(); });\n// 4. supertest can take the app directly, so no listener is left open\n//    await request(app).get('/health').expect(200);\n# 5. Only once the leak is understood, and only in CI\n#    npx jest --forceExit",
+    "sources": [
+      "https://jestjs.io/docs/cli#--detectopenhandles"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "react-update-inside-a-test-was-not-wrapped-in-act",
+    "title": "React: An update to App inside a test was not wrapped in act(...)",
+    "category": "Testing",
+    "explanation": "React saw a state update land while a test was running but outside act(), which means your assertions may have run before React finished rendering. With Testing Library the cause is nearly always asynchronous work finishing after the test's last await: a fetch resolving, a timer firing, a setState in useEffect. Wrapping things in act() by hand rarely helps. Awaiting the visible end result with findBy or waitFor does, because those helpers already use act.",
+    "fix_snippet": "// 1. Wait for the final UI, not the first render\nrender(<UserList />);\nexpect(await screen.findByText('Ada Lovelace')).toBeInTheDocument();\n// 2. Asserting something goes away? waitFor the end state\nawait waitFor(() => expect(screen.queryByRole('progressbar')).toBeNull());\n// 3. Interactions: await user-event so its updates settle\nconst user = userEvent.setup();\nawait user.click(screen.getByRole('button', { name: 'Save' }));\n// 4. Fake timers: advance them inside act\njest.useFakeTimers();\nawait act(async () => { jest.advanceTimersByTime(1000); });\n// 5. Still warns after the test ends? Something finishes later:\n//    mock it (jest.mock('./api')) or wait for its result",
+    "sources": [
+      "https://react.dev/reference/react/act",
+      "https://testing-library.com/docs/dom-testing-library/api-async/"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "pytest-unknown-mark-warning",
+    "title": "pytest: PytestUnknownMarkWarning: Unknown pytest.mark.slow",
+    "category": "Testing",
+    "explanation": "pytest only knows marks that are built in, registered in config, or added by a plugin, so @pytest.mark.slow on its own is treated as a likely typo. It is worth fixing because a misspelt mark silently does nothing: -m \"not slow\" will happily run a test marked @pytest.mark.slwo. With --strict-markers the warning becomes an error at collection time. Registering the marks you use fixes both.",
+    "fix_snippet": "# 1. List the marks pytest knows about right now\npytest --markers | head -n 30\n# 2. Register yours in pyproject.toml\n[tool.pytest.ini_options]\nmarkers = [\n    \"slow: takes more than a few seconds\",\n    \"integration: needs a running database\",\n]\naddopts = \"--strict-markers\"\n# 3. Or in pytest.ini\n#    [pytest]\n#    markers =\n#        slow: takes more than a few seconds\n# 4. Typo hunt: count every mark actually used\ngrep -rhoE \"pytest\\.mark\\.[a-z_]+\" tests/ | sort | uniq -c\n# 5. Plugin marks (asyncio, django_db) need the plugin installed\npip show pytest-asyncio pytest-django",
+    "sources": [
+      "https://docs.pytest.org/en/stable/how-to/mark.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "journald-corrupted-or-uncleanly-shut-down-renaming-and-replacing",
+    "title": "journald: system.journal corrupted or uncleanly shut down, renaming",
+    "category": "Logging",
+    "explanation": "journald found its active journal file was never marked as cleanly closed, so rather than trust it, it renamed the file with a ~ suffix and started a fresh one. After a power cut, a hard reset or journald being killed, that is expected and harmless, and the old file stays readable. If it happens on every boot, either shutdown is not reaching journald (a hung unmount, a watchdog reset) or the disk is failing, and that is what to chase.",
+    "fix_snippet": "# 1. How often, and when? Once after a crash is fine; every boot is not\njournalctl -b -u systemd-journald | grep -i \"uncleanly\"\njournalctl --list-boots | tail\n# 2. Did the previous boot end cleanly? Read its last lines\njournalctl -b -1 -n 30\n# 3. Check the journal files themselves\njournalctl --verify\nls -lh /var/log/journal/*/ | grep '~$'\n# 4. If verify keeps failing, suspect the disk\nsudo smartctl -H /dev/sda\nsudo dmesg | grep -iE \"i/o error|ext4-fs error\"\n# 5. Reclaim space from old and renamed files\nsudo journalctl --vacuum-size=500M",
+    "sources": [
+      "https://www.freedesktop.org/software/systemd/man/latest/systemd-journald.service.html",
+      "https://www.freedesktop.org/software/systemd/man/latest/journalctl.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "loki-ingestion-rate-limit-exceeded",
+    "title": "Loki: ingestion rate limit exceeded for user fake (limit: 4194304 bytes/sec)",
+    "category": "Logging",
+    "explanation": "Loki enforces a per-tenant ingestion rate (4 MB/s by default, with a 6 MB burst) and rejects pushes over it with HTTP 429. 'fake' is just the tenant name Loki uses when auth is disabled. Promtail, Alloy and Fluent Bit retry with backoff, so a short spike costs nothing, but sustained overload means the retry queue fills and logs are eventually dropped. With the default global strategy the limit is shared across distributors, so adding more of them does not raise it.",
+    "fix_snippet": "# 1. Confirm the 429s and see which agent is hitting them\nkubectl logs -l app.kubernetes.io/name=alloy --tail=200 | grep -iE \"429|rate limit\"\n# 2. Loki's own count of discarded data, by reason\ncurl -s localhost:3100/metrics | grep loki_discarded_samples_total\n# 3. Find the noisy streams before raising anything (LogQL)\n#    topk(10, sum by (job, namespace) (bytes_over_time({job=~\".+\"}[5m])))\n# 4. Raise the limits on purpose, per tenant where you can\nlimits_config:\n  ingestion_rate_mb: 16\n  ingestion_burst_size_mb: 32\n# 5. Or drop debug noise at the agent before it is sent (Alloy)\n#    stage.drop { expression = \".*level=debug.*\" }",
+    "sources": [
+      "https://grafana.com/docs/loki/latest/operations/request-validation-rate-limits/"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "fluentd-pattern-not-matched",
+    "title": "Fluentd: [warn]: #0 pattern not matched",
+    "category": "Logging",
+    "explanation": "A parser, usually a regexp on in_tail, could not match a line, so Fluentd logs a warning and drops it instead of emitting a record. When only some lines fail, they are typically continuation lines of a multiline stack trace, which need the multiline parser rather than a looser regex. When every line fails, the format changed upstream. A classic case is a Kubernetes move from Docker to containerd, which prefixes each line with a timestamp, the stream and a tag.",
+    "fix_snippet": "# 1. Copy a failing line from the warning and test the pattern on it\n#    (Fluentd uses Ruby regular expressions)\nruby -e 'p(/^(?<time>[^ ]+) (?<level>\\w+) (?<msg>.*)$/.match(ARGV[0]))' \\\n  '2026-05-01T10:00:00Z INFO started'\n# 2. containerd lines start with \"<time> stdout F \": parse that first\n<parse>\n  @type regexp\n  expression /^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$/\n  time_format %Y-%m-%dT%H:%M:%S.%N%:z\n</parse>\n# 3. Stack traces: join continuation lines instead of loosening the regex\n<parse>\n  @type multiline\n  format_firstline /^\\d{4}-\\d{2}-\\d{2}/\n  format1 /^(?<time>\\S+ \\S+) (?<level>\\w+) (?<message>.*)/\n</parse>\n# 4. Keep unmatched lines instead of dropping them (in_tail)\n#    emit_unmatched_lines true",
+    "sources": [
+      "https://docs.fluentd.org/input/tail",
+      "https://docs.fluentd.org/parser/multiline"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "postgrex-error-42p01-undefined-table-relation-does-not-exist",
+    "title": "(Postgrex.Error) ERROR 42P01 (undefined_table) relation \"users\" does not exist",
+    "category": "Elixir",
+    "explanation": "Postgres could not find the table in the database the repo is connected to. Usually migrations have not run in this environment: the test database is migrated separately from dev, and a release does not run migrations when it starts. Otherwise you are connected to a different database than you think (compare DATABASE_URL with config/runtime.exs), the migration used a different schema prefix, or the schema module's table name differs from the one the migration created.",
+    "fix_snippet": "# 1. Which database is the app really connected to?\nmix run -e 'IO.inspect(Keyword.take(MyApp.Repo.config(), [:hostname, :database, :url]))'\n# 2. Which migrations have run there?\nmix ecto.migrations\n# 3. Dev: run them. Test has its own database\nmix ecto.migrate\nMIX_ENV=test mix ecto.migrate\n# 4. Releases have no mix: use the release module phx.gen.release creates\nbin/my_app eval \"MyApp.Release.migrate()\"\n# 5. The table names must agree\n#    schema \"users\" do ... end   and   create table(:users)\n# 6. Using a Postgres schema prefix? Query with the same one\n#    MyApp.Repo.all(User, prefix: \"tenant_a\")",
+    "sources": [
+      "https://hexdocs.pm/ecto_sql/Mix.Tasks.Ecto.Migrate.html",
+      "https://hexdocs.pm/phoenix/releases.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "ecto-constrainterror-constraint-error-when-attempting-to-insert",
+    "title": "Ecto: (Ecto.ConstraintError) constraint error when attempting to insert struct",
+    "category": "Elixir",
+    "explanation": "The database rejected the insert on a unique, foreign key or check constraint, and the changeset had no matching *_constraint declared, so Ecto raised instead of returning {:error, changeset}. The message names the constraint and lists the ones the changeset does know about. Declaring unique_constraint or foreign_key_constraint turns it into an ordinary validation error. A name mismatch counts as undeclared: Ecto expects users_email_index, so an index with any other name is not matched.",
+    "fix_snippet": "# 1. The error names the constraint; compare it with the changeset\n#    * users_email_index (unique_constraint)\n# 2. Declare it so the insert returns {:error, changeset}\ndef changeset(user, attrs) do\n  user\n  |> cast(attrs, [:email, :org_id])\n  |> validate_required([:email])\n  |> unique_constraint(:email)\n  |> foreign_key_constraint(:org_id)\nend\n# 3. Index created with a custom name? Pass that exact name\n#    |> unique_constraint(:email, name: :users_lower_email_idx)\n# 4. Only inserts that go through a changeset are converted;\n#    Repo.insert!(%User{...}) with a bare struct still raises\n# 5. Check the real constraint names in Postgres\npsql -d my_app_dev -c '\\d users'",
+    "sources": [
+      "https://hexdocs.pm/ecto/Ecto.Changeset.html#unique_constraint/3"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "elixir-could-not-fetch-application-environment",
+    "title": "Elixir: could not fetch application environment :api_key for application",
+    "category": "Elixir",
+    "explanation": "Application.fetch_env!/2 raised because the key was never set for that application. Config files run at different times: config.exs and prod.exs at build time, runtime.exs at boot, so System.get_env in prod.exs reads the build machine's environment, not the server's. The other trap is fetch_env! in a module attribute, which runs at compile time before runtime config exists. If the application name itself is wrong, the message says it 'was not loaded nor configured'.",
+    "fix_snippet": "# 1. What does the running node actually have?\nbin/my_app eval 'IO.inspect(Application.get_all_env(:my_app))'\n# 2. Values from the environment belong in config/runtime.exs\nimport Config\nif config_env() == :prod do\n  config :my_app,\n    api_key: System.get_env(\"API_KEY\") || raise(\"API_KEY is not set\")\nend\n# 3. Read it at runtime, not in a module attribute\n#    @api_key Application.fetch_env!(:my_app, :api_key)   # compile time\ndef api_key, do: Application.fetch_env!(:my_app, :api_key)\n# 4. Genuinely compile-time? Say so, and Elixir checks it at boot\n#    @flag Application.compile_env(:my_app, :feature_flag)\n# 5. The app name must match mix.exs\ngrep -n \"app:\" mix.exs",
+    "sources": [
+      "https://hexdocs.pm/elixir/Application.html#fetch_env!/2",
+      "https://hexdocs.pm/elixir/Config.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "s3-entitytoolarge-proposed-upload-exceeds-maximum-allowed-size",
+    "title": "AWS S3: EntityTooLarge: Your proposed upload exceeds the maximum allowed size",
+    "category": "Storage",
+    "explanation": "A single PUT to S3 can carry at most 5 GB; anything bigger has to be a multipart upload. The AWS CLI and the SDK transfer managers switch to multipart on their own, so this usually comes from a raw PutObject call, a presigned PUT URL (always a single request), or a browser POST form whose policy sets a content-length-range smaller than the file. In that last case the limit is one you set, not S3's.",
+    "fix_snippet": "# 1. How big is the file, and how is it being sent?\nls -lh backup.tar.gz\n# 2. The CLI uses multipart automatically above its threshold\naws s3 cp backup.tar.gz s3://my-bucket/backups/\naws configure set default.s3.multipart_chunksize 64MB\n# 3. SDK code: use the transfer manager, not one put_object (Python)\npython3 -c 'import boto3; boto3.client(\"s3\").upload_file(\"backup.tar.gz\", \"my-bucket\", \"backups/backup.tar.gz\")'\n# 4. Browser uploads over 5 GB: presign each part of a multipart upload\n#    CreateMultipartUpload, a presigned UploadPart URL per part,\n#    then CompleteMultipartUpload with the part ETags\n# 5. POST form uploads: check the size range in your policy\n#    [\"content-length-range\", 0, 104857600]\n# 6. Find parts left behind by failed multipart uploads\naws s3api list-multipart-uploads --bucket my-bucket",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html",
+      "https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "s3-accesscontrollistnotsupported-bucket-does-not-allow-acls",
+    "title": "AWS S3: AccessControlListNotSupported: The bucket does not allow ACLs",
+    "category": "Storage",
+    "explanation": "Since April 2023 new S3 buckets default to the 'Bucket owner enforced' Object Ownership setting, which switches ACLs off entirely. Any request that sets an ACL, such as the public-read that older tools, plugins and tutorials add by default, is refused, even though nothing about your permissions changed. The fix is to stop sending ACLs and grant access with a bucket policy instead, or, if a legacy tool cannot be changed, to re-enable ACLs on that bucket.",
+    "fix_snippet": "# 1. Confirm ACLs are disabled on the bucket\naws s3api get-bucket-ownership-controls --bucket my-bucket\n# 2. Find what is sending an ACL: CLI flags, SDK params, plugin config\ngrep -rnE \"\\-\\-acl|ACL=|acl:|\\\"ACL\\\"\" .\n# 3. Stop sending it\naws s3 cp site/ s3://my-bucket/ --recursive        # no --acl public-read\n# 4. Public objects: grant read with a bucket policy instead\n#    (Block Public Access must allow public policies on this bucket)\naws s3api put-bucket-policy --bucket my-bucket --policy '{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": \"*\",\n    \"Action\": \"s3:GetObject\", \"Resource\": \"arn:aws:s3:::my-bucket/*\"}]}'\n# 5. Legacy tool that cannot drop ACLs: turn them back on (not recommended)\naws s3api put-bucket-ownership-controls --bucket my-bucket \\\n  --ownership-controls 'Rules=[{ObjectOwnership=BucketOwnerPreferred}]'",
+    "sources": [
+      "https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "rsync-error-some-files-attrs-were-not-transferred-code-23",
+    "title": "rsync error: some files/attrs were not transferred (see previous errors)",
+    "category": "Storage",
+    "explanation": "Code 23 is a summary, not the error. rsync finished, but at least one file or attribute could not be copied, and the real reason was printed earlier, often thousands of lines up. Usual causes: permission denied reading a source file, a destination that cannot store owners, groups or permissions (exFAT, SMB, NFS with root squash), or a filename the target rejects. -a asks to preserve everything, so on those targets it complains about attributes even when the data copied fine.",
+    "fix_snippet": "# 1. Show only the problems: rerun without progress output\nrsync -a --quiet src/ dest/ 2>&1 | head -n 40\n# 2. Or keep a log and search it\nrsync -a --log-file=/tmp/rsync.log src/ dest/\ngrep -E \"failed|denied|not permitted\" /tmp/rsync.log | head\n# 3. Destination cannot store owners or modes (exFAT, SMB, root squash)\nrsync -rlt --no-perms --no-owner --no-group src/ dest/\n# 4. Source files you cannot read: run with rights to read them\nsudo rsync -a src/ dest/\n# 5. Code 24 is different: files vanished during the copy,\n#    which is normal for logs and caches that are being written",
+    "sources": [
+      "https://download.samba.org/pub/rsync/rsync.1"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "rust-e0599-no-method-named-found-trait-not-in-scope",
+    "title": "Rust: error[E0599]: no method named `write_all` found for struct `File`",
+    "category": "Rust",
+    "explanation": "The method exists, but it belongs to a trait, and trait methods can only be called where the trait is imported. write_all comes from std::io::Write, read_to_string from std::io::Read, and many crates work the same way (tokio's AsyncWriteExt, rand's Rng). The compiler's help line saying a trait 'is implemented but not in scope' names the use you need. When there is no such hint, the type really lacks the method, often because a generic is missing a trait bound.",
+    "fix_snippet": "// 1. Read the help lines under the error: they name the trait\n//    cargo build 2>&1 | grep -A8 \"E0599\"\n// 2. Import the trait that provides the method\nuse std::io::Write;                 // write_all, flush\nuse std::io::Read;                  // read_to_string\nuse tokio::io::AsyncWriteExt;       // .write_all(..).await\nuse rand::Rng;                      // random_range (gen_range before 0.9)\n// 3. Or bring in a crate's prelude\nuse std::io::prelude::*;\n// 4. Inside a generic function, add the bound instead\nfn save<W: std::io::Write>(mut out: W, data: &[u8]) -> std::io::Result<()> {\n    out.write_all(data)\n}\n// 5. Method from a newer crate release? Check what Cargo resolved\n//    cargo tree -i rand",
+    "sources": [
+      "https://doc.rust-lang.org/error_codes/E0599.html",
+      "https://doc.rust-lang.org/book/ch10-02-traits.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "rust-e0433-failed-to-resolve-use-of-undeclared-crate-or-module",
+    "title": "Rust: error[E0433]: failed to resolve: use of undeclared crate or module",
+    "category": "Rust",
+    "explanation": "The first part of a path, like serde_json in serde_json::to_string, is neither a dependency in Cargo.toml nor a module declared in this crate. Recent compilers word it 'use of unresolved module or unlinked crate'. The usual causes: the dependency is missing or only listed under dev-dependencies; the package name has a hyphen, which becomes an underscore in code; it is an optional dependency whose feature is off; or src/utils.rs exists but nothing declares mod utils.",
+    "fix_snippet": "# 1. Is it a dependency of this package, in the right section?\ncargo tree --depth 1 | grep -i serde\ngrep -nA20 \"^\\[dependencies\\]\" Cargo.toml\n# 2. Add it (dev-dependencies are only visible to tests and examples)\ncargo add serde_json\n# 3. Hyphens become underscores in code\n#    Cargo.toml: tokio-util   becomes   use tokio_util::codec;\n# 4. Optional dependency behind a feature? Turn the feature on\ncargo build --features json\n# 5. A local module has to be declared in main.rs or lib.rs first\n#    mod utils;          then: use crate::utils::helper;\n# 6. In a workspace, add it to the member crate that uses it\ncargo add serde_json -p api",
+    "sources": [
+      "https://doc.rust-lang.org/error_codes/E0433.html",
+      "https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "cargo-package-cannot-be-built-because-it-requires-rustc",
+    "title": "Cargo: package `foo v1.2.3` cannot be built because it requires rustc 1.82",
+    "category": "Rust",
+    "explanation": "A dependency sets rust-version in its Cargo.toml (its minimum supported Rust version) and your toolchain is older. Edition 2024 projects resolve dependencies that suit their own rust-version, but older editions, an existing Cargo.lock, or a project with no rust-version will happily pick the newest release. It is common with distro-packaged Rust and with Docker images pinned to an old rust tag, which is why the same project builds fine on a laptop managed by rustup.",
+    "fix_snippet": "# 1. Which toolchain is active, and where did it come from?\nrustc --version && cargo --version\nrustup show active-toolchain\n# 2. The usual fix: update the toolchain\nrustup update stable\n#    Docker: use a current tag, e.g. FROM rust:1-slim\n# 3. Stuck on this rustc? Pin the dependency to an older release\ncargo update -p foo --precise 1.1.0\n# 4. Let Cargo 1.84+ pick versions that suit your rust-version\n#    Cargo.toml:          [package] rust-version = \"1.75\"\n#    .cargo/config.toml:  [resolver] incompatible-rust-versions = \"fallback\"\ncargo update\n# 5. Pin the toolchain for everyone\n#    rust-toolchain.toml:  [toolchain] channel = \"1.85\"",
+    "sources": [
+      "https://doc.rust-lang.org/cargo/reference/rust-version.html",
+      "https://doc.rust-lang.org/cargo/reference/resolver.html"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "go-inconsistent-vendoring",
+    "title": "Go: inconsistent vendoring",
+    "category": "Go",
+    "explanation": "The project has a vendor directory, so the go command builds from it, but vendor/modules.txt no longer agrees with go.mod: a dependency was added, upgraded or removed without vendoring again. It often follows a Dependabot or Renovate pull request that only touched go.mod and go.sum, or a hand edit to go.mod. The error lists each module that is out of step, and go mod vendor brings the two back together.",
+    "fix_snippet": "# 1. The error lists every module that is out of step\ngo build ./... 2>&1 | head -n 20\n# 2. Bring vendor/ back in line with go.mod\ngo mod tidy\ngo mod vendor\ngit status --short vendor/ go.mod go.sum\n# 3. Do you actually want a vendor directory? Without one:\n#    rm -rf vendor && go build ./...\n# 4. Keep vendor/ but build from the module cache this once\ngo build -mod=mod ./...\n# 5. CI guard: fail when someone forgets to vendor\ngo mod vendor && git diff --exit-code vendor/ go.mod go.sum",
+    "sources": [
+      "https://go.dev/ref/mod#vendoring"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "go-panic-sync-negative-waitgroup-counter",
+    "title": "Go: panic: sync: negative WaitGroup counter",
+    "category": "Go",
+    "explanation": "Done() was called more times than Add() allowed for, taking the counter below zero. Typical sources: Done both deferred and called explicitly, a goroutine that calls Done on an error path and again at the end, or Add placed inside the goroutine so retries and early returns throw the count off. Calling Add after Wait has started is the related bug, which shows up as a race or a 'WaitGroup is reused' panic. Go 1.25 added WaitGroup.Go, which pairs Add and Done for you.",
+    "fix_snippet": "// 1. Find every Add and Done for this WaitGroup (run in a shell)\n//    grep -rnE \"wg\\.(Add|Done)\" --include=*.go .\n// 2. One Add per goroutine, before it starts; one deferred Done inside\nvar wg sync.WaitGroup\nfor _, job := range jobs {\n    wg.Add(1)\n    go func() {\n        defer wg.Done()\n        process(job)        // no other wg.Done() in here\n    }()\n}\nwg.Wait()\n// 3. Go 1.25+: let the WaitGroup pair them for you\nfor _, job := range jobs {\n    wg.Go(func() { process(job) })\n}\nwg.Wait()\n// 4. The race detector catches Add after Wait\n//    go test -race ./...",
+    "sources": [
+      "https://pkg.go.dev/sync#WaitGroup"
+    ],
+    "dateAdded": "2026-11-19"
+  },
+  {
+    "id": "go-reading-proxy-golang-org-404-not-found-private-module",
+    "title": "go: reading https://proxy.golang.org/github.com/acme/lib/@v/list: 404 Not Found",
+    "category": "Go",
+    "explanation": "By default Go fetches modules through the public proxy at proxy.golang.org and checks them against sum.golang.org. Neither can see a private repository, so the proxy answers 404 or 410, and when Go falls back to git directly it often ends with 'terminal prompts disabled'. The fix is not credentials for the proxy: set GOPRIVATE so Go skips the proxy and checksum database for your modules and goes straight to git, then give git a way to authenticate.",
+    "fix_snippet": "# 1. See how Go is resolving modules now\ngo env GOPROXY GOPRIVATE GONOSUMDB GOFLAGS\n# 2. Mark your organisation's modules as private (no proxy, no sumdb)\ngo env -w GOPRIVATE='github.com/acme/*'\n# 3. Let git authenticate without a prompt, over SSH...\ngit config --global url.\"git@github.com:acme/\".insteadOf \"https://github.com/acme/\"\n#    ...or over HTTPS with a token (CI)\ngit config --global url.\"https://x-access-token:${GITHUB_TOKEN}@github.com/acme/\".insteadOf \"https://github.com/acme/\"\n# 4. Try again and watch each fetch\ngo mod download -x github.com/acme/lib@v1.2.0\n# 5. In CI, set GOPRIVATE as an environment variable and keep the token in a secret",
+    "sources": [
+      "https://go.dev/ref/mod#private-modules"
+    ],
+    "dateAdded": "2026-11-19"
   }
 ]

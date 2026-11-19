@@ -34,7 +34,7 @@
     <link rel="alternate" type="application/rss+xml" title="FixMyError.net: Recently Added Errors" href="../feed.xml">
     <meta name="theme-color" content="#0d1117">
     <link rel="stylesheet" href="../assets/site.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Terraform: Error: Provider configuration not present","name":"Terraform: Error: Provider configuration not present","description":"The state still holds resources that were created by a provider block, or a provider alias, that no longer exists in the configuration. It typically follows…","url":"https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html"},"inLanguage":"en-GB","articleSection":"Terraform","proficiencyLevel":"Expert","datePublished":"2026-11-10","dateModified":"2026-11-18","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.hashicorp.com/terraform/language/modules/develop/providers","https://developer.hashicorp.com/terraform/language/resources/syntax#removing-resources"]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Terraform: Error: Provider configuration not present","name":"Terraform: Error: Provider configuration not present","description":"The state still holds resources that were created by a provider block, or a provider alias, that no longer exists in the configuration. It typically follows…","url":"https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html"},"inLanguage":"en-GB","articleSection":"Terraform","proficiencyLevel":"Expert","datePublished":"2026-11-10","dateModified":"2026-11-19","image":"https://fixmyerror.net/og-image.png","author":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/"},"publisher":{"@type":"Organization","name":"FixMyError.net","url":"https://fixmyerror.net/","logo":{"@type":"ImageObject","url":"https://fixmyerror.net/og-image.png"}},"citation":["https://developer.hashicorp.com/terraform/language/modules/develop/providers","https://developer.hashicorp.com/terraform/language/resources/syntax#removing-resources"]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://fixmyerror.net/"},{"@type":"ListItem","position":2,"name":"Terraform errors","item":"https://fixmyerror.net/categories/terraform.html"},{"@type":"ListItem","position":3,"name":"Terraform: Error: Provider configuration not present","item":"https://fixmyerror.net/errors/terraform-provider-configuration-not-present.html"}]}</script>
 </head>
 <body>
@@ -135,9 +135,9 @@ terraform plan</code></pre>
                 <li><a href="../errors/terraform-cycle-dependency.html">Terraform: Cycle dependency detected<span class="sub">Circular dependency in resource definitions, resources depend on each other in a loop.</span></a></li>
                 <li><a href="../errors/terraform-backend-configuration-changed.html">Terraform: Error: Backend configuration changed<span class="sub">The backend block, or the -backend-config values you pass, differ from what is recorded in…</span></a></li>
                 <li><a href="../errors/terraform-saved-plan-is-stale.html">Terraform: Error: Saved plan is stale<span class="sub">A plan file is a promise about a specific state serial, and the state moved on before the…</span></a></li>
-                <li><a href="../errors/terraform-failed-to-install-provider.html">Terraform: Failed to install provider, could not query provider registry<span class="sub">terraform init could not fetch a provider. Beyond plain network failure the frequent causes…</span></a></li>
+                <li><a href="../errors/terraform-unsupported-attribute.html">Terraform: Error: Unsupported attribute<span class="sub">A reference such as aws_instance.web.public_ip or module.vpc.subnet_ids points at an…</span></a></li>
             </ul>
-            <p style="margin-top:14px"><a href="../categories/terraform.html">See all 21 Terraform errors →</a></p>
+            <p style="margin-top:14px"><a href="../categories/terraform.html">See all 24 Terraform errors →</a></p>
         </section>
 
             <section class="block">
@@ -153,8 +153,8 @@ terraform plan</code></pre>
                     <li><a href="../categories/docker.html"><span class="card-title">Docker <span class="card-count">27</span></span><span class="card-desc">Daemon connectivity, disk space, image pulls, ports and architecture mismatches.</span></a></li>
                     <li><a href="../categories/system.html"><span class="card-title">System <span class="card-count">26</span></span><span class="card-desc">Disk space, systemd units, file descriptors, OOM killer and scheduled jobs.</span></a></li>
                     <li><a href="../categories/cloud.html"><span class="card-title">Cloud <span class="card-count">25</span></span><span class="card-desc">IAM permissions, quotas, service limits and credential failures.</span></a></li>
-                    <li><a href="../categories/security.html"><span class="card-title">Security <span class="card-count">25</span></span><span class="card-desc">JWT validation, CSRF, OAuth grants, SELinux, SSH host keys and CSP.</span></a></li>
-                    <li><a href="../categories/tls.html"><span class="card-title">TLS <span class="card-count">24</span></span><span class="card-desc">Untrusted authorities, expiry, hostname mismatch, chains and cipher negotiation.</span></a></li>
+                    <li><a href="../categories/go.html"><span class="card-title">Go <span class="card-count">25</span></span><span class="card-desc">Nil map assignment, concurrent map access, context cancellation and deadlocks.</span></a></li>
+                    <li><a href="../categories/rust.html"><span class="card-title">Rust <span class="card-count">25</span></span><span class="card-desc">Borrow checker, ownership moves, trait bounds and lifetime mismatches.</span></a></li>
                 </ul>
             </section>
 
@@ -202,7 +202,7 @@ terraform plan</code></pre>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>FixMyError.net has 1407 documented errors across 57 categories. Last updated 18 November 2026.</p>
+                <p>FixMyError.net has 1443 documented errors across 57 categories. Last updated 19 November 2026.</p>
                 <p>Commands and configuration shown here are starting points, not guarantees. Always understand a command before running it in production.</p>
             </div>
         </div>

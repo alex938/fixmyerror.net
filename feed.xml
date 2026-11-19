@@ -6,8 +6,296 @@
     <atom:link href="https://fixmyerror.net/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Newly added developer and infrastructure error fixes on FixMyError.net.</description>
     <language>en-GB</language>
-    <lastBuildDate>Wed, 18 Nov 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 00:00:00 GMT</lastBuildDate>
     <ttl>1440</ttl>
+    <item>
+      <title>(Postgrex.Error) ERROR 42P01 (undefined_table) relation &quot;users&quot; does not exist</title>
+      <link>https://fixmyerror.net/errors/postgrex-error-42p01-undefined-table-relation-does-not-exist.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/postgrex-error-42p01-undefined-table-relation-does-not-exist.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Postgres could not find the table in the database the repo is connected to. Usually migrations have not run in this environment: the test database is migrated separately from dev, and a release does not run migrations when it starts. Otherwise you are connected to a different database than you…</description>
+    </item>
+    <item>
+      <title>Alertmanager: undefined receiver &quot;slack-ops&quot; used in route</title>
+      <link>https://fixmyerror.net/errors/alertmanager-undefined-receiver-used-in-route.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/alertmanager-undefined-receiver-used-in-route.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Every route in the Alertmanager config names a receiver, and the name must match a receivers entry exactly, case included. This is checked when the file loads, so on startup Alertmanager refuses to run, and on a reload it quietly keeps the previous config: alerts carry on going to the old place…</description>
+    </item>
+    <item>
+      <title>Ansible: Could not find or access &apos;nginx.conf.j2&apos;</title>
+      <link>https://fixmyerror.net/errors/ansible-could-not-find-or-access.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-could-not-find-or-access.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The copy, template or script module looked for its source file on the control node and could not find it. A relative src is resolved against the role&apos;s files/ or templates/ directory, or the playbook&apos;s own directory, not the directory you ran the command from, which is why the same path works in…</description>
+    </item>
+    <item>
+      <title>Ansible: ERROR! &apos;apt&apos; is not a valid attribute for a Play</title>
+      <link>https://fixmyerror.net/errors/ansible-is-not-a-valid-attribute-for-a-play.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-is-not-a-valid-attribute-for-a-play.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Ansible read a key at play level and it is not a play keyword such as hosts, become or tasks. Nearly always a module has been written straight under the play, the tasks: line is missing, or indentation has slipped so a task sits beside hosts instead of inside the list. Running a file of tasks…</description>
+    </item>
+    <item>
+      <title>Ansible: Unsupported parameters for (ansible.builtin.copy) module: dest_path</title>
+      <link>https://fixmyerror.net/errors/ansible-unsupported-parameters-for-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ansible-unsupported-parameters-for-module.html</guid>
+      <category>Ansible</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Every module checks its arguments against a fixed list before it runs, and one of yours is not on it. Typos and options borrowed from a similar module are common, but the confusing case is a version mismatch: the documentation you are reading describes a newer release of the module or collection…</description>
+    </item>
+    <item>
+      <title>atob: The string to be decoded is not correctly encoded</title>
+      <link>https://fixmyerror.net/errors/atob-string-to-be-decoded-is-not-correctly-encoded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/atob-string-to-be-decoded-is-not-correctly-encoded.html</guid>
+      <category>Client</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>atob() only accepts standard Base64: letters, digits, + and /, padded with = to a multiple of four characters. The usual culprit is Base64url, which swaps + and / for - and _ and drops the padding, and is what JWTs, WebAuthn and plenty of APIs emit. A value that was URL-encoded on the way in (%2B…</description>
+    </item>
+    <item>
+      <title>AWS S3: AccessControlListNotSupported: The bucket does not allow ACLs</title>
+      <link>https://fixmyerror.net/errors/s3-accesscontrollistnotsupported-bucket-does-not-allow-acls.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-accesscontrollistnotsupported-bucket-does-not-allow-acls.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Since April 2023 new S3 buckets default to the &apos;Bucket owner enforced&apos; Object Ownership setting, which switches ACLs off entirely. Any request that sets an ACL, such as the public-read that older tools, plugins and tutorials add by default, is refused, even though nothing about your permissions…</description>
+    </item>
+    <item>
+      <title>AWS S3: EntityTooLarge: Your proposed upload exceeds the maximum allowed size</title>
+      <link>https://fixmyerror.net/errors/s3-entitytoolarge-proposed-upload-exceeds-maximum-allowed-size.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/s3-entitytoolarge-proposed-upload-exceeds-maximum-allowed-size.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A single PUT to S3 can carry at most 5 GB; anything bigger has to be a multipart upload. The AWS CLI and the SDK transfer managers switch to multipart on their own, so this usually comes from a raw PutObject call, a presigned PUT URL (always a single request), or a browser POST form whose policy…</description>
+    </item>
+    <item>
+      <title>C#: FormatException: Input string was not in a correct format</title>
+      <link>https://fixmyerror.net/errors/csharp-formatexception-input-string-was-not-in-a-correct-format.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-formatexception-input-string-was-not-in-a-correct-format.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>int.Parse, decimal.Parse, Convert.ToInt32 and friends throw this when the text is not a number in the format they expect. Empty strings and stray characters are the obvious causes. The one that works on your machine and fails on a server is culture: decimal.Parse(&quot;1.5&quot;) uses the current culture…</description>
+    </item>
+    <item>
+      <title>C#: System.InvalidOperationException: Sequence contains no elements</title>
+      <link>https://fixmyerror.net/errors/csharp-sequence-contains-no-elements.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/csharp-sequence-contains-no-elements.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A LINQ operator that has to return a value found nothing to return. First(), Single(), Last(), and Min(), Max() or Average() over a non-nullable type all throw on an empty sequence rather than make something up. With EF Core it usually means the filter matched no rows, often because an ID came…</description>
+    </item>
+    <item>
+      <title>Cargo: package `foo v1.2.3` cannot be built because it requires rustc 1.82</title>
+      <link>https://fixmyerror.net/errors/cargo-package-cannot-be-built-because-it-requires-rustc.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/cargo-package-cannot-be-built-because-it-requires-rustc.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A dependency sets rust-version in its Cargo.toml (its minimum supported Rust version) and your toolchain is older. Edition 2024 projects resolve dependencies that suit their own rust-version, but older editions, an existing Cargo.lock, or a project with no rust-version will happily pick the newest…</description>
+    </item>
+    <item>
+      <title>Ecto: (Ecto.ConstraintError) constraint error when attempting to insert struct</title>
+      <link>https://fixmyerror.net/errors/ecto-constrainterror-constraint-error-when-attempting-to-insert.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-constrainterror-constraint-error-when-attempting-to-insert.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The database rejected the insert on a unique, foreign key or check constraint, and the changeset had no matching *_constraint declared, so Ecto raised instead of returning {:error, changeset}. The message names the constraint and lists the ones the changeset does know about. Declaring…</description>
+    </item>
+    <item>
+      <title>EF Core: Cannot access a disposed context instance</title>
+      <link>https://fixmyerror.net/errors/efcore-cannot-access-a-disposed-context-instance.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/efcore-cannot-access-a-disposed-context-instance.html</guid>
+      <category>C#</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The DbContext was disposed when its dependency injection scope ended, and something carried on using it. In ASP.NET Core that scope is the HTTP request, so anything that outlives the request trips it: an async void method, a Task started with Task.Run or never awaited, an IQueryable returned and…</description>
+    </item>
+    <item>
+      <title>Elixir: could not fetch application environment :api_key for application</title>
+      <link>https://fixmyerror.net/errors/elixir-could-not-fetch-application-environment.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-could-not-fetch-application-environment.html</guid>
+      <category>Elixir</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Application.fetch_env!/2 raised because the key was never set for that application. Config files run at different times: config.exs and prod.exs at build time, runtime.exs at boot, so System.get_env in prod.exs reads the build machine&apos;s environment, not the server&apos;s. The other trap is fetch_env!…</description>
+    </item>
+    <item>
+      <title>Failed to read the &apos;localStorage&apos; property from &apos;Window&apos;: Access is denied</title>
+      <link>https://fixmyerror.net/errors/failed-to-read-localstorage-access-is-denied.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/failed-to-read-localstorage-access-is-denied.html</guid>
+      <category>Client</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Chrome throws this the moment code touches window.localStorage on a page where storage is blocked for that origin. The common case is your page running in an iframe on someone else&apos;s site with third-party cookies blocked; it also happens when the user blocks all site data, and in sandboxed iframes…</description>
+    </item>
+    <item>
+      <title>fetch: Request with GET/HEAD method cannot have body</title>
+      <link>https://fixmyerror.net/errors/fetch-request-with-get-head-method-cannot-have-body.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/fetch-request-with-get-head-method-cannot-have-body.html</guid>
+      <category>Client</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The Fetch standard forbids a body on GET and HEAD requests, so the browser rejects the call before anything reaches the network. It usually comes from a shared wrapper that always attaches JSON, or from code ported from axios or curl that sent filters in a GET body, which some servers tolerate…</description>
+    </item>
+    <item>
+      <title>Fluentd: [warn]: #0 pattern not matched</title>
+      <link>https://fixmyerror.net/errors/fluentd-pattern-not-matched.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/fluentd-pattern-not-matched.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A parser, usually a regexp on in_tail, could not match a line, so Fluentd logs a warning and drops it instead of emitting a record. When only some lines fail, they are typically continuation lines of a multiline stack trace, which need the multiline parser rather than a looser regex. When every…</description>
+    </item>
+    <item>
+      <title>GitHub Actions: No files were found with the provided path</title>
+      <link>https://fixmyerror.net/errors/github-actions-upload-artifact-no-files-were-found.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-upload-artifact-no-files-were-found.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>actions/upload-artifact matched nothing, and by default it only warns and carries on, so the real failure shows up later when a download or deploy job finds nothing to work with. The path is relative to the workspace, not to the working-directory of an earlier run step. A build that wrote its…</description>
+    </item>
+    <item>
+      <title>GitHub Actions: Unable to resolve action `org/deploy@v3`, unable to find version</title>
+      <link>https://fixmyerror.net/errors/github-actions-unable-to-resolve-action-unable-to-find-version.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-unable-to-resolve-action-unable-to-find-version.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Before any step runs, the runner downloads every action named in uses:, and this one points at a tag, branch or commit that does not exist in that repository. Many actions keep a moving major tag such as v4 next to v4.2.1, but not all do, so a version copied from a README may only exist as a full…</description>
+    </item>
+    <item>
+      <title>GitHub Actions: Waiting for a runner to pick up this job...</title>
+      <link>https://fixmyerror.net/errors/github-actions-waiting-for-a-runner-to-pick-up-this-job.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/github-actions-waiting-for-a-runner-to-pick-up-this-job.html</guid>
+      <category>CI/CD</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The job is queued, but no available runner carries every label listed in runs-on, so GitHub keeps waiting instead of failing. A misspelt label never matches, and neither does a self-hosted runner that is offline, missing one of the labels, or in a runner group this repository is not allowed to…</description>
+    </item>
+    <item>
+      <title>Go: inconsistent vendoring</title>
+      <link>https://fixmyerror.net/errors/go-inconsistent-vendoring.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-inconsistent-vendoring.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The project has a vendor directory, so the go command builds from it, but vendor/modules.txt no longer agrees with go.mod: a dependency was added, upgraded or removed without vendoring again. It often follows a Dependabot or Renovate pull request that only touched go.mod and go.sum, or a hand edit…</description>
+    </item>
+    <item>
+      <title>Go: panic: sync: negative WaitGroup counter</title>
+      <link>https://fixmyerror.net/errors/go-panic-sync-negative-waitgroup-counter.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-panic-sync-negative-waitgroup-counter.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Done() was called more times than Add() allowed for, taking the counter below zero. Typical sources: Done both deferred and called explicitly, a goroutine that calls Done on an error path and again at the end, or Add placed inside the goroutine so retries and early returns throw the count off…</description>
+    </item>
+    <item>
+      <title>go: reading https://proxy.golang.org/github.com/acme/lib/@v/list: 404 Not Found</title>
+      <link>https://fixmyerror.net/errors/go-reading-proxy-golang-org-404-not-found-private-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/go-reading-proxy-golang-org-404-not-found-private-module.html</guid>
+      <category>Go</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>By default Go fetches modules through the public proxy at proxy.golang.org and checks them against sum.golang.org. Neither can see a private repository, so the proxy answers 404 or 410, and when Go falls back to git directly it often ends with &apos;terminal prompts disabled&apos;. The fix is not…</description>
+    </item>
+    <item>
+      <title>Jest: Jest did not exit one second after the test run has completed.</title>
+      <link>https://fixmyerror.net/errors/jest-did-not-exit-one-second-after-the-test-run-has-completed.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/jest-did-not-exit-one-second-after-the-test-run-has-completed.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The tests passed, but something they started is still holding Node&apos;s event loop open: a database pool, an HTTP server, a setInterval, an open socket. Jest waits for the process to drain and prints this instead of exiting, which in CI can mean the job hangs until it times out. --detectOpenHandles…</description>
+    </item>
+    <item>
+      <title>journald: system.journal corrupted or uncleanly shut down, renaming</title>
+      <link>https://fixmyerror.net/errors/journald-corrupted-or-uncleanly-shut-down-renaming-and-replacing.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/journald-corrupted-or-uncleanly-shut-down-renaming-and-replacing.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>journald found its active journal file was never marked as cleanly closed, so rather than trust it, it renamed the file with a ~ suffix and started a fresh one. After a power cut, a hard reset or journald being killed, that is expected and harmless, and the old file stays readable. If it happens…</description>
+    </item>
+    <item>
+      <title>Loki: ingestion rate limit exceeded for user fake (limit: 4194304 bytes/sec)</title>
+      <link>https://fixmyerror.net/errors/loki-ingestion-rate-limit-exceeded.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/loki-ingestion-rate-limit-exceeded.html</guid>
+      <category>Logging</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Loki enforces a per-tenant ingestion rate (4 MB/s by default, with a 6 MB burst) and rejects pushes over it with HTTP 429. &apos;fake&apos; is just the tenant name Loki uses when auth is disabled. Promtail, Alloy and Fluent Bit retry with backoff, so a short spike costs nothing, but sustained overload means…</description>
+    </item>
+    <item>
+      <title>Prometheus: field scrape_config not found in type config.plain</title>
+      <link>https://fixmyerror.net/errors/prometheus-field-not-found-in-type-config-plain.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-field-not-found-in-type-config-plain.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Prometheus parses its YAML strictly, so a key it does not recognise is fatal: the server will not start, or a reload is rejected and the old config stays live. config.plain is the top level of the file, so the key is either misspelt (scrape_config for scrape_configs) or indented so that it lands…</description>
+    </item>
+    <item>
+      <title>Prometheus: query processing would load too many samples into memory</title>
+      <link>https://fixmyerror.net/errors/prometheus-query-would-load-too-many-samples-into-memory.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/prometheus-query-would-load-too-many-samples-into-memory.html</guid>
+      <category>Monitoring</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Prometheus caps how many samples one query may hold in memory at once (--query.max-samples, 50 million by default) and aborts the query rather than risk running out of memory. The limit counts samples touched, not rows returned, so a long range with a small step, a [30d] range vector over many…</description>
+    </item>
+    <item>
+      <title>pytest: PytestUnknownMarkWarning: Unknown pytest.mark.slow</title>
+      <link>https://fixmyerror.net/errors/pytest-unknown-mark-warning.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/pytest-unknown-mark-warning.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>pytest only knows marks that are built in, registered in config, or added by a plugin, so @pytest.mark.slow on its own is treated as a likely typo. It is worth fixing because a misspelt mark silently does nothing: -m &quot;not slow&quot; will happily run a test marked @pytest.mark.slwo. With…</description>
+    </item>
+    <item>
+      <title>React: An update to App inside a test was not wrapped in act(...)</title>
+      <link>https://fixmyerror.net/errors/react-update-inside-a-test-was-not-wrapped-in-act.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/react-update-inside-a-test-was-not-wrapped-in-act.html</guid>
+      <category>Testing</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>React saw a state update land while a test was running but outside act(), which means your assertions may have run before React finished rendering. With Testing Library the cause is nearly always asynchronous work finishing after the test&apos;s last await: a fetch resolving, a timer firing, a setState…</description>
+    </item>
+    <item>
+      <title>rsync error: some files/attrs were not transferred (see previous errors)</title>
+      <link>https://fixmyerror.net/errors/rsync-error-some-files-attrs-were-not-transferred-code-23.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rsync-error-some-files-attrs-were-not-transferred-code-23.html</guid>
+      <category>Storage</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>Code 23 is a summary, not the error. rsync finished, but at least one file or attribute could not be copied, and the real reason was printed earlier, often thousands of lines up. Usual causes: permission denied reading a source file, a destination that cannot store owners, groups or permissions…</description>
+    </item>
+    <item>
+      <title>Rust: error[E0433]: failed to resolve: use of undeclared crate or module</title>
+      <link>https://fixmyerror.net/errors/rust-e0433-failed-to-resolve-use-of-undeclared-crate-or-module.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-e0433-failed-to-resolve-use-of-undeclared-crate-or-module.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The first part of a path, like serde_json in serde_json::to_string, is neither a dependency in Cargo.toml nor a module declared in this crate. Recent compilers word it &apos;use of unresolved module or unlinked crate&apos;. The usual causes: the dependency is missing or only listed under dev-dependencies…</description>
+    </item>
+    <item>
+      <title>Rust: error[E0599]: no method named `write_all` found for struct `File`</title>
+      <link>https://fixmyerror.net/errors/rust-e0599-no-method-named-found-trait-not-in-scope.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/rust-e0599-no-method-named-found-trait-not-in-scope.html</guid>
+      <category>Rust</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>The method exists, but it belongs to a trait, and trait methods can only be called where the trait is imported. write_all comes from std::io::Write, read_to_string from std::io::Read, and many crates work the same way (tokio&apos;s AsyncWriteExt, rand&apos;s Rng). The compiler&apos;s help line saying a trait &apos;is…</description>
+    </item>
+    <item>
+      <title>Terraform: Error: Unsupported attribute</title>
+      <link>https://fixmyerror.net/errors/terraform-unsupported-attribute.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-unsupported-attribute.html</guid>
+      <category>Terraform</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A reference such as aws_instance.web.public_ip or module.vpc.subnet_ids points at an attribute the object does not have. For resources it is usually a typo or something a provider renamed in a major version. For modules it is almost always a missing output: a module only exposes what it declares…</description>
+    </item>
+    <item>
+      <title>Terraform: Error: Unsupported Terraform Core version</title>
+      <link>https://fixmyerror.net/errors/terraform-unsupported-terraform-core-version.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-unsupported-terraform-core-version.html</guid>
+      <category>Terraform</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>A terraform block somewhere in the configuration sets required_version, and the binary you are running falls outside it. Every module is checked, including ones you did not write, so upgrading a registry module can bring this in without any change to your own code. It turns up most on CI runners…</description>
+    </item>
+    <item>
+      <title>Terraform: the &quot;for_each&quot; argument must be a map, or set of strings</title>
+      <link>https://fixmyerror.net/errors/terraform-for-each-must-be-a-map-or-set-of-strings.html</link>
+      <guid isPermaLink="true">https://fixmyerror.net/errors/terraform-for-each-must-be-a-map-or-set-of-strings.html</guid>
+      <category>Terraform</category>
+      <pubDate>Thu, 19 Nov 2026 00:00:00 GMT</pubDate>
+      <description>for_each needs a stable key for every instance, so it accepts only a map or a set of strings. A list is refused because its keys would be positions: remove one item and everything after it would be renumbered and replaced, which is exactly the problem for_each exists to avoid. Variables typed…</description>
+    </item>
     <item>
       <title>AADSTS50020: User account from identity provider does not exist in tenant</title>
       <link>https://fixmyerror.net/errors/entra-aadsts50020-user-does-not-exist-in-tenant.html</link>
@@ -1319,294 +1607,6 @@
       <category>Windows</category>
       <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
       <description>Windows PowerShell 5.1 runs on .NET Framework, which on older or unpatched systems still offers only TLS 1.0 and 1.1 by default, and the PowerShell Gallery has required TLS 1.2 since 2020. The handshake fails, so Install-Module reports the gallery as unreachable even though a browser on the same…</description>
-    </item>
-    <item>
-      <title>Proxmox: TASK ERROR: KVM virtualisation configured, but not available</title>
-      <link>https://fixmyerror.net/errors/proxmox-kvm-virtualisation-configured-but-not-available.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/proxmox-kvm-virtualisation-configured-but-not-available.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The VM is set to use hardware acceleration (kvm: 1, the default) but the host has no /dev/kvm. On bare metal that means Intel VT-x or AMD-V is switched off in the firmware settings. When Proxmox is itself running as a VM, say a home lab under VMware, Hyper-V or another Proxmox, the outer…</description>
-    </item>
-    <item>
-      <title>Rails: ActiveRecord::NoDatabaseError: We could not find your database</title>
-      <link>https://fixmyerror.net/errors/rails-activerecord-nodatabaseerror-could-not-find-database.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-activerecord-nodatabaseerror-could-not-find-database.html</guid>
-      <category>Ruby</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Rails reached the database server and logged in, but the database it asked for does not exist there. That rules out the host and the password. On a fresh clone, a new CI runner or a new Docker volume nobody has run db:create yet, or DATABASE_URL points at a server where the database has a…</description>
-    </item>
-    <item>
-      <title>Rails: Blocked hosts: myapp.example.com</title>
-      <link>https://fixmyerror.net/errors/rails-blocked-hosts.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-blocked-hosts.html</guid>
-      <category>Ruby</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>This is Rails&apos; own HostAuthorization middleware, added in Rails 6 to stop DNS rebinding attacks, refusing a Host header that is not in config.hosts. In development only localhost, .localhost and IP addresses are allowed, so it appears the first time you use an ngrok tunnel, a Codespaces URL or a…</description>
-    </item>
-    <item>
-      <title>Redis: BUSY Redis is busy running a script</title>
-      <link>https://fixmyerror.net/errors/redis-busy-running-a-script.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/redis-busy-running-a-script.html</guid>
-      <category>Caching</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Redis runs Lua scripts and functions atomically on its single main thread, so while one runs nothing else is served. After busy-reply-threshold (called lua-time-limit before Redis 7, 5 seconds by default) Redis answers every other client with BUSY, but it does not stop the script. The usual…</description>
-    </item>
-    <item>
-      <title>SMTP: 534-5.7.9 Application-specific password required</title>
-      <link>https://fixmyerror.net/errors/gmail-smtp-534-5-7-9-application-specific-password-required.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/gmail-smtp-534-5-7-9-application-specific-password-required.html</guid>
-      <category>Email</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Gmail accepted the connection but will not take the account&apos;s normal password over SMTP, because the account has 2-Step Verification turned on. Since Google ended less secure app access in 2024, a plain password does not work for SMTP, IMAP or POP at all (without 2-Step Verification you get…</description>
-    </item>
-    <item>
-      <title>Spring: java.lang.IllegalArgumentException: Cannot find cache named &apos;users&apos;</title>
-      <link>https://fixmyerror.net/errors/spring-cannot-find-cache-named.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/spring-cannot-find-cache-named.html</guid>
-      <category>Caching</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>A @Cacheable, @CachePut or @CacheEvict annotation names a cache that the CacheManager does not know and will not create. Spring Boot&apos;s default simple cache creates caches on demand, so everything works until a real provider arrives: Caffeine with spring.cache.cache-names set, or a JCache provider…</description>
-    </item>
-    <item>
-      <title>Svelte 5: `$:` is not allowed in runes mode, use `$derived` or `$effect` instead</title>
-      <link>https://fixmyerror.net/errors/svelte-5-reactive-statement-not-allowed-in-runes-mode.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-reactive-statement-not-allowed-in-runes-mode.html</guid>
-      <category>Svelte</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>As soon as a component uses any rune ($state, $props, $derived), Svelte compiles the whole file in runes mode, and the old $: reactive statements stop being valid. So adding one $state to a legacy component breaks every $: in it, and setting runes: true in the config breaks them everywhere. Values…</description>
-    </item>
-    <item>
-      <title>Svelte 5: Cannot export state from a module if it is reassigned</title>
-      <link>https://fixmyerror.net/errors/svelte-5-cannot-export-state-if-reassigned.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-5-cannot-export-state-if-reassigned.html</guid>
-      <category>Svelte</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>In a .svelte.js or .svelte.ts module, $state works because the compiler rewrites every read and write of that variable inside the file. Other files that import it only get the value it had, so if the module ever reassigns it (count = 0, user = null) importers would be left holding a stale copy…</description>
-    </item>
-    <item>
-      <title>Svelte: `getContext(...)` can only be used during component initialisation</title>
-      <link>https://fixmyerror.net/errors/svelte-getcontext-can-only-be-used-during-component-initialisation.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/svelte-getcontext-can-only-be-used-during-component-initialisation.html</guid>
-      <category>Svelte</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Context functions and lifecycle hooks (getContext, setContext, onMount, onDestroy) attach to whichever component is being created at that moment, so they only work synchronously at the top level of a component&apos;s script. Called inside an event handler, after an await, in a setTimeout, or from a…</description>
-    </item>
-    <item>
-      <title>VMware Workstation and Device/Credential Guard are not compatible</title>
-      <link>https://fixmyerror.net/errors/vmware-workstation-device-credential-guard-not-compatible.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/vmware-workstation-device-credential-guard-not-compatible.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Older VMware Workstation and Player builds need VT-x to themselves, and Credential Guard, Memory Integrity (HVCI) and Windows Sandbox all start the Hyper-V hypervisor underneath Windows, which claims it first. Workstation 15.5.5 and later can run on top of the Windows Hypervisor Platform instead…</description>
-    </item>
-    <item>
-      <title>Windows: System error 53 has occurred. The network path was not found.</title>
-      <link>https://fixmyerror.net/errors/windows-system-error-53-network-path-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-system-error-53-network-path-not-found.html</guid>
-      <category>Windows</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>net use, or Explorer, could not reach an SMB server by that name at all, so this is name resolution or TCP port 445, not permissions (those come back as error 5 or 86). The usual suspects: a hostname that only resolves through NetBIOS or LLMNR, which many networks now disable; a firewall, VPN or…</description>
-    </item>
-    <item>
-      <title>Windows: The semaphore timeout period has expired (0x80070079)</title>
-      <link>https://fixmyerror.net/errors/windows-semaphore-timeout-period-has-expired-0x80070079.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/windows-semaphore-timeout-period-has-expired-0x80070079.html</guid>
-      <category>Windows</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Despite the wording, this has nothing to do with semaphores in your code: Windows gave up waiting for an I/O operation, and error 121 is what the storage or network stack reports when a device stops answering. Copying to a NAS or mapped drive, it usually points at the network path (flaky Wi-Fi…</description>
-    </item>
-    <item>
-      <title>wsl: A localhost proxy configuration was detected but not mirrored into WSL</title>
-      <link>https://fixmyerror.net/errors/wsl-localhost-proxy-configuration-not-mirrored.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/wsl-localhost-proxy-configuration-not-mirrored.html</guid>
-      <category>Virtualization</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Windows has a proxy set at 127.0.0.1 or localhost, usually from a corporate VPN client, Fiddler or a tool such as Clash, and WSL 2 tried to copy it into Linux as HTTP_PROXY. In the default NAT networking mode, localhost inside WSL is the Linux VM rather than Windows, so that address would lead…</description>
-    </item>
-    <item>
-      <title>xcode-select: error: tool &apos;xcodebuild&apos; requires Xcode, but active developer</title>
-      <link>https://fixmyerror.net/errors/xcode-select-tool-xcodebuild-requires-xcode.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-select-tool-xcodebuild-requires-xcode.html</guid>
-      <category>Apple</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The active developer directory points at the standalone Command Line Tools in /Library/Developer/CommandLineTools, which include compilers and git but not xcodebuild, simulators or platform SDKs. It happens when the tools were installed before Xcode, or a script ran xcode-select --install, and…</description>
-    </item>
-    <item>
-      <title>Xcode: SDK does not contain &apos;libarclite&apos; at the path</title>
-      <link>https://fixmyerror.net/errors/xcode-sdk-does-not-contain-libarclite.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/xcode-sdk-does-not-contain-libarclite.html</guid>
-      <category>Apple</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Xcode 14.3 removed libarclite, the small library that let ARC code run on very old OS versions, so any target whose deployment target is below what current Xcode supports now fails to link. Your app target is usually fine. The culprit is a CocoaPods dependency whose podspec still declares iOS 8 or…</description>
-    </item>
-    <item>
-      <title>Zeitwerk::NameError: expected file app/models/user.rb to define constant User</title>
-      <link>https://fixmyerror.net/errors/rails-zeitwerk-expected-file-to-define-constant.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/rails-zeitwerk-expected-file-to-define-constant.html</guid>
-      <category>Ruby</category>
-      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Since Rails 7, Zeitwerk is the only autoloader, and it maps every file path to exactly one constant name. The file exists, but the class inside it is named something else: a typo, a module nesting that does not match the folders, or an acronym such as HTMLParser in html_parser.rb, which Zeitwerk…</description>
-    </item>
-    <item>
-      <title>(Mix) You&apos;re trying to run :my_app on Elixir v1.15.7 but it has declared</title>
-      <link>https://fixmyerror.net/errors/mix-trying-to-run-on-elixir-version-mix-exs-supports-only.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/mix-trying-to-run-on-elixir-version-mix-exs-supports-only.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The elixir: requirement in mix.exs (for example &quot;~&gt; 1.17&quot;) does not match the Elixir on your PATH. It works on your laptop and fails in CI or a container because the two have different Elixir installs, often an asdf or mise .tool-versions file that the build image ignores. Remember Elixir and OTP…</description>
-    </item>
-    <item>
-      <title>/usr/bin/env: &apos;python&apos;: No such file or directory</title>
-      <link>https://fixmyerror.net/errors/env-python-no-such-file-or-directory.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/env-python-no-such-file-or-directory.html</guid>
-      <category>Shell</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The script&apos;s shebang asks for a command called python, and current Debian, Ubuntu, Fedora and macOS releases only ship python3. Python 3 is installed; there is just no executable with the bare name. It also catches scripts saved with Windows line endings, where env looks for &apos;python\r&apos; and the…</description>
-    </item>
-    <item>
-      <title>AAPT: error: resource android:attr/lStar not found</title>
-      <link>https://fixmyerror.net/errors/android-resource-linking-failed-attr-lstar-not-found.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-resource-linking-failed-attr-lstar-not-found.html</guid>
-      <category>Mobile</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>android:attr/lStar was added in API 31, and a dependency (usually androidx.core 1.7 or newer, pulled in transitively) references it. Your compileSdk is older than 31, so the build tools cannot find the attribute. It looks like a broken library but is a version mismatch, and it commonly appears…</description>
-    </item>
-    <item>
-      <title>Android Gradle plugin requires Java 17 to run. You are currently using Java 11</title>
-      <link>https://fixmyerror.net/errors/android-gradle-plugin-requires-java-17.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-gradle-plugin-requires-java-17.html</guid>
-      <category>Mobile</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>AGP 8 needs JDK 17 to run Gradle itself, separate from the Java version your app code targets. Android Studio bundles a suitable JDK, which is why the build works in the IDE and fails on the command line or in CI, where JAVA_HOME still points at Java 11. Raising sourceCompatibility does nothing…</description>
-    </item>
-    <item>
-      <title>Android: Namespace not specified. Specify a namespace in the module&apos;s build file</title>
-      <link>https://fixmyerror.net/errors/android-namespace-not-specified.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/android-namespace-not-specified.html</guid>
-      <category>Mobile</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Android Gradle Plugin 8 stopped reading the package attribute from AndroidManifest.xml and requires namespace in build.gradle instead. Your own module is easy to fix; the harder case is an old third-party library or Flutter or React Native plugin that has not been updated, which fails the build…</description>
-    </item>
-    <item>
-      <title>AWS Load Balancer Controller: couldn&apos;t auto-discover subnets</title>
-      <link>https://fixmyerror.net/errors/aws-load-balancer-controller-couldnt-auto-discover-subnets.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/aws-load-balancer-controller-couldnt-auto-discover-subnets.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The controller builds an ALB by finding subnets tagged for load balancers, and none in the cluster&apos;s VPC carry the tag. Public ALBs need kubernetes.io/role/elb=1 and internal ones kubernetes.io/role/internal-elb=1. eksctl tags subnets it creates, so this usually appears on clusters built with…</description>
-    </item>
-    <item>
-      <title>bash: ulimit: open files: cannot modify limit: Operation not permitted</title>
-      <link>https://fixmyerror.net/errors/bash-ulimit-open-files-cannot-modify-limit.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/bash-ulimit-open-files-cannot-modify-limit.html</guid>
-      <category>Shell</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>An unprivileged shell can lower its soft limit or raise it up to the hard limit, but never past the hard limit. Running ulimit -n 65535 asks for more than the hard limit your session inherited. Editing limits.conf does nothing for services, which take their limits from systemd, and only applies to…</description>
-    </item>
-    <item>
-      <title>C++: error: invalid use of incomplete type &apos;class Foo&apos;</title>
-      <link>https://fixmyerror.net/errors/cpp-invalid-use-of-incomplete-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cpp-invalid-use-of-incomplete-type.html</guid>
-      <category>C++</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The compiler has seen a forward declaration of Foo but not its definition, and this line needs the full layout: calling a member, taking sizeof, holding it by value or deleting it. Headers often forward-declare on purpose to cut compile times, so the fix is to include the real header in the .cpp…</description>
-    </item>
-    <item>
-      <title>Celery: Received unregistered task of type &apos;myapp.tasks.send_email&apos;</title>
-      <link>https://fixmyerror.net/errors/celery-received-unregistered-task-of-type.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/celery-received-unregistered-task-of-type.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The worker took a message off the queue but has never imported the module that defines the task, so it has no idea what to run. The producer and the worker disagree about the task&apos;s name or code: the worker was started with a different -A app, autodiscovery missed the module, the task was renamed…</description>
-    </item>
-    <item>
-      <title>cert-manager: Failed to determine a valid solver configuration</title>
-      <link>https://fixmyerror.net/errors/cert-manager-failed-to-determine-a-valid-solver-configuration.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cert-manager-failed-to-determine-a-valid-solver-configuration.html</guid>
-      <category>Ingress</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>None of the solvers on the Issuer matches the domains being requested, so cert-manager has no way to attempt a challenge. Solvers can be limited with a selector by dnsNames, dnsZones or labels, and a new hostname, a wildcard needing DNS01 while only HTTP01 is configured, or an Ingress pointing at…</description>
-    </item>
-    <item>
-      <title>CMake Error: Compatibility with CMake &lt; 3.5 has been removed from CMake.</title>
-      <link>https://fixmyerror.net/errors/cmake-compatibility-with-cmake-older-than-3-5-removed.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/cmake-compatibility-with-cmake-older-than-3-5-removed.html</guid>
-      <category>C++</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>CMake 4.0 dropped support for projects that declare cmake_minimum_required below 3.5. The code is unchanged; your CMake upgraded, often silently through Homebrew, pip or a CI image, and an old project or vendored dependency still says VERSION 2.8 or 3.1. Usually the fix belongs upstream, and in…</description>
-    </item>
-    <item>
-      <title>CPU0: Core temperature above threshold, cpu clock throttled</title>
-      <link>https://fixmyerror.net/errors/linux-core-temperature-above-threshold-cpu-clock-throttled.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-core-temperature-above-threshold-cpu-clock-throttled.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The CPU hit its thermal limit and the hardware cut its clock speed to cool down. Everything still works, just slower, so it shows up as a benchmark or build that is fast for a minute and then degrades, or a server that is slower in summer. The cause is physical more often than not: clogged fans…</description>
-    </item>
-    <item>
-      <title>Discord API: 50013 Missing Permissions</title>
-      <link>https://fixmyerror.net/errors/discord-api-50013-missing-permissions.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/discord-api-50013-missing-permissions.html</guid>
-      <category>API</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The bot is in the server but lacks a permission for this action in this place. Discord evaluates role permissions and then channel overwrites, so a role can grant Send Messages server-wide while one channel denies it. Moderation actions add role hierarchy on top: a bot cannot kick, ban or change…</description>
-    </item>
-    <item>
-      <title>dnsmasq: failed to create listening socket for port 53: Address already in use</title>
-      <link>https://fixmyerror.net/errors/dnsmasq-failed-to-create-listening-socket-port-53.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/dnsmasq-failed-to-create-listening-socket-port-53.html</guid>
-      <category>DNS</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Something else already owns port 53. On Ubuntu and Fedora that is almost always the systemd-resolved stub listener on 127.0.0.53, and on desktops it can be a second dnsmasq started by NetworkManager or libvirt. Because dnsmasq binds the wildcard address by default, it collides even though the…</description>
-    </item>
-    <item>
-      <title>Ecto: could not lookup Ecto repo MyApp.Repo because it was not started</title>
-      <link>https://fixmyerror.net/errors/ecto-could-not-lookup-repo-not-started.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/ecto-could-not-lookup-repo-not-started.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Ecto found the repo module but no running process registered under it. The code is fine; it is running somewhere the application tree has not been started: a Mix task, a release eval command, a seeds script run with plain elixir, or an ExUnit test helper that skipped…</description>
-    </item>
-    <item>
-      <title>Elixir: function :crypto.hmac/3 is undefined or private</title>
-      <link>https://fixmyerror.net/errors/elixir-crypto-hmac-undefined-otp-24.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/elixir-crypto-hmac-undefined-otp-24.html</guid>
-      <category>Elixir</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>OTP 24 removed the old crypto API, so :crypto.hmac/3 no longer exists. Your own code rarely calls it directly: the usual culprit is an old version of a dependency (an outdated plug_crypto, a JWT or AWS signing library) that still does. The project compiled fine on OTP 23, which is why it breaks…</description>
-    </item>
-    <item>
-      <title>GraphQL: Field &quot;user&quot; of type &quot;User&quot; must have a selection of subfields</title>
-      <link>https://fixmyerror.net/errors/graphql-field-must-have-a-selection-of-subfields.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-field-must-have-a-selection-of-subfields.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The field returns an object type, and GraphQL never returns a whole object implicitly: you have to name the scalar fields you want inside braces. The reverse mistake, adding braces to a scalar or enum field, gives a matching &quot;must not have a selection&quot; error. It tends to appear after a schema…</description>
-    </item>
-    <item>
-      <title>GraphQL: Unknown argument &quot;first&quot; on field &quot;Query.users&quot;</title>
-      <link>https://fixmyerror.net/errors/graphql-unknown-argument-on-field.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/graphql-unknown-argument-on-field.html</guid>
-      <category>GraphQL</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Validation rejected the query before any resolver ran because the schema has no argument with that name on that field. It is often a client written against a different schema version, a Relay-style first/after query sent to a server that paginates with limit/offset, or a field that takes its…</description>
-    </item>
-    <item>
-      <title>INFO: task kworker blocked for more than 120 seconds</title>
-      <link>https://fixmyerror.net/errors/linux-task-blocked-for-more-than-120-seconds.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/linux-task-blocked-for-more-than-120-seconds.html</guid>
-      <category>Performance</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>The hung task detector found a process stuck in uninterruptible sleep (D state) for two minutes, almost always waiting on I/O. The task it names is the victim, not the cause: look at the storage behind it. Typical culprits are an NFS or iSCSI server that went away, a saturated or failing disk, or…</description>
-    </item>
-    <item>
-      <title>Kafka: The coordinator is not available (COORDINATOR_NOT_AVAILABLE)</title>
-      <link>https://fixmyerror.net/errors/kafka-coordinator-not-available.html</link>
-      <guid isPermaLink="true">https://fixmyerror.net/errors/kafka-coordinator-not-available.html</guid>
-      <category>MessageQueue</category>
-      <pubDate>Sat, 17 Oct 2026 00:00:00 GMT</pubDate>
-      <description>Consumer groups and transactions need the internal __consumer_offsets topic, and the broker cannot find a healthy leader for the partition that owns your group. On a fresh single-broker dev cluster the classic cause is offsets.topic.replication.factor left at its default of 3, so the topic can…</description>
     </item>
   </channel>
 </rss>
